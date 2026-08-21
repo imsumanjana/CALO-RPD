@@ -2,7 +2,7 @@
 
 CALO-RPD Studio is a Python scientific desktop application for robust optimal reactive power dispatch (ORPD), with deterministic experiment orchestration, metaheuristic optimization, PyQt6 workflows, SQLite-backed persistence, CUDA-preferred/CPU-only execution, and a separately governed TSH-CALO policy lifecycle.
 
-> **Development status only.** This branch is not a release candidate or final release. Historical v6.x release evidence does not qualify the active v12 source. Policy training, qualification, activation, protected-case evaluation, publication, and release remain separate gated workflows.
+> **Active status: development only.** This branch is not a release candidate or final release. Historical v6.x release evidence does not qualify the active v12 source. Policy training, qualification, activation, protected-case evaluation, publication, and release remain separate gated workflows.
 
 ## Start here
 
@@ -53,7 +53,7 @@ Training completion never implies qualification or activation. Existing checked-
 
 ## Documentation
 
-Use [`docs/DOCUMENTATION_STATUS.md`](docs/DOCUMENTATION_STATUS.md) to distinguish current guidance from immutable historical records. Important current references include:
+Use [`docs/DOCUMENTATION_STATUS.md`](docs/DOCUMENTATION_STATUS.md) for the compact current-document map. Important current references include:
 
 - [`docs/architecture.md`](docs/architecture.md)
 - [`docs/user_guide.md`](docs/user_guide.md)
@@ -61,7 +61,7 @@ Use [`docs/DOCUMENTATION_STATUS.md`](docs/DOCUMENTATION_STATUS.md) to distinguis
 - [`docs/CONTAINER_RUNBOOK.md`](docs/CONTAINER_RUNBOOK.md)
 - [`docs/NATIVE_WINDOWS_GUIDE.md`](docs/NATIVE_WINDOWS_GUIDE.md)
 
-Release history is consolidated in [`CHANGELOG.md`](CHANGELOG.md). Historical audit, implementation, qualification, and release records are retained for provenance but do not override the current v12 status or current source behavior.
+Release history is consolidated in [`CHANGELOG.md`](CHANGELOG.md). Superseded audit, implementation, qualification, and release files were removed from the active tree during the 2026-08-21 repository cleanup; their exact content remains recoverable from Git checkpoint `ba597eb` and earlier history.
 
 ## Development
 

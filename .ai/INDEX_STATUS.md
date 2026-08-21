@@ -1,13 +1,13 @@
 # AI Index Status
 
 - Intelligence version: **2.1.0 / CALO profile 1**
-- Indexed source baseline: `a96698960e3d740706d366a8444d635cfa2ae5be`
+- Indexed source baseline: `ba597eb4566f9381dc72d999e0fce42ecc1c3b0d`
 - Source index current: **yes at generation time**
 - Freshness authority: **content hashes**
-- Previous indexed source baseline: `13175e174d15618851d96f7f517095ac8ea9dbcb`
+- Previous indexed source baseline: `none`
 - Canonical storage: **sharded** (`.ai/index/`)
 - Initialization baseline: **no**
-- Relevant files: **660**
+- Relevant files: **637**
 - Indexed symbols: **5320**
 - Modules: **13**
 - Newly indexed files: **0**

@@ -305,7 +305,12 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
     checks["status_index_points_to_active_record"] = (
         index.get("active_status") == "ACTIVE_DEVELOPMENT_STATUS.json"
         and index.get("active_version") == VERSION
-        and "RELEASE_METADATA.json" in index.get("historical_records", [])
+        and index.get("retained_checkpoint_records")
+        == [
+            "calo_rpd_studio/data/frozen/calo_v690_freeze.json",
+            "calo_rpd_studio/data/frozen/historical_training_snapshot_v2.json",
+        ]
+        and index.get("historical_tree_checkpoint") == "ba597eb"
     )
 
     readme = (root / "README.md").read_text(encoding="utf-8")
