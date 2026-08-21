@@ -10,16 +10,9 @@ import tarfile
 import tempfile
 from pathlib import Path
 
-PARTS = (
-    'calo-ai-v2-part-00',
-    'calo-ai-v2-part-01',
-    'calo-ai-v2-part-02a',
-    'calo-ai-v2-part-02b',
-    'calo-ai-v2-part-02c',
-    'calo-ai-v2-part-03',
-)
-B64_SHA256 = 'd2dbe063035935b11152b408ed704a397399ced643ea8213a5934f60ce63f681'
-TAR_SHA256 = '3e20be96f8b7e1baedba4101303724f2f6b6ab86eecea6d0de64302be1194deb'
+PARTS = tuple(f'direct-part-{i:03d}' for i in range(13))
+B64_SHA256 = 'cc09dff738a3a1dd5c9edf8cafc2c5b52299de524befd25a8f8fec9337dc4560'
+TAR_SHA256 = '51dff026691e2984583d2d7bbcfb76b082e7ca731e6beb3ca81df08ce5c0b384'
 
 
 def sha256(data: bytes) -> str:
@@ -49,43 +42,42 @@ def main() -> int:
         print('Run this installer from a normal CALO-RPD Git checkout.', file=sys.stderr)
         return 2
 
-    chunks = []
+    chunks: list[bytes] = []
     for name in PARTS:
         path = here / name
         if not path.is_file():
-            print(f'Missing migration chunk: {path}', file=sys.stderr)
+            print(f'Missing verified migration chunk: {path}', file=sys.stderr)
             return 2
         chunks.append(path.read_bytes())
 
-    # The transport is base64 text. Git may have checked it out with platform-specific
-    # line endings, so integrity must be evaluated on canonical base64, not raw text
-    # bytes. ASCII whitespace is not part of the base64 alphabet and is safe to remove.
-    encoded_raw = b''.join(chunks)
-    encoded = b''.join(encoded_raw.split())
+    encoded = b''.join(b''.join(chunks).split())
     actual_b64 = sha256(encoded)
     if actual_b64 != B64_SHA256:
         print(
-            'Normalized migration base64 checksum differs from the packaging checksum; '
-            'continuing to the authoritative decoded archive SHA-256 check.\n'
-            f'  normalized base64 sha256: {actual_b64}',
+            'Verified migration transport checksum mismatch. Refusing to decode.\n'
+            f'  expected base64 sha256: {B64_SHA256}\n'
+            f'  actual base64 sha256:   {actual_b64}',
             file=sys.stderr,
         )
+        return 2
 
     try:
         archive = base64.b64decode(encoded, validate=True)
     except Exception as exc:
-        print(f'Invalid base64 migration bundle: {exc}', file=sys.stderr)
+        print(f'Invalid verified base64 migration bundle: {exc}', file=sys.stderr)
         return 2
     actual_tar = sha256(archive)
     if actual_tar != TAR_SHA256:
         print(
-            'Migration archive checksum mismatch after canonical base64 decoding.\n'
+            'Verified migration archive checksum mismatch. Refusing to extract.\n'
             f'  expected archive sha256: {TAR_SHA256}\n'
-            f'  actual archive sha256:   {actual_tar}\n'
-            f'  normalized base64 sha256: {actual_b64}',
+            f'  actual archive sha256:   {actual_tar}',
             file=sys.stderr,
         )
         return 2
+
+    print(f'Migration transport verified: {actual_b64}')
+    print(f'Migration archive verified:   {actual_tar}')
 
     with tempfile.NamedTemporaryFile(suffix='.tar.gz', delete=False) as tmp:
         tmp.write(archive)
@@ -96,8 +88,8 @@ def main() -> int:
     finally:
         archive_path.unlink(missing_ok=True)
 
-    # The transport bundle is intentionally temporary. Remove it before indexing so
-    # migration machinery never becomes repository intelligence or long-term source.
+    # Remove transport before indexing so migration machinery never appears in
+    # repository intelligence. The resulting deletions are expected working-tree changes.
     shutil.rmtree(here)
 
     gitignore = root / '.gitignore'
@@ -110,10 +102,12 @@ def main() -> int:
             handle.write('\n'.join(additions) + '\n')
 
     run(root, sys.executable, 'scripts/ai-agent-guard.py', '--repair', '--root', '.', '--canonical', 'AGENTS.md')
+    run(root, sys.executable, 'scripts/ai-agent-guard.py', '--install-hook', '--root', '.')
     run(root, sys.executable, 'scripts/ai-index', 'init')
     run(root, sys.executable, 'scripts/ai-index', 'check')
 
     print('\nRepository intelligence v2 is installed and regenerated in the working tree.')
+    print('The verified transport directory was removed before indexing.')
     print('No scientific workload or pytest suite was run by this installer.')
     print('Next run: powershell -ExecutionPolicy Bypass -File .\\validation\\validate_ai_repository_intelligence_v2.ps1')
     return 0

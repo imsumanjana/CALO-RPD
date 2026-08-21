@@ -1,6 +1,5 @@
 # Licensed scientific source assets and checksum manifests must retain exact bytes on every OS.
 calo_rpd_studio/data/pglib/** -text whitespace=-trailing-space,-blank-at-eof
 
-# Repository-intelligence migration chunks are base64 transport records. Keep checkout bytes
-# stable across Windows/Linux so their canonical hashes do not depend on core.autocrlf.
-.ai-migration/calo-ai-v2-part-* -text
+# Repository-intelligence migration transport must retain exact checkout bytes on every OS.
+.ai-migration/direct-part-* -text
