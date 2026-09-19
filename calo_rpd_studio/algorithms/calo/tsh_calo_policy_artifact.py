@@ -39,13 +39,9 @@ def _validate_ensemble_generalization_homogeneity_rows(rows: Sequence[dict]) -> 
         if has_payload:
             designs.add(declared)
     if any(guarded) and not all(guarded):
-        raise ValueError(
-            "TSH-CALO ensemble cannot mix guarded and legacy unguarded policy members"
-        )
+        raise ValueError("TSH-CALO ensemble cannot mix guarded and legacy unguarded policy members")
     if all(guarded) and len(designs) != 1:
-        raise ValueError(
-            "TSH-CALO ensemble members must share one generalization-guard design"
-        )
+        raise ValueError("TSH-CALO ensemble members must share one generalization-guard design")
 
 
 def _validate_ensemble_generalization_homogeneity(artifact) -> None:
@@ -61,9 +57,7 @@ def _validate_ensemble_generalization_homogeneity(artifact) -> None:
     _validate_ensemble_generalization_homogeneity_rows(rows)
 
 
-def inspect_tsh_calo_candidate(
-    path: str | Path, *, expected_sha256: str | None = None
-):
+def inspect_tsh_calo_candidate(path: str | Path, *, expected_sha256: str | None = None):
     """Inspect a candidate and enforce guard homogeneity for every ensemble artifact."""
 
     artifact = _core_inspect_tsh_calo_candidate(

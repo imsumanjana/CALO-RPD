@@ -413,9 +413,7 @@ def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_au
         assert window.stack.currentWidget() is study
         assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
         assert study.study_setup_workflow.current_step() == expected_step
-    assert (
-        state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT) is None
-    )
+    assert state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT) is None
 
 
 def test_document_header_only_appears_for_a_real_secondary_document(qtbot, tmp_path, monkeypatch):
@@ -509,6 +507,12 @@ def test_main_preview_can_scroll_to_dynamic_policy_evidence_bottom(qtbot, tmp_pa
         )
         registered.append(state.policy_registry.register(candidate, name=f"scroll-policy-{index}"))
     intelligence.refresh_policy_library()
+    # Legacy synthetic CALO artifacts are intentionally hidden from ordinary TSH-CALO use.
+    assert intelligence._policy_rows == []
+    intelligence.show_obsolete_models.setChecked(True)
+    assert {policy.id for policy in intelligence._policy_rows} == {
+        policy.id for policy in registered
+    }
     window.stack.setCurrentWidget(intelligence)
     window.resize(1120, 720)
     window.show()
@@ -716,8 +720,6 @@ def test_assessed_policy_shows_immutable_training_values_without_comparative_cla
 
     from PyQt6.QtCore import Qt
 
-    import calo_rpd_studio.gui.panels.calo_intelligence_panel as intelligence_module
-
     state, window = _window(qtbot, tmp_path, monkeypatch)
     policy_center = window.pages_by_key["calo_intelligence"]
     policy = SimpleNamespace(
@@ -749,8 +751,9 @@ def test_assessed_policy_shows_immutable_training_values_without_comparative_cla
             }
         ],
     )
-    monkeypatch.setattr(
-        intelligence_module,
+    implementation = policy_center._refresh_feasibility_and_influence.__func__.__globals__
+    monkeypatch.setitem(
+        implementation,
         "build_training_parameter_influence",
         lambda **_kwargs: {
             "evidence_classification": "insufficient_comparative_evidence",
@@ -772,7 +775,22 @@ def test_assessed_policy_shows_immutable_training_values_without_comparative_cla
         },
     )
 
+    verified_calls = []
+
+    def verified_campaign(campaign, assessment, *, expected_candidate_sha256):
+        assert expected_candidate_sha256 == policy.sha256
+        verified_calls.append((campaign, assessment))
+        return SimpleNamespace(
+            candidate_sha256=policy.sha256,
+            plan=json.loads(training_plan.read_text(encoding="utf-8")),
+            assessment_comparison_protocol_sha256="b" * 64,
+            training_compatibility_sha256="c" * 64,
+        )
+
+    monkeypatch.setitem(implementation, "verify_training_influence_campaign", verified_campaign)
+
     policy_center._refresh_feasibility_and_influence()
+    assert len(verified_calls) == 1
 
     assert policy_center.influence_table.rowCount() == 1
     assert policy_center.influence_table.item(0, 0).text() == "training.learning_rate"
@@ -790,6 +808,15 @@ def test_assessed_policy_shows_immutable_training_values_without_comparative_cla
         + policy_center.influence_table.frameWidth() * 2
     )
     assert policy_center.influence_table.height() == expected_height
+
+    def rejected_campaign(*_args, **_kwargs):
+        raise ValueError("Synthetic candidate integrity failure")
+
+    monkeypatch.setitem(implementation, "verify_training_influence_campaign", rejected_campaign)
+    policy_center._refresh_feasibility_and_influence()
+    assert policy_center.influence_table.rowCount() == 0
+    assert "could not be bound" in policy_center.influence_status.text()
+    assert not policy_center.explain_parameter_button.isEnabled()
 
 
 def test_opening_workspace_reloads_its_live_source_state(qtbot, tmp_path, monkeypatch):
@@ -1031,15 +1058,13 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         if policy_center.policy_table.item(row, 1).text() == "completed-campaign"
     ]
     assert len(matching_rows) == 1
-    assert policy_center.policy_table.horizontalHeaderItem(2).text() == ("Training evaluations")
+    assert policy_center.policy_table.horizontalHeaderItem(2).text() == ("Counted evaluations")
     assert policy_center.policy_table.item(matching_rows[0], 2).text() == "Not available"
-    assert (
-        "Completed extension segments are included"
-        in policy_center.policy_table.item(matching_rows[0], 2).toolTip()
-    )
-    assert "qualification and experiment evaluations are excluded" in (
-        policy_center.policy_table.item(matching_rows[0], 2).toolTip()
-    )
+    counted_tooltip = policy_center.policy_table.item(matching_rows[0], 2).toolTip()
+    assert "policy training and development-only learning-health checks" in counted_tooltip
+    assert "Qualification and experiment evaluations are excluded" in counted_tooltip
+    assert "complete predecessor-manifest ledger" in counted_tooltip
+    assert "qualification and experiment evaluations are excluded" in counted_tooltip.lower()
     assert policy_center.policy_table.height() > empty_table_height
     assert policy_center.policy_table.verticalScrollBarPolicy() == (
         Qt.ScrollBarPolicy.ScrollBarAlwaysOff
@@ -1201,6 +1226,8 @@ def test_imported_unqualified_completed_campaign_can_be_removed_exactly(
 
     state, window = _window(qtbot, tmp_path, monkeypatch)
     policy_center = window.pages_by_key["calo_intelligence"]
+    # Inspect legacy fixtures explicitly; ordinary view keeps incompatible models hidden.
+    policy_center.show_obsolete_models.setChecked(True)
     campaign = window.training_model_library.default_directory / "registered-completed-campaign"
     campaign.mkdir(parents=True)
     candidate = campaign / "candidate.pt"
@@ -1278,6 +1305,8 @@ def test_first_standalone_unqualified_model_can_be_deleted_exactly(qtbot, tmp_pa
 
     state, window = _window(qtbot, tmp_path, monkeypatch)
     policy_center = window.pages_by_key["calo_intelligence"]
+    # Inspect legacy fixtures explicitly; ordinary view keeps incompatible models hidden.
+    policy_center.show_obsolete_models.setChecked(True)
     candidate = tmp_path / "first-standalone.candidate.pt"
     network = CALOPolicyNetwork(input_dim=POLICY_STATE_DIM, hidden_dim=16)
     torch.save(
@@ -1888,3 +1917,25 @@ def test_layout_reset_does_not_overwrite_foreground_task(qtbot, tmp_path, monkey
     assert state.task_status.busy is True
     assert state.task_status.title == "Retained foreground task"
     assert state.task_status.progress == 25
+
+
+def test_individual_ribbon_can_inspect_locked_formulation_without_bypassing_prerequisite(
+    qtbot, tmp_path, monkeypatch
+):
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    state.config.algorithms = ["CALO"]
+    state.config.algorithm_parameters = {"CALO": {"use_ai": False, "strict_policy_binding": False}}
+    state.execution_control.submit_algorithm_stage(state.config)
+    window.workflow.mark_completed("algorithms")
+    window._refresh_workflow()
+    assert state.current_case is None
+    action = window.command_registry.action("experiment.formulation")
+    assert action.isEnabled()
+    action.trigger()
+    panel = window.pages_by_key["experiment"]
+    assert window.stack.currentWidget() is panel
+    assert panel.study_setup_workflow.current_step() == 1
+    assert not panel.study_setup_workflow.page_widgets["Formulation"].isEnabled()
+    assert panel.study_setup_workflow.prerequisite_labels["Formulation"].text()
+    assert state.current_experiment_id == ""
+    assert state.execution_control.controller()["controller"] == "none"

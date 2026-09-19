@@ -40,9 +40,7 @@ def _new_model(monkeypatch):
     return model
 
 
-def test_new_gui_plan_enables_guard_but_exact_saved_identity_is_preserved(
-    tmp_path, monkeypatch
-):
+def test_new_gui_plan_enables_guard_but_exact_saved_identity_is_preserved(tmp_path, monkeypatch):
     from calo_rpd_studio.gui.panels.independent_training_panel import TrainingLaunchModel
 
     model = _new_model(monkeypatch)
@@ -135,9 +133,7 @@ def test_rendered_training_panel_discloses_guard_and_uses_counted_completion_tot
             "schema_version": TRAINING_EVENT_SCHEMA,
             "event": "campaign_completed",
             "total_candidate_evaluations": accounting.training_candidate_evaluations,
-            "total_counted_candidate_evaluations": (
-                accounting.total_counted_candidate_evaluations
-            ),
+            "total_counted_candidate_evaluations": (accounting.total_counted_candidate_evaluations),
             "progress_percent": 100,
         }
     )

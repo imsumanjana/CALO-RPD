@@ -215,9 +215,14 @@ def _fake_bundle(
     final,
     observation_index,
     evaluation_backend,
+    learning_curve=None,
 ):
     del evaluation_backend
-    level = 0.20 if trainer.update_steps == 0 else (0.82 if trainer.update_steps == 1 else 0.95)
+    level = (
+        learning_curve(trainer.update_steps)
+        if learning_curve is not None
+        else (0.20 if trainer.update_steps == 0 else (0.82 if trainer.update_steps == 1 else 0.95))
+    )
     identities = {}
     for case_identity in development_cases:
         problem = problem_factory(case_identity)
@@ -333,9 +338,7 @@ def _guard_payload(trainer, config, guard, *, monitor_level=0.90, final_level=0.
 def test_guard_rejects_protected_or_training_seed_leakage():
     guard = _guard()
     with pytest.raises(ValueError, match="Protected holdout"):
-        guard.validate(
-            development_cases=("case118",), population_size=4, training_episode_seeds=()
-        )
+        guard.validate(development_cases=("case118",), population_size=4, training_episode_seeds=())
     collision = guard.seed_block(("toy-development",), final=False)[0]
     with pytest.raises(ValueError, match="disjoint from policy-training"):
         guard.validate(
@@ -418,9 +421,7 @@ def test_guarded_candidate_export_fails_closed_without_passed_bound_evidence(tmp
             )
 
         passed = _guard_payload(trainer, config, guard)
-        rejected = _guard_payload(
-            trainer, config, guard, monitor_level=0.10, final_level=0.05
-        )
+        rejected = _guard_payload(trainer, config, guard, monitor_level=0.10, final_level=0.05)
         assert rejected["status"] == "generalization_risk"
         assert rejected["promotion_allowed"] is False
         with pytest.raises(ValueError, match="blocked by the generalization guard"):
@@ -437,10 +438,7 @@ def test_guarded_candidate_export_fails_closed_without_passed_bound_evidence(tmp
         )
         inspected = inspect_tsh_calo_candidate(artifact.path, expected_sha256=artifact.sha256)
         assert inspected.training_provenance["generalization_guard"]["status"] == "passed"
-        assert (
-            inspected.training_provenance["generalization_guard_sha256"]
-            == _guard_design(guard)
-        )
+        assert inspected.training_provenance["generalization_guard_sha256"] == _guard_design(guard)
     finally:
         trainer.close()
 
@@ -462,7 +460,9 @@ def test_fresh_campaign_binds_guard_evidence_before_candidate_export(
         assert payload["promotion_allowed"] is True
         assert payload["training_episode_count"] == 1
         assert payload["additional_candidate_evaluations"] == 32
-        assert candidate.training_provenance["generalization_guard_sha256"] == _guard_design(_guard())
+        assert candidate.training_provenance["generalization_guard_sha256"] == _guard_design(
+            _guard()
+        )
 
 
 def test_completed_extension_cannot_bypass_fresh_generalization_evidence(
@@ -489,3 +489,32 @@ def test_completed_extension_cannot_bypass_fresh_generalization_evidence(
         assert payload["training_episode_count"] == 2
         assert payload["baseline_monitor_evidence"]["ppo_update_steps_observed"] == 1
         assert payload["final_evidence"]["ppo_update_steps_observed"] == 2
+
+
+def test_repeated_guarded_extensions_bind_cumulative_update_boundaries(
+    tmp_path, toy_case, monkeypatch
+):
+    from functools import partial
+
+    # Supply bounded, improving synthetic evidence for each of four update boundaries.
+    # The production minimum-learning-gain and feasibility-floor checks remain unchanged.
+    evaluator = partial(_fake_bundle, learning_curve=lambda updates: 0.82 + 0.04 * updates)
+    monkeypatch.setattr(campaign_module, "evaluate_generalization_bundle", evaluator)
+    plan = _plan(guarded=True)
+    directory = tmp_path / "repeated-guarded-extensions"
+    IndependentTSHCALOTrainingCampaign(plan, directory, problem_factory=_factory(toy_case)).start()
+    for segment in range(1, 4):
+        result = IndependentTSHCALOTrainingExtension(
+            plan, directory, problem_factory=_factory(toy_case)
+        ).start()
+        for candidate in result.member_candidates:
+            provenance = candidate.training_provenance
+            guard = provenance["generalization_guard"]
+            receipts = provenance["training_episode_receipts"]
+            expected = sum(receipt["ppo_update_count"] for receipt in receipts)
+            baseline = sum(receipt["ppo_update_count"] for receipt in receipts[:-1])
+            assert guard["segment_receipt_offset"] == segment
+            assert guard["baseline_monitor_evidence"]["ppo_update_steps_observed"] == baseline
+            assert guard["baseline_final_evidence"]["ppo_update_steps_observed"] == baseline
+            assert guard["monitor_evidence"][-1]["ppo_update_steps_observed"] == expected
+            assert guard["final_evidence"]["ppo_update_steps_observed"] == expected

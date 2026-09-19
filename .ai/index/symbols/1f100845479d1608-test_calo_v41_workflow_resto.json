@@ -26,7 +26,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 21,
+      "end_line": 29,
       "entry_point": false,
       "file": "tests/unit/test_calo_v41_workflow_restore.py",
       "implementation_core": false,
@@ -142,7 +142,7 @@
         "tests.unit.test_calo_v41_workflow_restore._state"
       ],
       "doc": "",
-      "end_line": 49,
+      "end_line": 57,
       "entry_point": false,
       "file": "tests/unit/test_calo_v41_workflow_restore.py",
       "implementation_core": false,
@@ -174,7 +174,7 @@
       "qualname": "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 24,
+      "start_line": 32,
       "state_owner": "",
       "symbol": "test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
       "tests": []
@@ -183,6 +183,11 @@
       "architectural_boundary": "",
       "authoritative_source": "",
       "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
         {
           "confidence": "confirmed",
           "raw": "WorkflowManager",
@@ -211,6 +216,7 @@
       ],
       "call_forms": {
         "ExperimentConfig": "name",
+        "SimpleNamespace": "name",
         "WorkflowManager": "name",
         "_state": "name",
         "workflow.is_workspace_enabled": "attribute",
@@ -219,6 +225,7 @@
       "called_by": [],
       "calls": [
         "ExperimentConfig",
+        "SimpleNamespace",
         "WorkflowManager",
         "_state",
         "workflow.is_workspace_enabled",
@@ -230,7 +237,7 @@
         "tests.unit.test_calo_v41_workflow_restore._state"
       ],
       "doc": "",
-      "end_line": 71,
+      "end_line": 87,
       "entry_point": false,
       "file": "tests/unit/test_calo_v41_workflow_restore.py",
       "implementation_core": false,
@@ -262,7 +269,7 @@
       "qualname": "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 52,
+      "start_line": 60,
       "state_owner": "",
       "symbol": "test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
       "tests": []
@@ -288,6 +295,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "workflow._setup_complete",
+          "target": "workflow._setup_complete"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "workflow.is_workspace_enabled",
           "target": "workflow.is_workspace_enabled"
         },
@@ -301,6 +313,7 @@
         "ExperimentConfig": "name",
         "WorkflowManager": "name",
         "_state": "name",
+        "workflow._setup_complete": "attribute",
         "workflow.is_workspace_enabled": "attribute",
         "workflow.restore": "attribute"
       },
@@ -309,6 +322,7 @@
         "ExperimentConfig",
         "WorkflowManager",
         "_state",
+        "workflow._setup_complete",
         "workflow.is_workspace_enabled",
         "workflow.restore"
       ],
@@ -318,7 +332,7 @@
         "tests.unit.test_calo_v41_workflow_restore._state"
       ],
       "doc": "",
-      "end_line": 93,
+      "end_line": 111,
       "entry_point": false,
       "file": "tests/unit/test_calo_v41_workflow_restore.py",
       "implementation_core": false,
@@ -350,7 +364,7 @@
       "qualname": "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 74,
+      "start_line": 90,
       "state_owner": "",
       "symbol": "test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
       "tests": []
@@ -359,6 +373,11 @@
       "architectural_boundary": "",
       "authoritative_source": "",
       "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
         {
           "confidence": "confirmed",
           "raw": "WorkflowManager",
@@ -381,6 +400,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "workflow.individual_completed.update",
           "target": "workflow.individual_completed.update"
         },
@@ -392,18 +416,22 @@
       ],
       "call_forms": {
         "ExperimentConfig": "name",
+        "SimpleNamespace": "name",
         "WorkflowManager": "name",
         "_state": "name",
         "restored.restore": "attribute",
+        "tuple": "name",
         "workflow.individual_completed.update": "attribute",
         "workflow.snapshot": "attribute"
       },
       "called_by": [],
       "calls": [
         "ExperimentConfig",
+        "SimpleNamespace",
         "WorkflowManager",
         "_state",
         "restored.restore",
+        "tuple",
         "workflow.individual_completed.update",
         "workflow.snapshot"
       ],
@@ -413,7 +441,7 @@
         "tests.unit.test_calo_v41_workflow_restore._state"
       ],
       "doc": "",
-      "end_line": 106,
+      "end_line": 128,
       "entry_point": false,
       "file": "tests/unit/test_calo_v41_workflow_restore.py",
       "implementation_core": false,
@@ -445,7 +473,7 @@
       "qualname": "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 96,
+      "start_line": 114,
       "state_owner": "",
       "symbol": "test_policy_free_individual_completion_survives_restore_without_governing_policy",
       "tests": []

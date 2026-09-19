@@ -231,7 +231,7 @@ def test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts():
 
 
 def test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_surfaces():
-    intelligence = Path("calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
+    intelligence = Path("calo_rpd_studio/gui/panels/_calo_intelligence_panel_core.py").read_text(
         encoding="utf-8"
     )
     algorithms = Path("calo_rpd_studio/gui/panels/algorithms_panel.py").read_text(encoding="utf-8")

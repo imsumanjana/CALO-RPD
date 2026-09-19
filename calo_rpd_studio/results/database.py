@@ -928,9 +928,7 @@ class ResultDatabase:
         payload["recommendation"] = json.loads(str(payload.pop("recommendation_json")))
         if _canonical_sha256(payload["content"]) != str(payload["content_sha256"]):
             raise RuntimeError("The immutable applied Study setup checksum does not match")
-        if _canonical_sha256(payload["recommendation"]) != str(
-            payload["recommendation_sha256"]
-        ):
+        if _canonical_sha256(payload["recommendation"]) != str(payload["recommendation_sha256"]):
             raise RuntimeError("The immutable Study recommendation checksum does not match")
         return payload
 
@@ -993,8 +991,7 @@ class ResultDatabase:
                 ).fetchone()
                 if (
                     goal is None
-                    or str(goal["content_sha256"])
-                    != str(applied_study_setup.portfolio_goal_sha256)
+                    or str(goal["content_sha256"]) != str(applied_study_setup.portfolio_goal_sha256)
                     or str(goal["algorithm_stage_id"]) != str(plan.algorithm_stage_id)
                     or str(goal["algorithm_stage_sha256"]) != str(plan.algorithm_stage_sha256)
                 ):

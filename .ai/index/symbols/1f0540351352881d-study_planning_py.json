@@ -17,7 +17,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -79,7 +78,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -141,7 +139,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -223,7 +220,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -320,7 +316,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -408,7 +403,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -472,7 +466,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -551,7 +544,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -667,7 +659,6 @@
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -723,13 +714,12 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Derive broad evidence constraints without reading any concrete Study configuration.",
-      "end_line": 247,
+      "end_line": 253,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -775,6 +765,7 @@
       "state_owner": "",
       "symbol": "PortfolioGoalPlanner",
       "tests": [
+        "tests/gui/test_gui_wiring_acceptance.py",
         "tests/gui/test_guided_workflow.py",
         "tests/integration/test_workspace_execution_control.py",
         "tests/unit/test_workspace_execution_plans.py"
@@ -929,6 +920,7 @@
         "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
         "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
         "tests.conftest.apply_workspace_study.apply",
+        "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft",
         "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
         "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
         "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
@@ -972,13 +964,12 @@
         "calo_rpd_studio.portfolio.study_planning._utc_now"
       ],
       "doc": "",
-      "end_line": 247,
+      "end_line": 253,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1024,6 +1015,7 @@
       "state_owner": "",
       "symbol": "create",
       "tests": [
+        "tests/gui/test_gui_wiring_acceptance.py",
         "tests/gui/test_guided_workflow.py",
         "tests/integration/test_workspace_execution_control.py",
         "tests/unit/test_workspace_execution_plans.py"
@@ -1040,13 +1032,12 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 290,
+      "end_line": 296,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1088,7 +1079,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 251,
+      "start_line": 257,
       "state_owner": "",
       "symbol": "StudyRecommendation",
       "tests": []
@@ -1119,13 +1110,12 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 290,
+      "end_line": 296,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1167,7 +1157,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation.payload",
       "semantic_tags": [],
       "signature": "(self)",
-      "start_line": 271,
+      "start_line": 277,
       "state_owner": "",
       "symbol": "payload",
       "tests": []
@@ -1183,13 +1173,12 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 351,
+      "end_line": 357,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1231,7 +1220,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 294,
+      "start_line": 300,
       "state_owner": "",
       "symbol": "AppliedStudySetup",
       "tests": []
@@ -1262,13 +1251,12 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 329,
+      "end_line": 335,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1310,7 +1298,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup.content_payload",
       "semantic_tags": [],
       "signature": "(self)",
-      "start_line": 312,
+      "start_line": 318,
       "state_owner": "",
       "symbol": "content_payload",
       "tests": []
@@ -1385,13 +1373,12 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 351,
+      "end_line": 357,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1433,7 +1420,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup.from_record",
       "semantic_tags": [],
       "signature": "(cls, record)",
-      "start_line": 332,
+      "start_line": 338,
       "state_owner": "",
       "symbol": "from_record",
       "tests": []
@@ -1447,13 +1434,12 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Recommend and validate concrete Study choices against one immutable Portfolio goal.",
-      "end_line": 594,
+      "end_line": 600,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1495,7 +1481,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 354,
+      "start_line": 360,
       "state_owner": "",
       "symbol": "WorkspaceStudyPlanner",
       "tests": [
@@ -1524,13 +1510,12 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 370,
+      "end_line": 376,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1572,7 +1557,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding",
       "semantic_tags": [],
       "signature": "(goal, stage)",
-      "start_line": 358,
+      "start_line": 364,
       "state_owner": "",
       "symbol": "_validate_binding",
       "tests": []
@@ -1712,13 +1697,12 @@
         "calo_rpd_studio.portfolio.study_planning._content_sha256"
       ],
       "doc": "",
-      "end_line": 472,
+      "end_line": 478,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1760,7 +1744,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend",
       "semantic_tags": [],
       "signature": "(cls, goal, stage, config)",
-      "start_line": 373,
+      "start_line": 379,
       "state_owner": "",
       "symbol": "recommend",
       "tests": [
@@ -1922,13 +1906,12 @@
         "calo_rpd_studio.portfolio.study_planning._utc_now"
       ],
       "doc": "",
-      "end_line": 594,
+      "end_line": 600,
       "entry_point": false,
       "file": "calo_rpd_studio/portfolio/study_planning.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
-        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
         "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
         "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
         "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
@@ -1970,7 +1953,7 @@
       "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
       "semantic_tags": [],
       "signature": "(cls, goal, stage, recommendation, selected_values)",
-      "start_line": 475,
+      "start_line": 481,
       "state_owner": "",
       "symbol": "apply_selection",
       "tests": [

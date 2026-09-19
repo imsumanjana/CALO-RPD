@@ -166,9 +166,7 @@ class ScientificAuditWorker(QThread):
             portfolio_plan = None
             result_contract = None
             if individual:
-                result_contract = validate_individual_result_contract(
-                    self.config.result_contract
-                )
+                result_contract = validate_individual_result_contract(self.config.result_contract)
             else:
                 portfolio_plan = PortfolioPlanner.plan(
                     self.config,
@@ -180,9 +178,7 @@ class ScientificAuditWorker(QThread):
                     # The legacy planner remains useful for fields/tasks but its profile run floor
                     # is a soft recommendation in the one-way workflow, not execution authority.
                     portfolio_plan.required_runs = int(self.config.runs)
-                    portfolio_plan.total_jobs = int(self.config.runs) * len(
-                        self.config.algorithms
-                    )
+                    portfolio_plan.total_jobs = int(self.config.runs) * len(self.config.algorithms)
             self.progress.emit("Checking reusable verified runs", 82)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             reusable = 0
@@ -214,9 +210,7 @@ class ScientificAuditWorker(QThread):
                     "fairness": fairness,
                     "portfolio_plan": portfolio_plan,
                     "result_contract": result_contract,
-                    "execution_plan_kind": str(
-                        getattr(self.config, "execution_plan_kind", "")
-                    ),
+                    "execution_plan_kind": str(getattr(self.config, "execution_plan_kind", "")),
                     "reusable": reusable,
                 }
             )
@@ -910,9 +904,7 @@ class ExperimentManagerPanel(WorkspacePage):
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
             plan = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
             if plan is not None:
-                return tuple(
-                    str(name) for name in plan["design"].get("study_algorithm_names", [])
-                )
+                return tuple(str(name) for name in plan["design"].get("study_algorithm_names", []))
             goal = self._active_portfolio_goal()
             return () if goal is None else tuple(goal.selected_algorithm_names)
         stage = self.state.execution_control.active_stage()
@@ -1043,10 +1035,7 @@ class ExperimentManagerPanel(WorkspacePage):
             not workspace or plan is not None or self._active_portfolio_goal() is not None
         )
         editable = (
-            controller_none
-            and editable_state
-            and workspace_goal_ready
-            and not self.manager.running
+            controller_none and editable_state and workspace_goal_ready and not self.manager.running
         )
         self._study_setup_editable = bool(editable)
         self._apply_inline_study_states()
@@ -1230,9 +1219,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.study_power_system.stage_completed.connect(
             lambda: self._emit_setup_completion("power_system")
         )
-        self.study_formulation.stage_completed.connect(
-            lambda: self._emit_setup_completion("orpd")
-        )
+        self.study_formulation.stage_completed.connect(lambda: self._emit_setup_completion("orpd"))
         self.study_scenarios.stage_completed.connect(
             lambda: self._emit_setup_completion("scenarios")
         )
@@ -1375,7 +1362,9 @@ class ExperimentManagerPanel(WorkspacePage):
             and self._study_recommendation.portfolio_goal_sha256 == goal.content_sha256
         )
         if not compatible:
-            status = "Stale — the applied Portfolio goal does not match the current submitted stage."
+            status = (
+                "Stale — the applied Portfolio goal does not match the current submitted stage."
+            )
         elif recommendation_current:
             recommendation = self._study_recommendation
             delta = int(self.runs.value()) - int(recommendation.recommended_runs)
@@ -1485,9 +1474,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self._refresh_study_source_card()
 
     def apply_workspace_study_setup(self) -> None:
-        prior_workspace_contract = deepcopy(
-            getattr(self.state.config, "workspace_study_contract", {})
-        )
+        # Do not broadcast or accept edited settings until durable draft creation succeeds.
+        draft = deepcopy(self.state.config)
         try:
             if self.execution_mode != ExecutionPlanKind.WORKSPACE.value:
                 raise RuntimeError("Apply Study setup is available only in Workspace Study")
@@ -1502,7 +1490,7 @@ class ExperimentManagerPanel(WorkspacePage):
             if recommendation is None:
                 recommendation = WorkspaceStudyPlanner.recommend(goal, stage, self.state.config)
                 self._study_recommendation = recommendation
-            self.state.config.workspace_study_contract = {
+            draft.workspace_study_contract = {
                 "schema_version": "calo-rpd-workspace-study-runtime-contract-v1",
                 "portfolio_goal_id": goal.portfolio_goal_id,
                 "portfolio_goal_sha256": goal.content_sha256,
@@ -1510,8 +1498,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 "recommendation_sha256": recommendation.recommendation_sha256,
                 "hard_minimum_runs": int(recommendation.hard_minimum_runs),
             }
-            self.apply()
-            config = self.state.config
+            config = self._configuration_draft(draft)
             selected_values = {
                 "runs": int(config.runs),
                 "study_case_plan": list(config.study_case_plan),
@@ -1524,9 +1511,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 "output_directory": str(config.output_directory),
                 "reuse_compatible_results": bool(config.reuse_compatible_results),
                 "resume_enabled": bool(config.resume_enabled),
-                "checkpoint_interval_evaluations": int(
-                    config.checkpoint_interval_evaluations
-                ),
+                "checkpoint_interval_evaluations": int(config.checkpoint_interval_evaluations),
             }
             setup = WorkspaceStudyPlanner.apply_selection(
                 goal, stage, recommendation, selected_values
@@ -1536,7 +1521,6 @@ class ExperimentManagerPanel(WorkspacePage):
                 "study_setup_id": setup.study_setup_id,
                 "study_setup_sha256": setup.content_sha256,
             }
-            self.state.update_config()
             plan = self.state.execution_control.create_workspace_draft(
                 config,
                 goal.selected_algorithm_names,
@@ -1544,6 +1528,8 @@ class ExperimentManagerPanel(WorkspacePage):
                 recommendation=recommendation,
                 applied_study_setup=setup,
             )
+            self.state.config = config
+            self.state.update_config()
             self._audit_plan_id = ""
             self._audited_config = None
             self.fairness_passed = False
@@ -1561,8 +1547,6 @@ class ExperimentManagerPanel(WorkspacePage):
             )
             self.refresh_execution_state()
         except Exception as exc:
-            self.state.config.workspace_study_contract = prior_workspace_contract
-            self.state.update_config()
             show_error(
                 self,
                 "Study setup was not applied",
@@ -1793,8 +1777,9 @@ class ExperimentManagerPanel(WorkspacePage):
             not throughput or not self.auto_batch_calibration.isChecked()
         )
 
-    def apply(self) -> None:
-        config = self.state.config
+    def _configuration_draft(self, base_config=None):
+        # Invalid drafts must never partially overwrite accepted shared settings.
+        config = deepcopy(self.state.config if base_config is None else base_config)
         config.runs = int(self.runs.value())
         config.population_size = self.population.value()
         config.budget.policy = BudgetPolicy(self.policy.currentData())
@@ -1836,6 +1821,10 @@ class ExperimentManagerPanel(WorkspacePage):
                 raise RuntimeError("Submit at least one algorithm for experiment use first")
             validation_config = stage_bound_individual_config(config, stage)
         validation_config.validate(execution_plan_kind=self.execution_mode)
+        return config
+
+    def apply(self) -> None:
+        self.state.config = self._configuration_draft()
         self.state.update_config()
 
     def choose_output(self) -> None:
@@ -2402,14 +2391,15 @@ class ExperimentManagerPanel(WorkspacePage):
             try:
                 worker = self.manager.worker
                 campaign_id = str(getattr(worker, "campaign_id", "") or "")
-                self.state.execution_control.transition(
-                    str(plan["id"]),
-                    expected=(ExecutionLifecycle.RUNNING.value,),
-                    new_state=ExecutionLifecycle.RUNNING.value,
-                    message="Individual plan bound to its authenticated campaign",
-                    campaign_id=campaign_id,
-                )
-                self.state.notify_execution_state_changed()
+                if str(plan.get("campaign_id", "")) != campaign_id:
+                    self.state.execution_control.transition(
+                        str(plan["id"]),
+                        expected=(ExecutionLifecycle.RUNNING.value,),
+                        new_state=ExecutionLifecycle.RUNNING.value,
+                        message="Individual plan bound to its authenticated campaign",
+                        campaign_id=campaign_id,
+                    )
+                    self.state.notify_execution_state_changed()
             except Exception as exc:
                 log_technical_error("individual campaign binding", exc)
         self._set_running(True)

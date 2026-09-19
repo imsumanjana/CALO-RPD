@@ -84,11 +84,13 @@ def test_production_artifact_eligibility_requires_exact_freeze_and_empty_initial
     assert mixed.post_development_eligible is False
 
 
-def test_future_training_entrypoint_is_exact_freeze_bound_without_executing_training():
-    command = Path("calo_rpd_studio/scripts/train_tsh_calo.py").read_text(encoding="utf-8")
-    campaign = Path("calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py").read_text(
-        encoding="utf-8"
-    )
+def test_optional_legacy_freeze_input_retains_exact_validation_boundary():
+    public = Path("calo_rpd_studio/scripts/train_tsh_calo.py").read_text(encoding="utf-8")
+    assert "_core_main(argv)" in public
+    command = Path("calo_rpd_studio/scripts/_train_tsh_calo_core.py").read_text(encoding="utf-8")
+    campaign = Path(
+        "calo_rpd_studio/algorithms/calo/_tsh_calo_training_campaign_core.py"
+    ).read_text(encoding="utf-8")
 
     assert '"--development-freeze"' in command
     assert "validate_development_freeze_for_plan" in command

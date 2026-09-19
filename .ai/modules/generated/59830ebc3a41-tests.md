@@ -42,6 +42,7 @@
 - `tests/gui/test_calo_intelligence_permanent_deletion.py`
 - `tests/gui/test_ci_visual_smoke.py`
 - `tests/gui/test_gui_startup.py`
+- `tests/gui/test_gui_wiring_acceptance.py`
 - `tests/gui/test_guided_workflow.py`
 - `tests/gui/test_history_manager.py`
 - `tests/gui/test_obsolete_policy_artifact_management.py`
@@ -59,6 +60,7 @@
 - `tests/integration/test_historical_learning.py`
 - `tests/integration/test_history_deletion.py`
 - `tests/integration/test_phase4_empty_policy_workflow.py`
+- `tests/integration/test_real_experiment_lifecycle.py`
 - `tests/integration/test_workspace_execution_control.py`
 - `tests/regression/AGENTS.md`
 - `tests/regression/__init__.py`
@@ -71,6 +73,7 @@
 - `tests/unit/AGENTS.md`
 - `tests/unit/__init__.py`
 - `tests/unit/test_accelerator_evidence.py`
+- `tests/unit/test_active_development_contract.py`
 - `tests/unit/test_algorithms.py`
 - `tests/unit/test_artifact_manifest.py`
 - `tests/unit/test_bulk_validation.py`
@@ -82,25 +85,31 @@
 - `tests/unit/test_calo_v41_policy_system.py`
 - `tests/unit/test_calo_v41_runtime_guards.py`
 - `tests/unit/test_calo_v41_workflow_restore.py`
+- `tests/unit/test_ci_qt_runtime_contract.py`
 - `tests/unit/test_cma_es.py`
 - `tests/unit/test_config.py`
 - `tests/unit/test_container_contract.py`
 - `tests/unit/test_container_entrypoint_supervision.py`
 - `tests/unit/test_convergence_semantics.py`
 - `tests/unit/test_cuda_residency_contract.py`
+- `tests/unit/test_current_policy_safety_contract.py`
 - `tests/unit/test_distribution_contract.py`
 - `tests/unit/test_execution_plan.py`
+- `tests/unit/test_execution_snapshot_contract.py`
 - `tests/unit/test_heterogeneous_policy_training.py`
 - `tests/unit/test_historical_policy_pretraining.py`
 - `tests/unit/test_local_parameter_assistant.py`
 - `tests/unit/test_lshade.py`
 - `tests/unit/test_mathematical_reference.py`
 - `tests/unit/test_obsolete_training_artifacts.py`
+- `tests/unit/test_omission_plugin_collection.py`
 - `tests/unit/test_orpd.py`
 - `tests/unit/test_orpd_counted_evaluation_context.py`
 - `tests/unit/test_packaged_gui_validator.py`
 - `tests/unit/test_pglib_import_and_reviewed_orpd_profile.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
+- `tests/unit/test_phase6_distribution_current_source.py`
+- `tests/unit/test_physical_cuda_acceptance.py`
 - `tests/unit/test_plot_export.py`
 - `tests/unit/test_power_flow.py`
 - `tests/unit/test_prerequisites_and_resources.py`
@@ -112,6 +121,7 @@
 - `tests/unit/test_source_identity.py`
 - `tests/unit/test_statistics.py`
 - `tests/unit/test_study_strength.py`
+- `tests/unit/test_test_inventory_contract.py`
 - `tests/unit/test_tsh_calo_automatic_qualification.py`
 - `tests/unit/test_tsh_calo_component_ablation.py`
 - `tests/unit/test_tsh_calo_device_equivalence.py`
@@ -122,15 +132,5 @@
 - `tests/unit/test_tsh_calo_hierarchical_policy.py`
 - `tests/unit/test_tsh_calo_independent_training.py`
 - `tests/unit/test_tsh_calo_inference.py`
-- `tests/unit/test_tsh_calo_optimizer.py`
-- `tests/unit/test_tsh_calo_parameter_response.py`
-- `tests/unit/test_tsh_calo_parameter_study.py`
-- `tests/unit/test_tsh_calo_parameter_trajectory.py`
-- `tests/unit/test_tsh_calo_physics_repair.py`
-- `tests/unit/test_tsh_calo_policy_lifecycle.py`
-- `tests/unit/test_tsh_calo_population_schedule.py`
-- `tests/unit/test_tsh_calo_qualification.py`
-- `tests/unit/test_tsh_calo_qualification_campaign.py`
-- `tests/unit/test_tsh_calo_runtime_context.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

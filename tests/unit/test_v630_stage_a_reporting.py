@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from pathlib import Path
 
 from calo_rpd_studio.algorithms.calo.competitive_training import competitive_progress_snapshot
@@ -113,10 +115,8 @@ def test_indefinite_progress_is_indeterminate_but_epoch_and_safe_state_remain_vi
     assert "next exact safe 20" in detail
 
 
-def test_scientist_gui_hides_manual_routing_and_reports_automatic_memory_policy():
-    source = (_root() / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
-        encoding="utf-8"
-    )
+def test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices():
+    source = (_root() / "calo_rpd_studio/gui/widgets/context_pane.py").read_text(encoding="utf-8")
     for forbidden_row in (
         "CPU rollout process cap",
         "Selected rollout routing",
@@ -126,17 +126,20 @@ def test_scientist_gui_hides_manual_routing_and_reports_automatic_memory_policy(
         "Execution scope",
         "ORPD tensor microbatch",
     ):
-        assert f'training_form.addRow("{forbidden_row}"' not in source
-    assert 'training_form.addRow("Compute mode", self.training_device)' in source
-    assert 'training_form.addRow("Compute summary", self.accelerator_status)' in source
-    assert "80% of VRAM free at admission" in source
-    assert "80% of system memory available at admission" in source
-    assert "Real ORPD training cases" in source
-    assert "self.rollout_workers.valueChanged.connect(self._sync_workers_from_shares)" in source
-    assert (
-        "self.rollout_workers.valueChanged.connect(self._apply_recommended_worker_split)"
-        not in source
-    )
+        assert f'addRow("{forbidden_row}"' not in source
+    for choice in (
+        'self.device.addItem("CUDA preferred", "auto")',
+        'self.device.addItem("NVIDIA CUDA only", "cuda")',
+        'self.device.addItem("CPU only", "cpu")',
+    ):
+        assert choice in source
+    assert 'self._info_label("cases", "Training cases")' in source
+    from calo_rpd_studio.gui.panels.independent_training_panel import TrainingLaunchModel
+
+    model = TrainingLaunchModel()
+    assert set(model.values) == {"plan", "output"}
+    with pytest.raises(KeyError):
+        model.set_value("rollout_workers", "8")
 
 
 def test_competitive_coordinator_no_longer_forces_normal_progress_to_zero():

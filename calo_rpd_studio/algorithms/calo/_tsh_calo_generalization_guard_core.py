@@ -124,7 +124,9 @@ class TSHCALOGeneralizationGuardConfig:
         final = set(self.seed_block(development_cases, final=True))
         training = {int(seed) for seed in training_episode_seeds}
         if monitor & final:
-            raise ValueError("TSH-CALO monitor and final generalization seed blocks must be disjoint")
+            raise ValueError(
+                "TSH-CALO monitor and final generalization seed blocks must be disjoint"
+            )
         if training & (monitor | final):
             raise ValueError(
                 "TSH-CALO generalization seeds must be disjoint from policy-training episode seeds"
@@ -308,9 +310,7 @@ def evaluate_generalization_bundle(
                 "scenario_power_flow_calls": scenario_calls,
                 "case_checksum": str(provenance.get("case_checksum", "")),
                 "problem_fingerprint": str(provenance.get("problem_fingerprint", "")),
-                "environment_design_sha256": str(
-                    provenance.get("environment_design_sha256", "")
-                ),
+                "environment_design_sha256": str(provenance.get("environment_design_sha256", "")),
                 "transition_count": int(transition_count),
                 "final_feasible_ratio": float(diagnostics.feasible_ratio),
                 "best_violation": _finite_or_none(diagnostics.best_violation),
@@ -361,7 +361,6 @@ def evaluate_generalization_bundle(
     }
 
 
-
 def validate_generalization_evidence(
     payload: dict,
     *,
@@ -386,8 +385,10 @@ def validate_generalization_evidence(
     guard_design = str(payload.get("guard_design_sha256", ""))
     if expected_guard_design_sha256 and guard_design != expected_guard_design_sha256:
         raise ValueError("TSH-CALO generalization evidence guard design changed")
-    if not guard_design or len(guard_design) != 64 or any(
-        character not in "0123456789abcdef" for character in guard_design.lower()
+    if (
+        not guard_design
+        or len(guard_design) != 64
+        or any(character not in "0123456789abcdef" for character in guard_design.lower())
     ):
         raise ValueError("TSH-CALO generalization evidence guard design SHA-256 is invalid")
     if payload.get("training_design_sha256") != training_design_sha256:
@@ -420,11 +421,16 @@ def validate_generalization_evidence(
             ("problem fingerprint", problem_fingerprint),
             ("environment design", environment_design),
         ):
-            if len(digest) != 64 or any(character not in "0123456789abcdef" for character in digest):
+            if len(digest) != 64 or any(
+                character not in "0123456789abcdef" for character in digest
+            ):
                 raise ValueError(f"TSH-CALO generalization {label} SHA-256 is invalid")
         if expected_problem_identities is not None:
             expected_identity = expected_problem_identities.get(case_identity)
-            if expected_identity is None or (case_checksum, problem_fingerprint) != expected_identity:
+            if (
+                expected_identity is None
+                or (case_checksum, problem_fingerprint) != expected_identity
+            ):
                 raise ValueError(
                     "TSH-CALO generalization problem identity differs from authenticated training"
                 )
@@ -482,6 +488,7 @@ def validate_generalization_evidence(
             actual, expected_mean, rel_tol=1e-12, abs_tol=1e-12
         ):
             raise ValueError(f"TSH-CALO generalization aggregate {key} changed")
+
 
 def compare_generalization_evidence(
     candidate: dict,
@@ -669,7 +676,9 @@ def build_generalization_guard_provenance(
         raise ValueError(
             "TSH-CALO generalization monitor evidence must cover every segment training episode"
         )
-    training_seeds = tuple(int(load_tsh_calo_training_episode_receipt(item).seed) for item in receipts)
+    training_seeds = tuple(
+        int(load_tsh_calo_training_episode_receipt(item).seed) for item in receipts
+    )
     config.validate(
         development_cases=development_cases,
         population_size=population_size,
@@ -865,15 +874,20 @@ def validate_generalization_guard_provenance(
         population_size=population_size,
         training_episode_seeds=training_seeds,
     )
-    if expected_training_design_sha256 and payload.get(
-        "training_design_sha256"
-    ) != expected_training_design_sha256:
+    if (
+        expected_training_design_sha256
+        and payload.get("training_design_sha256") != expected_training_design_sha256
+    ):
         raise ValueError("TSH-CALO candidate generalization evidence training design changed")
     if receipt_rows:
         if int(payload.get("training_episode_count", -1)) != len(receipt_rows):
             raise ValueError("TSH-CALO candidate generalization evidence episode count changed")
-        if payload.get("training_episode_seed_receipt_sha256") != _receipt_seed_sha256(receipt_rows):
-            raise ValueError("TSH-CALO candidate generalization evidence no longer binds its receipts")
+        if payload.get("training_episode_seed_receipt_sha256") != _receipt_seed_sha256(
+            receipt_rows
+        ):
+            raise ValueError(
+                "TSH-CALO candidate generalization evidence no longer binds its receipts"
+            )
         offset = int(payload.get("segment_receipt_offset", -1))
         if offset < 0 or offset >= len(validated_receipts):
             raise ValueError("TSH-CALO candidate generalization segment receipt offset changed")
@@ -942,27 +956,31 @@ def validate_generalization_guard_provenance(
             raise ValueError(
                 "TSH-CALO candidate generalization monitor history omits a segment episode"
             )
-        baseline_updates = (
-            int(validated_receipts[offset - 1].ppo_update_count) if offset > 0 else 0
-        )
-        if int(baseline_monitor.get("observation_index", -1)) != 0 or int(
-            baseline_final.get("observation_index", -1)
-        ) != 0:
+        # Receipts count updates within each episode; evidence observes lifetime trainer steps.
+        baseline_updates = sum(receipt.ppo_update_count for receipt in validated_receipts[:offset])
+        if (
+            int(baseline_monitor.get("observation_index", -1)) != 0
+            or int(baseline_final.get("observation_index", -1)) != 0
+        ):
             raise ValueError("TSH-CALO candidate generalization baseline observation index changed")
-        if int(baseline_monitor.get("ppo_update_steps_observed", -1)) != baseline_updates or int(
-            baseline_final.get("ppo_update_steps_observed", -1)
-        ) != baseline_updates:
+        if (
+            int(baseline_monitor.get("ppo_update_steps_observed", -1)) != baseline_updates
+            or int(baseline_final.get("ppo_update_steps_observed", -1)) != baseline_updates
+        ):
             raise ValueError("TSH-CALO candidate generalization baseline PPO boundary changed")
+        expected_updates = baseline_updates
         for index, (evidence, receipt) in enumerate(
             zip(monitors, segment_receipts, strict=True), start=1
         ):
+            expected_updates += receipt.ppo_update_count
             if int(evidence.get("observation_index", -1)) != index:
                 raise ValueError("TSH-CALO candidate generalization monitor index changed")
-            if int(evidence.get("ppo_update_steps_observed", -1)) != int(receipt.ppo_update_count):
+            if int(evidence.get("ppo_update_steps_observed", -1)) != expected_updates:
                 raise ValueError("TSH-CALO candidate generalization monitor PPO boundary changed")
-        if int(final_evidence.get("observation_index", -1)) != len(segment_receipts) or int(
-            final_evidence.get("ppo_update_steps_observed", -1)
-        ) != int(segment_receipts[-1].ppo_update_count):
+        if (
+            int(final_evidence.get("observation_index", -1)) != len(segment_receipts)
+            or int(final_evidence.get("ppo_update_steps_observed", -1)) != expected_updates
+        ):
             raise ValueError("TSH-CALO candidate final generalization PPO boundary changed")
     classification = _classify_generalization_evidence(
         baseline_monitor_evidence=baseline_monitor,
@@ -987,7 +1005,10 @@ def validate_generalization_guard_provenance(
     )
     if int(payload.get("additional_candidate_evaluations", -1)) != expected_additional_evaluations:
         raise ValueError("TSH-CALO candidate generalization FE ledger changed")
-    if int(payload.get("additional_scenario_power_flow_calls", -1)) != expected_additional_scenarios:
+    if (
+        int(payload.get("additional_scenario_power_flow_calls", -1))
+        != expected_additional_scenarios
+    ):
         raise ValueError("TSH-CALO candidate generalization scenario ledger changed")
     for key in ("baseline_monitor_evidence", "baseline_final_evidence", "final_evidence"):
         if not isinstance(payload.get(key), dict):
@@ -1014,7 +1035,10 @@ def candidate_generalization_status(training_provenance: dict) -> tuple[bool, st
                 explicit_guard_seen = True
             allowed, reason = candidate_generalization_status(member_provenance)
             if not allowed:
-                return False, f"Ensemble member {index + 1} learning guard rejected promotion: {reason}"
+                return (
+                    False,
+                    f"Ensemble member {index + 1} learning guard rejected promotion: {reason}",
+                )
         return (
             True,
             "passed" if explicit_guard_seen else "legacy_candidate_without_generalization_guard",

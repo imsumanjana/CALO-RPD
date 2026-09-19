@@ -239,6 +239,10 @@ def test_qualified_activated_ensemble_drives_counted_end_to_end_run(tmp_path, to
     }
     assert len(result.metadata["runtime_trajectory"]) == 1
     generation = result.metadata["runtime_trajectory"][0]
+    from calo_rpd_studio.algorithms.calo.ai_controller import PARAMETER_NAMES
+
+    assert generation["group_parameter_names"] == list(PARAMETER_NAMES)
+    assert np.asarray(generation["group_parameter_values"]).shape[-1] == len(PARAMETER_NAMES)
     assert len(generation["executed_operators"]) == 4
     assert len(generation["operator_probabilities"]) == 4
     assert len(generation["shield_mixture_weights"]) == 4

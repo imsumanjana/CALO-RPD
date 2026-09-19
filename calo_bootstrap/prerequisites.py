@@ -870,8 +870,7 @@ def install_or_repair(
                 raise RuntimeError(
                     "PyTorch was installed but its verification raised an error. "
                     "No additional multi-gigabyte wheel channels were attempted and the installed "
-                    "package was left in place for diagnosis. "
-                    + (info.error or info.error_stage)
+                    "package was left in place for diagnosis. " + (info.error or info.error_stage)
                 )
             passed = bool(
                 version_ok

@@ -1,0 +1,517 @@
+{
+  "path": "tests/unit/test_active_development_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verifier.verify_active_version",
+          "target": "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy.deepcopy",
+          "target": "copy.deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "change",
+          "target": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported.change"
+        }
+      ],
+      "call_forms": {
+        "change": "name",
+        "copy.deepcopy": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "original": "name",
+        "verifier.verify_active_version": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported",
+        "tests.unit.test_active_development_contract.test_status_drift_is_rejected_with_field_diagnostics",
+        "tests.unit.test_active_development_contract.test_status_reconciliation_never_grants_execution_or_release_authority"
+      ],
+      "calls": [
+        "change",
+        "copy.deepcopy",
+        "monkeypatch.setattr",
+        "original",
+        "verifier.verify_active_version"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_active_version.verify_active_version",
+        "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported.change"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract._report_with_status",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, change)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_report_with_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        }
+      ],
+      "call_forms": {
+        "original": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "original"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract._report_with_status",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract._report_with_status.load",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verifier.verify_active_version",
+          "target": "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+        }
+      ],
+      "call_forms": {
+        "verifier.verify_active_version": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "verifier.verify_active_version"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.test_reviewed_development_source_matches_its_status_contract",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "test_reviewed_development_source_matches_its_status_contract",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.update",
+          "target": "status.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_report_with_status",
+          "target": "tests.unit.test_active_development_contract._report_with_status"
+        }
+      ],
+      "call_forms": {
+        "_report_with_status": "name",
+        "pytest.mark.parametrize": "attribute",
+        "status.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_report_with_status",
+        "pytest.mark.parametrize",
+        "status.update"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_active_development_contract._report_with_status"
+      ],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.test_status_drift_is_rejected_with_field_diagnostics",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, field, value)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_status_drift_is_rejected_with_field_diagnostics",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_report_with_status",
+          "target": "tests.unit.test_active_development_contract._report_with_status"
+        }
+      ],
+      "call_forms": {
+        "_report_with_status": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_report_with_status"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_active_development_contract._report_with_status"
+      ],
+      "doc": "",
+      "end_line": 71,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "test_missing_and_multiple_status_requirements_are_all_reported",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "status.pop",
+          "target": "status.pop"
+        }
+      ],
+      "call_forms": {
+        "status.pop": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_active_development_contract._report_with_status"
+      ],
+      "calls": [
+        "status.pop"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported.change",
+      "semantic_tags": [],
+      "signature": "(status)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "change",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.update",
+          "target": "status.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_report_with_status",
+          "target": "tests.unit.test_active_development_contract._report_with_status"
+        }
+      ],
+      "call_forms": {
+        "_report_with_status": "name",
+        "pytest.mark.parametrize": "attribute",
+        "status.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_report_with_status",
+        "pytest.mark.parametrize",
+        "status.update"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_active_development_contract._report_with_status"
+      ],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "tests/unit/test_active_development_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "pytest": "pytest",
+        "verifier": "calo_rpd_studio.scripts.verify_active_version"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts",
+        "copy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_active_development_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_active_development_contract",
+      "qualname": "tests.unit.test_active_development_contract.test_status_reconciliation_never_grants_execution_or_release_authority",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, field)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "test_status_reconciliation_never_grants_execution_or_release_authority",
+      "tests": []
+    }
+  ]
+}

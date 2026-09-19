@@ -1,0 +1,189 @@
+{
+  "path": "tests/unit/test_current_policy_safety_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+      ],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "tests/unit/test_current_policy_safety_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.app.state_manager",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_current_policy_safety_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_current_policy_safety_contract",
+      "qualname": "tests.unit.test_current_policy_safety_contract.test_missing_policy_never_constructs_an_untrained_fallback",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "test_missing_policy_never_constructs_an_untrained_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "tests/unit/test_current_policy_safety_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.app.state_manager",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_current_policy_safety_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_current_policy_safety_contract",
+      "qualname": "tests.unit.test_current_policy_safety_contract.test_policy_intent_remains_strict_until_explicit_binding",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "test_policy_intent_remains_strict_until_explicit_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.governing_policy_status",
+          "target": "state.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_registry.list",
+          "target": "state.policy_registry.list"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "state.governing_policy_status": "attribute",
+        "state.policy_registry.list": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "state.governing_policy_status",
+        "state.policy_registry.list"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/unit/test_current_policy_safety_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.app.state_manager",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_current_policy_safety_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_current_policy_safety_contract",
+      "qualname": "tests.unit.test_current_policy_safety_contract.test_empty_registry_startup_does_not_invent_a_policy",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "test_empty_registry_startup_does_not_invent_a_policy",
+      "tests": []
+    }
+  ]
+}

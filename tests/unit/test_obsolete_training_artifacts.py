@@ -39,9 +39,7 @@ def _campaign(root, name: str, *, state: str | None, status_text: str | None = N
 
 
 def test_obsolete_campaigns_separate_interrupted_failed_and_corrupt_from_running(tmp_path):
-    library = TrainingModelLibrary(
-        _Settings(), default_directory=tmp_path / "training-models"
-    )
+    library = TrainingModelLibrary(_Settings(), default_directory=tmp_path / "training-models")
     root = library.default_directory
     interrupted = _campaign(root, "interrupted-run", state="interrupted")
     failed = _campaign(root, "failed-run", state="failed")
@@ -64,10 +62,10 @@ def test_obsolete_campaigns_separate_interrupted_failed_and_corrupt_from_running
     assert library.validate_obsolete_campaign_deletion(corrupt) == corrupt.resolve()
 
 
-def test_obsolete_deletion_requires_exact_managed_child_and_removes_only_selected_directory(tmp_path):
-    library = TrainingModelLibrary(
-        _Settings(), default_directory=tmp_path / "training-models"
-    )
+def test_obsolete_deletion_requires_exact_managed_child_and_removes_only_selected_directory(
+    tmp_path,
+):
+    library = TrainingModelLibrary(_Settings(), default_directory=tmp_path / "training-models")
     first = _campaign(library.default_directory, "first", state="interrupted")
     second = _campaign(library.default_directory, "second", state="failed")
 
@@ -83,9 +81,7 @@ def test_obsolete_deletion_requires_exact_managed_child_and_removes_only_selecte
 
 
 def test_saved_training_can_request_exact_policy_library_focus(tmp_path):
-    library = TrainingModelLibrary(
-        _Settings(), default_directory=tmp_path / "training-models"
-    )
+    library = TrainingModelLibrary(_Settings(), default_directory=tmp_path / "training-models")
     interrupted = _campaign(library.default_directory, "resume-me", state="interrupted")
 
     target = library.request_policy_library_focus(interrupted)

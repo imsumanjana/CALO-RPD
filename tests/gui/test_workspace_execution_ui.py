@@ -72,9 +72,7 @@ def test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged(
     assert not hasattr(panel, "resume")
 
 
-def test_study_recommendation_hydration_is_non_persistent_until_apply(
-    qtbot, tmp_path
-) -> None:
+def test_study_recommendation_hydration_is_non_persistent_until_apply(qtbot, tmp_path) -> None:
     state = AppState(tmp_path / "study-one-way-apply.sqlite")
     _submit_stage(state)
     portfolio = PortfolioManagerPanel(state)
@@ -254,7 +252,7 @@ def test_inline_study_panels_preserve_prerequisites_and_completion_signals(qtbot
             "Case": ("locked", "Verified policy prerequisite."),
             "Formulation": ("locked", "Power-system prerequisite."),
             "Scenarios": ("locked", "Portfolio prerequisite."),
-        }
+        },
     )
     assert panel.study_power_system.isEnabled() is False
     assert panel.study_formulation.isEnabled() is False
@@ -352,9 +350,7 @@ def test_individual_audit_uses_direct_result_contract_without_portfolio_planner(
     assert completed[0]["reusable"] == 0
 
 
-def test_individual_audited_plan_ignores_mutable_algorithm_draft_drift(
-    qtbot, tmp_path
-) -> None:
+def test_individual_audited_plan_ignores_mutable_algorithm_draft_drift(qtbot, tmp_path) -> None:
     state = AppState(tmp_path / "individual-stage-authority.sqlite")
     _submit_stage(state)
     state.config.algorithms = ["CALO"]

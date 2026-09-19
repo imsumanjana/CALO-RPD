@@ -94,7 +94,26 @@ def test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index(monkeypatch):
     assert snapshots[1].pci_bus_id.endswith("02:00.0")
 
 
-def test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices():
+def test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices(monkeypatch):
+    # Device selection is a deterministic contract test, not an unrecorded physical GPU probe.
+    snapshot = ResourceSnapshot(
+        cpu_percent=10,
+        devices=(
+            DeviceSnapshot(
+                "cuda:0",
+                "cuda",
+                0,
+                "Synthetic CUDA",
+                True,
+                5.0,
+                10.0,
+                runtime="primary",
+                hardware_uuid="GPU-test",
+                memory_total_bytes=8 * 1024**3,
+            ),
+        ),
+    )
+    monkeypatch.setattr(ResourceMonitor, "sample", lambda self: snapshot)
     config = ExperimentConfig(algorithms=["CALO", "PSO"])
     config.scientific_backend = "torch_fp64"
     local = bind_config_to_device(config, "cuda:0")
@@ -131,8 +150,15 @@ def test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot(monkeyp
             )
 
     monkeypatch.setattr(ComputeTopologyService, "_windows_adapters", staticmethod(lambda: []))
+    probes = []
+    monkeypatch.setattr(
+        ComputeTopologyService,
+        "_fp64_runtime_smoke",
+        staticmethod(lambda device: (probes.append(device) or True, "synthetic FP64 success")),
+    )
     topology = ComputeTopologyService(Monitor()).scan()
     device = topology.devices[0]
+    assert probes == ["cuda:0"]
 
     assert device.runtime_id == "cuda:0"
     assert device.memory_total_bytes == 16 * 1024**3
@@ -140,6 +166,15 @@ def test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot(monkeyp
     assert device.full_training_branch is True
     assert "FP64" in device.capability_status
     assert device.vendor_id == "10DE"
+    monkeypatch.setattr(
+        ComputeTopologyService,
+        "_fp64_runtime_smoke",
+        staticmethod(lambda device: (False, "synthetic FP64 rejection")),
+    )
+    rejected = ComputeTopologyService(Monitor()).scan().devices[0]
+    assert rejected.orpd_evaluator is False
+    assert rejected.full_training_branch is False
+    assert rejected.capability_status == "restricted"
 
 
 def test_cpu_runtime_attestation_is_explicit_and_truthful():

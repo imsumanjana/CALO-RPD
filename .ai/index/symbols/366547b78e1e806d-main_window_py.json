@@ -597,12 +597,13 @@
         "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
         "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
         "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+        "tests.gui.test_gui_wiring_acceptance.wired_window",
         "tests.gui.test_phase6_ribbon_workspace._window"
       ],
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1067,
+      "end_line": 1095,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -739,6 +740,7 @@
       "tests": [
         "tests/gui/test_ci_visual_smoke.py",
         "tests/gui/test_gui_startup.py",
+        "tests/gui/test_gui_wiring_acceptance.py",
         "tests/gui/test_phase6_ribbon_workspace.py"
       ]
     },
@@ -1345,7 +1347,7 @@
         "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage"
       ],
       "doc": "",
-      "end_line": 210,
+      "end_line": 213,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -1492,11 +1494,6 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "self._finish_deferred_close",
-          "target": "calo_rpd_studio.app.main_window.MainWindow._finish_deferred_close"
-        },
-        {
-          "confidence": "confirmed",
           "raw": "self._invalidate_case_workflows",
           "target": "calo_rpd_studio.app.main_window.MainWindow._invalidate_case_workflows"
         },
@@ -1527,6 +1524,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "review_completed.connect",
           "target": "review_completed.connect"
         },
@@ -1544,6 +1546,11 @@
           "confidence": "unresolved",
           "raw": "self.experiment_manager.failed.connect",
           "target": "self.experiment_manager.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment_manager.idle.connect",
+          "target": "self.experiment_manager.idle.connect"
         },
         {
           "confidence": "unresolved",
@@ -1594,11 +1601,6 @@
           "confidence": "unresolved",
           "raw": "self.workflow.mark_completed",
           "target": "self.workflow.mark_completed"
-        },
-        {
-          "confidence": "unresolved",
-          "raw": "self.workflow.mark_experiment_completed",
-          "target": "self.workflow.mark_experiment_completed"
         },
         {
           "confidence": "unresolved",
@@ -1665,8 +1667,8 @@
         "analysis_completed.connect": "attribute",
         "density_changed.connect": "attribute",
         "experiment_restore_requested.connect": "attribute",
+        "getattr": "name",
         "review_completed.connect": "attribute",
-        "self._finish_deferred_close": "attribute",
         "self._invalidate_case_workflows": "attribute",
         "self._mark_routed_setup_completed": "attribute",
         "self._refresh_workflow": "attribute",
@@ -1674,6 +1676,7 @@
         "self.experiment_manager.cancelled.connect": "attribute",
         "self.experiment_manager.completed.connect": "attribute",
         "self.experiment_manager.failed.connect": "attribute",
+        "self.experiment_manager.idle.connect": "attribute",
         "self.experiment_manager.paused.connect": "attribute",
         "self.experiment_manager.started.connect": "attribute",
         "self.state.case_changed.connect": "attribute",
@@ -1684,7 +1687,6 @@
         "self.state.runs_changed.connect": "attribute",
         "self.workflow.changed.connect": "attribute",
         "self.workflow.mark_completed": "attribute",
-        "self.workflow.mark_experiment_completed": "attribute",
         "self.workflow.mark_experiment_started": "attribute",
         "self.workflow.mark_experiment_stopped": "attribute",
         "self.workflow.notify_governing_policy_changed": "attribute",
@@ -1705,8 +1707,8 @@
         "analysis_completed.connect",
         "density_changed.connect",
         "experiment_restore_requested.connect",
+        "getattr",
         "review_completed.connect",
-        "self._finish_deferred_close",
         "self._invalidate_case_workflows",
         "self._mark_routed_setup_completed",
         "self._refresh_workflow",
@@ -1714,6 +1716,7 @@
         "self.experiment_manager.cancelled.connect",
         "self.experiment_manager.completed.connect",
         "self.experiment_manager.failed.connect",
+        "self.experiment_manager.idle.connect",
         "self.experiment_manager.paused.connect",
         "self.experiment_manager.started.connect",
         "self.state.case_changed.connect",
@@ -1724,7 +1727,6 @@
         "self.state.runs_changed.connect",
         "self.workflow.changed.connect",
         "self.workflow.mark_completed",
-        "self.workflow.mark_experiment_completed",
         "self.workflow.mark_experiment_started",
         "self.workflow.mark_experiment_stopped",
         "self.workflow.notify_governing_policy_changed",
@@ -1739,14 +1741,13 @@
         "workspace_requested.connect"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.app.main_window.MainWindow._finish_deferred_close",
         "calo_rpd_studio.app.main_window.MainWindow._invalidate_case_workflows",
         "calo_rpd_studio.app.main_window.MainWindow._mark_routed_setup_completed",
         "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
         "calo_rpd_studio.app.main_window.MainWindow._set_workspace"
       ],
       "doc": "",
-      "end_line": 273,
+      "end_line": 274,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -1877,7 +1878,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 212,
+      "start_line": 215,
       "state_owner": "",
       "symbol": "_connect_workflow",
       "tests": []
@@ -1910,7 +1911,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 277,
+      "end_line": 278,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2041,7 +2042,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 275,
+      "start_line": 276,
       "state_owner": "",
       "symbol": "_invalidate_case_workflows",
       "tests": []
@@ -2072,7 +2073,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 281,
+      "end_line": 282,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2203,7 +2204,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 279,
+      "start_line": 280,
       "state_owner": "",
       "symbol": "_algorithm_stage_completed",
       "tests": []
@@ -2234,7 +2235,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 285,
+      "end_line": 286,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2365,7 +2366,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 283,
+      "start_line": 284,
       "state_owner": "",
       "symbol": "_algorithm_stage_discarded",
       "tests": []
@@ -2405,7 +2406,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 291,
+      "end_line": 292,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2536,7 +2537,7 @@
         "workflow"
       ],
       "signature": "(self, execution_mode, key)",
-      "start_line": 287,
+      "start_line": 288,
       "state_owner": "",
       "symbol": "_mark_experiment_setup_completed",
       "tests": []
@@ -2578,7 +2579,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._mark_experiment_setup_completed"
       ],
       "doc": "",
-      "end_line": 296,
+      "end_line": 297,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2709,7 +2710,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 293,
+      "start_line": 294,
       "state_owner": "",
       "symbol": "_mark_routed_setup_completed",
       "tests": []
@@ -2722,18 +2723,25 @@
           "confidence": "unresolved",
           "raw": "self.workflow.mark_experiment_completed",
           "target": "self.workflow.mark_experiment_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workflow.mark_experiment_stopped",
+          "target": "self.workflow.mark_experiment_stopped"
         }
       ],
       "call_forms": {
-        "self.workflow.mark_experiment_completed": "attribute"
+        "self.workflow.mark_experiment_completed": "attribute",
+        "self.workflow.mark_experiment_stopped": "attribute"
       },
       "called_by": [],
       "calls": [
-        "self.workflow.mark_experiment_completed"
+        "self.workflow.mark_experiment_completed",
+        "self.workflow.mark_experiment_stopped"
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 301,
+      "end_line": 305,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -2864,9 +2872,185 @@
         "workflow"
       ],
       "signature": "(self, _experiment_id)",
-      "start_line": 298,
+      "start_line": 299,
       "state_owner": "",
       "symbol": "_manager_completion_workflow_event",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_execution_plan",
+          "target": "self.state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workflow.mark_experiment_completed",
+          "target": "self.workflow.mark_experiment_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workflow.mark_experiment_stopped",
+          "target": "self.workflow.mark_experiment_stopped"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.state.database.get_execution_plan": "attribute",
+        "self.workflow.mark_experiment_completed": "attribute",
+        "self.workflow.mark_experiment_stopped": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.state.database.get_execution_plan",
+        "self.workflow.mark_experiment_completed",
+        "self.workflow.mark_experiment_stopped",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 312,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/main_window.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ActivityCenter": "calo_rpd_studio.gui.widgets.activity_center.ActivityCenter",
+        "AlgorithmsPanel": "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel",
+        "ApplicationSettingsPanel": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "CommandSpec": "calo_rpd_studio.gui.command_registry.CommandSpec",
+        "ContextPane": "calo_rpd_studio.gui.widgets.context_pane.ContextPane",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "DocumentWorkspace": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "ExperimentWorkspaceRestorer": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+        "GlobalStatusBarWidget": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+        "INDIVIDUAL_EXPERIMENT_COMMAND_IDS": "calo_rpd_studio.gui.command_registry.INDIVIDUAL_EXPERIMENT_COMMAND_IDS",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "LiveOptimizationPanel": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel",
+        "NavigationSidebar": "calo_rpd_studio.gui.navigation.sidebar.NavigationSidebar",
+        "ORPDFormulationPanel": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "PowerSystemPanel": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+        "ProjectManager": "calo_rpd_studio.app.project_manager.ProjectManager",
+        "PublicationExportPanel": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+        "QByteArray": "PyQt6.QtCore.QByteArray",
+        "QDockWidget": "PyQt6.QtWidgets.QDockWidget",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QKeySequence": "PyQt6.QtGui.QKeySequence",
+        "QMainWindow": "PyQt6.QtWidgets.QMainWindow",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QShortcut": "PyQt6.QtGui.QShortcut",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QTextBrowser": "PyQt6.QtWidgets.QTextBrowser",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ResultsExplorerPanel": "calo_rpd_studio.gui.panels.results_explorer_panel.ResultsExplorerPanel",
+        "RibbonBar": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+        "RobustScenariosPanel": "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "StatisticalAnalysisPanel": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "UnfinishedWorkDialog": "calo_rpd_studio.gui.dialogs.unfinished_work_dialog.UnfinishedWorkDialog",
+        "ValidationAuditPanel": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "WORKSPACE_LAYOUT_ID": "calo_rpd_studio.app.workspaces.WORKSPACE_LAYOUT_ID",
+        "WORKSPACE_SCHEMA_VERSION": "calo_rpd_studio.app.workspaces.WORKSPACE_SCHEMA_VERSION",
+        "WORKSPACE_SPECS": "calo_rpd_studio.app.workspaces.WORKSPACE_SPECS",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "application_icon": "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+        "apply_compact_input_policy": "calo_rpd_studio.gui.widgets.form_density.apply_compact_input_policy",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".experiment_workspace_restorer",
+        ".project_manager",
+        ".session_recovery",
+        ".workflow_manager",
+        ".workspace_campaign",
+        ".workspaces",
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.dialogs.unfinished_work_dialog",
+        "calo_rpd_studio.gui.icons.workspace_icons",
+        "calo_rpd_studio.gui.navigation.sidebar",
+        "calo_rpd_studio.gui.panels.algorithms_panel",
+        "calo_rpd_studio.gui.panels.application_settings_panel",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.gui.panels.live_optimization_panel",
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "calo_rpd_studio.gui.panels.power_system_panel",
+        "calo_rpd_studio.gui.panels.publication_export_panel",
+        "calo_rpd_studio.gui.panels.results_explorer_panel",
+        "calo_rpd_studio.gui.panels.robust_scenarios_panel",
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+        "calo_rpd_studio.gui.panels.validation_audit_panel",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.activity_center",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "calo_rpd_studio.gui.widgets.document_workspace",
+        "calo_rpd_studio.gui.widgets.form_density",
+        "calo_rpd_studio.gui.widgets.global_status_bar",
+        "calo_rpd_studio.gui.widgets.ribbon_bar",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.version",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.main_window.MainWindow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.main_window",
+      "qualname": "calo_rpd_studio.app.main_window.MainWindow._workspace_completion_workflow_event",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id)",
+      "start_line": 307,
+      "state_owner": "",
+      "symbol": "_workspace_completion_workflow_event",
       "tests": []
     },
     {
@@ -2920,7 +3104,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._show_status_message"
       ],
       "doc": "",
-      "end_line": 317,
+      "end_line": 328,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3051,7 +3235,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 303,
+      "start_line": 314,
       "state_owner": "",
       "symbol": "_governing_policy_event",
       "tests": []
@@ -3077,7 +3261,7 @@
         "calo_rpd_studio.gui.widgets.form_density.apply_compact_input_policy"
       ],
       "doc": "",
-      "end_line": 320,
+      "end_line": 331,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3208,7 +3392,7 @@
         "workflow"
       ],
       "signature": "(self, density)",
-      "start_line": 319,
+      "start_line": 330,
       "state_owner": "",
       "symbol": "_apply_interface_density",
       "tests": []
@@ -3267,7 +3451,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 332,
+      "end_line": 343,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3398,7 +3582,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 322,
+      "start_line": 333,
       "state_owner": "",
       "symbol": "_initial_system_scan",
       "tests": []
@@ -3453,7 +3637,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._set_workspace"
       ],
       "doc": "",
-      "end_line": 342,
+      "end_line": 353,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3584,7 +3768,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, run_id)",
-      "start_line": 334,
+      "start_line": 345,
       "state_owner": "",
       "symbol": "_open_reviewed_run_for_validation",
       "tests": []
@@ -3661,7 +3845,7 @@
         "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget"
       ],
       "doc": "",
-      "end_line": 350,
+      "end_line": 361,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3792,7 +3976,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 344,
+      "start_line": 355,
       "state_owner": "",
       "symbol": "_create_global_status_bar",
       "tests": []
@@ -3860,7 +4044,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._apply_task_interaction_lock"
       ],
       "doc": "",
-      "end_line": 364,
+      "end_line": 375,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -3991,7 +4175,7 @@
         "workflow"
       ],
       "signature": "(self, snapshot)",
-      "start_line": 352,
+      "start_line": 363,
       "state_owner": "",
       "symbol": "_on_task_status_changed",
       "tests": []
@@ -4094,7 +4278,7 @@
       ],
       "calls_resolved": [],
       "doc": "Lock task-changing surfaces while keeping live Activity/status inspection usable.",
-      "end_line": 386,
+      "end_line": 397,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -4225,7 +4409,7 @@
         "workflow"
       ],
       "signature": "(self, busy)",
-      "start_line": 366,
+      "start_line": 377,
       "state_owner": "",
       "symbol": "_apply_task_interaction_lock",
       "tests": []
@@ -4314,7 +4498,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow"
       ],
       "doc": "",
-      "end_line": 402,
+      "end_line": 413,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -4445,7 +4629,7 @@
         "workflow"
       ],
       "signature": "(self, active, detail)",
-      "start_line": 388,
+      "start_line": 399,
       "state_owner": "",
       "symbol": "_on_policy_training_changed",
       "tests": []
@@ -4483,7 +4667,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 411,
+      "end_line": 422,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -4614,7 +4798,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 404,
+      "start_line": 415,
       "state_owner": "",
       "symbol": "_refresh_verified_count",
       "tests": []
@@ -4627,6 +4811,11 @@
           "confidence": "unresolved",
           "raw": "bool",
           "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._navigation_blocker",
+          "target": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker"
         },
         {
           "confidence": "unresolved",
@@ -4662,6 +4851,11 @@
           "confidence": "unresolved",
           "raw": "self.command_registry.set_available",
           "target": "self.command_registry.set_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_registry.spec",
+          "target": "self.command_registry.spec"
         },
         {
           "confidence": "unresolved",
@@ -4721,8 +4915,10 @@
         "experiment_page.set_study_prerequisite_states": "attribute",
         "getattr": "name",
         "hasattr": "name",
+        "self._navigation_blocker": "attribute",
         "self.activity_center.refresh_context": "attribute",
         "self.command_registry.set_available": "attribute",
+        "self.command_registry.spec": "attribute",
         "self.global_status.apply_context": "attribute",
         "self.pages_by_key.get": "attribute",
         "self.sidebar.set_workflow_state": "attribute",
@@ -4749,8 +4945,10 @@
         "experiment_page.set_study_prerequisite_states",
         "getattr",
         "hasattr",
+        "self._navigation_blocker",
         "self.activity_center.refresh_context",
         "self.command_registry.set_available",
+        "self.command_registry.spec",
         "self.global_status.apply_context",
         "self.pages_by_key.get",
         "self.sidebar.set_workflow_state",
@@ -4762,9 +4960,11 @@
         "self.workflow.workspace_state_key",
         "str"
       ],
-      "calls_resolved": [],
+      "calls_resolved": [
+        "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker"
+      ],
       "doc": "",
-      "end_line": 529,
+      "end_line": 554,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -4895,7 +5095,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 413,
+      "start_line": 424,
       "state_owner": "",
       "symbol": "_refresh_workflow",
       "tests": []
@@ -4937,7 +5137,7 @@
         "calo_rpd_studio.app.workspaces.workspace_key_for_index"
       ],
       "doc": "",
-      "end_line": 532,
+      "end_line": 557,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -5068,9 +5268,195 @@
         "workflow"
       ],
       "signature": "(self, workspace)",
-      "start_line": 531,
+      "start_line": 556,
       "state_owner": "",
       "symbol": "_workspace_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.controller",
+          "target": "self.state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "getattr": "name",
+        "self.state.execution_control.active_stage": "attribute",
+        "self.state.execution_control.controller": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
+        "calo_rpd_studio.app.main_window.MainWindow._set_workspace"
+      ],
+      "calls": [
+        "bool",
+        "getattr",
+        "self.state.execution_control.active_stage",
+        "self.state.execution_control.controller",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Share admission reasons between ribbon/sidebar availability and navigation.",
+      "end_line": 595,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/main_window.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ActivityCenter": "calo_rpd_studio.gui.widgets.activity_center.ActivityCenter",
+        "AlgorithmsPanel": "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel",
+        "ApplicationSettingsPanel": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "CommandSpec": "calo_rpd_studio.gui.command_registry.CommandSpec",
+        "ContextPane": "calo_rpd_studio.gui.widgets.context_pane.ContextPane",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "DocumentWorkspace": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "ExperimentWorkspaceRestorer": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+        "GlobalStatusBarWidget": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+        "INDIVIDUAL_EXPERIMENT_COMMAND_IDS": "calo_rpd_studio.gui.command_registry.INDIVIDUAL_EXPERIMENT_COMMAND_IDS",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "LiveOptimizationPanel": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel",
+        "NavigationSidebar": "calo_rpd_studio.gui.navigation.sidebar.NavigationSidebar",
+        "ORPDFormulationPanel": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "PowerSystemPanel": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+        "ProjectManager": "calo_rpd_studio.app.project_manager.ProjectManager",
+        "PublicationExportPanel": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+        "QByteArray": "PyQt6.QtCore.QByteArray",
+        "QDockWidget": "PyQt6.QtWidgets.QDockWidget",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QKeySequence": "PyQt6.QtGui.QKeySequence",
+        "QMainWindow": "PyQt6.QtWidgets.QMainWindow",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QShortcut": "PyQt6.QtGui.QShortcut",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QTextBrowser": "PyQt6.QtWidgets.QTextBrowser",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ResultsExplorerPanel": "calo_rpd_studio.gui.panels.results_explorer_panel.ResultsExplorerPanel",
+        "RibbonBar": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+        "RobustScenariosPanel": "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "StatisticalAnalysisPanel": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "UnfinishedWorkDialog": "calo_rpd_studio.gui.dialogs.unfinished_work_dialog.UnfinishedWorkDialog",
+        "ValidationAuditPanel": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "WORKSPACE_LAYOUT_ID": "calo_rpd_studio.app.workspaces.WORKSPACE_LAYOUT_ID",
+        "WORKSPACE_SCHEMA_VERSION": "calo_rpd_studio.app.workspaces.WORKSPACE_SCHEMA_VERSION",
+        "WORKSPACE_SPECS": "calo_rpd_studio.app.workspaces.WORKSPACE_SPECS",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "application_icon": "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+        "apply_compact_input_policy": "calo_rpd_studio.gui.widgets.form_density.apply_compact_input_policy",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".experiment_workspace_restorer",
+        ".project_manager",
+        ".session_recovery",
+        ".workflow_manager",
+        ".workspace_campaign",
+        ".workspaces",
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.dialogs.unfinished_work_dialog",
+        "calo_rpd_studio.gui.icons.workspace_icons",
+        "calo_rpd_studio.gui.navigation.sidebar",
+        "calo_rpd_studio.gui.panels.algorithms_panel",
+        "calo_rpd_studio.gui.panels.application_settings_panel",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.gui.panels.live_optimization_panel",
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "calo_rpd_studio.gui.panels.power_system_panel",
+        "calo_rpd_studio.gui.panels.publication_export_panel",
+        "calo_rpd_studio.gui.panels.results_explorer_panel",
+        "calo_rpd_studio.gui.panels.robust_scenarios_panel",
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+        "calo_rpd_studio.gui.panels.validation_audit_panel",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.activity_center",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "calo_rpd_studio.gui.widgets.document_workspace",
+        "calo_rpd_studio.gui.widgets.form_density",
+        "calo_rpd_studio.gui.widgets.global_status_bar",
+        "calo_rpd_studio.gui.widgets.ribbon_bar",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.version",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.main_window.MainWindow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.main_window",
+      "qualname": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 559,
+      "state_owner": "",
+      "symbol": "_navigation_blocker",
       "tests": []
     },
     {
@@ -5083,9 +5469,9 @@
           "target": "QMessageBox.information"
         },
         {
-          "confidence": "unresolved",
-          "raw": "bool",
-          "target": "bool"
+          "confidence": "confirmed",
+          "raw": "self._navigation_blocker",
+          "target": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker"
         },
         {
           "confidence": "confirmed",
@@ -5106,11 +5492,6 @@
           "confidence": "confirmed",
           "raw": "workspace_index_for_key",
           "target": "calo_rpd_studio.app.workspaces.workspace_index_for_key"
-        },
-        {
-          "confidence": "unresolved",
-          "raw": "getattr",
-          "target": "getattr"
         },
         {
           "confidence": "unresolved",
@@ -5144,16 +5525,6 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "self.state.execution_control.active_stage",
-          "target": "self.state.execution_control.active_stage"
-        },
-        {
-          "confidence": "unresolved",
-          "raw": "self.state.execution_control.controller",
-          "target": "self.state.execution_control.controller"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "self.workflow.individual_setup_state_key",
           "target": "self.workflow.individual_setup_state_key"
         },
@@ -5170,9 +5541,8 @@
       ],
       "call_forms": {
         "QMessageBox.information": "attribute",
-        "bool": "name",
-        "getattr": "name",
         "next": "name",
+        "self._navigation_blocker": "attribute",
         "self._persist_workspace_state": "attribute",
         "self._refresh_workspace_from_source": "attribute",
         "self._workspace_key": "attribute",
@@ -5181,8 +5551,6 @@
         "self.settings_manager.set_value": "attribute",
         "self.sidebar.set_current": "attribute",
         "self.stack.setCurrentIndex": "attribute",
-        "self.state.execution_control.active_stage": "attribute",
-        "self.state.execution_control.controller": "attribute",
         "self.workflow.individual_setup_state_key": "attribute",
         "self.workflow.workspace_state_key": "attribute",
         "str": "name",
@@ -5201,9 +5569,8 @@
       ],
       "calls": [
         "QMessageBox.information",
-        "bool",
-        "getattr",
         "next",
+        "self._navigation_blocker",
         "self._persist_workspace_state",
         "self._refresh_workspace_from_source",
         "self._workspace_key",
@@ -5212,21 +5579,20 @@
         "self.settings_manager.set_value",
         "self.sidebar.set_current",
         "self.stack.setCurrentIndex",
-        "self.state.execution_control.active_stage",
-        "self.state.execution_control.controller",
         "self.workflow.individual_setup_state_key",
         "self.workflow.workspace_state_key",
         "str",
         "workspace_index_for_key"
       ],
       "calls_resolved": [
+        "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
         "calo_rpd_studio.app.main_window.MainWindow._persist_workspace_state",
         "calo_rpd_studio.app.main_window.MainWindow._refresh_workspace_from_source",
         "calo_rpd_studio.app.main_window.MainWindow._workspace_key",
         "calo_rpd_studio.app.workspaces.workspace_index_for_key"
       ],
       "doc": "",
-      "end_line": 617,
+      "end_line": 645,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -5357,7 +5723,7 @@
         "workflow"
       ],
       "signature": "(self, workspace, command_id)",
-      "start_line": 534,
+      "start_line": 597,
       "state_owner": "",
       "symbol": "_set_workspace",
       "tests": []
@@ -5441,7 +5807,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._show_status_message"
       ],
       "doc": "Reload a workspace's applicable read-only source state whenever it is opened.",
-      "end_line": 649,
+      "end_line": 677,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -5572,7 +5938,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 619,
+      "start_line": 647,
       "state_owner": "",
       "symbol": "_refresh_workspace_from_source",
       "tests": []
@@ -5685,7 +6051,7 @@
         "calo_rpd_studio.gui.dialogs.unfinished_work_dialog.UnfinishedWorkDialog"
       ],
       "doc": "",
-      "end_line": 682,
+      "end_line": 710,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -5816,7 +6182,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 651,
+      "start_line": 679,
       "state_owner": "",
       "symbol": "_check_unfinished_work",
       "tests": []
@@ -5936,7 +6302,7 @@
         "calo_rpd_studio.app.workspaces.workspace_key_for_index"
       ],
       "doc": "",
-      "end_line": 730,
+      "end_line": 758,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -6067,7 +6433,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 684,
+      "start_line": 712,
       "state_owner": "",
       "symbol": "_persist_workspace_state",
       "tests": []
@@ -6196,7 +6562,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 764,
+      "end_line": 792,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -6327,7 +6693,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 732,
+      "start_line": 760,
       "state_owner": "",
       "symbol": "restore_experiment_workspace",
       "tests": []
@@ -6353,7 +6719,7 @@
       ],
       "calls_resolved": [],
       "doc": "Retain established public action attributes while the registry owns the actions.",
-      "end_line": 769,
+      "end_line": 797,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -6484,7 +6850,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 766,
+      "start_line": 794,
       "state_owner": "",
       "symbol": "_create_compatibility_actions",
       "tests": []
@@ -6531,7 +6897,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 781,
+      "end_line": 809,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -6662,7 +7028,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 771,
+      "start_line": 799,
       "state_owner": "",
       "symbol": "_install_region_shortcut",
       "tests": []
@@ -6707,7 +7073,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 790,
+      "end_line": 818,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -6838,7 +7204,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 783,
+      "start_line": 811,
       "state_owner": "",
       "symbol": "_focus_next_region",
       "tests": []
@@ -6890,7 +7256,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 802,
+      "end_line": 830,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7021,7 +7387,7 @@
         "workflow"
       ],
       "signature": "(self, spec)",
-      "start_line": 792,
+      "start_line": 820,
       "state_owner": "",
       "symbol": "_command_selected",
       "tests": []
@@ -7104,7 +7470,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._show_status_message"
       ],
       "doc": "",
-      "end_line": 839,
+      "end_line": 867,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7235,7 +7601,7 @@
         "workflow"
       ],
       "signature": "(self, command_id)",
-      "start_line": 804,
+      "start_line": 832,
       "state_owner": "",
       "symbol": "_execute_command",
       "tests": []
@@ -7269,7 +7635,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._set_workspace"
       ],
       "doc": "",
-      "end_line": 845,
+      "end_line": 873,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7400,7 +7766,7 @@
         "workflow"
       ],
       "signature": "(self, target)",
-      "start_line": 841,
+      "start_line": 869,
       "state_owner": "",
       "symbol": "_context_workspace_requested",
       "tests": []
@@ -7443,7 +7809,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 848,
+      "end_line": 876,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7574,7 +7940,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 847,
+      "start_line": 875,
       "state_owner": "",
       "symbol": "_show_status_message",
       "tests": []
@@ -7621,7 +7987,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 853,
+      "end_line": 881,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7752,7 +8118,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 850,
+      "start_line": 878,
       "state_owner": "",
       "symbol": "_open_training_center",
       "tests": []
@@ -7853,7 +8219,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 886,
+      "end_line": 914,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -7984,7 +8350,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 855,
+      "start_line": 883,
       "state_owner": "",
       "symbol": "_open_user_guide",
       "tests": []
@@ -8022,7 +8388,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 891,
+      "end_line": 919,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -8153,7 +8519,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 888,
+      "start_line": 916,
       "state_owner": "",
       "symbol": "_toggle_theme",
       "tests": []
@@ -8249,7 +8615,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._show_status_message"
       ],
       "doc": "",
-      "end_line": 908,
+      "end_line": 936,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -8380,7 +8746,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 893,
+      "start_line": 921,
       "state_owner": "",
       "symbol": "reset_shell_layout",
       "tests": []
@@ -8404,7 +8770,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 914,
+      "end_line": 942,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -8535,7 +8901,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 910,
+      "start_line": 938,
       "state_owner": "",
       "symbol": "_apply_default_dock_sizes",
       "tests": []
@@ -8668,7 +9034,7 @@
         "calo_rpd_studio.app.main_window.MainWindow._set_workspace"
       ],
       "doc": "",
-      "end_line": 943,
+      "end_line": 971,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -8799,7 +9165,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 916,
+      "start_line": 944,
       "state_owner": "",
       "symbol": "_restore_shell_layout",
       "tests": []
@@ -8860,7 +9226,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 951,
+      "end_line": 979,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -8991,7 +9357,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 945,
+      "start_line": 973,
       "state_owner": "",
       "symbol": "_save_shell_layout",
       "tests": []
@@ -9061,7 +9427,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 974,
+      "end_line": 1002,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -9192,7 +9558,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 953,
+      "start_line": 981,
       "state_owner": "",
       "symbol": "open_config",
       "tests": []
@@ -9240,7 +9606,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 995,
+      "end_line": 1023,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -9371,7 +9737,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 976,
+      "start_line": 1004,
       "state_owner": "",
       "symbol": "save_config",
       "tests": []
@@ -9395,7 +9761,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1004,
+      "end_line": 1032,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -9526,7 +9892,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 997,
+      "start_line": 1025,
       "state_owner": "",
       "symbol": "about",
       "tests": []
@@ -9544,15 +9910,13 @@
       "call_forms": {
         "QTimer.singleShot": "attribute"
       },
-      "called_by": [
-        "calo_rpd_studio.app.main_window.MainWindow._connect_workflow"
-      ],
+      "called_by": [],
       "calls": [
         "QTimer.singleShot"
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1009,
+      "end_line": 1037,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -9683,7 +10047,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1006,
+      "start_line": 1034,
       "state_owner": "",
       "symbol": "_finish_deferred_close",
       "tests": []
@@ -9823,7 +10187,7 @@
         "calo_rpd_studio.app.workspaces.workspace_key_for_index"
       ],
       "doc": "",
-      "end_line": 1067,
+      "end_line": 1095,
       "entry_point": false,
       "file": "calo_rpd_studio/app/main_window.py",
       "implementation_core": false,
@@ -9954,7 +10318,7 @@
         "workflow"
       ],
       "signature": "(self, event)",
-      "start_line": 1011,
+      "start_line": 1039,
       "state_owner": "",
       "symbol": "closeEvent",
       "tests": []

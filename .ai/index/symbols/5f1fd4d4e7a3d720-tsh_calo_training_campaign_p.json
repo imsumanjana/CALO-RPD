@@ -257,6 +257,7 @@
         "calo_rpd_studio.scripts._train_tsh_calo_core.main",
         "tests.unit.test_tsh_calo_generalization_guard.test_completed_extension_cannot_bypass_fresh_generalization_evidence",
         "tests.unit.test_tsh_calo_generalization_guard.test_fresh_campaign_binds_guard_evidence_before_candidate_export",
+        "tests.unit.test_tsh_calo_generalization_guard.test_repeated_guarded_extensions_bind_cumulative_update_boundaries",
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
@@ -333,7 +334,8 @@
       "symbol": "IndependentTSHCALOTrainingCampaign",
       "tests": [
         "tests/unit/test_tsh_calo_generalization_guard.py",
-        "tests/unit/test_tsh_calo_training_campaign.py"
+        "tests/unit/test_tsh_calo_training_campaign.py",
+        "tests/unit/test_v680_policy_independence.py"
       ]
     },
     {

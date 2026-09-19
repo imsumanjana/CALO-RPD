@@ -1,0 +1,1044 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/experiment_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/state_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/workspace_campaign.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/benchmarking/validation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plans.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/experiment_manager_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/publication_export.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/result_store.py"
+    }
+  ],
+  "path": "tests/integration/test_real_experiment_lifecycle.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "panel.audit.toPlainText"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "panel.audit_worker.isRunning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "panel.run_fairness_audit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "panel.stage_current_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "panel.status.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "qtbot.waitUntil"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "to": "state.execution_control.active_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "errors.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "manager.failed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "panel.refresh"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "panel.show_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "state.execution_control.active_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "state.execution_control.submit_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "staticmethod"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "manager.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "state.execution_control.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "state.execution_control.plan_configuration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job.forbidden_numerical_admission",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job.forbidden_numerical_admission",
+      "to": "attempted.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success.refuse_array_write",
+      "to": "OSError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "os.environ.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.auto_batch_calibration.setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.device_resident_execution.setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.execution_backend.findData"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.execution_backend.setCurrentIndex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.persistent_workers.setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.runs.setValue"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "pytest.skip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "state.execution_control.verify_campaign_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "torch.cuda.is_available"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "to": "write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "archive.namelist"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "calo_rpd_studio.benchmarking.validation.validate_runs"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "calo_rpd_studio.results.publication_export.PublicationExporter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "csv.DictReader"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "exporter.export"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "open"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "panel.reuse_results.setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "sorted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "state.database.get_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "to": "zipfile.ZipFile"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse.disallow_recomputation",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse.disallow_recomputation",
+      "to": "attempted.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "manager.completed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "manager.progress.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "manager.started.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "panel.status.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "reopened.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "rglob"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "state.database.get_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "state.database.list_run_segments"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "sorted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success.fail_first_write",
+      "to": "OSError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success.fail_first_write",
+      "to": "attempts.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success.fail_first_write",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success.fail_first_write",
+      "to": "original"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "manager.pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "qtbot.waitUntil"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "recovered.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "recovered.database.get_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "recovered.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "recovered.execution_control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "release.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "resumed_panel.resume_current_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "state.database.get_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "to": "threading.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "TimeoutError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "evaluated.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "original"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "to": "release.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "manager.cancel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "qtbot.waitUntil"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "release.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "state.execution_control.resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "to": "threading.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work.actual_run_with_cancellation_boundary",
+      "to": "TimeoutError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work.actual_run_with_cancellation_boundary",
+      "to": "evaluated.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work.actual_run_with_cancellation_boundary",
+      "to": "original"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work.actual_run_with_cancellation_boundary",
+      "to": "release.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "manager.worker.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.apply"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.refresh"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.show_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.start_comparison"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.workspace_coordinator.cancel_remaining"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "panel.workspace_coordinator.finished.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "qtbot.waitUntil"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.database.list_experiments"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.database.list_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.database.list_workspace_plan_cells"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.execution_control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "state.execution_control.verify_campaign_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "sum"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "tests.conftest.apply_workspace_study"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "to": "tests.integration.test_real_experiment_lifecycle.make_panel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.wait_finished",
+      "to": "manager.cancel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.wait_finished",
+      "to": "manager.worker.isRunning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.wait_finished",
+      "to": "manager.worker.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_real_experiment_lifecycle.wait_finished",
+      "to": "qtbot.waitUntil"
+    }
+  ]
+}

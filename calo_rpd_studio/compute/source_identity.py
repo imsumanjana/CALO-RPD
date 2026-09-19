@@ -36,14 +36,24 @@ class SourceIdentity:
 
 
 def _run_git(*arguments: str, cwd: str | Path | None) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", *arguments],
-        cwd=cwd,
-        check=False,
-        capture_output=True,
-        text=True,
-        timeout=10,
-    )
+    try:
+        return subprocess.run(
+            ["git", *arguments],
+            cwd=cwd,
+            check=False,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"},
+            timeout=30,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError(
+            "Source inspection timed out before Git could verify the checkout. "
+            "Use a responsive local source directory and retry; no clean-source or "
+            "build-declaration fallback has been accepted."
+        ) from exc
 
 
 def _git_identity(cwd: str | Path | None = None) -> SourceIdentity | None:
@@ -61,19 +71,29 @@ def _git_identity(cwd: str | Path | None = None) -> SourceIdentity | None:
     if probe.stdout.strip().lower() != "true":
         return None
     commit_result = _run_git("rev-parse", "HEAD", cwd=cwd)
-    # Non-ignored untracked files can participate in imports, packaging, or container contexts and
-    # therefore must prevent durable source claims just like modifications to tracked files.
-    status_result = _run_git("status", "--porcelain", "--untracked-files=all", cwd=cwd)
-    if commit_result.returncode != 0 or status_result.returncode != 0:
+    if commit_result.returncode != 0:
         raise RuntimeError("Unable to resolve the complete Git source identity")
     commit = commit_result.stdout.strip().lower()
     if not _FULL_COMMIT.fullmatch(commit):
         raise RuntimeError("Git did not return a full 40-character source commit")
-    return SourceIdentity(
-        source_commit=commit,
-        tracked_source_clean=not bool(status_result.stdout.strip()),
-        source_identity_kind="git",
-    )
+    # A known tracked edit already disqualifies durable evidence. Avoid an unnecessary full
+    # untracked directory walk on slow mounted filesystems, without ever calling it clean.
+    tracked = _run_git("diff", "--no-ext-diff", "--quiet", "HEAD", "--", cwd=cwd)
+    if tracked.returncode == 1:
+        return SourceIdentity(commit, False, "git")
+    if tracked.returncode != 0:
+        raise RuntimeError("Unable to verify tracked Git source changes")
+    # A tracked-clean tree is not enough: nonignored untracked imports/packaging inputs must
+    # still prevent durable source claims. Never shorten this to --untracked-files=no.
+    status_result = _run_git("status", "--porcelain", "--untracked-files=all", cwd=cwd)
+    if status_result.returncode != 0:
+        raise RuntimeError("Unable to resolve the complete Git source identity")
+    if status_result.stdout.strip():
+        return SourceIdentity(commit, False, "git")
+    final_commit = _run_git("rev-parse", "HEAD", cwd=cwd)
+    if final_commit.returncode != 0 or final_commit.stdout.strip().lower() != commit:
+        raise RuntimeError("Git source revision changed during identity inspection; retry")
+    return SourceIdentity(commit, True, "git")
 
 
 def _declaration_path(path: str | Path | None = None) -> Path:

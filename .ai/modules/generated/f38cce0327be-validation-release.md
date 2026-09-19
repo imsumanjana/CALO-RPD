@@ -35,17 +35,20 @@
 ## Dependents
 - `calo-policy`
 - `desktop`
+- `repository`
 - `tests`
 
 ## Related tests
 - `tests/gui/test_tsh_calo_generalization_integration.py`
 - `tests/unit/test_accelerator_evidence.py`
+- `tests/unit/test_active_development_contract.py`
 - `tests/unit/test_artifact_manifest.py`
 - `tests/unit/test_config.py`
 - `tests/unit/test_container_contract.py`
 - `tests/unit/test_distribution_contract.py`
 - `tests/unit/test_packaged_gui_validator.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
+- `tests/unit/test_phase6_distribution_current_source.py`
 - `tests/unit/test_requirements_lock.py`
 - `tests/unit/test_resource_recovery_evidence.py`
 - `tests/unit/test_tsh_calo_device_equivalence.py`
@@ -59,6 +62,7 @@
 ## Files
 - `.github/workflows/AGENTS.md`
 - `.github/workflows/ci.yml`
+- `.github/workflows/experiment-acceptance.yml`
 - `Dockerfile`
 - `calo_rpd_studio/scripts/AGENTS.md`
 - `calo_rpd_studio/scripts/__init__.py`
@@ -100,6 +104,7 @@
 - `calo_rpd_studio/validation/AGENTS.md`
 - `calo_rpd_studio/validation/__init__.py`
 - `calo_rpd_studio/validation/gui_contract.py`
+- `calo_rpd_studio/validation/test_inventory.py`
 - `compose.yaml`
 - `containers/AGENTS.md`
 - `containers/entrypoint.py`

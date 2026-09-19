@@ -6,7 +6,16 @@ import json
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QObject, QProcess, QProcessEnvironment, QStandardPaths, QThread, Qt, QTimer, pyqtSignal
+from PyQt6.QtCore import (
+    QObject,
+    QProcess,
+    QProcessEnvironment,
+    QStandardPaths,
+    QThread,
+    Qt,
+    QTimer,
+    pyqtSignal,
+)
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
@@ -272,15 +281,9 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.feasibility_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.feasibility_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.feasibility_table.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        self.feasibility_table.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        self.feasibility_table.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
-        )
+        self.feasibility_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.feasibility_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.feasibility_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.feasibility_table.verticalHeader().setVisible(False)
         self.feasibility_table.horizontalHeader().setSectionResizeMode(
             0, QHeaderView.ResizeMode.ResizeToContents
@@ -318,12 +321,8 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.influence_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.influence_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.influence_table.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        self.influence_table.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
+        self.influence_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.influence_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.influence_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.influence_table.verticalHeader().setVisible(False)
         for column in (0, 1, 2, 3):
@@ -992,9 +991,7 @@ class CALOIntelligencePanel(ScrollablePage):
                     "local_parameter_assistant_endpoint", "http://127.0.0.1:11434"
                 )
             ),
-            model=str(
-                self.settings_manager.value("local_parameter_assistant_model", "qwen3.5:9b")
-            ),
+            model=str(self.settings_manager.value("local_parameter_assistant_model", "qwen3.5:9b")),
         )
 
     def explain_parameter_evidence(self) -> None:

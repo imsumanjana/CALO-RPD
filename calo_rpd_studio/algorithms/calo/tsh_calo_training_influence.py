@@ -86,6 +86,7 @@ def _binary_contrast(xs: list[bool], ys: list[float]) -> float:
 def _direction(value: float) -> str:
     return "positive" if value > 0.0 else ("negative" if value < 0.0 else "flat")
 
+
 def _rating_values(ratings: dict) -> dict[str, float]:
     overall = dict(ratings.get("overall_ratings", {}) or {})
     values = {
@@ -209,9 +210,7 @@ def build_training_parameter_influence(
             for rating_name in next(iter(observations))[1]:
                 ys = [item[1][rating_name] for item in observations]
                 if is_binary:
-                    association = _binary_contrast(
-                        [bool(item[0]) for item in observations], ys
-                    )
+                    association = _binary_contrast([bool(item[0]) for item in observations], ys)
                     measure = "standardized_binary_contrast"
                 else:
                     association = _continuous_association(

@@ -125,6 +125,8 @@ def test_live_git_identity_includes_nonignored_untracked_source(monkeypatch):
             return Result("true\n")
         if arguments == ("rev-parse", "HEAD"):
             return Result(COMMIT + "\n")
+        if arguments == ("diff", "--no-ext-diff", "--quiet", "HEAD", "--"):
+            return Result()
         if arguments == ("status", "--porcelain", "--untracked-files=all"):
             return Result("?? untracked_source.py\n")
         raise AssertionError(arguments)
@@ -136,3 +138,61 @@ def test_live_git_identity_includes_nonignored_untracked_source(monkeypatch):
     assert identity is not None
     assert identity.tracked_source_clean is False
     assert calls[-1][0] == ("status", "--porcelain", "--untracked-files=all")
+
+
+@pytest.mark.parametrize("diff_code", [1, 2])
+def test_known_dirty_source_avoids_full_scan_but_git_errors_do_not_become_clean(
+    monkeypatch, diff_code
+):
+    from subprocess import CompletedProcess
+
+    calls = []
+
+    def run(*arguments, cwd=None):
+        calls.append(arguments)
+        if arguments == ("rev-parse", "--is-inside-work-tree"):
+            return CompletedProcess(arguments, 0, "true\n", "")
+        if arguments == ("rev-parse", "HEAD"):
+            return CompletedProcess(arguments, 0, COMMIT + "\n", "")
+        if arguments[0] == "diff":
+            return CompletedProcess(arguments, diff_code, "", "")
+        raise AssertionError("Known dirty or errored source must not scan further")
+
+    monkeypatch.setattr(identity_module, "_run_git", run)
+    if diff_code == 1:
+        result = identity_module._git_identity("source-root")
+        assert result.source_commit == COMMIT and result.durable_evidence_eligible is False
+    else:
+        with pytest.raises(RuntimeError, match="tracked Git"):
+            identity_module._git_identity("source-root")
+    assert not any(arguments[0] == "status" for arguments in calls)
+
+
+def test_slow_git_error_never_falls_back_to_a_clean_build_declaration(monkeypatch, tmp_path):
+    import subprocess
+
+    declaration = tmp_path / "source.json"
+    write_source_declaration(declaration, source_commit=COMMIT, tracked_source_clean=True)
+
+    def timeout(*args, **kwargs):
+        raise subprocess.TimeoutExpired(args[0], kwargs.get("timeout", 30))
+
+    monkeypatch.setattr(identity_module.subprocess, "run", timeout)
+    with pytest.raises(RuntimeError, match="Source inspection timed out"):
+        resolve_source_identity(cwd=tmp_path, declaration_path=declaration, require_durable=True)
+
+
+def test_clean_identity_rechecks_revision_after_full_untracked_inspection(monkeypatch):
+    from subprocess import CompletedProcess
+
+    heads = iter([COMMIT, "b" * 40])
+
+    def run(*arguments, cwd=None):
+        output = "true\n" if arguments == ("rev-parse", "--is-inside-work-tree") else ""
+        if arguments == ("rev-parse", "HEAD"):
+            output = next(heads) + "\n"
+        return CompletedProcess(arguments, 0, output, "")
+
+    monkeypatch.setattr(identity_module, "_run_git", run)
+    with pytest.raises(RuntimeError, match="revision changed"):
+        identity_module._git_identity("source-root")

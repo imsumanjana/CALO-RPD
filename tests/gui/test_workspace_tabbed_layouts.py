@@ -23,7 +23,7 @@ from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPan
         ),
         (
             PortfolioManagerPanel,
-            ("Definition", "Requested outputs", "Reuse and validation", "Derived plan"),
+            ("Goal", "Comparison scope", "Deliverables and evidence", "Goal summary"),
         ),
     ),
 )
@@ -53,8 +53,15 @@ def test_portfolio_requested_outputs_fill_the_visible_tree_width(tmp_path, qapp)
     try:
         panel.resize(1400, 900)
         panel.show()
-        panel.section_tabs.setCurrentIndex(1)
+        output_page = next(
+            index
+            for index in range(panel.section_tabs.count())
+            if panel.section_tabs.widget(index).isAncestorOf(panel.outputs)
+        )
+        panel.section_tabs.setCurrentIndex(output_page)
         qapp.processEvents()
+        assert panel.section_tabs.tabText(output_page) == "Deliverables and evidence"
+        assert panel.outputs.isVisible()
 
         tree = panel.outputs
         header = tree.header()

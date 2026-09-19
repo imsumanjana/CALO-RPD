@@ -2,8 +2,11 @@
   "file_to_tests": [
     "tests/gui/test_ci_visual_smoke.py",
     "tests/gui/test_gui_startup.py",
+    "tests/gui/test_gui_wiring_acceptance.py",
     "tests/gui/test_phase6_ribbon_workspace.py",
     "tests/gui/test_workspace_execution_ui.py",
+    "tests/integration/test_real_experiment_lifecycle.py",
+    "tests/unit/test_execution_snapshot_contract.py",
     "tests/unit/test_scientist_gui_contract.py"
   ],
   "path": "calo_rpd_studio/app/experiment_manager.py",
@@ -12,9 +15,15 @@
     "calo_rpd_studio.app.experiment_manager.ExperimentManager": [
       "tests/gui/test_ci_visual_smoke.py",
       "tests/gui/test_gui_startup.py",
+      "tests/gui/test_gui_wiring_acceptance.py",
       "tests/gui/test_phase6_ribbon_workspace.py",
       "tests/gui/test_workspace_execution_ui.py",
+      "tests/integration/test_real_experiment_lifecycle.py",
+      "tests/unit/test_execution_snapshot_contract.py",
       "tests/unit/test_scientist_gui_contract.py"
+    ],
+    "calo_rpd_studio.app.experiment_manager.ExperimentWorker": [
+      "tests/unit/test_execution_snapshot_contract.py"
     ]
   },
   "test_to_files": []

@@ -155,12 +155,17 @@ class TSHCALOTrainingConfig:
             self.device
         ).lower().startswith("cuda:"):
             raise ValueError("TSH-CALO training device must be auto, cpu, cuda, or cuda:<index>")
-        if self.generalization_guard_sha256 and not _valid_sha256(
-            self.generalization_guard_sha256
-        ):
+        if self.generalization_guard_sha256 and not _valid_sha256(self.generalization_guard_sha256):
             raise ValueError("TSH-CALO generalization-guard configuration SHA-256 is invalid")
         self.resource_envelope.validate()
         self.feature_flags.validate()
+
+    def checkpoint_parameters(self) -> dict:
+        """Return the exact persisted parameter schema, including legacy guard omission."""
+        parameters = asdict(self)
+        if not self.generalization_guard_sha256:
+            parameters.pop("generalization_guard_sha256", None)
+        return parameters
 
     def scientific_design_hash(self) -> str:
         self.validate()
@@ -794,9 +799,7 @@ class IndependentTSHCALOTrainer:
 
     def resume_state_dict(self) -> dict:
         self._assert_open()
-        training_config = asdict(self.config)
-        if not self.config.generalization_guard_sha256:
-            training_config.pop("generalization_guard_sha256", None)
+        training_config = self.config.checkpoint_parameters()
         return {
             "format": self.RESUME_FORMAT,
             "algorithm_id": TSH_CALO_ALGORITHM_ID,
@@ -934,17 +937,12 @@ class IndependentTSHCALOTrainer:
                 training_episode_receipts=tuple(self.training_episode_receipts),
                 expected_training_design_sha256=self.config.scientific_design_hash(),
             )
-            if (
-                guard_payload.get("guard_design_sha256")
-                != self.config.generalization_guard_sha256
-            ):
+            if guard_payload.get("guard_design_sha256") != self.config.generalization_guard_sha256:
                 raise ValueError(
                     "TSH-CALO candidate generalization evidence uses another guard configuration"
                 )
             if guard_payload.get("promotion_allowed") is not True:
-                raise ValueError(
-                    "TSH-CALO candidate export is blocked by the generalization guard"
-                )
+                raise ValueError("TSH-CALO candidate export is blocked by the generalization guard")
         elif guard_payload:
             raise ValueError(
                 "TSH-CALO candidate cannot attach undeclared generalization-guard evidence"

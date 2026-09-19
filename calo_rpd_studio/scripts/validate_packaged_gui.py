@@ -98,6 +98,9 @@ def validate_packaged_gui(
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     output = Path(output_directory).resolve()
     output.mkdir(parents=True, exist_ok=True)
+    for name in ("packaged-scientist-dashboard.png", "packaged-gui-evidence.json"):
+        if (output / name).exists():
+            raise FileExistsError(f"Refusing to overwrite packaged GUI evidence: {output / name}")
 
     import calo_rpd_studio
 
@@ -119,6 +122,7 @@ def validate_packaged_gui(
     from calo_rpd_studio.app.main_window import MainWindow
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.themes.runtime_fonts import ensure_application_font
+    from calo_rpd_studio.gui.themes.theme_manager import apply_theme
 
     runtime = output / "runtime"
     runtime.mkdir(exist_ok=True)
@@ -126,6 +130,10 @@ def validate_packaged_gui(
     os.environ["XDG_CONFIG_HOME"] = str(runtime / "config")
     previous_cwd = Path.cwd()
     application = QApplication.instance() or QApplication([])
+    previous_stylesheet = application.styleSheet()
+    previous_palette = application.palette()
+    previous_font = application.font()
+    previous_style_name = application.style().objectName() or "Fusion"
     font_record = ensure_application_font(application)
     if not font_record.supports_validation_sample:
         raise RuntimeError("Packaged GUI could not resolve a font for ordinary scientific text")
@@ -133,6 +141,10 @@ def validate_packaged_gui(
     try:
         os.chdir(runtime)
         state = AppState(runtime / "packaged-gui.sqlite")
+        state.theme = apply_theme(application, "light")
+        stylesheet = application.styleSheet()
+        if not stylesheet.strip():
+            raise RuntimeError("Installed application theme was not applied")
         settings = _TransientSettings()
         settings.set_value("navigation/compact", False)
         for group in ("Home", "Model", "Study", "Evidence", "System"):
@@ -182,6 +194,9 @@ def validate_packaged_gui(
             "qt_version": QT_VERSION_STR,
             "pyqt_version": PYQT_VERSION_STR,
             "application_font": font_record.as_dict(),
+            "application_theme": state.theme,
+            "stylesheet_sha256": hashlib.sha256(stylesheet.encode("utf-8")).hexdigest(),
+            "stylesheet_length": len(stylesheet),
             "window_title": window.windowTitle(),
             "workspace_count": len(window.pages_by_key),
             "initial_workspace": "dashboard",
@@ -197,6 +212,10 @@ def validate_packaged_gui(
         if window is not None:
             window.close()
             application.processEvents()
+        application.setStyle(previous_style_name)
+        application.setPalette(previous_palette)
+        application.setFont(previous_font)
+        application.setStyleSheet(previous_stylesheet)
         os.chdir(previous_cwd)
         if previous_xdg_config is None:
             os.environ.pop("XDG_CONFIG_HOME", None)

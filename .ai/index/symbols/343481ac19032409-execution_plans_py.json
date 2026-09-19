@@ -382,7 +382,9 @@
       "authoritative_source": "",
       "call_edges": [],
       "call_forms": {},
-      "called_by": [],
+      "called_by": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+      ],
       "calls": [],
       "calls_resolved": [],
       "doc": "",
@@ -453,7 +455,9 @@
       "tests": [
         "tests/gui/test_phase6_ribbon_workspace.py",
         "tests/gui/test_workspace_execution_ui.py",
-        "tests/integration/test_workspace_execution_control.py"
+        "tests/integration/test_real_experiment_lifecycle.py",
+        "tests/integration/test_workspace_execution_control.py",
+        "tests/unit/test_v650_must_resolve.py"
       ]
     },
     {
@@ -1497,7 +1501,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 259,
+      "end_line": 257,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -1821,7 +1825,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 259,
+      "end_line": 257,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -1908,7 +1912,7 @@
       },
       "called_by": [
         "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
-        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft",
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_execution_state"
       ],
       "calls": [
@@ -1917,7 +1921,7 @@
       ],
       "calls_resolved": [],
       "doc": "Apply the immutable submitted algorithm snapshot to direct experiment inputs.",
-      "end_line": 268,
+      "end_line": 266,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -1978,7 +1982,7 @@
         "fairness"
       ],
       "signature": "(config, stage)",
-      "start_line": 262,
+      "start_line": 260,
       "state_owner": "",
       "symbol": "stage_bound_individual_config",
       "tests": []
@@ -2062,7 +2066,7 @@
         "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
       ],
       "doc": "",
-      "end_line": 299,
+      "end_line": 297,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2123,7 +2127,7 @@
         "fairness"
       ],
       "signature": "(plan_id, config_payload)",
-      "start_line": 271,
+      "start_line": 269,
       "state_owner": "",
       "symbol": "_cell_payloads",
       "tests": []
@@ -2137,7 +2141,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 482,
+      "end_line": 478,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2198,7 +2202,7 @@
         "fairness"
       ],
       "signature": "",
-      "start_line": 303,
+      "start_line": 301,
       "state_owner": "",
       "symbol": "WorkspaceStudyPlan",
       "tests": [
@@ -2367,7 +2371,7 @@
         "calo_rpd_studio.experiments.execution_plans.utc_now"
       ],
       "doc": "",
-      "end_line": 461,
+      "end_line": 457,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2428,7 +2432,7 @@
         "fairness"
       ],
       "signature": "(cls, config, stage, study_algorithm_names, portfolio_goal, recommendation, applied_study_setup)",
-      "start_line": 326,
+      "start_line": 324,
       "state_owner": "",
       "symbol": "create",
       "tests": [
@@ -2461,7 +2465,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 482,
+      "end_line": 478,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2522,7 +2526,7 @@
         "fairness"
       ],
       "signature": "(self)",
-      "start_line": 463,
+      "start_line": 459,
       "state_owner": "",
       "symbol": "design_payload",
       "tests": []
@@ -2536,7 +2540,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 536,
+      "end_line": 532,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2597,7 +2601,7 @@
         "fairness"
       ],
       "signature": "",
-      "start_line": 486,
+      "start_line": 482,
       "state_owner": "",
       "symbol": "IndividualExperimentPlan",
       "tests": [
@@ -2689,7 +2693,7 @@
         "calo_rpd_studio.experiments.execution_plans.utc_now"
       ],
       "doc": "",
-      "end_line": 526,
+      "end_line": 522,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2750,7 +2754,7 @@
         "fairness"
       ],
       "signature": "(cls, config, stage)",
-      "start_line": 498,
+      "start_line": 494,
       "state_owner": "",
       "symbol": "create",
       "tests": [
@@ -2783,7 +2787,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 536,
+      "end_line": 532,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2844,7 +2848,7 @@
         "fairness"
       ],
       "signature": "(self)",
-      "start_line": 528,
+      "start_line": 524,
       "state_owner": "",
       "symbol": "design_payload",
       "tests": []
@@ -2893,7 +2897,7 @@
         "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
       ],
       "doc": "",
-      "end_line": 546,
+      "end_line": 542,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -2954,7 +2958,7 @@
         "fairness"
       ],
       "signature": "(design_sha256, audit_payload)",
-      "start_line": 539,
+      "start_line": 535,
       "state_owner": "",
       "symbol": "audit_receipt_payload",
       "tests": []
@@ -3025,7 +3029,7 @@
         "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
       ],
       "doc": "",
-      "end_line": 569,
+      "end_line": 565,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -3086,7 +3090,7 @@
         "fairness"
       ],
       "signature": "(plan_id, cell_id, algorithm, run_index, seed_payload, config)",
-      "start_line": 549,
+      "start_line": 545,
       "state_owner": "",
       "symbol": "scientific_job_sha256",
       "tests": [
@@ -3145,7 +3149,7 @@
         "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
       ],
       "doc": "Hash every frozen design field that may affect resumed scientific work.",
-      "end_line": 610,
+      "end_line": 606,
       "entry_point": false,
       "file": "calo_rpd_studio/experiments/execution_plans.py",
       "implementation_core": false,
@@ -3206,7 +3210,7 @@
         "fairness"
       ],
       "signature": "(config_payload)",
-      "start_line": 572,
+      "start_line": 568,
       "state_owner": "",
       "symbol": "resume_contract_sha256",
       "tests": []

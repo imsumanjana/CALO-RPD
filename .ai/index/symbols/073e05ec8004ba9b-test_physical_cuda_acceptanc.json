@@ -1,0 +1,174 @@
+{
+  "path": "tests/unit/test_physical_cuda_acceptance.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "run_configuration_parity_audit",
+          "target": "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.skip",
+          "target": "pytest.skip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.update",
+          "target": "report.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.max_memory_allocated",
+          "target": "torch.cuda.max_memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.memory_allocated",
+          "target": "torch.cuda.memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.reset_peak_memory_stats",
+          "target": "torch.cuda.reset_peak_memory_stats"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "json.dumps": "attribute",
+        "max": "name",
+        "os.environ.get": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.skip": "attribute",
+        "report.update": "attribute",
+        "run_configuration_parity_audit": "name",
+        "startswith": "attribute",
+        "str": "name",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.max_memory_allocated": "attribute",
+        "torch.cuda.mem_get_info": "attribute",
+        "torch.cuda.memory_allocated": "attribute",
+        "torch.cuda.reset_peak_memory_stats": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "json.dumps",
+        "max",
+        "os.environ.get",
+        "pytest.mark.parametrize",
+        "pytest.skip",
+        "report.update",
+        "run_configuration_parity_audit",
+        "startswith",
+        "str",
+        "torch.cuda.is_available",
+        "torch.cuda.max_memory_allocated",
+        "torch.cuda.mem_get_info",
+        "torch.cuda.memory_allocated",
+        "torch.cuda.reset_peak_memory_stats",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_physical_cuda_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "run_configuration_parity_audit": "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.parity_audit",
+        "calo_rpd_studio.experiments.experiment_config",
+        "json",
+        "os",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_physical_cuda_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_physical_cuda_acceptance",
+      "qualname": "tests.unit.test_physical_cuda_acceptance.test_physical_cuda_fp64_scientific_parity",
+      "semantic_tags": [],
+      "signature": "(case, tmp_path)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "test_physical_cuda_fp64_scientific_parity",
+      "tests": []
+    }
+  ]
+}

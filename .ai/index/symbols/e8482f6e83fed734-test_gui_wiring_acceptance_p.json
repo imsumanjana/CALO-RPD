@@ -1,0 +1,1971 @@
+{
+  "path": "tests/gui/test_gui_wiring_acceptance.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QSettings.setDefaultFormat",
+          "target": "QSettings.setDefaultFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QSettings.setPath",
+          "target": "QSettings.setPath"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "module.MainWindow",
+          "target": "calo_rpd_studio.app.main_window.MainWindow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SessionRecoveryJournal",
+          "target": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SettingsManager",
+          "target": "calo_rpd_studio.app.settings_manager.SettingsManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingModelLibrary",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dialogs.append",
+          "target": "dialogs.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "directory.mkdir",
+          "target": "directory.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitExposed",
+          "target": "qtbot.waitExposed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save",
+          "target": "save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.task_status.finish",
+          "target": "state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.activity_center.detach_logging",
+          "target": "widget.activity_center.detach_logging"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.grab",
+          "target": "window.grab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.show",
+          "target": "window.show"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "Path": "name",
+        "QSettings.setDefaultFormat": "attribute",
+        "QSettings.setPath": "attribute",
+        "SessionRecoveryJournal": "name",
+        "SettingsManager": "name",
+        "TrainingModelLibrary": "name",
+        "dialogs.append": "attribute",
+        "directory.mkdir": "attribute",
+        "module.MainWindow": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "os.environ.get": "attribute",
+        "qtbot.addWidget": "attribute",
+        "qtbot.waitExposed": "attribute",
+        "save": "attribute",
+        "state.task_status.finish": "attribute",
+        "str": "name",
+        "tuple": "name",
+        "widget.activity_center.detach_logging": "attribute",
+        "window.grab": "attribute",
+        "window.show": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "Path",
+        "QSettings.setDefaultFormat",
+        "QSettings.setPath",
+        "SessionRecoveryJournal",
+        "SettingsManager",
+        "TrainingModelLibrary",
+        "dialogs.append",
+        "directory.mkdir",
+        "module.MainWindow",
+        "monkeypatch.setattr",
+        "os.environ.get",
+        "qtbot.addWidget",
+        "qtbot.waitExposed",
+        "save",
+        "state.task_status.finish",
+        "str",
+        "tuple",
+        "widget.activity_center.detach_logging",
+        "window.grab",
+        "window.show"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.main_window.MainWindow",
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.wired_window",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "wired_window",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dir",
+          "target": "dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "owner.receivers",
+          "target": "owner.receivers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "dir": "name",
+        "enumerate": "name",
+        "getattr": "name",
+        "hasattr": "name",
+        "owner.receivers": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "tests.gui.test_gui_wiring_acceptance.test_navigation_does_not_multiply_global_receivers",
+        "tests.gui.test_gui_wiring_acceptance.test_rebinding_workflow_is_idempotent_and_delivers_once"
+      ],
+      "calls": [
+        "dir",
+        "enumerate",
+        "getattr",
+        "hasattr",
+        "owner.receivers",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance._receiver_counts",
+      "semantic_tags": [],
+      "signature": "(window)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "_receiver_counts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage_completed.emit",
+          "target": "stage_completed.emit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_receiver_counts",
+          "target": "tests.gui.test_gui_wiring_acceptance._receiver_counts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window._connect_workflow",
+          "target": "window._connect_workflow"
+        }
+      ],
+      "call_forms": {
+        "_receiver_counts": "name",
+        "monkeypatch.setattr": "attribute",
+        "range": "name",
+        "stage_completed.emit": "attribute",
+        "window._connect_workflow": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_receiver_counts",
+        "monkeypatch.setattr",
+        "range",
+        "stage_completed.emit",
+        "window._connect_workflow"
+      ],
+      "calls_resolved": [
+        "tests.gui.test_gui_wiring_acceptance._receiver_counts"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_rebinding_workflow_is_idempotent_and_delivers_once",
+      "semantic_tags": [],
+      "signature": "(wired_window, monkeypatch)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "test_rebinding_workflow_is_idempotent_and_delivers_once",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "closes.append",
+          "target": "closes.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.wait",
+          "target": "qtbot.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window._finish_deferred_close",
+          "target": "window._finish_deferred_close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.experiment_manager._worker_finished",
+          "target": "window.experiment_manager._worker_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.experiment_manager.idle.emit",
+          "target": "window.experiment_manager.idle.emit"
+        }
+      ],
+      "call_forms": {
+        "closes.append": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "qtbot.wait": "attribute",
+        "qtbot.waitUntil": "attribute",
+        "window._finish_deferred_close": "attribute",
+        "window.experiment_manager._worker_finished": "attribute",
+        "window.experiment_manager.idle.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "closes.append",
+        "monkeypatch.setattr",
+        "qtbot.wait",
+        "qtbot.waitUntil",
+        "window._finish_deferred_close",
+        "window.experiment_manager._worker_finished",
+        "window.experiment_manager.idle.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_safe_close_waits_for_worker_idle_and_closes_exactly_once",
+      "semantic_tags": [],
+      "signature": "(wired_window, qtbot, monkeypatch)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "test_safe_close_waits_for_worker_idle_and_closes_exactly_once",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.isEnabled",
+          "target": "action.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.trigger",
+          "target": "action.trigger"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected.append",
+          "target": "expected.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.wait",
+          "target": "qtbot.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_receiver_counts",
+          "target": "tests.gui.test_gui_wiring_acceptance._receiver_counts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.command_registry.action",
+          "target": "window.command_registry.action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.command_registry.command_triggered.connect",
+          "target": "window.command_registry.command_triggered.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.command_registry.command_triggered.disconnect",
+          "target": "window.command_registry.command_triggered.disconnect"
+        }
+      ],
+      "call_forms": {
+        "_receiver_counts": "name",
+        "action.isEnabled": "attribute",
+        "action.trigger": "attribute",
+        "expected.append": "attribute",
+        "qtbot.wait": "attribute",
+        "range": "name",
+        "window.command_registry.action": "attribute",
+        "window.command_registry.command_triggered.connect": "attribute",
+        "window.command_registry.command_triggered.disconnect": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_receiver_counts",
+        "action.isEnabled",
+        "action.trigger",
+        "expected.append",
+        "qtbot.wait",
+        "range",
+        "window.command_registry.action",
+        "window.command_registry.command_triggered.connect",
+        "window.command_registry.command_triggered.disconnect"
+      ],
+      "calls_resolved": [
+        "tests.gui.test_gui_wiring_acceptance._receiver_counts"
+      ],
+      "doc": "",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_navigation_does_not_multiply_global_receivers",
+      "semantic_tags": [],
+      "signature": "(wired_window, qtbot)",
+      "start_line": 115,
+      "state_owner": "",
+      "symbol": "test_navigation_does_not_multiply_global_receivers",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "events.append",
+          "target": "events.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "events.clear",
+          "target": "events.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_formulation.stage_completed.emit",
+          "target": "panel.study_formulation.stage_completed.emit"
+        }
+      ],
+      "call_forms": {
+        "events.append": "attribute",
+        "events.clear": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.show_context": "attribute",
+        "panel.study_formulation.stage_completed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "events.append",
+        "events.clear",
+        "monkeypatch.setattr",
+        "panel.show_context",
+        "panel.study_formulation.stage_completed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 155,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_inline_setup_events_route_to_current_mode_once",
+      "semantic_tags": [],
+      "signature": "(wired_window, monkeypatch)",
+      "start_line": 138,
+      "state_owner": "",
+      "symbol": "test_inline_setup_events_route_to_current_mode_once",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "id",
+          "target": "id"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isEmpty",
+          "target": "isEmpty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "obj.parent",
+          "target": "obj.parent"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "obj.shortcut",
+          "target": "obj.shortcut"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.action",
+          "target": "registry.action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "toString",
+          "target": "toString"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "id": "name",
+        "isEmpty": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "obj.parent": "attribute",
+        "obj.shortcut": "attribute",
+        "registry.action": "attribute",
+        "set": "name",
+        "toString": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "all",
+        "id",
+        "isEmpty",
+        "isinstance",
+        "len",
+        "obj.parent",
+        "obj.shortcut",
+        "registry.action",
+        "set",
+        "toString"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_ribbon_actions_have_unique_ids_and_no_duplicate_shortcuts",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 158,
+      "state_owner": "",
+      "symbol": "test_ribbon_actions_have_unique_ids_and_no_duplicate_shortcuts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "events.append",
+          "target": "events.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window._manager_completion_workflow_event",
+          "target": "window._manager_completion_workflow_event"
+        }
+      ],
+      "call_forms": {
+        "events.append": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "window._manager_completion_workflow_event": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "events.append",
+        "monkeypatch.setattr",
+        "window._manager_completion_workflow_event"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 184,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_failed_completion_never_promotes_workflow",
+      "semantic_tags": [],
+      "signature": "(wired_window, monkeypatch)",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "test_failed_completion_never_promotes_workflow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.isEnabled",
+          "target": "action.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.toolTip",
+          "target": "action.toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window._navigation_blocker",
+          "target": "window._navigation_blocker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.command_registry.action",
+          "target": "window.command_registry.action"
+        }
+      ],
+      "call_forms": {
+        "action.isEnabled": "attribute",
+        "action.toolTip": "attribute",
+        "window._navigation_blocker": "attribute",
+        "window.command_registry.action": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "action.isEnabled",
+        "action.toolTip",
+        "window._navigation_blocker",
+        "window.command_registry.action"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 195,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_all_enabled_workspace_actions_share_navigation_prerequisites",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 187,
+      "state_owner": "",
+      "symbol": "test_all_enabled_workspace_actions_share_navigation_prerequisites",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.isEnabled",
+          "target": "action.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.toolTip",
+          "target": "action.toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.trigger",
+          "target": "action.trigger"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage_completed.emit",
+          "target": "stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.command_registry.action",
+          "target": "window.command_registry.action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.stack.currentWidget",
+          "target": "window.stack.currentWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.state.execution_control.submit_algorithm_stage",
+          "target": "window.state.execution_control.submit_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "action.isEnabled": "attribute",
+        "action.toolTip": "attribute",
+        "action.trigger": "attribute",
+        "stage_completed.emit": "attribute",
+        "window.command_registry.action": "attribute",
+        "window.stack.currentWidget": "attribute",
+        "window.state.execution_control.submit_algorithm_stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "action.isEnabled",
+        "action.toolTip",
+        "action.trigger",
+        "stage_completed.emit",
+        "window.command_registry.action",
+        "window.stack.currentWidget",
+        "window.state.execution_control.submit_algorithm_stage"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 210,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_policy_free_comparator_stage_unlocks_individual_setup",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 198,
+      "state_owner": "",
+      "symbol": "test_policy_free_comparator_stage_unlocks_individual_setup",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "notifications.append",
+          "target": "notifications.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply",
+          "target": "panel.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.setValue",
+          "target": "panel.population.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.seed.setValue",
+          "target": "panel.seed.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.to_dict",
+          "target": "state.config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config_changed.connect",
+          "target": "state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_stage",
+          "target": "state.execution_control.active_stage"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name",
+        "notifications.append": "attribute",
+        "panel.apply": "attribute",
+        "panel.population.setValue": "attribute",
+        "panel.seed.setValue": "attribute",
+        "panel.show_context": "attribute",
+        "pytest.raises": "attribute",
+        "state.config.to_dict": "attribute",
+        "state.config_changed.connect": "attribute",
+        "state.execution_control.active_stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "deepcopy",
+        "notifications.append",
+        "panel.apply",
+        "panel.population.setValue",
+        "panel.seed.setValue",
+        "panel.show_context",
+        "pytest.raises",
+        "state.config.to_dict",
+        "state.config_changed.connect",
+        "state.execution_control.active_stage"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 228,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_rejected_experiment_apply_preserves_shared_configuration",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 213,
+      "state_owner": "",
+      "symbol": "test_rejected_experiment_apply_preserves_shared_configuration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "completed.append",
+          "target": "completed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply",
+          "target": "panel.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_completed.connect",
+          "target": "panel.stage_completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.tap_max.setValue",
+          "target": "panel.tap_max.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.tap_min.setValue",
+          "target": "panel.tap_min.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.to_dict",
+          "target": "state.config.to_dict"
+        }
+      ],
+      "call_forms": {
+        "completed.append": "attribute",
+        "deepcopy": "name",
+        "panel.apply": "attribute",
+        "panel.stage_completed.connect": "attribute",
+        "panel.tap_max.setValue": "attribute",
+        "panel.tap_min.setValue": "attribute",
+        "state.config.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "completed.append",
+        "deepcopy",
+        "panel.apply",
+        "panel.stage_completed.connect",
+        "panel.tap_max.setValue",
+        "panel.tap_min.setValue",
+        "state.config.to_dict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 244,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_rejected_formulation_apply_preserves_shared_configuration",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 231,
+      "state_owner": "",
+      "symbol": "test_rejected_formulation_apply_preserves_shared_configuration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "completed.append",
+          "target": "completed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply",
+          "target": "panel.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.branch.setText",
+          "target": "panel.branch.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.count.setValue",
+          "target": "panel.count.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_completed.connect",
+          "target": "panel.stage_completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.to_dict",
+          "target": "state.config.to_dict"
+        }
+      ],
+      "call_forms": {
+        "completed.append": "attribute",
+        "deepcopy": "name",
+        "panel.apply": "attribute",
+        "panel.branch.setText": "attribute",
+        "panel.count.setValue": "attribute",
+        "panel.stage_completed.connect": "attribute",
+        "state.config.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "completed.append",
+        "deepcopy",
+        "panel.apply",
+        "panel.branch.setText",
+        "panel.count.setValue",
+        "panel.stage_completed.connect",
+        "state.config.to_dict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 260,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_rejected_scenario_apply_preserves_shared_configuration",
+      "semantic_tags": [],
+      "signature": "(wired_window)",
+      "start_line": 247,
+      "state_owner": "",
+      "symbol": "test_rejected_scenario_apply_preserves_shared_configuration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply_workspace_study_setup",
+          "target": "panel.apply_workspace_study_setup"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.budget.setValue",
+          "target": "panel.budget.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.setValue",
+          "target": "panel.population.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh",
+          "target": "panel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.seed.setValue",
+          "target": "panel.seed.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.to_dict",
+          "target": "state.config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config_changed.connect",
+          "target": "state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.replace_portfolio_goal",
+          "target": "state.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "deepcopy": "name",
+        "len": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel.apply_workspace_study_setup": "attribute",
+        "panel.budget.setValue": "attribute",
+        "panel.population.setValue": "attribute",
+        "panel.refresh": "attribute",
+        "panel.seed.setValue": "attribute",
+        "panel.show_context": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "state.config.to_dict": "attribute",
+        "state.config_changed.connect": "attribute",
+        "state.database.replace_portfolio_goal": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "deepcopy",
+        "len",
+        "monkeypatch.setattr",
+        "panel.apply_workspace_study_setup",
+        "panel.budget.setValue",
+        "panel.population.setValue",
+        "panel.refresh",
+        "panel.seed.setValue",
+        "panel.show_context",
+        "pytest.mark.parametrize",
+        "state.config.to_dict",
+        "state.config_changed.connect",
+        "state.database.replace_portfolio_goal",
+        "state.execution_control.submit_algorithm_stage",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+      ],
+      "doc": "",
+      "end_line": 310,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft",
+      "semantic_tags": [],
+      "signature": "(wired_window, monkeypatch, persist_fails)",
+      "start_line": 264,
+      "state_owner": "",
+      "symbol": "test_workspace_apply_publishes_once_only_after_durable_draft",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "observed.append",
+          "target": "observed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_plan",
+          "target": "state.execution_control.active_plan"
+        }
+      ],
+      "call_forms": {
+        "config.to_dict": "attribute",
+        "deepcopy": "name",
+        "observed.append": "attribute",
+        "state.execution_control.active_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "config.to_dict",
+        "deepcopy",
+        "observed.append",
+        "state.execution_control.active_plan"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 289,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft.changed",
+      "semantic_tags": [],
+      "signature": "(config)",
+      "start_line": 287,
+      "state_owner": "",
+      "symbol": "changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OSError",
+          "target": "OSError"
+        }
+      ],
+      "call_forms": {
+        "OSError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OSError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 295,
+      "entry_point": false,
+      "file": "tests/gui/test_gui_wiring_acceptance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "Path": "pathlib.Path",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QObject": "PyQt6.QtCore.QObject",
+        "QSettings": "PyQt6.QtCore.QSettings",
+        "SessionRecoveryJournal": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "module": "calo_rpd_studio.app.main_window",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.session_recovery",
+        "calo_rpd_studio.app.settings_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.portfolio.study_planning",
+        "copy",
+        "os",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_gui_wiring_acceptance",
+      "qualname": "tests.gui.test_gui_wiring_acceptance.test_workspace_apply_publishes_once_only_after_durable_draft.reject",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 294,
+      "state_owner": "",
+      "symbol": "reject",
+      "tests": []
+    }
+  ]
+}

@@ -63,9 +63,7 @@ class TSHCALOTrainingExtensionParent:
 
 
 def _finite_segment_evaluations(plan: TSHCALOTrainingCampaignPlan) -> int:
-    return int(
-        sum(len(member.episodes) for member in plan.members) * plan.max_evaluations
-    )
+    return int(sum(len(member.episodes) for member in plan.members) * plan.max_evaluations)
 
 
 def _validated_continuation_checkpoints(
@@ -105,11 +103,9 @@ def _validated_continuation_checkpoints(
             ("training_environment_version", TSH_CALO_TRAINING_ENVIRONMENT),
         ):
             if str(trainer.get(key, "")) != expected:
-                raise ValueError(
-                    f"Continuation checkpoint training architecture {key} changed"
-                )
+                raise ValueError(f"Continuation checkpoint training architecture {key} changed")
         saved_training_config = trainer.get("training_config")
-        expected_training_config = asdict(config)
+        expected_training_config = config.checkpoint_parameters()
         if not isinstance(saved_training_config, dict):
             raise ValueError("Continuation checkpoint training parameters are unavailable")
         if set(saved_training_config) != set(expected_training_config):
@@ -119,8 +115,9 @@ def _validated_continuation_checkpoints(
         if saved_training_config != expected_training_config:
             raise ValueError("Continuation checkpoint training parameter values changed")
         expected_compatibility = tsh_calo_training_compatibility_contract(plan)
-        if tsh_calo_model_state_schema_sha256(trainer.get("model_state_dict")) != (
-            expected_compatibility["policy_parameter_layout_sha256"]
+        if (
+            tsh_calo_model_state_schema_sha256(trainer.get("model_state_dict"))
+            != (expected_compatibility["policy_parameter_layout_sha256"])
         ):
             raise ValueError("Continuation checkpoint policy parameter layout changed")
         saved_session_config = payload.get("session_config")
@@ -131,9 +128,7 @@ def _validated_continuation_checkpoints(
             raise ValueError(
                 "Continuation checkpoint session parameter fields were added or removed"
             )
-        if bool(saved_session_config.get("deterministic_policy")) != (
-            plan.deterministic_policy
-        ):
+        if bool(saved_session_config.get("deterministic_policy")) != (plan.deterministic_policy):
             raise ValueError("Continuation checkpoint session parameter values changed")
         environment = dict(payload.get("environment", {}) or {})
         if environment.get("environment_design_sha256") != (
@@ -234,8 +229,7 @@ def resolve_tsh_calo_training_extension_parent(
         child_manifest_path = segment / IndependentTSHCALOTrainingCampaign.MANIFEST_FILE
         child_manifest = _read_json(child_manifest_path)
         if (
-            child_manifest.get("schema_version")
-            != TSH_CALO_TRAINING_EXTENSION_MANIFEST_SCHEMA
+            child_manifest.get("schema_version") != TSH_CALO_TRAINING_EXTENSION_MANIFEST_SCHEMA
             or child_manifest.get("parent_manifest_sha256") != parent.manifest_sha256
             or int(child_manifest.get("segment_number", -1)) != expected_number
             or child_manifest.get("execution_plan_sha256") != plan.execution_plan_sha256()
@@ -283,12 +277,9 @@ class IndependentTSHCALOTrainingExtension:
         self.problem_factory = problem_factory
         self.event_callback = event_callback
         self.transition_callback = transition_callback
-        self.execution_source_commit = str(
-            execution_source_commit or plan.source_commit
-        ).lower()
+        self.execution_source_commit = str(execution_source_commit or plan.source_commit).lower()
         if len(self.execution_source_commit) != 40 or any(
-            character not in "0123456789abcdef"
-            for character in self.execution_source_commit
+            character not in "0123456789abcdef" for character in self.execution_source_commit
         ):
             raise ValueError("Training extension requires an exact execution source commit")
         self.parent: TSHCALOTrainingExtensionParent | None = None
@@ -345,9 +336,7 @@ class IndependentTSHCALOTrainingExtension:
             "source_revision_is_compatibility_identity": False,
             "architecture_and_parameter_schema_required": True,
             "automatic_start": False,
-            "training_compatibility_contract": tsh_calo_training_compatibility_contract(
-                self.plan
-            ),
+            "training_compatibility_contract": tsh_calo_training_compatibility_contract(self.plan),
             "origin_source_commit": self.plan.source_commit,
             "execution_source_commit": self.execution_source_commit,
         }

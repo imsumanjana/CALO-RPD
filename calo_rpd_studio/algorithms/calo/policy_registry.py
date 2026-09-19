@@ -85,9 +85,7 @@ class PolicyRegistry(_core.PolicyRegistry):
         if not isinstance(accounting, dict):
             raise ValueError("Policy counted-evaluation accounting must be an object")
         values = {
-            "training_candidate_evaluations": accounting.get(
-                "training_candidate_evaluations"
-            ),
+            "training_candidate_evaluations": accounting.get("training_candidate_evaluations"),
             "generalization_guard_candidate_evaluations": accounting.get(
                 "generalization_guard_candidate_evaluations"
             ),
@@ -151,9 +149,7 @@ class PolicyRegistry(_core.PolicyRegistry):
             else None
         )
 
-    def register(
-        self, path: str | Path, *, name: str | None = None, status: str | None = None
-    ):
+    def register(self, path: str | Path, *, name: str | None = None, status: str | None = None):
         policy = super().register(path, name=name, status=status)
         if _metadata_evaluation_accounting(dict(policy.metadata)) is not None:
             return policy

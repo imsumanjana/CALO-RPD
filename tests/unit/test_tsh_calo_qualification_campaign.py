@@ -472,3 +472,41 @@ def test_integrity_failed_campaign_cannot_resume(tmp_path):
 
     with pytest.raises(QualificationEvidenceIntegrityError, match="integrity failure marker"):
         TSHCALOQualificationCampaign(plan, output).resume()
+
+
+def test_infrastructure_abort_retains_secondary_write_failures_without_masking_original(
+    tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+    from calo_rpd_studio.algorithms.calo import tsh_calo_qualification_campaign as module
+
+    def unavailable(*args, **kwargs):
+        raise OSError("synthetic evidence storage unavailable")
+
+    runner = SimpleNamespace(
+        plan=SimpleNamespace(
+            qualification_run_id="write-error-fixture",
+            candidate_sha256="a" * 64,
+            execution_plan_sha256=lambda: "b" * 64,
+        ),
+        output_directory=tmp_path,
+        _completed_cells=lambda: 0,
+        _expected_cells=lambda: 1,
+        _write_status=unavailable,
+    )
+    monkeypatch.setattr(module, "_write_json", unavailable)
+    original = RuntimeError("synthetic primary failure")
+    with pytest.raises(
+        QualificationInfrastructureError, match="synthetic primary failure"
+    ) as caught:
+        TSHCALOQualificationCampaign._abort_infrastructure(
+            runner, operation="fixture", exc=original
+        )
+    assert caught.value.__cause__ is original
+    assert caught.value.incident["qualification_receipt_permitted"] is False
+    assert caught.value.incident["fresh_run_required"] is True
+    assert [item["operation"] for item in caught.value.incident["recording_errors"]] == [
+        "incident_file",
+        "status_file",
+    ]
+    assert len(caught.value.__notes__) == 2

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
     QComboBox,
@@ -10,7 +12,6 @@ from PyQt6.QtWidgets import (
     QGroupBox,
     QHBoxLayout,
     QLabel,
-    QMessageBox,
     QPushButton,
     QSpinBox,
     QVBoxLayout,
@@ -165,7 +166,8 @@ class RobustScenariosPanel(ScrollablePage):
 
     def apply(self):
         try:
-            scenarios = self.state.config.scenarios
+            config = deepcopy(self.state.config)
+            scenarios = config.scenarios
             scenarios.mode = self.mode.currentText()
             scenarios.count = self.count.value()
             scenarios.active_load_std = self.pstd.value()
@@ -176,11 +178,18 @@ class RobustScenariosPanel(ScrollablePage):
             scenarios.renewable_rated_mw = self.renew_mw.value()
             scenarios.renewable_mean_capacity_factor = self.cf_mean.value()
             scenarios.renewable_std_capacity_factor = self.cf_std.value()
-            self.state.config.robust_objective.aggregation = self.aggregation.currentData()
-            self.state.config.robust_objective.risk_lambda = self.risk.value()
-            self.state.config.robust_objective.cvar_alpha = self.alpha.value()
-            self.state.config.validate()
+            config.robust_objective.aggregation = self.aggregation.currentData()
+            config.robust_objective.risk_lambda = self.risk.value()
+            config.robust_objective.cvar_alpha = self.alpha.value()
+            config.validate()
+            self.state.config = config
             self.state.update_config()
             self.stage_completed.emit()
         except Exception as exc:
-            show_error(self, "Scenario settings were not applied", "Review the selected uncertainty and scenario values.", exc, source="robust scenario settings")
+            show_error(
+                self,
+                "Scenario settings were not applied",
+                "Review the selected uncertainty and scenario values.",
+                exc,
+                source="robust scenario settings",
+            )

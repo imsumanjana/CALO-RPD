@@ -12,6 +12,13 @@ import sys
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
+def _implementation_source(*relative_paths: str) -> str:
+    """Read explicit public and delegated source boundaries; missing sources fail closed."""
+    return "\n".join(
+        (REPOSITORY_ROOT / relative).read_text(encoding="utf-8") for relative in relative_paths
+    )
+
+
 RIBBON_CATEGORIES = (
     "Home",
     "Algorithms",
@@ -511,9 +518,10 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("New-training automatic recovery is not visibly on")
     if training_editor.resume.isChecked():
         raise AssertionError("New training incorrectly requests exact resume")
-    campaign_source = (
-        REPOSITORY_ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"
-    ).read_text(encoding="utf-8")
+    campaign_source = _implementation_source(
+        "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+        "calo_rpd_studio/algorithms/calo/_tsh_calo_training_campaign_core.py",
+    )
     if "checkpoint_sha256 = session.save_resume(checkpoint_path)" not in campaign_source:
         raise AssertionError("New training does not retain automatic recovery checkpoints")
     for token in (
@@ -526,9 +534,10 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         if token not in campaign_source:
             raise AssertionError(f"Checkpoint-safe finite training contract is absent: {token}")
-    extension_source = (
-        REPOSITORY_ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
-    ).read_text(encoding="utf-8")
+    extension_source = _implementation_source(
+        "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+        "calo_rpd_studio/algorithms/calo/_tsh_calo_training_extension_core.py",
+    )
     for token in (
         "IndependentTSHCALOTrainingExtension",
         "parent_manifest_sha256",
@@ -574,9 +583,10 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Fresh training does not default to the per-user model directory")
     if training_editor.selected_training_cases() != ["case30", "case57"]:
         raise AssertionError("All eligible bundled training cases are not selected by default")
-    training_command_source = (
-        REPOSITORY_ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py"
-    ).read_text(encoding="utf-8")
+    training_command_source = _implementation_source(
+        "calo_rpd_studio/scripts/train_tsh_calo.py",
+        "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+    )
     if "resource_preflight = validate_training_resources(plan)" not in training_command_source:
         raise AssertionError("Readiness does not apply the training resource-admission preflight")
     if 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' not in training_command_source:
@@ -589,9 +599,10 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Extension does not use its metadata-tolerant authenticated plan")
     if "elif not arguments.extend and any(" not in training_command_source:
         raise AssertionError("Completed legacy-authority extension still requires historical paths")
-    if "self._rollout_capacity(population_size, max_evaluations)" not in (
-        REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py"
-    ).read_text(encoding="utf-8"):
+    if "self._rollout_capacity(population_size, max_evaluations)" not in _implementation_source(
+        "calo_rpd_studio/gui/panels/independent_training_panel.py",
+        "calo_rpd_studio/gui/panels/_independent_training_panel_core.py",
+    ):
         raise AssertionError("Fresh training does not bound retained rollout transitions")
     for protected_case in ("case118", "case300"):
         checkbox = training_editor.case_checks.get(protected_case)
@@ -648,9 +659,10 @@ def validate(output: Path, *, platform: str) -> dict:
         "Apply governing policy and continue to Power System"
     ):
         raise AssertionError("The governing-policy path does not expose the next Power System step")
-    intelligence_source = (
-        REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
-    ).read_text(encoding="utf-8")
+    intelligence_source = _implementation_source(
+        "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+        "calo_rpd_studio/gui/panels/_calo_intelligence_panel_core.py",
+    )
     for token in (
         "completed_campaigns()",
         "Permanently delete completed model files",

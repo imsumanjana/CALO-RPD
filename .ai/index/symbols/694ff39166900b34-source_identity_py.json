@@ -446,22 +446,29 @@
       "call_edges": [
         {
           "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "subprocess.run",
           "target": "subprocess.run"
         }
       ],
       "call_forms": {
+        "RuntimeError": "name",
         "subprocess.run": "attribute"
       },
       "called_by": [
         "calo_rpd_studio.compute.source_identity._git_identity"
       ],
       "calls": [
+        "RuntimeError",
         "subprocess.run"
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 46,
+      "end_line": 56,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -531,11 +538,6 @@
           "target": "_FULL_COMMIT.fullmatch"
         },
         {
-          "confidence": "unresolved",
-          "raw": "bool",
-          "target": "bool"
-        },
-        {
           "confidence": "confirmed",
           "raw": "SourceIdentity",
           "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
@@ -549,6 +551,11 @@
           "confidence": "unresolved",
           "raw": "commit_result.stdout.strip",
           "target": "commit_result.stdout.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "final_commit.stdout.strip",
+          "target": "final_commit.stdout.strip"
         },
         {
           "confidence": "unresolved",
@@ -576,8 +583,8 @@
         "SourceIdentity": "name",
         "_FULL_COMMIT.fullmatch": "attribute",
         "_run_git": "name",
-        "bool": "name",
         "commit_result.stdout.strip": "attribute",
+        "final_commit.stdout.strip": "attribute",
         "lower": "attribute",
         "probe.stderr.strip": "attribute",
         "probe.stdout.strip": "attribute",
@@ -585,6 +592,8 @@
       },
       "called_by": [
         "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tests.unit.test_source_identity.test_clean_identity_rechecks_revision_after_full_untracked_inspection",
+        "tests.unit.test_source_identity.test_known_dirty_source_avoids_full_scan_but_git_errors_do_not_become_clean",
         "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source"
       ],
       "calls": [
@@ -592,8 +601,8 @@
         "SourceIdentity",
         "_FULL_COMMIT.fullmatch",
         "_run_git",
-        "bool",
         "commit_result.stdout.strip",
+        "final_commit.stdout.strip",
         "lower",
         "probe.stderr.strip",
         "probe.stdout.strip",
@@ -604,7 +613,7 @@
         "calo_rpd_studio.compute.source_identity._run_git"
       ],
       "doc": "Return Git identity when inside a worktree; never fall back around Git errors.",
-      "end_line": 76,
+      "end_line": 96,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -654,7 +663,7 @@
         "resource-admission"
       ],
       "signature": "(cwd)",
-      "start_line": 49,
+      "start_line": 59,
       "state_owner": "",
       "symbol": "_git_identity",
       "tests": [
@@ -696,7 +705,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 87,
+      "end_line": 107,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -746,7 +755,7 @@
         "resource-admission"
       ],
       "signature": "(path)",
-      "start_line": 79,
+      "start_line": 99,
       "state_owner": "",
       "symbol": "_declaration_path",
       "tests": []
@@ -808,7 +817,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 99,
+      "end_line": 119,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -858,7 +867,7 @@
         "resource-admission"
       ],
       "signature": "(commit, tracked_source_clean)",
-      "start_line": 90,
+      "start_line": 110,
       "state_owner": "",
       "symbol": "_validate_declared_values",
       "tests": []
@@ -941,6 +950,7 @@
         "tests.unit.test_source_identity.test_build_declaration_is_deterministic_validated_and_never_overwritten",
         "tests.unit.test_source_identity.test_declaration_is_used_only_when_git_identity_is_unavailable",
         "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+        "tests.unit.test_source_identity.test_slow_git_error_never_falls_back_to_a_clean_build_declaration",
         "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable"
       ],
       "calls": [
@@ -960,7 +970,7 @@
         "calo_rpd_studio.compute.source_identity._validate_declared_values"
       ],
       "doc": "Write one deterministic build declaration and refuse replacement.",
-      "end_line": 123,
+      "end_line": 143,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1010,7 +1020,7 @@
         "resource-admission"
       ],
       "signature": "(path, source_commit, tracked_source_clean)",
-      "start_line": 102,
+      "start_line": 122,
       "state_owner": "",
       "symbol": "write_source_declaration",
       "tests": [
@@ -1105,7 +1115,7 @@
         "calo_rpd_studio.compute.source_identity._validate_declared_values"
       ],
       "doc": "",
-      "end_line": 151,
+      "end_line": 171,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1155,7 +1165,7 @@
         "resource-admission"
       ],
       "signature": "(path)",
-      "start_line": 126,
+      "start_line": 146,
       "state_owner": "",
       "symbol": "_read_source_declaration",
       "tests": []
@@ -1210,6 +1220,7 @@
         "tests.unit.test_source_identity.test_declaration_is_used_only_when_git_identity_is_unavailable",
         "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
         "tests.unit.test_source_identity.test_malformed_or_unknown_declaration_fails_closed",
+        "tests.unit.test_source_identity.test_slow_git_error_never_falls_back_to_a_clean_build_declaration",
         "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable"
       ],
       "calls": [
@@ -1224,7 +1235,7 @@
         "calo_rpd_studio.compute.source_identity._read_source_declaration"
       ],
       "doc": "Prefer live Git truth, then use an immutable build declaration outside a worktree.",
-      "end_line": 171,
+      "end_line": 191,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1274,7 +1285,7 @@
         "resource-admission"
       ],
       "signature": "(cwd, declaration_path, require_durable)",
-      "start_line": 154,
+      "start_line": 174,
       "state_owner": "",
       "symbol": "resolve_source_identity",
       "tests": [
@@ -1322,7 +1333,7 @@
         "calo_rpd_studio.compute.source_identity.resolve_source_identity"
       ],
       "doc": "Resolve a durable identity or an explicitly scoped development-only identity.",
-      "end_line": 195,
+      "end_line": 215,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1372,7 +1383,7 @@
         "resource-admission"
       ],
       "signature": "(cwd, declaration_path, allow_dirty_development_evidence)",
-      "start_line": 174,
+      "start_line": 194,
       "state_owner": "",
       "symbol": "resolve_evidence_source_identity",
       "tests": [
@@ -1419,7 +1430,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 202,
+      "end_line": 222,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1469,7 +1480,7 @@
         "resource-admission"
       ],
       "signature": "(value)",
-      "start_line": 198,
+      "start_line": 218,
       "state_owner": "",
       "symbol": "_parse_bool",
       "tests": []
@@ -1523,7 +1534,7 @@
         "calo_rpd_studio.compute.source_identity.write_source_declaration"
       ],
       "doc": "",
-      "end_line": 217,
+      "end_line": 237,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/source_identity.py",
       "implementation_core": false,
@@ -1573,7 +1584,7 @@
         "resource-admission"
       ],
       "signature": "()",
-      "start_line": 205,
+      "start_line": 225,
       "state_owner": "",
       "symbol": "main",
       "tests": []

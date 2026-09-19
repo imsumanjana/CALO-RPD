@@ -1581,8 +1581,15 @@ class TSHCALOQualificationCampaign:
             incident_directory.mkdir(parents=True, exist_ok=True)
             incident_path = incident_directory / f"incident-{uuid.uuid4().hex}.json"
             _write_json(incident_path, incident)
-        except Exception:
+        except Exception as recording_error:
             incident_path = None
+            incident.setdefault("recording_errors", []).append(
+                {
+                    "operation": "incident_file",
+                    "type": type(recording_error).__name__,
+                    "message": str(recording_error),
+                }
+            )
         try:
             self._write_status(
                 state="infrastructure_aborted",
@@ -1597,12 +1604,24 @@ class TSHCALOQualificationCampaign:
                 fresh_run_required=True,
                 qualification_receipt_permitted=False,
             )
-        except Exception:
-            pass
-        raise QualificationInfrastructureError(
+        except Exception as recording_error:
+            incident.setdefault("recording_errors", []).append(
+                {
+                    "operation": "status_file",
+                    "type": type(recording_error).__name__,
+                    "message": str(recording_error),
+                }
+            )
+        failure = QualificationInfrastructureError(
             f"Qualification infrastructure stopped during {operation}: {exc}",
             incident=incident,
-        ) from exc
+        )
+        for recording_error in incident.get("recording_errors", []):
+            failure.add_note(
+                f"Could not retain {recording_error['operation']}: "
+                f"{recording_error['type']}: {recording_error['message']}"
+            )
+        raise failure from exc
 
     def _emit_event_required(
         self, event: str, *, operation: str, cell: dict | None = None, **details

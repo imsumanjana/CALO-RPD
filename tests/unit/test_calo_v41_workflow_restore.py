@@ -18,7 +18,15 @@ def _state(config: ExperimentConfig, *, ready: bool = True, sha: str = "policy-s
         grade="A" if ready else "",
         reason="ready" if ready else "not ready",
     )
-    return SimpleNamespace(config=config, governing_policy_status=lambda: status)
+    return SimpleNamespace(
+        config=config,
+        governing_policy_status=lambda: status,
+        execution_control=SimpleNamespace(active_stage=lambda: None),
+        database=SimpleNamespace(
+            get_active_portfolio_goal=lambda: None,
+            get_latest_portfolio_goal=lambda: None,
+        ),
+    )
 
 
 def test_workflow_snapshot_round_trip_restores_unlocked_experiment_state():
@@ -67,8 +75,16 @@ def test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup
     )  # added only from live governing-policy readiness
     assert inferred <= workflow.completed
     assert workflow.experiment_started is True
-    assert workflow.is_workspace_enabled("experiment") is True
+    # Historical completion flags cannot fabricate a submitted stage for new work.
+    assert workflow.is_workspace_enabled("experiment") is False
     assert workflow.is_workspace_enabled("live_optimization") is True
+    stage = SimpleNamespace(stage_id="submitted", content_sha256="a" * 64)
+    state.execution_control.active_stage = lambda: stage
+    state.database.get_active_portfolio_goal = lambda: {
+        "algorithm_stage_id": stage.stage_id,
+        "algorithm_stage_sha256": stage.content_sha256,
+    }
+    assert workflow.is_workspace_enabled("experiment") is True
 
 
 def test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed():
@@ -88,7 +104,9 @@ def test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_chan
         "governing_policy_sha": "old-sha",
     }
     workflow.restore(payload)
-    assert workflow.completed == {"calo_intelligence"}
+    # Algorithm selection precedes the governing policy in the current workflow.
+    assert workflow.completed == {"algorithms", "calo_intelligence"}
+    assert workflow._setup_complete("algorithms") is False
     assert workflow.is_workspace_enabled("power_system") is True
     assert workflow.is_workspace_enabled("orpd") is False
 
@@ -97,6 +115,10 @@ def test_policy_free_individual_completion_survives_restore_without_governing_po
     config = ExperimentConfig()
     config.algorithms = ["CALO", "TLBO"]
     state = _state(config, ready=False, sha="")
+    # Policy-free Individual setup still requires a real submitted algorithm stage.
+    state.execution_control.active_stage = lambda: SimpleNamespace(
+        algorithm_names=tuple(config.algorithms)
+    )
     workflow = WorkflowManager(state)
     workflow.individual_completed.update(("power_system", "orpd", "scenarios"))
 

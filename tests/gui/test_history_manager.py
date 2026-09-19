@@ -12,10 +12,11 @@ def test_history_manager_is_available_from_application_settings(tmp_path, qapp):
     state = AppState(tmp_path / "results.sqlite")
     settings = SettingsManager()
     panel = ApplicationSettingsPanel(state, settings)
-    assert panel.section_tabs.count() == 3
-    assert [panel.section_tabs.tabText(index) for index in range(3)] == [
+    assert panel.section_tabs.count() == 4
+    assert [panel.section_tabs.tabText(index) for index in range(4)] == [
         "Appearance",
         "Experiment history",
+        "Research assistant",
         "Application",
     ]
     assert "0 experiment(s)" in panel.history_summary.text()

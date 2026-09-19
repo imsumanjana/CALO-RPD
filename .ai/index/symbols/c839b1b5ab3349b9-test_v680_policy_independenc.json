@@ -37,19 +37,28 @@
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -135,19 +144,28 @@
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -198,25 +216,34 @@
         "tests.unit.test_v680_policy_independence._root"
       ],
       "doc": "",
-      "end_line": 46,
+      "end_line": 36,
       "entry_point": false,
       "file": "tests/unit/test_v680_policy_independence.py",
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -237,6 +264,520 @@
       "start_line": 28,
       "state_owner": "",
       "symbol": "test_policy_training_paths_use_independent_scientific_validation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        }
+      ],
+      "call_forms": {
+        "callable": "name",
+        "hasattr": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "callable",
+        "hasattr"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_policy_library_and_training_have_separate_public_entry_points",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "test_policy_library_and_training_have_separate_public_entry_points",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingLaunchModel",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.create_plan",
+          "target": "model.create_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TrainingLaunchModel": "name",
+        "model.create_plan": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "staticmethod": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingLaunchModel",
+        "model.create_plan",
+        "monkeypatch.setattr",
+        "staticmethod",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment.forbidden",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "forbidden",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "launched.append",
+          "target": "launched.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.IndependentTrainingPanel.start_training",
+          "target": "panel.IndependentTrainingPanel.start_training"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "launched.append": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.IndependentTrainingPanel.start_training": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "warnings.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "launched.append",
+        "monkeypatch.setattr",
+        "panel.IndependentTrainingPanel.start_training",
+        "pytest.mark.parametrize",
+        "warnings.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 110,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, training_active, busy, ready)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "test_training_start_rejects_busy_or_unchecked_inputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "launched.append",
+          "target": "launched.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.IndependentTrainingPanel.start_training",
+          "target": "panel.IndependentTrainingPanel.start_training"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "launched.append": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.IndependentTrainingPanel.start_training": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "launched.append",
+        "monkeypatch.setattr",
+        "panel.IndependentTrainingPanel.start_training",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 141,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 113,
+      "state_owner": "",
+      "symbol": "test_training_start_decline_does_not_launch_a_process",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "questions.append",
+          "target": "questions.append"
+        }
+      ],
+      "call_forms": {
+        "questions.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "questions.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 121,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process.decline",
+      "semantic_tags": [],
+      "signature": "(*_args)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "decline",
       "tests": []
     },
     {
@@ -267,25 +808,34 @@
         "calo_bootstrap.launcher.accelerator_repair_required"
       ],
       "doc": "",
-      "end_line": 58,
+      "end_line": 153,
       "entry_point": false,
       "file": "tests/unit/test_v680_policy_independence.py",
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -303,7 +853,7 @@
       "qualname": "tests.unit.test_v680_policy_independence.test_detected_nvidia_without_verified_cuda_requires_repair",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 49,
+      "start_line": 144,
       "state_owner": "",
       "symbol": "test_detected_nvidia_without_verified_cuda_requires_repair",
       "tests": []
@@ -336,25 +886,34 @@
         "calo_bootstrap.launcher.accelerator_repair_required"
       ],
       "doc": "",
-      "end_line": 66,
+      "end_line": 161,
       "entry_point": false,
       "file": "tests/unit/test_v680_policy_independence.py",
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -372,7 +931,7 @@
       "qualname": "tests.unit.test_v680_policy_independence.test_cpu_only_host_does_not_require_accelerator_repair",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 61,
+      "start_line": 156,
       "state_owner": "",
       "symbol": "test_cpu_only_host_does_not_require_accelerator_repair",
       "tests": []
@@ -433,25 +992,34 @@
         "calo_rpd_studio.app.state_manager.AppState"
       ],
       "doc": "",
-      "end_line": 113,
+      "end_line": 208,
       "entry_point": false,
       "file": "tests/unit/test_v680_policy_independence.py",
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -469,7 +1037,7 @@
       "qualname": "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments",
       "semantic_tags": [],
       "signature": "(monkeypatch, tmp_path)",
-      "start_line": 69,
+      "start_line": 164,
       "state_owner": "",
       "symbol": "test_active_governing_policy_is_automatically_bound_to_new_experiments",
       "tests": []
@@ -500,25 +1068,34 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 105,
+      "end_line": 200,
       "entry_point": false,
       "file": "tests/unit/test_v680_policy_independence.py",
       "implementation_core": false,
       "import_bindings": {
         "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
         "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTrainingPanel": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
         "Path": "pathlib.Path",
         "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
         "annotations": "__future__.annotations",
+        "panel": "calo_rpd_studio.gui.panels.independent_training_panel",
         "pytest": "pytest"
       },
       "important_invariants": [],
       "imports": [
         "__future__",
         "calo_bootstrap.launcher",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.app.state_manager",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "pathlib",
         "pytest",
         "types"
@@ -536,7 +1113,7 @@
       "qualname": "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments.bind",
       "semantic_tags": [],
       "signature": "(policy_id, config, deterministic, allow_unqualified, algorithm_id)",
-      "start_line": 91,
+      "start_line": 186,
       "state_owner": "",
       "symbol": "bind",
       "tests": []

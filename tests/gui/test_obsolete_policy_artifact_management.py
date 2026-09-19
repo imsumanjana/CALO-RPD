@@ -205,3 +205,31 @@ def test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_del
     archived = state.policy_registry.get(registered.id)
     assert archived.active is False
     assert archived.archived is True
+
+
+def test_registered_diagnostics_recheck_compatibility_after_cached_integrity(tmp_path):
+    from types import SimpleNamespace
+    from calo_rpd_studio.ai.model_io import checkpoint_sha256
+    from calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered import (
+        CompleteObsoleteAwareCALOIntelligencePanel,
+    )
+
+    path = tmp_path / "synthetic-model.pt"
+    path.write_bytes(b"synthetic diagnostic fixture; never deserialized")
+    current = {"compatible": True}
+    policy = SimpleNamespace(
+        id="fixture",
+        checkpoint_path=str(path),
+        sha256=checkpoint_sha256(path),
+        compatible_with=lambda _algorithm: current["compatible"],
+    )
+    panel = SimpleNamespace(_registered_obsolete_cache={})
+    inspect = CompleteObsoleteAwareCALOIntelligencePanel._registered_obsolete_issue
+    assert inspect(panel, policy) is None
+    current["compatible"] = False
+    assert inspect(panel, policy)[0] == "Not compatible"
+    path.write_bytes(b"synthetic model changed after registration")
+    assert inspect(panel, policy)[0] == "Model integrity failed"
+    assert inspect(panel, policy)[0] == "Model integrity failed"
+    path.unlink()
+    assert inspect(panel, policy)[0] == "Model file unavailable"

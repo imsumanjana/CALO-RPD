@@ -11,6 +11,10 @@
     {
       "confidence": "confirmed",
       "target": "calo_rpd_studio/compute/training_resources.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/independent_training_panel.py"
     }
   ],
   "path": "tests/unit/test_v630_stage_a_reporting.py",
@@ -62,13 +66,33 @@
       "to": "calo_rpd_studio.compute.training_resources.protected_rollout_shares"
     },
     {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
+      "to": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+    },
+    {
       "confidence": "unresolved",
-      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_reports_automatic_memory_policy",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
+      "to": "model.set_value"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
       "to": "read_text"
     },
     {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
+      "to": "set"
+    },
+    {
       "confidence": "confirmed",
-      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_reports_automatic_memory_policy",
+      "from": "tests.unit.test_v630_stage_a_reporting.test_scientist_gui_hides_manual_routing_and_exposes_current_compute_choices",
       "to": "tests.unit.test_v630_stage_a_reporting._root"
     },
     {

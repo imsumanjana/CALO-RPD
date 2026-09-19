@@ -160,7 +160,9 @@ class ExecutionControlService:
                 or str(stage["content_sha256"])
                 != str(plan["design"].get("algorithm_stage_sha256", ""))
             ):
-                raise RuntimeError("The resumable plan no longer matches the active algorithm stage")
+                raise RuntimeError(
+                    "The resumable plan no longer matches the active algorithm stage"
+                )
             return self.transition(
                 plan_id,
                 expected=(
@@ -314,6 +316,9 @@ class ExecutionControlService:
         else:
             payload = dict(plan["design"]["config"])
         config = ExperimentConfig.from_dict(deepcopy(payload))
+        # Deserializing an ordinary settings file may add comparator defaults. A frozen plan
+        # is already complete: adding an unselected CALO entry breaks its exact resume hash.
+        config.algorithm_parameters = deepcopy(payload.get("algorithm_parameters", {}))
         config.execution_plan_id = str(plan["id"])
         config.execution_plan_design_sha256 = str(plan["design_sha256"])
         config.algorithm_stage_id = str(plan["algorithm_stage_id"])

@@ -47,8 +47,7 @@ class TSHCALOTrainingEvaluationAccounting:
             if not isinstance(value, int) or isinstance(value, bool) or value < 0:
                 raise ValueError(f"TSH-CALO {label} candidate-evaluation count is invalid")
         if self.total_counted_candidate_evaluations != (
-            self.training_candidate_evaluations
-            + self.generalization_guard_candidate_evaluations
+            self.training_candidate_evaluations + self.generalization_guard_candidate_evaluations
         ):
             raise ValueError("TSH-CALO total counted candidate evaluations are inconsistent")
 
@@ -73,9 +72,7 @@ def plan_training_evaluation_accounting(
     of validation batches and population members.
     """
 
-    training = int(
-        sum(len(member.episodes) for member in plan.members) * int(plan.max_evaluations)
-    )
+    training = int(sum(len(member.episodes) for member in plan.members) * int(plan.max_evaluations))
     guard = plan.generalization_guard
     guard_evaluations = 0
     if guard is not None and bool(guard.enabled):
@@ -132,16 +129,12 @@ def committed_generalization_guard_candidate_evaluations(status: Mapping) -> int
         monitors = slot.get("monitor_evidence", [])
         if not isinstance(monitors, list):
             raise ValueError("TSH-CALO generalization monitor status is invalid")
-        total += sum(
-            _count_from_evidence(item, label="monitor") for item in monitors
-        )
+        total += sum(_count_from_evidence(item, label="monitor") for item in monitors)
         result = slot.get("result")
         if result is not None:
             if not isinstance(result, Mapping):
                 raise ValueError("TSH-CALO generalization result status is invalid")
-            total += _count_from_evidence(
-                result.get("final_evidence"), label="final audit"
-            )
+            total += _count_from_evidence(result.get("final_evidence"), label="final audit")
     return int(total)
 
 
@@ -156,9 +149,11 @@ def synchronize_training_progress(plan: _TrainingPlan, status: MutableMapping) -
     if not isinstance(progress, MutableMapping):
         raise ValueError("TSH-CALO campaign progress status is invalid")
 
+    # The executor advances the original durable training-only counter. The split
+    # field is a derived mirror and must not shadow a later committed checkpoint.
     committed_training = progress.get(
-        "committed_training_candidate_evaluations",
-        progress.get("committed_candidate_evaluations", 0),
+        "committed_candidate_evaluations",
+        progress.get("committed_training_candidate_evaluations", 0),
     )
     if (
         not isinstance(committed_training, int)
@@ -166,6 +161,11 @@ def synchronize_training_progress(plan: _TrainingPlan, status: MutableMapping) -
         or not 0 <= committed_training <= accounting.training_candidate_evaluations
     ):
         raise ValueError("TSH-CALO committed training evaluation accounting is invalid")
+    if (
+        str(status.get("state", "")) == "completed"
+        and committed_training != accounting.training_candidate_evaluations
+    ):
+        raise ValueError("Completed TSH-CALO training evaluation accounting is incomplete")
     committed_guard = committed_generalization_guard_candidate_evaluations(status)
     if committed_guard > accounting.generalization_guard_candidate_evaluations:
         raise ValueError("TSH-CALO committed generalization evaluation accounting exceeds plan")
@@ -179,11 +179,7 @@ def synchronize_training_progress(plan: _TrainingPlan, status: MutableMapping) -
     if accounting.total_counted_candidate_evaluations:
         percent = min(
             99,
-            int(
-                committed_total
-                * 100
-                / accounting.total_counted_candidate_evaluations
-            ),
+            int(committed_total * 100 / accounting.total_counted_candidate_evaluations),
         )
     else:
         percent = 0
@@ -196,17 +192,13 @@ def synchronize_training_progress(plan: _TrainingPlan, status: MutableMapping) -
     progress.update(
         {
             "committed_training_candidate_evaluations": int(committed_training),
-            "total_training_candidate_evaluations": (
-                accounting.training_candidate_evaluations
-            ),
+            "total_training_candidate_evaluations": (accounting.training_candidate_evaluations),
             "committed_generalization_guard_candidate_evaluations": committed_guard,
             "total_generalization_guard_candidate_evaluations": (
                 accounting.generalization_guard_candidate_evaluations
             ),
             "committed_total_candidate_evaluations": committed_total,
-            "total_counted_candidate_evaluations": (
-                accounting.total_counted_candidate_evaluations
-            ),
+            "total_counted_candidate_evaluations": (accounting.total_counted_candidate_evaluations),
             "progress_percent": percent,
         }
     )
@@ -250,9 +242,7 @@ def synchronize_training_progress(plan: _TrainingPlan, status: MutableMapping) -
                 "cumulative_generalization_guard_candidate_evaluations": (
                     prior_guard + committed_guard
                 ),
-                "cumulative_total_counted_candidate_evaluations": (
-                    prior_total + committed_total
-                ),
+                "cumulative_total_counted_candidate_evaluations": (prior_total + committed_total),
             }
         )
     return dict(progress)
@@ -265,9 +255,7 @@ def augment_root_manifest(plan: _TrainingPlan, payload: MutableMapping) -> None:
     contract.update(
         {
             "segment_evaluations": accounting.training_candidate_evaluations,
-            "segment_training_candidate_evaluations": (
-                accounting.training_candidate_evaluations
-            ),
+            "segment_training_candidate_evaluations": (accounting.training_candidate_evaluations),
             "segment_generalization_guard_candidate_evaluations": (
                 accounting.generalization_guard_candidate_evaluations
             ),
@@ -286,16 +274,12 @@ def augment_extension_plan(plan: _TrainingPlan, payload: MutableMapping) -> None
     if segment_number < 1:
         raise ValueError("TSH-CALO extension segment number is invalid")
     prior_training = int(payload.get("prior_cumulative_candidate_evaluations", 0))
-    prior_guard = int(
-        segment_number * accounting.generalization_guard_candidate_evaluations
-    )
+    prior_guard = int(segment_number * accounting.generalization_guard_candidate_evaluations)
     prior_total = prior_training + prior_guard
     payload.update(
         {
             "segment_candidate_evaluations": accounting.training_candidate_evaluations,
-            "segment_training_candidate_evaluations": (
-                accounting.training_candidate_evaluations
-            ),
+            "segment_training_candidate_evaluations": (accounting.training_candidate_evaluations),
             "segment_generalization_guard_candidate_evaluations": (
                 accounting.generalization_guard_candidate_evaluations
             ),
@@ -326,16 +310,12 @@ def augment_extension_manifest(plan: _TrainingPlan, payload: MutableMapping) -> 
         raise ValueError("TSH-CALO completed extension count is invalid")
     segment_count = completed_extensions + 1  # root campaign plus completed extensions
     cumulative_training = int(payload.get("cumulative_candidate_evaluations", 0))
-    cumulative_guard = int(
-        segment_count * accounting.generalization_guard_candidate_evaluations
-    )
+    cumulative_guard = int(segment_count * accounting.generalization_guard_candidate_evaluations)
     cumulative_total = cumulative_training + cumulative_guard
     payload.update(
         {
             "segment_candidate_evaluations": accounting.training_candidate_evaluations,
-            "segment_training_candidate_evaluations": (
-                accounting.training_candidate_evaluations
-            ),
+            "segment_training_candidate_evaluations": (accounting.training_candidate_evaluations),
             "segment_generalization_guard_candidate_evaluations": (
                 accounting.generalization_guard_candidate_evaluations
             ),
@@ -359,9 +339,7 @@ def augment_extension_manifest(plan: _TrainingPlan, payload: MutableMapping) -> 
     contract = dict(payload.get("extension_contract", {}) or {})
     contract.update(
         {
-            "segment_training_candidate_evaluations": (
-                accounting.training_candidate_evaluations
-            ),
+            "segment_training_candidate_evaluations": (accounting.training_candidate_evaluations),
             "segment_generalization_guard_candidate_evaluations": (
                 accounting.generalization_guard_candidate_evaluations
             ),

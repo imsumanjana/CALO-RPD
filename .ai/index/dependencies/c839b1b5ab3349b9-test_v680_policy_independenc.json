@@ -6,11 +6,27 @@
     },
     {
       "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"
+    },
+    {
+      "confidence": "confirmed",
       "target": "calo_rpd_studio/app/state_manager.py"
     },
     {
       "confidence": "confirmed",
       "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/__init__.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/independent_training_panel.py"
     }
   ],
   "path": "tests/unit/test_v680_policy_independence.py",
@@ -88,6 +104,36 @@
     },
     {
       "confidence": "confirmed",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "to": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "to": "model.create_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "to": "staticmethod"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_new_training_plan_does_not_validate_or_consume_an_experiment.forbidden",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "confirmed",
       "from": "tests.unit.test_v680_policy_independence.test_policy_development_validation_is_independent_of_portfolio_run_minimum",
       "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
     },
@@ -118,6 +164,16 @@
     },
     {
       "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_policy_library_and_training_have_separate_public_entry_points",
+      "to": "callable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_policy_library_and_training_have_separate_public_entry_points",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
       "from": "tests.unit.test_v680_policy_independence.test_policy_training_paths_use_independent_scientific_validation",
       "to": "read_text"
     },
@@ -125,6 +181,66 @@
       "confidence": "confirmed",
       "from": "tests.unit.test_v680_policy_independence.test_policy_training_paths_use_independent_scientific_validation",
       "to": "tests.unit.test_v680_policy_independence._root"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "to": "launched.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "to": "panel.IndependentTrainingPanel.start_training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_decline_does_not_launch_a_process.decline",
+      "to": "questions.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "launched.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "panel.IndependentTrainingPanel.start_training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v680_policy_independence.test_training_start_rejects_busy_or_unchecked_inputs",
+      "to": "warnings.append"
     }
   ]
 }

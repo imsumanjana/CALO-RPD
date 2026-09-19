@@ -160,7 +160,9 @@ def generate_parameter_design(plan: ParameterStudyPlan) -> dict:
         sample = qmc.LatinHypercube(d=dimensions, seed=plan.design_seed).random(plan.design_points)
     else:
         exponent = int(math.log2(plan.design_points))
-        sample = qmc.Sobol(d=dimensions, scramble=True, seed=plan.design_seed).random_base2(exponent)
+        sample = qmc.Sobol(d=dimensions, scramble=True, seed=plan.design_seed).random_base2(
+            exponent
+        )
     mapped = {
         factor.key: _map_dimension(sample[:, index], factor)
         for index, factor in enumerate(plan.factors)
@@ -219,7 +221,12 @@ def apply_parameter_assignment(
             training[key.split(".", 1)[1]] = value
         elif key.startswith("environment."):
             environment[key.split(".", 1)[1]] = value
-        elif key in {"population_size", "max_evaluations", "deterministic_policy", "environment_deterministic"}:
+        elif key in {
+            "population_size",
+            "max_evaluations",
+            "deterministic_policy",
+            "environment_deterministic",
+        }:
             top_level[key] = value
         elif key == "ensemble_members":
             raise ValueError("Ensemble member count requires an explicit seed/curriculum redesign")

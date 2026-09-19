@@ -423,6 +423,7 @@
         "tests.integration.test_history_deletion.test_clear_history_removes_all_experiments_and_referenced_traces",
         "tests.integration.test_history_deletion.test_delete_experiment_removes_records_and_trace_file",
         "tests.integration.test_history_deletion.test_delete_run_preserves_experiment_and_other_runs",
+        "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
         "tests.integration.test_workspace_execution_control.prepared_service",
         "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
         "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
@@ -470,7 +471,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Persist experiment metadata and provide safe history deletion operations.",
-      "end_line": 4306,
+      "end_line": 4303,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -539,6 +540,7 @@
         "tests/integration/test_database_workflow.py",
         "tests/integration/test_historical_learning.py",
         "tests/integration/test_history_deletion.py",
+        "tests/integration/test_real_experiment_lifecycle.py",
         "tests/integration/test_workspace_execution_control.py",
         "tests/unit/test_calo_v41_policy_system.py",
         "tests/unit/test_scientist_policy_artifact_deletion.py",
@@ -3606,7 +3608,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "",
-      "end_line": 935,
+      "end_line": 933,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -3818,7 +3820,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "Persist one immutable design as a draft without acquiring execution authority.",
-      "end_line": 1090,
+      "end_line": 1087,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -3880,7 +3882,7 @@
         "schema"
       ],
       "signature": "(self, plan, plan_kind, applied_study_setup, recommendation)",
-      "start_line": 937,
+      "start_line": 935,
       "state_owner": "ResultDatabase",
       "symbol": "create_execution_plan",
       "tests": []
@@ -3977,7 +3979,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "",
-      "end_line": 1110,
+      "end_line": 1107,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4039,7 +4041,7 @@
         "schema"
       ],
       "signature": "(self, plan_id)",
-      "start_line": 1092,
+      "start_line": 1089,
       "state_owner": "ResultDatabase",
       "symbol": "get_execution_plan",
       "tests": []
@@ -4094,7 +4096,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_execution_plan"
       ],
       "doc": "",
-      "end_line": 1118,
+      "end_line": 1115,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4156,7 +4158,7 @@
         "schema"
       ],
       "signature": "(self, plan_kind)",
-      "start_line": 1112,
+      "start_line": 1109,
       "state_owner": "ResultDatabase",
       "symbol": "get_active_execution_plan",
       "tests": []
@@ -4253,7 +4255,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "",
-      "end_line": 1142,
+      "end_line": 1139,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4315,7 +4317,7 @@
         "schema"
       ],
       "signature": "(self, plan_id)",
-      "start_line": 1120,
+      "start_line": 1117,
       "state_owner": "ResultDatabase",
       "symbol": "list_workspace_plan_cells",
       "tests": []
@@ -4459,7 +4461,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "",
-      "end_line": 1190,
+      "end_line": 1187,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4521,7 +4523,7 @@
         "schema"
       ],
       "signature": "(self, plan_id, audit_receipt)",
-      "start_line": 1144,
+      "start_line": 1141,
       "state_owner": "ResultDatabase",
       "symbol": "set_execution_plan_audited",
       "tests": []
@@ -4622,7 +4624,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_execution_plan"
       ],
       "doc": "Close a draft/audited plan without acquiring or fabricating execution ownership.",
-      "end_line": 1247,
+      "end_line": 1244,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4684,7 +4686,7 @@
         "schema"
       ],
       "signature": "(self, plan_id, message)",
-      "start_line": 1192,
+      "start_line": 1189,
       "state_owner": "ResultDatabase",
       "symbol": "discard_unstarted_execution_plan",
       "tests": []
@@ -4858,7 +4860,7 @@
         "calo_rpd_studio.results.database._canonical_sha256"
       ],
       "doc": "Atomically acquire the singleton controller and stage or resume the exact plan.",
-      "end_line": 1389,
+      "end_line": 1386,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -4920,7 +4922,7 @@
         "schema"
       ],
       "signature": "(self, plan_id, controller_kind, owner_instance_id, resume)",
-      "start_line": 1249,
+      "start_line": 1246,
       "state_owner": "ResultDatabase",
       "symbol": "acquire_execution_controller",
       "tests": []
@@ -5045,7 +5047,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_execution_plan"
       ],
       "doc": "Apply one fenced lifecycle transition and optionally release authority atomically.",
-      "end_line": 1523,
+      "end_line": 1520,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5107,7 +5109,7 @@
         "schema"
       ],
       "signature": "(self, plan_id, controller_epoch, expected_states, new_state, message, campaign_id, release_controller)",
-      "start_line": 1391,
+      "start_line": 1388,
       "state_owner": "ResultDatabase",
       "symbol": "transition_execution_plan",
       "tests": []
@@ -5239,7 +5241,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_execution_plan"
       ],
       "doc": "Atomically cancel an idle retained plan, its unfinished ledgers, and ownership.",
-      "end_line": 1638,
+      "end_line": 1635,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5301,7 +5303,7 @@
         "schema"
       ],
       "signature": "(self, plan_id, controller_epoch, owner_instance_id, message)",
-      "start_line": 1525,
+      "start_line": 1522,
       "state_owner": "ResultDatabase",
       "symbol": "cancel_retained_execution_plan",
       "tests": []
@@ -5370,7 +5372,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1674,
+      "end_line": 1671,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5432,7 +5434,7 @@
         "schema"
       ],
       "signature": "(self, cell_id, lifecycle_state, campaign_id, experiment_id, message)",
-      "start_line": 1640,
+      "start_line": 1637,
       "state_owner": "ResultDatabase",
       "symbol": "update_workspace_plan_cell",
       "tests": []
@@ -5555,7 +5557,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_execution_controller"
       ],
       "doc": "Fence an old process and restore truthful interrupted ownership after restart.",
-      "end_line": 1814,
+      "end_line": 1811,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5617,7 +5619,7 @@
         "schema"
       ],
       "signature": "(self, owner_instance_id)",
-      "start_line": 1676,
+      "start_line": 1673,
       "state_owner": "ResultDatabase",
       "symbol": "recover_execution_controller",
       "tests": []
@@ -5692,7 +5694,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1848,
+      "end_line": 1845,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5754,7 +5756,7 @@
         "schema"
       ],
       "signature": "(self, config, provenance, scientific_fingerprint, portfolio_id, campaign_status)",
-      "start_line": 1816,
+      "start_line": 1813,
       "state_owner": "ResultDatabase",
       "symbol": "create_experiment",
       "tests": []
@@ -5781,7 +5783,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1868,
+      "end_line": 1865,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5843,7 +5845,7 @@
         "schema"
       ],
       "signature": "(result)",
-      "start_line": 1851,
+      "start_line": 1848,
       "state_owner": "ResultDatabase",
       "symbol": "_result_dict",
       "tests": []
@@ -5905,7 +5907,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1891,
+      "end_line": 1888,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -5967,7 +5969,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, completed, arrays_path, scientific_fingerprint)",
-      "start_line": 1870,
+      "start_line": 1867,
       "state_owner": "ResultDatabase",
       "symbol": "add_run",
       "tests": []
@@ -6021,7 +6023,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1916,
+      "end_line": 1913,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6083,7 +6085,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, failure)",
-      "start_line": 1893,
+      "start_line": 1890,
       "state_owner": "ResultDatabase",
       "symbol": "add_failure",
       "tests": []
@@ -6229,7 +6231,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_run"
       ],
       "doc": "Attach validation to exactly one FE horizon without corrupting another horizon's status.",
-      "end_line": 1977,
+      "end_line": 1974,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6291,7 +6293,7 @@
         "schema"
       ],
       "signature": "(self, run_id, validation, evaluation_horizon, revision_id)",
-      "start_line": 1918,
+      "start_line": 1915,
       "state_owner": "ResultDatabase",
       "symbol": "add_validation",
       "tests": []
@@ -6341,7 +6343,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1982,
+      "end_line": 1979,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6403,7 +6405,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 1979,
+      "start_line": 1976,
       "state_owner": "ResultDatabase",
       "symbol": "get_experiment",
       "tests": []
@@ -6455,7 +6457,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1987,
+      "end_line": 1984,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6517,7 +6519,7 @@
         "schema"
       ],
       "signature": "(self, run_id)",
-      "start_line": 1984,
+      "start_line": 1981,
       "state_owner": "ResultDatabase",
       "symbol": "get_run",
       "tests": []
@@ -6571,7 +6573,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 1997,
+      "end_line": 1994,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6633,7 +6635,7 @@
         "schema"
       ],
       "signature": "(self, run_id)",
-      "start_line": 1989,
+      "start_line": 1986,
       "state_owner": "ResultDatabase",
       "symbol": "list_validations",
       "tests": []
@@ -6703,7 +6705,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2012,
+      "end_line": 2009,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6765,7 +6767,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, verified_only)",
-      "start_line": 1999,
+      "start_line": 1996,
       "state_owner": "ResultDatabase",
       "symbol": "list_runs",
       "tests": []
@@ -6812,7 +6814,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2022,
+      "end_line": 2019,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6874,7 +6876,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2014,
+      "start_line": 2011,
       "state_owner": "ResultDatabase",
       "symbol": "list_failures",
       "tests": []
@@ -6923,7 +6925,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2031,
+      "end_line": 2028,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -6985,7 +6987,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 2024,
+      "start_line": 2021,
       "state_owner": "ResultDatabase",
       "symbol": "list_experiments",
       "tests": []
@@ -7056,7 +7058,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2039,
+      "end_line": 2036,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7118,7 +7120,7 @@
         "schema"
       ],
       "signature": "()",
-      "start_line": 2038,
+      "start_line": 2035,
       "state_owner": "ResultDatabase",
       "symbol": "_utcnow",
       "tests": []
@@ -7180,7 +7182,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2058,
+      "end_line": 2055,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7242,7 +7244,7 @@
         "schema"
       ],
       "signature": "(self, name, config, plan, fingerprint)",
-      "start_line": 2041,
+      "start_line": 2038,
       "state_owner": "ResultDatabase",
       "symbol": "create_portfolio",
       "tests": []
@@ -7318,7 +7320,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2082,
+      "end_line": 2079,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7380,7 +7382,7 @@
         "schema"
       ],
       "signature": "(self, portfolio_id, status, config, plan)",
-      "start_line": 2060,
+      "start_line": 2057,
       "state_owner": "ResultDatabase",
       "symbol": "update_portfolio",
       "tests": []
@@ -7427,7 +7429,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2091,
+      "end_line": 2088,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7489,7 +7491,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 2084,
+      "start_line": 2081,
       "state_owner": "ResultDatabase",
       "symbol": "list_portfolios",
       "tests": []
@@ -7565,7 +7567,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2121,
+      "end_line": 2118,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7627,7 +7629,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, portfolio_id, mode, config, total_tasks)",
-      "start_line": 2093,
+      "start_line": 2090,
       "state_owner": "ResultDatabase",
       "symbol": "create_campaign",
       "tests": []
@@ -7674,7 +7676,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2126,
+      "end_line": 2123,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7736,7 +7738,7 @@
         "schema"
       ],
       "signature": "(self, campaign_id)",
-      "start_line": 2123,
+      "start_line": 2120,
       "state_owner": "ResultDatabase",
       "symbol": "get_campaign",
       "tests": []
@@ -7783,7 +7785,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2136,
+      "end_line": 2133,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7845,7 +7847,7 @@
         "schema"
       ],
       "signature": "(self, unfinished_only)",
-      "start_line": 2128,
+      "start_line": 2125,
       "state_owner": "ResultDatabase",
       "symbol": "list_campaigns",
       "tests": []
@@ -7928,7 +7930,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2167,
+      "end_line": 2164,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -7990,7 +7992,7 @@
         "schema"
       ],
       "signature": "(self, campaign_id, status, completed_tasks, message)",
-      "start_line": 2138,
+      "start_line": 2135,
       "state_owner": "ResultDatabase",
       "symbol": "update_campaign",
       "tests": []
@@ -8051,7 +8053,7 @@
       ],
       "calls_resolved": [],
       "doc": "Commit the final campaign pause boundary inside the controller transaction.",
-      "end_line": 2204,
+      "end_line": 2201,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8113,7 +8115,7 @@
         "schema"
       ],
       "signature": "(con, campaign_id, now, message)",
-      "start_line": 2170,
+      "start_line": 2167,
       "state_owner": "ResultDatabase",
       "symbol": "_commit_campaign_paused_rows",
       "tests": []
@@ -8196,7 +8198,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2259,
+      "end_line": 2256,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8258,7 +8260,7 @@
         "schema"
       ],
       "signature": "(con, campaign_id, now, message)",
-      "start_line": 2207,
+      "start_line": 2204,
       "state_owner": "ResultDatabase",
       "symbol": "_cancel_campaign_remaining_rows",
       "tests": []
@@ -8314,7 +8316,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Close one retained campaign ledger without altering its committed run evidence.",
-      "end_line": 2269,
+      "end_line": 2266,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8376,7 +8378,7 @@
         "schema"
       ],
       "signature": "(self, campaign_id, message)",
-      "start_line": 2261,
+      "start_line": 2258,
       "state_owner": "ResultDatabase",
       "symbol": "cancel_campaign_remaining",
       "tests": []
@@ -8459,7 +8461,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2360,
+      "end_line": 2357,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8521,7 +8523,7 @@
         "schema"
       ],
       "signature": "(self, campaign_id, job_index, algorithm, run_index, seeds, fingerprint, required_outputs, execution_plan_id, workspace_plan_cell_id, job_identity_sha256)",
-      "start_line": 2271,
+      "start_line": 2268,
       "state_owner": "ResultDatabase",
       "symbol": "add_campaign_task",
       "tests": []
@@ -8582,7 +8584,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2372,
+      "end_line": 2369,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8644,7 +8646,7 @@
         "schema"
       ],
       "signature": "(self, campaign_id, statuses)",
-      "start_line": 2362,
+      "start_line": 2359,
       "state_owner": "ResultDatabase",
       "symbol": "list_campaign_tasks",
       "tests": []
@@ -8713,7 +8715,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2406,
+      "end_line": 2403,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8775,7 +8777,7 @@
         "schema"
       ],
       "signature": "(self, task_id, status, checkpoint_path, checkpoint_sha256, run_id, failure_id, increment_attempts)",
-      "start_line": 2374,
+      "start_line": 2371,
       "state_owner": "ResultDatabase",
       "symbol": "update_campaign_task",
       "tests": []
@@ -8830,7 +8832,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2418,
+      "end_line": 2415,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -8892,7 +8894,7 @@
         "schema"
       ],
       "signature": "(self, task_id, event_type, payload)",
-      "start_line": 2408,
+      "start_line": 2405,
       "state_owner": "ResultDatabase",
       "symbol": "append_task_event",
       "tests": []
@@ -8961,7 +8963,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_run"
       ],
       "doc": "Link a scientifically identical completed run into a new portfolio experiment.",
-      "end_line": 2448,
+      "end_line": 2445,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9023,7 +9025,7 @@
         "schema"
       ],
       "signature": "(self, source_run_id, experiment_id)",
-      "start_line": 2420,
+      "start_line": 2417,
       "state_owner": "ResultDatabase",
       "symbol": "clone_run_to_experiment",
       "tests": []
@@ -9077,7 +9079,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2460,
+      "end_line": 2457,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9139,7 +9141,7 @@
         "schema"
       ],
       "signature": "(self, fingerprint, verified_only)",
-      "start_line": 2450,
+      "start_line": 2447,
       "state_owner": "ResultDatabase",
       "symbol": "find_reusable_run",
       "tests": []
@@ -9201,7 +9203,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2493,
+      "end_line": 2490,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9263,7 +9265,7 @@
         "schema"
       ],
       "signature": "(self, task_id, task_type, title, status, progress_current, progress_total, state, resumable)",
-      "start_line": 2462,
+      "start_line": 2459,
       "state_owner": "ResultDatabase",
       "symbol": "upsert_resumable_task",
       "tests": []
@@ -9353,7 +9355,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2524,
+      "end_line": 2521,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9415,7 +9417,7 @@
         "schema"
       ],
       "signature": "(self, task_id, status, progress_current, progress_total, state, resumable)",
-      "start_line": 2495,
+      "start_line": 2492,
       "state_owner": "ResultDatabase",
       "symbol": "update_resumable_task",
       "tests": []
@@ -9462,7 +9464,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2532,
+      "end_line": 2529,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9524,7 +9526,7 @@
         "schema"
       ],
       "signature": "(self, unfinished_only)",
-      "start_line": 2526,
+      "start_line": 2523,
       "state_owner": "ResultDatabase",
       "symbol": "list_resumable_tasks",
       "tests": []
@@ -9571,7 +9573,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2537,
+      "end_line": 2534,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9633,7 +9635,7 @@
         "schema"
       ],
       "signature": "(self, task_id)",
-      "start_line": 2534,
+      "start_line": 2531,
       "state_owner": "ResultDatabase",
       "symbol": "get_resumable_task",
       "tests": []
@@ -9666,7 +9668,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2541,
+      "end_line": 2538,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9728,7 +9730,7 @@
         "schema"
       ],
       "signature": "(self, task_id)",
-      "start_line": 2539,
+      "start_line": 2536,
       "state_owner": "ResultDatabase",
       "symbol": "delete_resumable_task",
       "tests": []
@@ -9776,7 +9778,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Recover after an unclean shutdown by making in-flight records resumable.",
-      "end_line": 2575,
+      "end_line": 2572,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9838,7 +9840,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 2543,
+      "start_line": 2540,
       "state_owner": "ResultDatabase",
       "symbol": "mark_stale_running_interrupted",
       "tests": []
@@ -9907,7 +9909,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2632,
+      "end_line": 2629,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -9969,7 +9971,7 @@
         "schema"
       ],
       "signature": "(self, policy_id, name, checkpoint_path, sha256, architecture_version, state_schema_version, action_schema_version, training_environment_version, qualification_status, grade, active, archived, metadata)",
-      "start_line": 2585,
+      "start_line": 2582,
       "state_owner": "ResultDatabase",
       "symbol": "upsert_policy",
       "tests": []
@@ -10023,7 +10025,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2637,
+      "end_line": 2634,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10085,7 +10087,7 @@
         "schema"
       ],
       "signature": "(self, policy_id)",
-      "start_line": 2634,
+      "start_line": 2631,
       "state_owner": "ResultDatabase",
       "symbol": "get_policy",
       "tests": []
@@ -10139,7 +10141,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2642,
+      "end_line": 2639,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10201,7 +10203,7 @@
         "schema"
       ],
       "signature": "(self, sha256)",
-      "start_line": 2639,
+      "start_line": 2636,
       "state_owner": "ResultDatabase",
       "symbol": "get_policy_by_sha256",
       "tests": []
@@ -10248,7 +10250,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2650,
+      "end_line": 2647,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10310,7 +10312,7 @@
         "schema"
       ],
       "signature": "(self, include_archived)",
-      "start_line": 2644,
+      "start_line": 2641,
       "state_owner": "ResultDatabase",
       "symbol": "list_policies",
       "tests": []
@@ -10414,7 +10416,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2679,
+      "end_line": 2676,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10476,7 +10478,7 @@
         "schema"
       ],
       "signature": "(self, policy_id, **fields)",
-      "start_line": 2652,
+      "start_line": 2649,
       "state_owner": "ResultDatabase",
       "symbol": "update_policy",
       "tests": []
@@ -10538,7 +10540,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2692,
+      "end_line": 2689,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10600,7 +10602,7 @@
         "schema"
       ],
       "signature": "(self, policy_id)",
-      "start_line": 2681,
+      "start_line": 2678,
       "state_owner": "ResultDatabase",
       "symbol": "set_active_policy",
       "tests": []
@@ -10640,7 +10642,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2697,
+      "end_line": 2694,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10702,7 +10704,7 @@
         "schema"
       ],
       "signature": "(self, policy_id)",
-      "start_line": 2694,
+      "start_line": 2691,
       "state_owner": "ResultDatabase",
       "symbol": "delete_policy",
       "tests": []
@@ -10827,7 +10829,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Atomically suppress and remove one exact unused candidate registration.",
-      "end_line": 2772,
+      "end_line": 2769,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -10889,7 +10891,7 @@
         "schema"
       ],
       "signature": "(self, policy_id, expected_sha256, reason)",
-      "start_line": 2699,
+      "start_line": 2696,
       "state_owner": "ResultDatabase",
       "symbol": "remove_unreferenced_unqualified_policy",
       "tests": []
@@ -10965,7 +10967,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 2810,
+      "end_line": 2807,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11027,7 +11029,7 @@
         "schema"
       ],
       "signature": "(self, qualification_id, policy_id, reference_policy_id, config, metrics, passed, grade, score, qualification_status)",
-      "start_line": 2774,
+      "start_line": 2771,
       "state_owner": "ResultDatabase",
       "symbol": "add_policy_qualification",
       "tests": []
@@ -11173,7 +11175,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Atomically admit already-verified evidence without activating its policy.",
-      "end_line": 2896,
+      "end_line": 2893,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11235,7 +11237,7 @@
         "schema"
       ],
       "signature": "(self, qualification_id, policy_id, expected_sha256, config, metrics, grade, score)",
-      "start_line": 2812,
+      "start_line": 2809,
       "state_owner": "ResultDatabase",
       "symbol": "admit_verified_policy_qualification",
       "tests": []
@@ -11395,7 +11397,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Atomically retain a verified feasibility dossier without selecting its policy.",
-      "end_line": 2985,
+      "end_line": 2982,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11457,7 +11459,7 @@
         "schema"
       ],
       "signature": "(self, assessment_id, policy_id, expected_sha256, config, metrics, score)",
-      "start_line": 2898,
+      "start_line": 2895,
       "state_owner": "ResultDatabase",
       "symbol": "admit_verified_policy_assessment",
       "tests": []
@@ -11624,7 +11626,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Record an explicit candidate-bound scientist selection without activating it.",
-      "end_line": 3068,
+      "end_line": 3065,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11686,7 +11688,7 @@
         "schema"
       ],
       "signature": "(self, policy_id, assessment_id, expected_sha256, evidence_sha256)",
-      "start_line": 2987,
+      "start_line": 2984,
       "state_owner": "ResultDatabase",
       "symbol": "record_scientist_policy_selection",
       "tests": []
@@ -11747,7 +11749,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3078,
+      "end_line": 3075,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11809,7 +11811,7 @@
         "schema"
       ],
       "signature": "(self, policy_id)",
-      "start_line": 3070,
+      "start_line": 3067,
       "state_owner": "ResultDatabase",
       "symbol": "list_policy_qualifications",
       "tests": []
@@ -11871,7 +11873,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3098,
+      "end_line": 3095,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -11933,7 +11935,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, binding)",
-      "start_line": 3080,
+      "start_line": 3077,
       "state_owner": "ResultDatabase",
       "symbol": "bind_policy_to_experiment",
       "tests": []
@@ -12001,7 +12003,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3110,
+      "end_line": 3107,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12063,7 +12065,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 3100,
+      "start_line": 3097,
       "state_owner": "ResultDatabase",
       "symbol": "get_experiment_policy_binding",
       "tests": []
@@ -12117,7 +12119,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3118,
+      "end_line": 3115,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12179,7 +12181,7 @@
         "schema"
       ],
       "signature": "(self, policy_id, sha256)",
-      "start_line": 3112,
+      "start_line": 3109,
       "state_owner": "ResultDatabase",
       "symbol": "policy_reference_count",
       "tests": []
@@ -12227,7 +12229,7 @@
       ],
       "calls_resolved": [],
       "doc": "Return stable policy-lifecycle rows for inventory-bound retirement.",
-      "end_line": 3150,
+      "end_line": 3147,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12289,7 +12291,7 @@
         "schema"
       ],
       "signature": "(con)",
-      "start_line": 3121,
+      "start_line": 3118,
       "state_owner": "ResultDatabase",
       "symbol": "_policy_lifecycle_snapshot_from_connection",
       "tests": []
@@ -12344,7 +12346,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Return a read-only exact snapshot of policy lifecycle database state.",
-      "end_line": 3170,
+      "end_line": 3167,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12406,7 +12408,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 3152,
+      "start_line": 3149,
       "state_owner": "ResultDatabase",
       "symbol": "policy_lifecycle_snapshot",
       "tests": []
@@ -12496,7 +12498,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Remove the exact inventoried lifecycle state in one database transaction.",
-      "end_line": 3212,
+      "end_line": 3209,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12558,7 +12560,7 @@
         "schema"
       ],
       "signature": "(self, expected_snapshot)",
-      "start_line": 3172,
+      "start_line": 3169,
       "state_owner": "ResultDatabase",
       "symbol": "clear_policy_lifecycle",
       "tests": []
@@ -12612,7 +12614,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Return policy suppressions scoped to this project/results database.",
-      "end_line": 3218,
+      "end_line": 3215,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12674,7 +12676,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 3214,
+      "start_line": 3211,
       "state_owner": "ResultDatabase",
       "symbol": "list_suppressed_policy_sha256",
       "tests": []
@@ -12743,7 +12745,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3229,
+      "end_line": 3226,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12805,7 +12807,7 @@
         "schema"
       ],
       "signature": "(self, sha256, reason)",
-      "start_line": 3220,
+      "start_line": 3217,
       "state_owner": "ResultDatabase",
       "symbol": "suppress_policy_sha256",
       "tests": []
@@ -12859,7 +12861,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3235,
+      "end_line": 3232,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -12921,7 +12923,7 @@
         "schema"
       ],
       "signature": "(self, sha256)",
-      "start_line": 3231,
+      "start_line": 3228,
       "state_owner": "ResultDatabase",
       "symbol": "unsuppress_policy_sha256",
       "tests": []
@@ -12976,7 +12978,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3251,
+      "end_line": 3248,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13038,7 +13040,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, workflow, ui)",
-      "start_line": 3237,
+      "start_line": 3234,
       "state_owner": "ResultDatabase",
       "symbol": "save_workspace_state",
       "tests": []
@@ -13092,7 +13094,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3266,
+      "end_line": 3263,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13154,7 +13156,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 3253,
+      "start_line": 3250,
       "state_owner": "ResultDatabase",
       "symbol": "get_workspace_state",
       "tests": []
@@ -13265,7 +13267,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_experiment"
       ],
       "doc": "Classify one experiment for leakage-aware historical learning.",
-      "end_line": 3308,
+      "end_line": 3305,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13327,7 +13329,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, role, eligible, locked)",
-      "start_line": 3268,
+      "start_line": 3265,
       "state_owner": "ResultDatabase",
       "symbol": "set_experiment_learning_role",
       "tests": []
@@ -13416,7 +13418,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3325,
+      "end_line": 3322,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13478,7 +13480,7 @@
         "schema"
       ],
       "signature": "(self, role, eligible_only)",
-      "start_line": 3310,
+      "start_line": 3307,
       "state_owner": "ResultDatabase",
       "symbol": "list_learning_experiments",
       "tests": []
@@ -13533,7 +13535,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3355,
+      "end_line": 3352,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13595,7 +13597,7 @@
         "schema"
       ],
       "signature": "(self, name, lineage_id, parent_lineage_id, forked_from_checkpoint_id, notes)",
-      "start_line": 3331,
+      "start_line": 3328,
       "state_owner": "ResultDatabase",
       "symbol": "create_policy_lineage",
       "tests": []
@@ -13657,7 +13659,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3384,
+      "end_line": 3381,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13719,7 +13721,7 @@
         "schema"
       ],
       "signature": "(self, lineage_id, name, parent_lineage_id, forked_from_checkpoint_id, notes, archived)",
-      "start_line": 3357,
+      "start_line": 3354,
       "state_owner": "ResultDatabase",
       "symbol": "upsert_policy_lineage",
       "tests": []
@@ -13766,7 +13768,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3392,
+      "end_line": 3389,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13828,7 +13830,7 @@
         "schema"
       ],
       "signature": "(self, include_archived)",
-      "start_line": 3386,
+      "start_line": 3383,
       "state_owner": "ResultDatabase",
       "symbol": "list_policy_lineages",
       "tests": []
@@ -13882,7 +13884,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3399,
+      "end_line": 3396,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -13944,7 +13946,7 @@
         "schema"
       ],
       "signature": "(self, lineage_id)",
-      "start_line": 3394,
+      "start_line": 3391,
       "state_owner": "ResultDatabase",
       "symbol": "get_policy_lineage",
       "tests": []
@@ -14020,7 +14022,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3469,
+      "end_line": 3466,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14082,7 +14084,7 @@
         "schema"
       ],
       "signature": "(self, checkpoint_id, lineage_id, cumulative_epoch, phase_index, checkpoint_path, resume_path, sha256, qualification_status, grade, is_latest, is_best, metadata)",
-      "start_line": 3401,
+      "start_line": 3398,
       "state_owner": "ResultDatabase",
       "symbol": "add_policy_checkpoint",
       "tests": []
@@ -14157,7 +14159,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3482,
+      "end_line": 3479,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14219,7 +14221,7 @@
         "schema"
       ],
       "signature": "(self, lineage_id)",
-      "start_line": 3471,
+      "start_line": 3468,
       "state_owner": "ResultDatabase",
       "symbol": "list_policy_checkpoints",
       "tests": []
@@ -14287,7 +14289,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3493,
+      "end_line": 3490,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14349,7 +14351,7 @@
         "schema"
       ],
       "signature": "(self, checkpoint_id)",
-      "start_line": 3484,
+      "start_line": 3481,
       "state_owner": "ResultDatabase",
       "symbol": "get_policy_checkpoint",
       "tests": []
@@ -14417,7 +14419,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3505,
+      "end_line": 3502,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14479,7 +14481,7 @@
         "schema"
       ],
       "signature": "(self, sha256)",
-      "start_line": 3495,
+      "start_line": 3492,
       "state_owner": "ResultDatabase",
       "symbol": "get_policy_checkpoint_by_sha256",
       "tests": []
@@ -14533,7 +14535,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3513,
+      "end_line": 3510,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14595,7 +14597,7 @@
         "schema"
       ],
       "signature": "(self, checkpoint_id)",
-      "start_line": 3507,
+      "start_line": 3504,
       "state_owner": "ResultDatabase",
       "symbol": "policy_checkpoint_fork_reference_count",
       "tests": []
@@ -14663,7 +14665,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3538,
+      "end_line": 3535,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14725,7 +14727,7 @@
         "schema"
       ],
       "signature": "(self, checkpoint_id)",
-      "start_line": 3515,
+      "start_line": 3512,
       "state_owner": "ResultDatabase",
       "symbol": "delete_policy_checkpoint",
       "tests": []
@@ -14807,7 +14809,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3572,
+      "end_line": 3569,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14869,7 +14871,7 @@
         "schema"
       ],
       "signature": "(self, checkpoint_id, qualification_status, grade, metadata_updates)",
-      "start_line": 3540,
+      "start_line": 3537,
       "state_owner": "ResultDatabase",
       "symbol": "update_policy_checkpoint_qualification",
       "tests": []
@@ -14909,7 +14911,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3582,
+      "end_line": 3579,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -14971,7 +14973,7 @@
         "schema"
       ],
       "signature": "(self, lineage_id, checkpoint_id)",
-      "start_line": 3574,
+      "start_line": 3571,
       "state_owner": "ResultDatabase",
       "symbol": "mark_best_policy_checkpoint",
       "tests": []
@@ -15069,7 +15071,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_experiment_revision"
       ],
       "doc": "",
-      "end_line": 3625,
+      "end_line": 3622,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15131,7 +15133,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, run_target, evaluation_target, extension_mode, publication_eligible, protocol, parent_revision_id, status)",
-      "start_line": 3584,
+      "start_line": 3581,
       "state_owner": "ResultDatabase",
       "symbol": "create_experiment_revision",
       "tests": []
@@ -15201,7 +15203,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3636,
+      "end_line": 3633,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15263,7 +15265,7 @@
         "schema"
       ],
       "signature": "(self, revision_id)",
-      "start_line": 3627,
+      "start_line": 3624,
       "state_owner": "ResultDatabase",
       "symbol": "get_experiment_revision",
       "tests": []
@@ -15340,7 +15342,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3649,
+      "end_line": 3646,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15402,7 +15404,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 3638,
+      "start_line": 3635,
       "state_owner": "ResultDatabase",
       "symbol": "list_experiment_revisions",
       "tests": []
@@ -15442,7 +15444,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3658,
+      "end_line": 3655,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15504,7 +15506,7 @@
         "schema"
       ],
       "signature": "(self, revision_id, status)",
-      "start_line": 3651,
+      "start_line": 3648,
       "state_owner": "ResultDatabase",
       "symbol": "update_experiment_revision",
       "tests": []
@@ -15580,7 +15582,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3691,
+      "end_line": 3688,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15642,7 +15644,7 @@
         "schema"
       ],
       "signature": "(self, run_id, segment_index, start_evaluations, end_evaluations, checkpoint_path, checkpoint_sha256, status, publication_eligible, metadata)",
-      "start_line": 3660,
+      "start_line": 3657,
       "state_owner": "ResultDatabase",
       "symbol": "add_run_segment",
       "tests": []
@@ -15703,7 +15705,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3701,
+      "end_line": 3698,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15765,7 +15767,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, algorithm, run_index)",
-      "start_line": 3693,
+      "start_line": 3690,
       "state_owner": "ResultDatabase",
       "symbol": "get_run_by_algorithm_index",
       "tests": []
@@ -15862,7 +15864,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Preserve the complete current evidence pointer before a run row moves to another horizon.",
-      "end_line": 3746,
+      "end_line": 3743,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -15924,7 +15926,7 @@
         "schema"
       ],
       "signature": "(self, run_id, evaluation_horizon, revision_id)",
-      "start_line": 3703,
+      "start_line": 3700,
       "state_owner": "ResultDatabase",
       "symbol": "snapshot_run_horizon",
       "tests": []
@@ -15979,7 +15981,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3760,
+      "end_line": 3757,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16041,7 +16043,7 @@
         "schema"
       ],
       "signature": "(self, run_id, completed, arrays_path, scientific_fingerprint)",
-      "start_line": 3748,
+      "start_line": 3745,
       "state_owner": "ResultDatabase",
       "symbol": "update_run_result",
       "tests": []
@@ -16111,7 +16113,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3773,
+      "end_line": 3770,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16173,7 +16175,7 @@
         "schema"
       ],
       "signature": "(self, run_id)",
-      "start_line": 3762,
+      "start_line": 3759,
       "state_owner": "ResultDatabase",
       "symbol": "list_run_horizon_snapshots",
       "tests": []
@@ -16265,7 +16267,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.list_run_horizon_snapshots"
       ],
       "doc": "",
-      "end_line": 3793,
+      "end_line": 3790,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16327,7 +16329,7 @@
         "schema"
       ],
       "signature": "(self, run_id)",
-      "start_line": 3775,
+      "start_line": 3772,
       "state_owner": "ResultDatabase",
       "symbol": "available_run_horizons",
       "tests": []
@@ -16426,7 +16428,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_run"
       ],
       "doc": "Return preserved/current run evidence for exactly one FE horizon without mixing horizons.",
-      "end_line": 3822,
+      "end_line": 3819,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16488,7 +16490,7 @@
         "schema"
       ],
       "signature": "(self, run_id, evaluation_horizon)",
-      "start_line": 3795,
+      "start_line": 3792,
       "state_owner": "ResultDatabase",
       "symbol": "get_run_evidence_at_horizon",
       "tests": []
@@ -16573,7 +16575,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.get_run_evidence_at_horizon"
       ],
       "doc": "Return only runs with evidence at the requested horizon; never mix FE horizons silently.",
-      "end_line": 3852,
+      "end_line": 3849,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16635,7 +16637,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, evaluation_horizon)",
-      "start_line": 3824,
+      "start_line": 3821,
       "state_owner": "ResultDatabase",
       "symbol": "list_experiment_runs_at_horizon",
       "tests": []
@@ -16697,7 +16699,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.list_runs"
       ],
       "doc": "",
-      "end_line": 3858,
+      "end_line": 3855,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16759,7 +16761,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 3854,
+      "start_line": 3851,
       "state_owner": "ResultDatabase",
       "symbol": "list_experiment_horizons",
       "tests": []
@@ -16920,7 +16922,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.list_experiment_runs_at_horizon"
       ],
       "doc": "Describe completeness/eligibility for one evidence horizon without mixing revisions.",
-      "end_line": 3910,
+      "end_line": 3907,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -16982,7 +16984,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, evaluation_horizon)",
-      "start_line": 3860,
+      "start_line": 3857,
       "state_owner": "ResultDatabase",
       "symbol": "experiment_horizon_status",
       "tests": []
@@ -17057,7 +17059,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "",
-      "end_line": 3922,
+      "end_line": 3919,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17119,7 +17121,7 @@
         "schema"
       ],
       "signature": "(self, run_id)",
-      "start_line": 3912,
+      "start_line": 3909,
       "state_owner": "ResultDatabase",
       "symbol": "list_run_segments",
       "tests": []
@@ -17182,7 +17184,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 3939,
+      "end_line": 3936,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17244,7 +17246,7 @@
         "schema"
       ],
       "signature": "(self, value)",
-      "start_line": 3928,
+      "start_line": 3925,
       "state_owner": "ResultDatabase",
       "symbol": "resolve_array_path",
       "tests": []
@@ -17293,7 +17295,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.resolve_array_path"
       ],
       "doc": "",
-      "end_line": 3957,
+      "end_line": 3954,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17355,7 +17357,7 @@
         "schema"
       ],
       "signature": "(self, array_paths)",
-      "start_line": 3941,
+      "start_line": 3938,
       "state_owner": "ResultDatabase",
       "symbol": "_trace_file_stats",
       "tests": []
@@ -17447,7 +17449,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Return record and referenced trace-storage counts for one experiment.",
-      "end_line": 4019,
+      "end_line": 4016,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17509,7 +17511,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 3959,
+      "start_line": 3956,
       "state_owner": "ResultDatabase",
       "symbol": "experiment_storage_summary",
       "tests": []
@@ -17557,7 +17559,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.list_experiments"
       ],
       "doc": "",
-      "end_line": 4033,
+      "end_line": 4030,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17619,7 +17621,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 4021,
+      "start_line": 4018,
       "state_owner": "ResultDatabase",
       "symbol": "history_storage_summary",
       "tests": []
@@ -17713,7 +17715,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.resolve_array_path"
       ],
       "doc": "",
-      "end_line": 4074,
+      "end_line": 4071,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17775,7 +17777,7 @@
         "schema"
       ],
       "signature": "(self, array_paths)",
-      "start_line": 4035,
+      "start_line": 4032,
       "state_owner": "ResultDatabase",
       "symbol": "_delete_trace_files",
       "tests": []
@@ -17868,7 +17870,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.resolve_array_path"
       ],
       "doc": "Delete run-resume checkpoints owned exclusively by deleted logical runs.",
-      "end_line": 4096,
+      "end_line": 4093,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -17930,7 +17932,7 @@
         "schema"
       ],
       "signature": "(self, paths)",
-      "start_line": 4076,
+      "start_line": 4073,
       "state_owner": "ResultDatabase",
       "symbol": "_delete_checkpoint_files",
       "tests": []
@@ -17972,7 +17974,7 @@
       ],
       "calls_resolved": [],
       "doc": "Checkpoint WAL and compact free pages after destructive history operations.",
-      "end_line": 4106,
+      "end_line": 4103,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -18034,7 +18036,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 4098,
+      "start_line": 4095,
       "state_owner": "ResultDatabase",
       "symbol": "_compact_database",
       "tests": []
@@ -18127,7 +18129,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Delete one completed run, its validation records, and referenced array trace.",
-      "end_line": 4160,
+      "end_line": 4157,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -18189,7 +18191,7 @@
         "schema"
       ],
       "signature": "(self, run_id, compact)",
-      "start_line": 4108,
+      "start_line": 4105,
       "state_owner": "ResultDatabase",
       "symbol": "delete_run",
       "tests": []
@@ -18288,7 +18290,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Delete one experiment and all database/array traces owned by it.",
-      "end_line": 4264,
+      "end_line": 4261,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -18350,7 +18352,7 @@
         "schema"
       ],
       "signature": "(self, experiment_id, compact)",
-      "start_line": 4162,
+      "start_line": 4159,
       "state_owner": "ResultDatabase",
       "symbol": "delete_experiment",
       "tests": []
@@ -18442,7 +18444,7 @@
         "calo_rpd_studio.results.database.ResultDatabase.connect"
       ],
       "doc": "Delete all experiment history and all referenced run-array traces.",
-      "end_line": 4306,
+      "end_line": 4303,
       "entry_point": false,
       "file": "calo_rpd_studio/results/database.py",
       "implementation_core": false,
@@ -18504,7 +18506,7 @@
         "schema"
       ],
       "signature": "(self)",
-      "start_line": 4266,
+      "start_line": 4263,
       "state_owner": "ResultDatabase",
       "symbol": "clear_history",
       "tests": []

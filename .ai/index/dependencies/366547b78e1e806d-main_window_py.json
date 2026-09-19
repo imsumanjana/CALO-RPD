@@ -727,11 +727,6 @@
     {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
-      "to": "calo_rpd_studio.app.main_window.MainWindow._finish_deferred_close"
-    },
-    {
-      "confidence": "confirmed",
-      "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
       "to": "calo_rpd_studio.app.main_window.MainWindow._invalidate_case_workflows"
     },
     {
@@ -762,6 +757,11 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
       "to": "review_completed.connect"
     },
     {
@@ -778,6 +778,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
       "to": "self.experiment_manager.failed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
+      "to": "self.experiment_manager.idle.connect"
     },
     {
       "confidence": "unresolved",
@@ -828,11 +833,6 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
       "to": "self.workflow.mark_completed"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.app.main_window.MainWindow._connect_workflow",
-      "to": "self.workflow.mark_experiment_completed"
     },
     {
       "confidence": "unresolved",
@@ -1111,6 +1111,11 @@
     },
     {
       "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._manager_completion_workflow_event",
+      "to": "self.workflow.mark_experiment_stopped"
+    },
+    {
+      "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._mark_experiment_setup_completed",
       "to": "self.workflow.mark_completed"
     },
@@ -1137,6 +1142,31 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._mark_routed_setup_completed",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
+      "to": "self.state.execution_control.active_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
+      "to": "self.state.execution_control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker",
       "to": "str"
     },
     {
@@ -1420,6 +1450,11 @@
       "to": "bool"
     },
     {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
+      "to": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker"
+    },
+    {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
       "to": "dashboard.set_next_action"
@@ -1453,6 +1488,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
       "to": "self.command_registry.set_available"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._refresh_workflow",
+      "to": "self.command_registry.spec"
     },
     {
       "confidence": "unresolved",
@@ -1665,9 +1705,9 @@
       "to": "QMessageBox.information"
     },
     {
-      "confidence": "unresolved",
+      "confidence": "confirmed",
       "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
-      "to": "bool"
+      "to": "calo_rpd_studio.app.main_window.MainWindow._navigation_blocker"
     },
     {
       "confidence": "confirmed",
@@ -1688,11 +1728,6 @@
       "confidence": "confirmed",
       "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
       "to": "calo_rpd_studio.app.workspaces.workspace_index_for_key"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
-      "to": "getattr"
     },
     {
       "confidence": "unresolved",
@@ -1723,16 +1758,6 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
       "to": "self.stack.setCurrentIndex"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
-      "to": "self.state.execution_control.active_stage"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.app.main_window.MainWindow._set_workspace",
-      "to": "self.state.execution_control.controller"
     },
     {
       "confidence": "unresolved",
@@ -1777,6 +1802,26 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.main_window.MainWindow._toggle_theme",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._workspace_completion_workflow_event",
+      "to": "self.state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._workspace_completion_workflow_event",
+      "to": "self.workflow.mark_experiment_completed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._workspace_completion_workflow_event",
+      "to": "self.workflow.mark_experiment_stopped"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.main_window.MainWindow._workspace_completion_workflow_event",
       "to": "str"
     },
     {

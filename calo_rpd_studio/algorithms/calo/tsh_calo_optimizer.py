@@ -13,6 +13,7 @@ from calo_rpd_studio.algorithms.base_optimizer import BaseOptimizer
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 
 from .adaptive_epsilon import AdaptiveEpsilonController
+from .ai_controller import PARAMETER_NAMES
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
 from .cognitive_state import (
     build_cognitive_state,

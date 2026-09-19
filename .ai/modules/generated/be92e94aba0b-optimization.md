@@ -37,6 +37,7 @@
 - `tests`
 
 ## Related tests
+- `tests/gui/test_gui_wiring_acceptance.py`
 - `tests/gui/test_guided_workflow.py`
 - `tests/integration/test_workspace_execution_control.py`
 - `tests/regression/test_seed_reproducibility.py`
@@ -44,6 +45,7 @@
 - `tests/unit/test_calo_v4.py`
 - `tests/unit/test_cma_es.py`
 - `tests/unit/test_convergence_semantics.py`
+- `tests/unit/test_current_policy_safety_contract.py`
 - `tests/unit/test_lshade.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
 - `tests/unit/test_tsh_calo_optimizer.py`

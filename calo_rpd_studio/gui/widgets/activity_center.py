@@ -182,9 +182,12 @@ class ActivityCenter(QTabWidget):
         detail = str(snapshot.get("detail", ""))
         progress = int(snapshot.get("progress", 0))
         signature = (busy, state, title, detail, progress)
-        should_add = (
-            busy and signature != self._last_job_signature
-        ) or state in {"Completed", "Failed", "Cancelled", "Paused"}
+        should_add = (busy and signature != self._last_job_signature) or state in {
+            "Completed",
+            "Failed",
+            "Cancelled",
+            "Paused",
+        }
         self._last_job_signature = signature
         if should_add:
             self._job_sequence += 1
@@ -206,9 +209,7 @@ class ActivityCenter(QTabWidget):
                 self.jobs.setItem(row, column, QTableWidgetItem(value))
         if state in {"Failed", "Cancelled", "Paused"}:
             severity = (
-                "ERROR"
-                if state == "Failed"
-                else ("INFO" if state == "Paused" else "WARNING")
+                "ERROR" if state == "Failed" else ("INFO" if state == "Paused" else "WARNING")
             )
             self.append_log(severity, "task", detail)
         self.refresh_context()

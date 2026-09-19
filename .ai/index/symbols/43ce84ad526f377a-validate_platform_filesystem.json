@@ -1,0 +1,483 @@
+{
+  "path": "scripts/qa/validate_platform_filesystem.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "scripts/qa/validate_platform_filesystem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform",
+        "sys": "sys",
+        "tempfile": "tempfile",
+        "traceback": "traceback",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform",
+        "sys",
+        "tempfile",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "repository",
+      "parent_qualname": "scripts.qa.validate_platform_filesystem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "scripts.qa.validate_platform_filesystem",
+      "qualname": "scripts.qa.validate_platform_filesystem.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checks.append",
+          "target": "checks.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "link.symlink_to",
+          "target": "link.symlink_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "link.unlink",
+          "target": "link.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.read_text",
+          "target": "output.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.system",
+          "target": "platform.system"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.exists",
+          "target": "source.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.write_bytes",
+          "target": "source.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.mkdir",
+          "target": "stage.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.is_dir",
+          "target": "target.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.read_bytes",
+          "target": "target.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.write_bytes",
+          "target": "target.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.TemporaryDirectory",
+          "target": "tempfile.TemporaryDirectory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_bytes",
+          "target": "write_bytes"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "build_manifest": "name",
+        "checks.append": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.loads": "attribute",
+        "link.symlink_to": "attribute",
+        "link.unlink": "attribute",
+        "os.replace": "attribute",
+        "output.read_text": "attribute",
+        "platform.system": "attribute",
+        "source.exists": "attribute",
+        "source.write_bytes": "attribute",
+        "stage.mkdir": "attribute",
+        "str": "name",
+        "target.is_dir": "attribute",
+        "target.read_bytes": "attribute",
+        "target.write_bytes": "attribute",
+        "tempfile.TemporaryDirectory": "attribute",
+        "write_bytes": "attribute",
+        "write_manifest": "name"
+      },
+      "called_by": [
+        "scripts.qa.validate_platform_filesystem.main"
+      ],
+      "calls": [
+        "AssertionError",
+        "Path",
+        "RuntimeError",
+        "build_manifest",
+        "checks.append",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.loads",
+        "link.symlink_to",
+        "link.unlink",
+        "os.replace",
+        "output.read_text",
+        "platform.system",
+        "source.exists",
+        "source.write_bytes",
+        "stage.mkdir",
+        "str",
+        "target.is_dir",
+        "target.read_bytes",
+        "target.write_bytes",
+        "tempfile.TemporaryDirectory",
+        "write_bytes",
+        "write_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      ],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "scripts/qa/validate_platform_filesystem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform",
+        "sys": "sys",
+        "tempfile": "tempfile",
+        "traceback": "traceback",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform",
+        "sys",
+        "tempfile",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "scripts.qa.validate_platform_filesystem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "scripts.qa.validate_platform_filesystem",
+      "qualname": "scripts.qa.validate_platform_filesystem.validate",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.output.parent.mkdir",
+          "target": "args.output.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.output.write_text",
+          "target": "args.output.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_bytes",
+          "target": "path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.platform",
+          "target": "platform.platform"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.update",
+          "target": "report.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate",
+          "target": "scripts.qa.validate_platform_filesystem.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traceback.format_exc",
+          "target": "traceback.format_exc"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "argparse.ArgumentParser": "attribute",
+        "args.output.parent.mkdir": "attribute",
+        "args.output.write_text": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "path.read_bytes": "attribute",
+        "path.relative_to": "attribute",
+        "platform.platform": "attribute",
+        "print": "name",
+        "report.update": "attribute",
+        "resolve": "attribute",
+        "str": "name",
+        "traceback.format_exc": "attribute",
+        "validate": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "argparse.ArgumentParser",
+        "args.output.parent.mkdir",
+        "args.output.write_text",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "parser.add_argument",
+        "parser.parse_args",
+        "path.read_bytes",
+        "path.relative_to",
+        "platform.platform",
+        "print",
+        "report.update",
+        "resolve",
+        "str",
+        "traceback.format_exc",
+        "validate"
+      ],
+      "calls_resolved": [
+        "scripts.qa.validate_platform_filesystem.validate"
+      ],
+      "doc": "",
+      "end_line": 103,
+      "entry_point": false,
+      "file": "scripts/qa/validate_platform_filesystem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform",
+        "sys": "sys",
+        "tempfile": "tempfile",
+        "traceback": "traceback",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform",
+        "sys",
+        "tempfile",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "scripts.qa.validate_platform_filesystem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "scripts.qa.validate_platform_filesystem",
+      "qualname": "scripts.qa.validate_platform_filesystem.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

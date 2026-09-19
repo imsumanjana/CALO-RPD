@@ -26,6 +26,190 @@ def _load_json(path: Path) -> dict:
     return payload
 
 
+# Reviewed source-state contract. These declarations do not constitute validation evidence.
+_RUNTIME_STATUS_EXPECTATIONS = {
+    "phase": 6,
+    "supported_execution_modes": ["cuda-preferred", "cpu-only"],
+    "supported_execution_purposes": ["exploratory", "formal"],
+    "intel_xpu_executable": False,
+    "safe_memory_admission_fraction": 0.8,
+    "phase_2_validation": "accepted_phase2-20260807-003828_15_of_15_passed",
+    "phase_3_coding": "implemented_tabbed_workspace_table_width_correction_validated_windows",
+    "phase_3_initial_validation": "failed_phase3-20260807-045558_11_of_18_passed",
+    "phase_3_validation": (
+        "windows_automated_accepted_current_tabbed_layout_linux_manually_accepted"
+    ),
+    "phase_3_corrections": "implemented",
+    "phase_3_revalidation": "accepted_phase3-20260807-052047_18_of_18_passed",
+    "phase_3_revalidation_policy_workflows_executed": False,
+    "phase_3_remaining_windows_validation": (
+        "accepted_phase3-remaining-windows-20260807-121530_10_of_10_automated_passed"
+    ),
+    "phase_3_remaining_windows_validation_policy_workflows_executed": False,
+    "phase_3_remaining_windows_corrections": "accepted_phase3-remaining-windows-20260807-121530",
+    "phase_3_tabbed_layout_refinement": (
+        "windows_automated_accepted_linux_xcb_manually_accepted_by_owner"
+    ),
+    "phase_3_tabbed_layout_refinement_windows_validation": (
+        "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
+    ),
+    "phase_3_linux_rendering": (
+        "manually_validated_and_accepted_by_owner_no_automated_bundle_retained"
+    ),
+    "phase_3_keyboard_accessibility_acceptance": "accepted_windows_20260807_121530",
+    "phase_3_human_reviewer_input": "disabled_by_user_instruction",
+    "phase_3_scientist_acceptance": "not_inferred_automated_evidence_only",
+    "phase_3_overall_gate": "closed_by_owner_manual_linux_xcb_acceptance",
+    "phase_4_started": True,
+    "phase_4_coding": "implemented_and_combined_validation_passed_before_phase6",
+    "phase_4_validation": "passed_phase4-20260813-000340_32_of_32_combined_validation",
+    "phase_4_development_goal": "completed_phase4_development_combined_validation_passed",
+    "phase_5_started": True,
+    "phase_5_coding": "release_preparation_development_complete_combined_validation_passed",
+    "phase_5_validation": "passed_phase5-20260813-010531_41_of_41_combined_validation",
+    "phase_5_release_policy_scope": "pending_explicit_decision",
+    "phase_5_release_candidate": False,
+    "phase_5_final_release": False,
+    "phase_5_publication_authorized": False,
+    "phase_6_started": True,
+    "phase_6_goal": (
+        "complete_individual_experiment_independence_from_workspace_portfolio_and_study_while_workspace_automates_the_same_shared_experiment_manager_validation_pending"
+    ),
+    "phase_6_coding": (
+        "implemented_separate_mode_prerequisites_v2_frozen_plans_direct_individual_result_contract_workspace_portfolio_automation_shared_singleton_controller_and_numerical_executor_validation_pending"
+    ),
+    "phase_6_training_interface": (
+        "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
+    ),
+    "phase_6_training_input_help": (
+        "complete_19_of_19_applicable_accessible_hover_focus_information_controls_with_directional_effects_suggested_ranges_hard_limits_and_lifecycle_boundaries_validated_phase6-20260814-131637"
+    ),
+    "phase_6_native_execution": "validated_first_class_windows_non_docker_launch",
+    "phase_6_validation": (
+        "passed_phase6-20260817-014809_schema_v27_17_of_17_source_stable_but_superseded_by_individual_experiment_independence_correction_schema_v28_owner_validation_pending"
+    ),
+    "phase_6_checkbox_indicator_visibility": (
+        "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
+    ),
+    "phase_6_new_training_recovery_presentation": (
+        "validated_automatic_recovery_status_separate_from_selected_interrupted_exact_resume_phase6-20260814-131637"
+    ),
+    "phase_6_training_observability": (
+        "implemented_structured_checkpoint_progress_durable_jsonl_detailed_activity_steps_validation_pending"
+    ),
+    "phase_6_checkpoint_safe_pause": (
+        "implemented_authenticated_checkpoint_boundary_pause_unlimited_resume_count_validation_pending"
+    ),
+    "phase_6_training_evaluation_budget": "finite_exact_immutable_across_pause_and_resume",
+    "phase_6_unbounded_training": "not_implemented_finite_exact_evaluation_plan_preserved",
+    "phase_6_completed_model_extension": (
+        "implemented_explicit_authenticated_repeatable_finite_segments_exact_plan_values_frozen_architecture_complete_parameter_schema_software_revision_independent_validation_pending"
+    ),
+    "phase_6_extension_compatibility": (
+        "source_commit_and_writer_metadata_retained_as_nonadmission_provenance_architecture_resume_policy_parameter_layout_and_complete_training_parameter_field_sets_fail_closed_legacy_authority_reuse_needs_no_resupplied_paths_validation_pending"
+    ),
+    "phase_6_training_progress_presentation": (
+        "single_persistent_bottom_bar_progress_activity_retains_checkpoint_detail_left_inputs_retain_actions_only_validation_pending"
+    ),
+    "phase_6_context_pane_responsiveness": (
+        "training_paths_and_scroll_host_shrink_inside_fixed_left_pane_default_saved_training_path_reserves_all_wrapped_lines_without_horizontal_overflow_validation_pending"
+    ),
+    "phase_6_policy_library_completed_campaigns": (
+        "all_completed_campaigns_visible_including_candidate_attention_states_imported_campaigns_merged_with_registry_state_validation_pending"
+    ),
+    "phase_6_completed_campaign_deletion": (
+        "persistent_usable_delete_model_files_action_explicit_confirmed_physical_deletion_for_exact_unregistered_or_inactive_unqualified_unreferenced_imported_completed_directory_or_standalone_candidate_file_active_qualified_referenced_multi_registered_scan_root_symlink_and_incomplete_targets_refused_validation_pending"
+    ),
+    "phase_6_registered_policy_removal": (
+        "eligible_completed_or_standalone_candidate_registration_atomically_identity_checked_suppressed_and_removed_before_exact_file_deletion_qualification_binding_lineage_active_and_checksum_guards_fail_closed_validation_pending"
+    ),
+    "phase_6_reviewed_policy_removal": (
+        "review_policy_removal_gui_action_removed_cli_inventory_and_dry_run_workflow_retained_for_separately_governed_retirement_validation_pending"
+    ),
+    "phase_6_policy_activation": (
+        "explicit_in_library_activation_for_independently_qualified_compatible_integrity_verified_policy_only_training_completion_never_sufficient_validation_pending"
+    ),
+    "phase_6_governing_policy_handoff": (
+        "explicit_apply_binds_ready_immutable_policy_unlocks_and_navigates_to_power_system_without_starting_scientific_work_validation_pending"
+    ),
+    "phase_6_policy_library_layout": (
+        "full_width_no_internal_horizontal_or_vertical_scrollbar_height_tracks_header_plus_all_current_entries_validation_pending"
+    ),
+    "phase_6_governing_policy_layout": (
+        "full_width_expanding_policy_field_status_and_action_dynamic_page_height_bottom_clearance_manual_outer_scroll_reaches_complete_block_and_model_selection_preserves_scroll_position_validation_pending"
+    ),
+    "phase_6_extension_retained_state": (
+        "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
+    ),
+    "phase_6_extension_count_limit": "none_each_segment_explicit_and_finite",
+    "phase_6_extension_scientific_claim": (
+        "no_improvement_superiority_qualification_registration_or_activation_inferred"
+    ),
+    "phase_6_validation_policy_or_scientific_workflows_executed": False,
+    "phase_6_automated_human_acceptance": "not_inferred",
+    "phase_6_visual_refinement": (
+        "completed_phase6-panel-sweep-20260813-041700_16_workspace_panels_and_4_shell_renders"
+    ),
+    "phase_6_workspace_navigation": (
+        "complete_workspace_palette_permanent_expanded_ribbon_permanent_input_only_left_pane_scrollable_roomy_branded_preview_native_icon_controlled_separators"
+    ),
+    "phase_6_visual_refinement_tests": (
+        "previously_passed_7_of_7_and_panel_render_contract_case_picker_icon_separator_followup_awaits_manual_validator"
+    ),
+    "phase_6_individual_experiment_independence": (
+        "implemented_separate_persisted_setup_ledger_editable_runs_verified_exact_reuse_direct_audit_result_contract_and_plan_resume_identity_without_workspace_portfolio_or_study_metadata_schema_v28_validation_pending"
+    ),
+    "phase_6_workspace_automation_contract": (
+        "workspace_panels_continue_to_supply_frozen_portfolio_subset_runs_outputs_evidence_case_matrix_and_cells_to_the_shared_experiment_manager_schema_v28_validation_pending"
+    ),
+    "phase_6_execution_controller": (
+        "implemented_schema_v2_singleton_fenced_transactional_workspace_and_individual_ownership_workspace_safe_pause_release_individual_pause_retention_resume_interlock_terminal_cancellation_validation_pending"
+    ),
+    "phase_6_execution_job_identity": (
+        "implemented_parent_plan_and_cell_identity_duplicate_admission_rejection_existing_experiment_manager_only_validation_pending"
+    ),
+    "phase_6_workspace_individual_execution_plans": (
+        "implemented_v2_workspace_portfolio_subset_automated_cells_and_v2_individual_portfolio_independent_full_stage_direct_result_contract_plans_canonical_hashes_audit_receipts_validation_pending"
+    ),
+}
+
+_RUNTIME_STATUS_PREFIXES = {"phase_1_validation": "accepted_"}
+
+
+def _status_contract_failures(
+    status: dict, expectations: dict, prefixes: dict[str, str] | None = None
+) -> list[dict]:
+    """Describe every failed source-state requirement without changing or accepting evidence."""
+    failures = []
+    for field, expected in expectations.items():
+        actual = status.get(field)
+        if field not in status or type(actual) is not type(expected) or actual != expected:
+            failures.append(
+                {
+                    "field": field,
+                    "rule": "exact_value_and_type",
+                    "expected": expected,
+                    "actual": actual,
+                    "present": field in status,
+                    "expected_type": type(expected).__name__,
+                    "actual_type": type(actual).__name__,
+                }
+            )
+    for field, prefix in (prefixes or {}).items():
+        actual = status.get(field)
+        if not isinstance(actual, str) or not actual.startswith(prefix):
+            failures.append(
+                {
+                    "field": field,
+                    "rule": "prefix",
+                    "expected": prefix,
+                    "actual": actual,
+                    "present": field in status,
+                }
+            )
+    return failures
+
+
 def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
     """Return a machine-readable v12 identity report without changing repository state."""
 
@@ -62,118 +246,11 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         status.get("policy_training_authorized_by_status") is False
         and status.get("policy_evaluation_authorized_by_status") is False
     )
-    checks["active_status_runtime_contract"] = (
-        status.get("phase") == 6
-        and status.get("supported_execution_modes") == ["cuda-preferred", "cpu-only"]
-        and status.get("supported_execution_purposes") == ["exploratory", "formal"]
-        and status.get("intel_xpu_executable") is False
-        and status.get("safe_memory_admission_fraction") == 0.8
-        and status.get("phase_1_validation", "").startswith("accepted_")
-        and status.get("phase_2_validation") == "accepted_phase2-20260807-003828_15_of_15_passed"
-        and status.get("phase_3_coding")
-        == "implemented_tabbed_workspace_table_width_correction_validated_windows"
-        and status.get("phase_3_initial_validation")
-        == "failed_phase3-20260807-045558_11_of_18_passed"
-        and status.get("phase_3_validation")
-        == "windows_automated_accepted_current_tabbed_layout_linux_manually_accepted"
-        and status.get("phase_3_corrections") == "implemented"
-        and status.get("phase_3_revalidation") == "accepted_phase3-20260807-052047_18_of_18_passed"
-        and status.get("phase_3_revalidation_policy_workflows_executed") is False
-        and status.get("phase_3_remaining_windows_validation")
-        == "accepted_phase3-remaining-windows-20260807-121530_10_of_10_automated_passed"
-        and status.get("phase_3_remaining_windows_validation_policy_workflows_executed") is False
-        and status.get("phase_3_remaining_windows_corrections")
-        == "accepted_phase3-remaining-windows-20260807-121530"
-        and status.get("phase_3_tabbed_layout_refinement")
-        == "windows_automated_accepted_linux_xcb_manually_accepted_by_owner"
-        and status.get("phase_3_tabbed_layout_refinement_windows_validation")
-        == "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
-        and status.get("phase_3_linux_rendering")
-        == "manually_validated_and_accepted_by_owner_no_automated_bundle_retained"
-        and status.get("phase_3_keyboard_accessibility_acceptance")
-        == "accepted_windows_20260807_121530"
-        and status.get("phase_3_human_reviewer_input") == "disabled_by_user_instruction"
-        and status.get("phase_3_scientist_acceptance") == "not_inferred_automated_evidence_only"
-        and status.get("phase_3_overall_gate") == "closed_by_owner_manual_linux_xcb_acceptance"
-        and status.get("phase_4_started") is True
-        and status.get("phase_4_coding")
-        == "implemented_and_combined_validation_passed_before_phase6"
-        and status.get("phase_4_validation")
-        == "passed_phase4-20260813-000340_32_of_32_combined_validation"
-        and status.get("phase_4_development_goal")
-        == "completed_phase4_development_combined_validation_passed"
-        and status.get("phase_5_started") is True
-        and status.get("phase_5_coding")
-        == "release_preparation_development_complete_combined_validation_passed"
-        and status.get("phase_5_validation")
-        == "passed_phase5-20260813-010531_41_of_41_combined_validation"
-        and status.get("phase_5_release_policy_scope") == "pending_explicit_decision"
-        and status.get("phase_5_release_candidate") is False
-        and status.get("phase_5_final_release") is False
-        and status.get("phase_5_publication_authorized") is False
-        and status.get("phase_6_started") is True
-        and status.get("phase_6_goal")
-        == "explicit_policy_library_qualification_admission_comparison_activation_workflow_plus_prior_scroll_deletion_and_cross_version_extension_corrections_implementation_complete_validation_pending"
-        and status.get("phase_6_coding")
-        == "implemented_in_library_formal_plan_check_run_resume_integrity_bound_evidence_admission_comparable_policy_review_explicit_activation_no_selection_autoscroll_exact_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
-        and status.get("phase_6_training_interface")
-        == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
-        and status.get("phase_6_training_input_help")
-        == "complete_19_of_19_applicable_accessible_hover_focus_information_controls_with_directional_effects_suggested_ranges_hard_limits_and_lifecycle_boundaries_validated_phase6-20260814-131637"
-        and status.get("phase_6_native_execution")
-        == "validated_first_class_windows_non_docker_launch"
-        and status.get("phase_6_validation")
-        == "prior_pass_phase6-20260814-132200_superseded_by_progress_pause_extension_library_layout_path_removal_scroll_and_cross_version_compatibility_followups_validation_pending"
-        and status.get("phase_6_checkbox_indicator_visibility")
-        == "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
-        and status.get("phase_6_new_training_recovery_presentation")
-        == "validated_automatic_recovery_status_separate_from_selected_interrupted_exact_resume_phase6-20260814-131637"
-        and status.get("phase_6_training_observability")
-        == "implemented_structured_checkpoint_progress_durable_jsonl_detailed_activity_steps_validation_pending"
-        and status.get("phase_6_checkpoint_safe_pause")
-        == "implemented_authenticated_checkpoint_boundary_pause_unlimited_resume_count_validation_pending"
-        and status.get("phase_6_training_evaluation_budget")
-        == "finite_exact_immutable_across_pause_and_resume"
-        and status.get("phase_6_unbounded_training")
-        == "not_implemented_finite_exact_evaluation_plan_preserved"
-        and status.get("phase_6_completed_model_extension")
-        == "implemented_explicit_authenticated_repeatable_finite_segments_exact_plan_values_frozen_architecture_complete_parameter_schema_software_revision_independent_validation_pending"
-        and status.get("phase_6_extension_compatibility")
-        == "source_commit_and_writer_metadata_retained_as_nonadmission_provenance_architecture_resume_policy_parameter_layout_and_complete_training_parameter_field_sets_fail_closed_legacy_authority_reuse_needs_no_resupplied_paths_validation_pending"
-        and status.get("phase_6_training_progress_presentation")
-        == "single_persistent_bottom_bar_progress_activity_retains_checkpoint_detail_left_inputs_retain_actions_only_validation_pending"
-        and status.get("phase_6_context_pane_responsiveness")
-        == "training_paths_and_scroll_host_shrink_inside_fixed_left_pane_default_saved_training_path_reserves_all_wrapped_lines_without_horizontal_overflow_validation_pending"
-        and status.get("phase_6_policy_library_completed_campaigns")
-        == "all_completed_campaigns_visible_including_candidate_attention_states_imported_campaigns_merged_with_registry_state_validation_pending"
-        and status.get("phase_6_completed_campaign_deletion")
-        == "persistent_usable_delete_model_files_action_explicit_confirmed_physical_deletion_for_exact_unregistered_or_inactive_unqualified_unreferenced_imported_completed_directory_or_standalone_candidate_file_active_qualified_referenced_multi_registered_scan_root_symlink_and_incomplete_targets_refused_validation_pending"
-        and status.get("phase_6_registered_policy_removal")
-        == "eligible_completed_or_standalone_candidate_registration_atomically_identity_checked_suppressed_and_removed_before_exact_file_deletion_qualification_binding_lineage_active_and_checksum_guards_fail_closed_validation_pending"
-        and status.get("phase_6_reviewed_policy_removal")
-        == "review_policy_removal_gui_action_removed_cli_inventory_and_dry_run_workflow_retained_for_separately_governed_retirement_validation_pending"
-        and status.get("phase_6_policy_activation")
-        == "explicit_in_library_activation_for_independently_qualified_compatible_integrity_verified_policy_only_training_completion_never_sufficient_validation_pending"
-        and status.get("phase_6_governing_policy_handoff")
-        == "explicit_apply_binds_ready_immutable_policy_unlocks_and_navigates_to_power_system_without_starting_scientific_work_validation_pending"
-        and status.get("phase_6_policy_library_layout")
-        == "full_width_no_internal_horizontal_or_vertical_scrollbar_height_tracks_header_plus_all_current_entries_validation_pending"
-        and status.get("phase_6_governing_policy_layout")
-        == "full_width_expanding_policy_field_status_and_action_dynamic_page_height_bottom_clearance_manual_outer_scroll_reaches_complete_block_and_model_selection_preserves_scroll_position_validation_pending"
-        and status.get("phase_6_extension_retained_state")
-        == "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
-        and status.get("phase_6_extension_count_limit") == "none_each_segment_explicit_and_finite"
-        and status.get("phase_6_extension_scientific_claim")
-        == "no_improvement_superiority_qualification_registration_or_activation_inferred"
-        and status.get("phase_6_validation_policy_or_scientific_workflows_executed") is False
-        and status.get("phase_6_automated_human_acceptance") == "not_inferred"
-        and status.get("phase_6_visual_refinement")
-        == "completed_phase6-panel-sweep-20260813-041700_16_workspace_panels_and_4_shell_renders"
-        and status.get("phase_6_workspace_navigation")
-        == "complete_workspace_palette_permanent_expanded_ribbon_permanent_input_only_left_pane_scrollable_roomy_branded_preview_native_icon_controlled_separators"
-        and status.get("phase_6_visual_refinement_tests")
-        == "previously_passed_7_of_7_and_panel_render_contract_case_picker_icon_separator_followup_awaits_manual_validator"
+    runtime_failures = _status_contract_failures(
+        status, _RUNTIME_STATUS_EXPECTATIONS, _RUNTIME_STATUS_PREFIXES
     )
+    details["active_status_runtime_contract_failures"] = runtime_failures
+    checks["active_status_runtime_contract"] = not runtime_failures
     checks["validation_attempt_history_contract"] = (
         status.get("phase_4_seventh_combined_validation_attempt")
         == "passed_phase4-20260812-195901_32_of_32_development_validation"

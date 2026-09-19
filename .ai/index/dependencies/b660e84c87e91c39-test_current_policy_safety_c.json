@@ -1,0 +1,45 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/ai_controller.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/state_manager.py"
+    }
+  ],
+  "path": "tests/unit/test_current_policy_safety_contract.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_current_policy_safety_contract.test_empty_registry_startup_does_not_invent_a_policy",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_current_policy_safety_contract.test_empty_registry_startup_does_not_invent_a_policy",
+      "to": "state.governing_policy_status"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_current_policy_safety_contract.test_empty_registry_startup_does_not_invent_a_policy",
+      "to": "state.policy_registry.list"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_current_policy_safety_contract.test_missing_policy_never_constructs_an_untrained_fallback",
+      "to": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_current_policy_safety_contract.test_missing_policy_never_constructs_an_untrained_fallback",
+      "to": "pytest.raises"
+    }
+  ]
+}

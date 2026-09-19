@@ -578,7 +578,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 175,
+      "end_line": 180,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -790,7 +790,7 @@
         "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
       ],
       "doc": "",
-      "end_line": 163,
+      "end_line": 161,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -897,6 +897,129 @@
           "target": "asdict"
         },
         {
+          "confidence": "unresolved",
+          "raw": "parameters.pop",
+          "target": "parameters.pop"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "parameters.pop": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "parameters.pop"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the exact persisted parameter schema, including legacy guard omission.",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTrainingProvenance": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.IndependentTrainingProvenance",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "Path": "pathlib.Path",
+        "PreparedTopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.PreparedTopologyAwarePolicyState",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "load_tsh_calo_training_episode_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt",
+        "logging": "logging",
+        "np": "numpy",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "save_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.save_tsh_calo_candidate",
+        "torch": "torch",
+        "validate_generalization_guard_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.validate_generalization_guard_provenance",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".topology_context",
+        ".transition_kernel",
+        ".tsh_calo_generalization_guard",
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_schema",
+        ".tsh_calo_training_receipt",
+        ".tsh_calo_training_resources",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.checkpoint_parameters",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "checkpoint_parameters",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
           "confidence": "confirmed",
           "raw": "self.validate",
           "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.validate"
@@ -950,7 +1073,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.validate"
       ],
       "doc": "",
-      "end_line": 175,
+      "end_line": 180,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1042,7 +1165,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 165,
+      "start_line": 170,
       "state_owner": "",
       "symbol": "scientific_design_hash",
       "tests": []
@@ -1058,7 +1181,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 221,
+      "end_line": 226,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1150,7 +1273,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 179,
+      "start_line": 184,
       "state_owner": "",
       "symbol": "TSHCALOTrainingAction",
       "tests": []
@@ -1227,7 +1350,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingAction.validate"
       ],
       "doc": "",
-      "end_line": 221,
+      "end_line": 226,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1319,7 +1442,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 188,
+      "start_line": 193,
       "state_owner": "",
       "symbol": "validate",
       "tests": []
@@ -1336,7 +1459,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Validated action tensors retained on the learner device across PPO epochs.",
-      "end_line": 235,
+      "end_line": 240,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1428,7 +1551,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 225,
+      "start_line": 230,
       "state_owner": "",
       "symbol": "_PreparedTSHCALOTrainingAction",
       "tests": []
@@ -1446,7 +1569,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 263,
+      "end_line": 268,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1538,7 +1661,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 239,
+      "start_line": 244,
       "state_owner": "",
       "symbol": "TSHCALORolloutBatch",
       "tests": [
@@ -1606,7 +1729,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 263,
+      "end_line": 268,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1698,7 +1821,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 247,
+      "start_line": 252,
       "state_owner": "",
       "symbol": "validate",
       "tests": []
@@ -1714,7 +1837,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 271,
+      "end_line": 276,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1806,7 +1929,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 267,
+      "start_line": 272,
       "state_owner": "",
       "symbol": "PendingTSHCALORolloutStep",
       "tests": []
@@ -1827,7 +1950,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Collect PPO data only from the versioned canonical transition reward authority.",
-      "end_line": 423,
+      "end_line": 428,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -1919,7 +2042,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 274,
+      "start_line": 279,
       "state_owner": "",
       "symbol": "IndependentTSHCALORolloutCollector",
       "tests": [
@@ -1936,7 +2059,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 287,
+      "end_line": 292,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2028,7 +2151,7 @@
         "qualification"
       ],
       "signature": "(self, trainer)",
-      "start_line": 279,
+      "start_line": 284,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -2082,7 +2205,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.PendingTSHCALORolloutStep"
       ],
       "doc": "",
-      "end_line": 316,
+      "end_line": 321,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2174,7 +2297,7 @@
         "qualification"
       ],
       "signature": "(self, state, action_mask, learner_groups, learner_contexts, deterministic)",
-      "start_line": 289,
+      "start_line": 294,
       "state_owner": "",
       "symbol": "sample",
       "tests": []
@@ -2282,7 +2405,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 333,
+      "end_line": 338,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2374,7 +2497,7 @@
         "qualification"
       ],
       "signature": "(self, transition, terminal)",
-      "start_line": 318,
+      "start_line": 323,
       "state_owner": "",
       "symbol": "commit",
       "tests": []
@@ -2398,7 +2521,7 @@
       ],
       "calls_resolved": [],
       "doc": "Explicitly discard an unevaluated action after a failed/cancelled environment step.",
-      "end_line": 340,
+      "end_line": 345,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2490,7 +2613,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 335,
+      "start_line": 340,
       "state_owner": "",
       "symbol": "discard_pending",
       "tests": []
@@ -2586,7 +2709,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch"
       ],
       "doc": "",
-      "end_line": 373,
+      "end_line": 378,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2678,7 +2801,7 @@
         "qualification"
       ],
       "signature": "(self, bootstrap_value)",
-      "start_line": 342,
+      "start_line": 347,
       "state_owner": "",
       "symbol": "build_batch",
       "tests": []
@@ -2723,7 +2846,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 387,
+      "end_line": 392,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2815,7 +2938,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 375,
+      "start_line": 380,
       "state_owner": "",
       "symbol": "state_dict",
       "tests": []
@@ -2905,7 +3028,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 423,
+      "end_line": 428,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -2997,7 +3120,7 @@
         "qualification"
       ],
       "signature": "(cls, trainer, payload)",
-      "start_line": 390,
+      "start_line": 395,
       "state_owner": "",
       "symbol": "from_state_dict",
       "tests": [
@@ -3053,7 +3176,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 430,
+      "end_line": 435,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3145,7 +3268,7 @@
         "qualification"
       ],
       "signature": "(optimizer, device)",
-      "start_line": 426,
+      "start_line": 431,
       "state_owner": "",
       "symbol": "_optimizer_to_device",
       "tests": []
@@ -3179,7 +3302,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "PPO learner with no registry, activation, GUI, or experiment-workflow authority.",
-      "end_line": 973,
+      "end_line": 971,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3271,7 +3394,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 433,
+      "start_line": 438,
       "state_owner": "",
       "symbol": "IndependentTSHCALOTrainer",
       "tests": [
@@ -3380,7 +3503,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training._build_and_admit_training_network"
       ],
       "doc": "",
-      "end_line": 457,
+      "end_line": 462,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3472,7 +3595,7 @@
         "qualification"
       ],
       "signature": "(self, config)",
-      "start_line": 438,
+      "start_line": 443,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -3503,7 +3626,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.close"
       ],
       "doc": "",
-      "end_line": 463,
+      "end_line": 468,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3595,7 +3718,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 459,
+      "start_line": 464,
       "state_owner": "",
       "symbol": "close",
       "tests": []
@@ -3626,7 +3749,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 467,
+      "end_line": 472,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3718,7 +3841,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 465,
+      "start_line": 470,
       "state_owner": "",
       "symbol": "_assert_open",
       "tests": []
@@ -3732,7 +3855,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 470,
+      "end_line": 475,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3824,7 +3947,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 469,
+      "start_line": 474,
       "state_owner": "",
       "symbol": "__enter__",
       "tests": []
@@ -3850,7 +3973,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.close"
       ],
       "doc": "",
-      "end_line": 473,
+      "end_line": 478,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -3942,7 +4065,7 @@
         "qualification"
       ],
       "signature": "(self, _exc_type, _exc, _tb)",
-      "start_line": 472,
+      "start_line": 477,
       "state_owner": "",
       "symbol": "__exit__",
       "tests": []
@@ -3975,7 +4098,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.close"
       ],
       "doc": "",
-      "end_line": 479,
+      "end_line": 484,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -4067,7 +4190,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 475,
+      "start_line": 480,
       "state_owner": "",
       "symbol": "__del__",
       "tests": []
@@ -4101,7 +4224,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 496,
+      "end_line": 501,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -4193,7 +4316,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 481,
+      "start_line": 486,
       "state_owner": "",
       "symbol": "device_provenance",
       "tests": []
@@ -4289,7 +4412,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer._assert_open"
       ],
       "doc": "",
-      "end_line": 506,
+      "end_line": 511,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -4381,7 +4504,7 @@
         "qualification"
       ],
       "signature": "(self, state, population_size)",
-      "start_line": 498,
+      "start_line": 503,
       "state_owner": "",
       "symbol": "estimate_value",
       "tests": []
@@ -4457,7 +4580,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt"
       ],
       "doc": "",
-      "end_line": 528,
+      "end_line": 533,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -4549,7 +4672,7 @@
         "qualification"
       ],
       "signature": "(self, payload)",
-      "start_line": 508,
+      "start_line": 513,
       "state_owner": "",
       "symbol": "record_training_episode_receipt",
       "tests": []
@@ -4767,7 +4890,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer._prepare_action"
       ],
       "doc": "",
-      "end_line": 593,
+      "end_line": 598,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -4859,7 +4982,7 @@
         "qualification"
       ],
       "signature": "(self, state, action)",
-      "start_line": 530,
+      "start_line": 535,
       "state_owner": "",
       "symbol": "_log_probability_entropy_value",
       "tests": []
@@ -4909,7 +5032,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training._PreparedTSHCALOTrainingAction"
       ],
       "doc": "",
-      "end_line": 617,
+      "end_line": 622,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -5001,7 +5124,7 @@
         "qualification"
       ],
       "signature": "(self, action)",
-      "start_line": 595,
+      "start_line": 600,
       "state_owner": "",
       "symbol": "_prepare_action",
       "tests": []
@@ -5250,7 +5373,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training._PreparedTSHCALOTrainingAction"
       ],
       "doc": "",
-      "end_line": 715,
+      "end_line": 720,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -5342,7 +5465,7 @@
         "qualification"
       ],
       "signature": "(self, state, action_mask, learner_groups, learner_contexts, deterministic)",
-      "start_line": 620,
+      "start_line": 625,
       "state_owner": "",
       "symbol": "sample_action",
       "tests": []
@@ -5664,7 +5787,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer._prepare_action"
       ],
       "doc": "",
-      "end_line": 793,
+      "end_line": 798,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -5756,7 +5879,7 @@
         "qualification"
       ],
       "signature": "(self, batch)",
-      "start_line": 717,
+      "start_line": 722,
       "state_owner": "",
       "symbol": "update",
       "tests": []
@@ -5765,11 +5888,6 @@
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
       "authoritative_source": "",
       "call_edges": [
-        {
-          "confidence": "unresolved",
-          "raw": "asdict",
-          "target": "asdict"
-        },
         {
           "confidence": "confirmed",
           "raw": "self._assert_open",
@@ -5789,6 +5907,11 @@
           "confidence": "unresolved",
           "raw": "items",
           "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.checkpoint_parameters",
+          "target": "self.config.checkpoint_parameters"
         },
         {
           "confidence": "unresolved",
@@ -5817,44 +5940,37 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "training_config.pop",
-          "target": "training_config.pop"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "tuple",
           "target": "tuple"
         }
       ],
       "call_forms": {
-        "asdict": "name",
         "cpu": "attribute",
         "items": "attribute",
         "self._assert_open": "attribute",
+        "self.config.checkpoint_parameters": "attribute",
         "self.config.scientific_design_hash": "attribute",
         "self.device_provenance": "attribute",
         "self.network.state_dict": "attribute",
         "self.optimizer.state_dict": "attribute",
         "self.torch_generator.get_state": "attribute",
         "tensor.detach": "attribute",
-        "training_config.pop": "attribute",
         "tuple": "name"
       },
       "called_by": [
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.save_resume"
       ],
       "calls": [
-        "asdict",
         "cpu",
         "items",
         "self._assert_open",
+        "self.config.checkpoint_parameters",
         "self.config.scientific_design_hash",
         "self.device_provenance",
         "self.network.state_dict",
         "self.optimizer.state_dict",
         "self.torch_generator.get_state",
         "tensor.detach",
-        "training_config.pop",
         "tuple"
       ],
       "calls_resolved": [
@@ -5862,7 +5978,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.device_provenance"
       ],
       "doc": "",
-      "end_line": 818,
+      "end_line": 821,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -5954,7 +6070,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 795,
+      "start_line": 800,
       "state_owner": "",
       "symbol": "resume_state_dict",
       "tests": []
@@ -6024,7 +6140,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict"
       ],
       "doc": "",
-      "end_line": 824,
+      "end_line": 827,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -6116,7 +6232,7 @@
         "qualification"
       ],
       "signature": "(self, path)",
-      "start_line": 820,
+      "start_line": 823,
       "state_owner": "",
       "symbol": "save_resume",
       "tests": []
@@ -6287,7 +6403,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
       ],
       "doc": "",
-      "end_line": 881,
+      "end_line": 884,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -6379,7 +6495,7 @@
         "qualification"
       ],
       "signature": "(cls, payload, expected_config)",
-      "start_line": 827,
+      "start_line": 830,
       "state_owner": "",
       "symbol": "from_resume_state_dict",
       "tests": []
@@ -6416,7 +6532,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.from_resume_state_dict"
       ],
       "doc": "",
-      "end_line": 892,
+      "end_line": 895,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -6508,7 +6624,7 @@
         "qualification"
       ],
       "signature": "(cls, path, expected_sha256, expected_config)",
-      "start_line": 884,
+      "start_line": 887,
       "state_owner": "",
       "symbol": "load_resume",
       "tests": [
@@ -6639,7 +6755,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training._valid_sha256"
       ],
       "doc": "",
-      "end_line": 973,
+      "end_line": 971,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py",
       "implementation_core": false,
@@ -6731,7 +6847,7 @@
         "qualification"
       ],
       "signature": "(self, path, source_commit, execution_source_commit, generalization_guard)",
-      "start_line": 894,
+      "start_line": 897,
       "state_owner": "",
       "symbol": "export_unqualified_candidate",
       "tests": []

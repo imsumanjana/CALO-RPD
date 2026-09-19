@@ -118,8 +118,7 @@ class GlobalStatusBarWidget(QWidget):
                 self.progress.setValue(progress)
                 self.progress.setFormat(f"{progress}%")
             safe_pause_task = any(
-                token in title.casefold()
-                for token in ("policy training", "policy qualification")
+                token in title.casefold() for token in ("policy training", "policy qualification")
             )
             self.cancel_button.setText("Pause safely" if safe_pause_task else "Cancel")
             self.cancel_button.setToolTip(

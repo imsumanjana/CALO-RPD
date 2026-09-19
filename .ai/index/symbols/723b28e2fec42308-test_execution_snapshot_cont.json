@@ -1,0 +1,218 @@
+{
+  "path": "tests/unit/test_execution_snapshot_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentWorker",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentWorker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentWorker": "name",
+        "SimpleNamespace": "name",
+        "append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentWorker",
+        "SimpleNamespace",
+        "append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "tests/unit/test_execution_snapshot_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentWorker": "calo_rpd_studio.app.experiment_manager.ExperimentWorker",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.task_status",
+        "calo_rpd_studio.experiments.experiment_config",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_execution_snapshot_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_execution_snapshot_contract",
+      "qualname": "tests.unit.test_execution_snapshot_contract.test_worker_owns_nested_configuration_snapshot",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "test_worker_owns_nested_configuration_snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TaskStatus",
+          "target": "calo_rpd_studio.app.task_status.TaskStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exported.algorithms.append",
+          "target": "exported.algorithms.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager._worker_finished",
+          "target": "manager._worker_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.start_comparison",
+          "target": "manager.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "starts.append",
+          "target": "starts.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.task_status.finish",
+          "target": "state.task_status.finish"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentManager": "name",
+        "SimpleNamespace": "name",
+        "TaskStatus": "name",
+        "exported.algorithms.append": "attribute",
+        "len": "name",
+        "manager._worker_finished": "attribute",
+        "manager.start_comparison": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "starts.append": "attribute",
+        "state.task_status.finish": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentManager",
+        "SimpleNamespace",
+        "TaskStatus",
+        "exported.algorithms.append",
+        "len",
+        "manager._worker_finished",
+        "manager.start_comparison",
+        "monkeypatch.setattr",
+        "starts.append",
+        "state.task_status.finish"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.task_status.TaskStatus",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_execution_snapshot_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentWorker": "calo_rpd_studio.app.experiment_manager.ExperimentWorker",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.task_status",
+        "calo_rpd_studio.experiments.experiment_config",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_execution_snapshot_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_execution_snapshot_contract",
+      "qualname": "tests.unit.test_execution_snapshot_contract.test_manager_snapshot_and_read_api_cannot_mutate_admitted_run",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "test_manager_snapshot_and_read_api_cannot_mutate_admitted_run",
+      "tests": []
+    }
+  ]
+}

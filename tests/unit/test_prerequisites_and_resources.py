@@ -69,9 +69,7 @@ def test_scan_environment_rejects_pytorch_outside_project_contract(monkeypatch):
     assert "does not satisfy" in report.message
 
 
-def test_installer_repairs_broken_scientific_import_before_pytorch(
-    monkeypatch, tmp_path
-):
+def test_installer_repairs_broken_scientific_import_before_pytorch(monkeypatch, tmp_path):
     calls: list[list[str]] = []
     reports = iter(
         [
@@ -128,14 +126,16 @@ def test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails(
     assert not any("torch" in " ".join(call).lower() for call in calls)
 
 
-def test_installer_keeps_existing_torch_until_replacement_install_succeeds(
-    monkeypatch, tmp_path
-):
+def test_installer_keeps_existing_torch_until_replacement_install_succeeds(monkeypatch, tmp_path):
     calls: list[list[str]] = []
     reports = iter(
         [
-            TorchInfo(installed=True, version="2.11.0+cu128", cuda_available=True, gpu_test_passed=True),
-            TorchInfo(installed=True, version="2.10.0+cu128", cuda_available=True, gpu_test_passed=True),
+            TorchInfo(
+                installed=True, version="2.11.0+cu128", cuda_available=True, gpu_test_passed=True
+            ),
+            TorchInfo(
+                installed=True, version="2.10.0+cu128", cuda_available=True, gpu_test_passed=True
+            ),
         ]
     )
     monkeypatch.setattr(prerequisites, "project_root", lambda: tmp_path)
@@ -220,7 +220,9 @@ def test_installer_does_not_cycle_wheels_after_pytorch_verification_exception(
         lambda: NvidiaInfo(True, "GPU", "999", "12.8", ""),
     )
     monkeypatch.setattr(prerequisites, "detect_torch", lambda: next(reports))
-    monkeypatch.setattr(prerequisites, "candidate_torch_channels", lambda unused: ["cu128", "cu126"])
+    monkeypatch.setattr(
+        prerequisites, "candidate_torch_channels", lambda unused: ["cu128", "cu126"]
+    )
     monkeypatch.setattr(
         prerequisites, "project_torch_requirement", lambda unused=None: "torch>=2.10,<2.11"
     )
@@ -229,11 +231,14 @@ def test_installer_does_not_cycle_wheels_after_pytorch_verification_exception(
         prerequisites.install_or_repair()
 
     torch_installs = [
-        call for call in calls if call and call[0] == "install" and any("torch" in item for item in call)
+        call
+        for call in calls
+        if call and call[0] == "install" and any("torch" in item for item in call)
     ]
     torch_uninstalls = [call for call in calls if call[:3] == ["uninstall", "-y", "torch"]]
     assert len(torch_installs) == 1
     assert torch_uninstalls == []
+
 
 def test_gpu_capability_classification_covers_comparison_and_ablation():
     comparison = PlannedItem(0, 0, "CALO", None)

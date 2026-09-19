@@ -95,9 +95,7 @@ def summarize_robust_parameter_response(
         observation.validate()
         groups.setdefault(observation.design_index, []).append(observation)
     expected_pairs = {
-        (replicate, case)
-        for replicate in range(independent_replicates)
-        for case in required_cases
+        (replicate, case) for replicate in range(independent_replicates) for case in required_cases
     }
     summaries: list[dict[str, Any]] = []
     for design_index, rows in sorted(groups.items()):
@@ -123,7 +121,11 @@ def summarize_robust_parameter_response(
                 "full_feasibility_rate": feasibility,
                 "passes_feasibility_gate": feasibility >= minimum_full_feasibility,
                 "median_final_objective": float(np.median(objectives)) if objectives else None,
-                "final_objective_iqr": _iqr(objectives) if len(objectives) >= 2 else 0.0 if objectives else None,
+                "final_objective_iqr": _iqr(objectives)
+                if len(objectives) >= 2
+                else 0.0
+                if objectives
+                else None,
                 "median_first_feasible_evaluations": (
                     float(np.median(first_feasible)) if first_feasible else None
                 ),
@@ -188,7 +190,9 @@ class LocalParameterResponsePlan:
         if self.schema_version != TSH_CALO_LOCAL_RESPONSE_PLAN_SCHEMA:
             raise ValueError("Local parameter-response plan schema is incompatible")
         if not self.analysis_id.strip() or not self.source_run_id.strip():
-            raise ValueError("Local parameter-response plan requires analysis and source-run identities")
+            raise ValueError(
+                "Local parameter-response plan requires analysis and source-run identities"
+            )
         _sha256(self.policy_sha256, "Policy identity")
         _sha256(self.trajectory_row_sha256, "Trajectory-state identity")
         _sha256(self.rng_state_sha256, "Random-state identity")
@@ -206,7 +210,9 @@ class LocalParameterResponsePlan:
             raise ValueError("Local response parameter is not part of the policy action") from exc
         lower = float(PARAMETER_LOW[parameter_index])
         upper = float(PARAMETER_HIGH[parameter_index])
-        if len(self.candidate_values) < 3 or len(set(self.candidate_values)) != len(self.candidate_values):
+        if len(self.candidate_values) < 3 or len(set(self.candidate_values)) != len(
+            self.candidate_values
+        ):
             raise ValueError("Local parameter response requires at least three distinct values")
         if any(not math.isfinite(float(value)) for value in self.candidate_values):
             raise ValueError("Local parameter response values must be finite")
@@ -216,7 +222,9 @@ class LocalParameterResponsePlan:
                 f"[{lower:g}, {upper:g}]"
             )
         if self.analysis_fe_budget_per_value < 1:
-            raise ValueError("Local parameter response requires a separate positive analysis FE budget")
+            raise ValueError(
+                "Local parameter response requires a separate positive analysis FE budget"
+            )
         if not self.analysis_fe_ledger_id.strip():
             raise ValueError("Local parameter response requires a separate analysis FE ledger")
         if self.protected_case:

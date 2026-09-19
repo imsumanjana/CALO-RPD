@@ -11,7 +11,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 41,
+      "end_line": 43,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -21,6 +21,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -29,6 +30,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -39,6 +41,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -46,6 +49,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -56,7 +60,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -71,7 +76,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.SOURCE_COMMIT",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 41,
+      "start_line": 43,
       "state_owner": "",
       "symbol": "SOURCE_COMMIT",
       "tests": []
@@ -85,7 +90,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 42,
+      "end_line": 44,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -95,6 +100,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -103,6 +109,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -113,6 +120,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -120,6 +128,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -130,7 +139,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -145,7 +155,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.DEVELOPMENT_FREEZE_SHA256",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 42,
+      "start_line": 44,
       "state_owner": "",
       "symbol": "DEVELOPMENT_FREEZE_SHA256",
       "tests": []
@@ -159,7 +169,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 43,
+      "end_line": 45,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -169,6 +179,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -177,6 +188,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -187,6 +199,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -194,6 +207,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -204,7 +218,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -219,7 +234,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.PHASE4_ACCEPTANCE_SHA256",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 43,
+      "start_line": 45,
       "state_owner": "",
       "symbol": "PHASE4_ACCEPTANCE_SHA256",
       "tests": []
@@ -262,6 +277,7 @@
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
         "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+        "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_parameters_preserve_legacy_omission_and_guard_identity",
         "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
         "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
         "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
@@ -292,7 +308,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
       ],
       "doc": "",
-      "end_line": 70,
+      "end_line": 72,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -302,6 +318,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -310,6 +327,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -320,6 +338,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -327,6 +346,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -337,7 +357,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -352,7 +373,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign._plan",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 46,
+      "start_line": 48,
       "state_owner": "",
       "symbol": "_plan",
       "tests": []
@@ -413,7 +434,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 85,
+      "end_line": 87,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -423,6 +444,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -431,6 +453,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -441,6 +464,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -448,6 +472,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -458,7 +483,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -473,7 +499,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 73,
+      "start_line": 75,
       "state_owner": "",
       "symbol": "test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
       "tests": []
@@ -513,7 +539,7 @@
         "calo_rpd_studio.orpd.problem.ORPDProblem"
       ],
       "doc": "",
-      "end_line": 89,
+      "end_line": 91,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -523,6 +549,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -531,6 +558,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -541,6 +569,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -548,6 +577,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -558,7 +588,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -573,7 +604,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign._factory",
       "semantic_tags": [],
       "signature": "(toy_case)",
-      "start_line": 88,
+      "start_line": 90,
       "state_owner": "",
       "symbol": "_factory",
       "tests": []
@@ -608,7 +639,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 97,
+      "end_line": 99,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -618,6 +649,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -626,6 +658,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -636,6 +669,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -643,6 +677,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -653,7 +688,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -668,7 +704,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign._model_states",
       "semantic_tags": [],
       "signature": "(result)",
-      "start_line": 92,
+      "start_line": 94,
       "state_owner": "",
       "symbol": "_model_states",
       "tests": []
@@ -830,7 +866,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 160,
+      "end_line": 158,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -840,6 +876,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -848,6 +885,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -858,6 +896,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -865,6 +904,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -875,7 +915,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -890,7 +931,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 100,
+      "start_line": 102,
       "state_owner": "",
       "symbol": "test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
       "tests": []
@@ -1048,7 +1089,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 227,
+      "end_line": 220,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1058,6 +1099,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1066,6 +1108,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1076,6 +1119,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1083,6 +1127,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1093,7 +1138,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1108,7 +1154,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 163,
+      "start_line": 161,
       "state_owner": "",
       "symbol": "test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
       "tests": []
@@ -1207,7 +1253,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 244,
+      "end_line": 237,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1217,6 +1263,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1225,6 +1272,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1235,6 +1283,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1242,6 +1291,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1252,7 +1302,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1267,7 +1318,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 230,
+      "start_line": 223,
       "state_owner": "",
       "symbol": "test_extension_blocks_added_or_removed_training_parameter_fields",
       "tests": []
@@ -1352,7 +1403,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 268,
+      "end_line": 259,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1362,6 +1413,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1370,6 +1422,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1380,6 +1433,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1387,6 +1441,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1397,7 +1452,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1412,7 +1468,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 247,
+      "start_line": 240,
       "state_owner": "",
       "symbol": "test_extension_ignores_reserved_plan_writer_metadata",
       "tests": []
@@ -1533,7 +1589,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 294,
+      "end_line": 285,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1543,6 +1599,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1551,6 +1608,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1561,6 +1619,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1568,6 +1627,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1578,7 +1638,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1593,7 +1654,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 271,
+      "start_line": 262,
       "state_owner": "",
       "symbol": "test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
       "tests": []
@@ -1729,7 +1790,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 336,
+      "end_line": 323,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1739,6 +1800,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1747,6 +1809,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1757,6 +1820,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1764,6 +1828,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1774,7 +1839,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1789,7 +1855,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 297,
+      "start_line": 288,
       "state_owner": "",
       "symbol": "test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
       "tests": []
@@ -1888,7 +1954,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 378,
+      "end_line": 363,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1898,6 +1964,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1906,6 +1973,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -1916,6 +1984,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -1923,6 +1992,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -1933,7 +2003,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1948,7 +2019,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 339,
+      "start_line": 326,
       "state_owner": "",
       "symbol": "test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
       "tests": []
@@ -1974,7 +2045,7 @@
         "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
       ],
       "doc": "",
-      "end_line": 357,
+      "end_line": 342,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -1984,6 +2055,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -1992,6 +2064,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2002,6 +2075,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2009,6 +2083,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2019,7 +2094,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2034,7 +2110,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint.pause_extension",
       "semantic_tags": [],
       "signature": "(_event)",
-      "start_line": 355,
+      "start_line": 340,
       "state_owner": "",
       "symbol": "pause_extension",
       "tests": []
@@ -2154,7 +2230,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 427,
+      "end_line": 412,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2164,6 +2240,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2172,6 +2249,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2182,6 +2260,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2189,6 +2268,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2199,7 +2279,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2214,7 +2295,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 381,
+      "start_line": 366,
       "state_owner": "",
       "symbol": "test_interrupted_campaign_resumes_exactly_from_authenticated_session",
       "tests": []
@@ -2228,7 +2309,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 390,
+      "end_line": 375,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2238,6 +2319,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2246,6 +2328,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2256,6 +2339,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2263,6 +2347,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2273,7 +2358,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2288,7 +2374,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session.interrupt_once",
       "semantic_tags": [],
       "signature": "(_status)",
-      "start_line": 386,
+      "start_line": 371,
       "state_owner": "",
       "symbol": "interrupt_once",
       "tests": []
@@ -2443,7 +2529,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 500,
+      "end_line": 480,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2453,6 +2539,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2461,6 +2548,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2471,6 +2559,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2478,6 +2567,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2488,7 +2578,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2503,7 +2594,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 430,
+      "start_line": 415,
       "state_owner": "",
       "symbol": "test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
       "tests": []
@@ -2536,7 +2627,7 @@
         "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
       ],
       "doc": "",
-      "end_line": 438,
+      "end_line": 423,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2546,6 +2637,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2554,6 +2646,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2564,6 +2657,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2571,6 +2665,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2581,7 +2676,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2596,7 +2692,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan.pause_at_next_checkpoint",
       "semantic_tags": [],
       "signature": "(event)",
-      "start_line": 434,
+      "start_line": 419,
       "state_owner": "",
       "symbol": "pause_at_next_checkpoint",
       "tests": []
@@ -2660,7 +2756,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 520,
+      "end_line": 500,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2670,6 +2766,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2678,6 +2775,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2688,6 +2786,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2695,6 +2794,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2705,7 +2805,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2720,7 +2821,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 503,
+      "start_line": 483,
       "state_owner": "",
       "symbol": "test_pause_request_is_idempotent_and_bound_to_running_campaign",
       "tests": []
@@ -2746,7 +2847,7 @@
         "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
       ],
       "doc": "",
-      "end_line": 510,
+      "end_line": 490,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2756,6 +2857,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2764,6 +2866,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2774,6 +2877,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2781,6 +2885,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2791,7 +2896,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2806,7 +2912,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign.request_twice",
       "semantic_tags": [],
       "signature": "(_event)",
-      "start_line": 507,
+      "start_line": 487,
       "state_owner": "",
       "symbol": "request_twice",
       "tests": []
@@ -2865,7 +2971,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 534,
+      "end_line": 514,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -2875,6 +2981,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -2883,6 +2990,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -2893,6 +3001,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -2900,6 +3009,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -2910,7 +3020,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -2925,7 +3036,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
       "semantic_tags": [],
       "signature": "(capsys)",
-      "start_line": 523,
+      "start_line": 503,
       "state_owner": "",
       "symbol": "test_training_cli_emits_machine_readable_checkpoint_progress",
       "tests": []
@@ -3008,7 +3119,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 567,
+      "end_line": 547,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3018,6 +3129,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3026,6 +3138,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3036,6 +3149,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3043,6 +3157,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3053,7 +3168,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3068,7 +3184,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 537,
+      "start_line": 517,
       "state_owner": "",
       "symbol": "test_failed_campaign_retains_accounting_and_cannot_retry",
       "tests": []
@@ -3094,7 +3210,7 @@
         "calo_rpd_studio.orpd.problem.ORPDProblem"
       ],
       "doc": "",
-      "end_line": 547,
+      "end_line": 527,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3104,6 +3220,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3112,6 +3229,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3122,6 +3240,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3129,6 +3248,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3139,7 +3259,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3154,7 +3275,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry.failing_factory",
       "semantic_tags": [],
       "signature": "(_identity)",
-      "start_line": 540,
+      "start_line": 520,
       "state_owner": "",
       "symbol": "failing_factory",
       "tests": []
@@ -3178,7 +3299,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 544,
+      "end_line": 524,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3188,6 +3309,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3196,6 +3318,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3206,6 +3329,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3213,6 +3337,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3223,7 +3348,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3238,7 +3364,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry.failing_factory.failed_evaluator",
       "semantic_tags": [],
       "signature": "(_values, **_kwargs)",
-      "start_line": 543,
+      "start_line": 523,
       "state_owner": "",
       "symbol": "failed_evaluator",
       "tests": []
@@ -3329,7 +3455,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 596,
+      "end_line": 576,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3339,6 +3465,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3347,6 +3474,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3357,6 +3485,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3364,6 +3493,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3374,7 +3504,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3389,7 +3520,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 570,
+      "start_line": 550,
       "state_owner": "",
       "symbol": "test_campaign_resume_rejects_checkpoint_status_mismatch",
       "tests": []
@@ -3403,7 +3534,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 575,
+      "end_line": 555,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3413,6 +3544,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3421,6 +3553,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3431,6 +3564,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3438,6 +3572,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3448,7 +3583,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3463,7 +3599,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch.interrupt",
       "semantic_tags": [],
       "signature": "(_status)",
-      "start_line": 574,
+      "start_line": 554,
       "state_owner": "",
       "symbol": "interrupt",
       "tests": []
@@ -3562,7 +3698,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 631,
+      "end_line": 611,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3572,6 +3708,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3580,6 +3717,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3590,6 +3728,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3597,6 +3736,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3607,7 +3747,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3622,7 +3763,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case)",
-      "start_line": 599,
+      "start_line": 579,
       "state_owner": "",
       "symbol": "test_campaign_refuses_resume_inside_uncommitted_cuda_window",
       "tests": []
@@ -3706,7 +3847,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 672,
+      "end_line": 652,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3716,6 +3857,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3724,6 +3866,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3734,6 +3877,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3741,6 +3885,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3751,7 +3896,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3766,7 +3912,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case, monkeypatch)",
-      "start_line": 634,
+      "start_line": 614,
       "state_owner": "",
       "symbol": "test_campaign_can_resume_safe_infrastructure_write_interruption",
       "tests": []
@@ -3811,7 +3957,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 651,
+      "end_line": 631,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3821,6 +3967,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3829,6 +3976,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3839,6 +3987,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -3846,6 +3995,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -3856,7 +4006,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -3871,7 +4022,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption.interrupt_status_write",
       "semantic_tags": [],
       "signature": "(path, payload)",
-      "start_line": 642,
+      "start_line": 622,
       "state_owner": "",
       "symbol": "interrupt_status_write",
       "tests": []
@@ -3967,7 +4118,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 716,
+      "end_line": 696,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -3977,6 +4128,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -3985,6 +4137,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -3995,6 +4148,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4002,6 +4156,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4012,7 +4167,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4027,7 +4183,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 675,
+      "start_line": 655,
       "state_owner": "",
       "symbol": "test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
       "tests": []
@@ -4089,7 +4245,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 750,
+      "end_line": 730,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4099,6 +4255,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4107,6 +4264,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4117,6 +4275,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4124,6 +4283,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4134,7 +4294,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4149,7 +4310,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case, monkeypatch)",
-      "start_line": 719,
+      "start_line": 699,
       "state_owner": "",
       "symbol": "test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
       "tests": []
@@ -4163,7 +4324,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 736,
+      "end_line": 716,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4173,6 +4334,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4181,6 +4343,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4191,6 +4354,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4198,6 +4362,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4208,7 +4373,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4223,7 +4389,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 725,
+      "start_line": 705,
       "state_owner": "",
       "symbol": "FakeAcceleratedProblem",
       "tests": []
@@ -4247,7 +4413,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 730,
+      "end_line": 710,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4257,6 +4423,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4265,6 +4432,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4275,6 +4443,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4282,6 +4451,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4292,7 +4462,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4307,7 +4478,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.__init__",
       "semantic_tags": [],
       "signature": "(self, case, **kwargs)",
-      "start_line": 728,
+      "start_line": 708,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -4331,7 +4502,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 733,
+      "end_line": 713,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4341,6 +4512,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4349,6 +4521,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4359,6 +4532,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4366,6 +4540,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4376,7 +4551,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4391,7 +4567,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.evaluate_with_context",
       "semantic_tags": [],
       "signature": "(self, _row, **_kwargs)",
-      "start_line": 732,
+      "start_line": 712,
       "state_owner": "",
       "symbol": "evaluate_with_context",
       "tests": []
@@ -4415,7 +4591,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 736,
+      "end_line": 716,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4425,6 +4601,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4433,6 +4610,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4443,6 +4621,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4450,6 +4629,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4460,7 +4640,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4475,7 +4656,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.evaluate_population_with_context",
       "semantic_tags": [],
       "signature": "(self, _rows, **_kwargs)",
-      "start_line": 735,
+      "start_line": 715,
       "state_owner": "",
       "symbol": "evaluate_population_with_context",
       "tests": []
@@ -4571,7 +4752,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 800,
+      "end_line": 783,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4581,6 +4762,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4589,6 +4771,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4599,6 +4782,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4606,6 +4790,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4616,7 +4801,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4631,7 +4817,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
       "semantic_tags": [],
       "signature": "(tmp_path, monkeypatch)",
-      "start_line": 753,
+      "start_line": 733,
       "state_owner": "",
       "symbol": "test_explicit_training_command_requires_frozen_clean_source",
       "tests": []
@@ -4678,7 +4864,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 820,
+      "end_line": 803,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4688,6 +4874,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4696,6 +4883,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4706,6 +4894,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4713,6 +4902,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4723,7 +4913,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4738,7 +4929,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 803,
+      "start_line": 786,
       "state_owner": "",
       "symbol": "test_readiness_preflights_the_same_training_resource_guard",
       "tests": []
@@ -4752,7 +4943,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 812,
+      "end_line": 795,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4762,6 +4953,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4770,6 +4962,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4780,6 +4973,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4787,6 +4981,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4797,7 +4992,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4812,7 +5008,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard.preflight",
       "semantic_tags": [],
       "signature": "(config)",
-      "start_line": 807,
+      "start_line": 790,
       "state_owner": "",
       "symbol": "preflight",
       "tests": []
@@ -4833,6 +5029,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "json.loads",
           "target": "json.loads"
         },
@@ -4843,6 +5044,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "plan.to_dict",
+          "target": "plan.to_dict"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "str",
           "target": "str"
         },
@@ -4850,31 +5056,42 @@
           "confidence": "confirmed",
           "raw": "_plan",
           "target": "tests.unit.test_tsh_calo_training_campaign._plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
         }
       ],
       "call_forms": {
         "_plan": "name",
         "capsys.readouterr": "attribute",
+        "json.dumps": "attribute",
         "json.loads": "attribute",
         "monkeypatch.setattr": "attribute",
+        "plan.to_dict": "attribute",
         "str": "name",
-        "train_tsh_calo.main": "attribute"
+        "train_tsh_calo.main": "attribute",
+        "write_text": "attribute"
       },
       "called_by": [],
       "calls": [
         "_plan",
         "capsys.readouterr",
+        "json.dumps",
         "json.loads",
         "monkeypatch.setattr",
+        "plan.to_dict",
         "str",
-        "train_tsh_calo.main"
+        "train_tsh_calo.main",
+        "write_text"
       ],
       "calls_resolved": [
         "calo_rpd_studio.scripts.train_tsh_calo.main",
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 855,
+      "end_line": 840,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -4884,6 +5101,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -4892,6 +5110,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -4902,6 +5121,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -4909,6 +5129,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -4919,7 +5140,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -4934,7 +5156,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
       "semantic_tags": [],
       "signature": "(tmp_path, monkeypatch, capsys)",
-      "start_line": 823,
+      "start_line": 806,
       "state_owner": "",
       "symbol": "test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
       "tests": []
@@ -4995,7 +5217,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 874,
+      "end_line": 859,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -5005,6 +5227,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -5013,6 +5236,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -5023,6 +5247,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -5030,6 +5255,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -5040,7 +5266,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -5055,7 +5282,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 858,
+      "start_line": 843,
       "state_owner": "",
       "symbol": "test_readiness_resource_failure_is_not_reported_as_validated",
       "tests": []
@@ -5079,7 +5306,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 864,
+      "end_line": 849,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -5089,6 +5316,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -5097,6 +5325,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -5107,6 +5336,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -5114,6 +5344,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -5124,7 +5355,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -5139,7 +5371,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated.reject",
       "semantic_tags": [],
       "signature": "(_config)",
-      "start_line": 861,
+      "start_line": 846,
       "state_owner": "",
       "symbol": "reject",
       "tests": []
@@ -5273,7 +5505,7 @@
         "tests.unit.test_tsh_calo_training_campaign._plan"
       ],
       "doc": "",
-      "end_line": 987,
+      "end_line": 972,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -5283,6 +5515,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -5291,6 +5524,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -5301,6 +5535,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -5308,6 +5543,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -5318,7 +5554,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -5333,7 +5570,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
       "semantic_tags": [],
       "signature": "(tmp_path)",
-      "start_line": 877,
+      "start_line": 862,
       "state_owner": "",
       "symbol": "test_explicit_training_command_requires_exact_training_eligible_freeze_report",
       "tests": []
@@ -5347,7 +5584,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 881,
+      "end_line": 866,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_campaign.py",
       "implementation_core": false,
@@ -5357,6 +5594,7 @@
         "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
         "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
         "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
         "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
         "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
         "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
@@ -5365,6 +5603,7 @@
         "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
         "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
         "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
         "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
         "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
@@ -5375,6 +5614,7 @@
         "replace": "dataclasses.replace",
         "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
         "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
         "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
         "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
       },
@@ -5382,6 +5622,7 @@
       "imports": [
         "__future__",
         "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
         "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
@@ -5392,7 +5633,8 @@
         "json",
         "pathlib",
         "pytest",
-        "torch"
+        "torch",
+        "types"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -5407,9 +5649,355 @@
       "qualname": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report.record",
       "semantic_tags": [],
       "signature": "(path)",
-      "start_line": 880,
+      "start_line": 865,
       "state_owner": "",
       "symbol": "record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.checkpoint_parameters",
+          "target": "config.checkpoint_parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.scientific_design_hash",
+          "target": "config.scientific_design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guarded.checkpoint_parameters",
+          "target": "guarded.checkpoint_parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guarded.scientific_design_hash",
+          "target": "guarded.scientific_design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_tsh_calo_training_campaign._plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_config",
+          "target": "training_config"
+        }
+      ],
+      "call_forms": {
+        "_plan": "name",
+        "config.checkpoint_parameters": "attribute",
+        "config.scientific_design_hash": "attribute",
+        "guarded.checkpoint_parameters": "attribute",
+        "guarded.scientific_design_hash": "attribute",
+        "replace": "name",
+        "training_config": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_plan",
+        "config.checkpoint_parameters",
+        "config.scientific_design_hash",
+        "guarded.checkpoint_parameters",
+        "guarded.scientific_design_hash",
+        "replace",
+        "training_config"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_tsh_calo_training_campaign._plan"
+      ],
+      "doc": "",
+      "end_line": 981,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_DURABLE_EVALUATION_WINDOW": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.CUDA_DURABLE_EVALUATION_WINDOW",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
+        "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json": "json",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
+        "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
+        "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.scripts",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_campaign",
+      "qualname": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_parameters_preserve_legacy_omission_and_guard_identity",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 975,
+      "state_owner": "",
+      "symbol": "test_checkpoint_parameters_preserve_legacy_omission_and_guard_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "IndependentTSHCALOTrainingCampaign._receipt_update_boundary",
+          "target": "IndependentTSHCALOTrainingCampaign._receipt_update_boundary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingCampaign._receipt_update_boundary": "attribute",
+        "SimpleNamespace": "name",
+        "pytest.mark.parametrize": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingCampaign._receipt_update_boundary",
+        "SimpleNamespace",
+        "pytest.mark.parametrize"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 995,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_DURABLE_EVALUATION_WINDOW": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.CUDA_DURABLE_EVALUATION_WINDOW",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
+        "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json": "json",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
+        "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
+        "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.scripts",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_campaign",
+      "qualname": "tests.unit.test_tsh_calo_training_campaign.test_generalization_boundaries_sum_episode_updates",
+      "semantic_tags": [],
+      "signature": "(receipt_count, expected)",
+      "start_line": 985,
+      "state_owner": "",
+      "symbol": "test_generalization_boundaries_sum_episode_updates",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "IndependentTSHCALOTrainingCampaign._receipt_update_boundary",
+          "target": "IndependentTSHCALOTrainingCampaign._receipt_update_boundary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingCampaign._receipt_update_boundary": "attribute",
+        "SimpleNamespace": "name",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingCampaign._receipt_update_boundary",
+        "SimpleNamespace",
+        "pytest.mark.parametrize",
+        "pytest.raises"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 1009,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_DURABLE_EVALUATION_WINDOW": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.CUDA_DURABLE_EVALUATION_WINDOW",
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "campaign_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
+        "campaign_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "count_tsh_calo_candidate_training_evaluations": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.count_tsh_calo_candidate_training_evaluations",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json": "json",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "request_tsh_calo_training_pause": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.request_tsh_calo_training_pause",
+        "torch": "torch",
+        "train_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "train_tsh_calo": "calo_rpd_studio.scripts.train_tsh_calo",
+        "tsh_calo_training_compatibility_contract": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.tsh_calo_training_compatibility_contract"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.scripts",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_campaign",
+      "qualname": "tests.unit.test_tsh_calo_training_campaign.test_generalization_boundaries_reject_invalid_or_future_work",
+      "semantic_tags": [],
+      "signature": "(count, updates, receipt)",
+      "start_line": 1002,
+      "state_owner": "",
+      "symbol": "test_generalization_boundaries_reject_invalid_or_future_work",
       "tests": []
     }
   ]

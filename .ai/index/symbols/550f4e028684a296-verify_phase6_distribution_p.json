@@ -11,7 +11,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 23,
+      "end_line": 27,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -49,7 +49,9 @@
       "start_line": 12,
       "state_owner": "",
       "symbol": "GUI_MEMBERS",
-      "tests": []
+      "tests": [
+        "tests/unit/test_phase6_distribution_current_source.py"
+      ]
     },
     {
       "architectural_boundary": "",
@@ -60,7 +62,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 29,
+      "end_line": 32,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -95,10 +97,12 @@
       "qualname": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 24,
+      "start_line": 29,
       "state_owner": "",
       "symbol": "SDIST_MEMBERS",
-      "tests": []
+      "tests": [
+        "tests/unit/test_phase6_distribution_current_source.py"
+      ]
     },
     {
       "architectural_boundary": "",
@@ -150,7 +154,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 51,
+      "end_line": 54,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -185,7 +189,7 @@
       "qualname": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
       "semantic_tags": [],
       "signature": "(names, label)",
-      "start_line": 32,
+      "start_line": 35,
       "state_owner": "",
       "symbol": "_reject_local_evidence_or_policy_artifacts",
       "tests": [
@@ -241,7 +245,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 62,
+      "end_line": 65,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -276,7 +280,7 @@
       "qualname": "calo_rpd_studio.scripts.verify_phase6_distribution._source_name",
       "semantic_tags": [],
       "signature": "(name, sdist)",
-      "start_line": 54,
+      "start_line": 57,
       "state_owner": "",
       "symbol": "_source_name",
       "tests": []
@@ -373,7 +377,11 @@
         "zipfile.ZipFile": "attribute"
       },
       "called_by": [
-        "calo_rpd_studio.scripts.verify_phase6_distribution.main"
+        "calo_rpd_studio.scripts.verify_phase6_distribution.main",
+        "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_accepts_complete_synthetic_stage",
+        "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_rejects_missing_runtime_or_operating_docs",
+        "tests.unit.test_phase6_distribution_current_source.test_distribution_still_rejects_local_harness_and_policy_payloads",
+        "tests.unit.test_phase6_distribution_current_source.test_distribution_still_requires_direct_native_entry_point"
       ],
       "calls": [
         "ValueError",
@@ -396,7 +404,7 @@
         "calo_rpd_studio.scripts.verify_phase6_distribution._source_name"
       ],
       "doc": "",
-      "end_line": 100,
+      "end_line": 103,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -431,10 +439,12 @@
       "qualname": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
       "semantic_tags": [],
       "signature": "(stage)",
-      "start_line": 65,
+      "start_line": 68,
       "state_owner": "",
       "symbol": "verify",
-      "tests": []
+      "tests": [
+        "tests/unit/test_phase6_distribution_current_source.py"
+      ]
     },
     {
       "architectural_boundary": "",
@@ -513,7 +523,7 @@
         "calo_rpd_studio.scripts.verify_phase6_distribution.verify"
       ],
       "doc": "",
-      "end_line": 116,
+      "end_line": 119,
       "entry_point": false,
       "file": "calo_rpd_studio/scripts/verify_phase6_distribution.py",
       "implementation_core": false,
@@ -548,7 +558,7 @@
       "qualname": "calo_rpd_studio.scripts.verify_phase6_distribution.main",
       "semantic_tags": [],
       "signature": "(argv)",
-      "start_line": 103,
+      "start_line": 106,
       "state_owner": "",
       "symbol": "main",
       "tests": []

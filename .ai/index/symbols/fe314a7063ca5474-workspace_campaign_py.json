@@ -9,12 +9,13 @@
       "call_forms": {},
       "called_by": [
         "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
         "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle"
       ],
       "calls": [],
       "calls_resolved": [],
       "doc": "Feed one immutable Workspace cell at a time to the shared ExperimentManager.",
-      "end_line": 304,
+      "end_line": 302,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -59,6 +60,7 @@
       "state_owner": "",
       "symbol": "WorkspaceCampaignCoordinator",
       "tests": [
+        "tests/integration/test_real_experiment_lifecycle.py",
         "tests/integration/test_workspace_execution_control.py"
       ]
     },
@@ -516,7 +518,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
       ],
       "doc": "",
-      "end_line": 144,
+      "end_line": 142,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -602,7 +604,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 151,
+      "end_line": 149,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -643,7 +645,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 146,
+      "start_line": 144,
       "state_owner": "",
       "symbol": "pause_safely",
       "tests": []
@@ -683,7 +685,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
       ],
       "doc": "",
-      "end_line": 160,
+      "end_line": 158,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -724,7 +726,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 153,
+      "start_line": 151,
       "state_owner": "",
       "symbol": "cancel_remaining",
       "tests": []
@@ -785,7 +787,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
       ],
       "doc": "",
-      "end_line": 181,
+      "end_line": 179,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -826,7 +828,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 162,
+      "start_line": 160,
       "state_owner": "",
       "symbol": "_on_experiment_started",
       "tests": []
@@ -892,7 +894,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 213,
+      "end_line": 211,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -933,7 +935,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 183,
+      "start_line": 181,
       "state_owner": "",
       "symbol": "_on_experiment_completed",
       "tests": []
@@ -967,7 +969,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
       ],
       "doc": "",
-      "end_line": 222,
+      "end_line": 220,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1008,7 +1010,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 215,
+      "start_line": 213,
       "state_owner": "",
       "symbol": "_on_manager_idle",
       "tests": []
@@ -1076,7 +1078,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
       ],
       "doc": "",
-      "end_line": 240,
+      "end_line": 238,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1117,7 +1119,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 224,
+      "start_line": 222,
       "state_owner": "",
       "symbol": "_on_experiment_paused",
       "tests": []
@@ -1157,7 +1159,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
       ],
       "doc": "",
-      "end_line": 252,
+      "end_line": 250,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1198,7 +1200,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 242,
+      "start_line": 240,
       "state_owner": "",
       "symbol": "_on_experiment_cancelled",
       "tests": []
@@ -1263,7 +1265,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
       ],
       "doc": "",
-      "end_line": 269,
+      "end_line": 267,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1304,7 +1306,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 254,
+      "start_line": 252,
       "state_owner": "",
       "symbol": "_finish_cancelled",
       "tests": []
@@ -1365,7 +1367,7 @@
         "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
       ],
       "doc": "",
-      "end_line": 289,
+      "end_line": 287,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1406,7 +1408,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 271,
+      "start_line": 269,
       "state_owner": "",
       "symbol": "_on_experiment_failed",
       "tests": []
@@ -1433,7 +1435,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 297,
+      "end_line": 295,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1474,7 +1476,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 291,
+      "start_line": 289,
       "state_owner": "",
       "symbol": "snapshot",
       "tests": []
@@ -1494,7 +1496,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 304,
+      "end_line": 302,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workspace_campaign.py",
       "implementation_core": false,
@@ -1535,7 +1537,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 299,
+      "start_line": 297,
       "state_owner": "",
       "symbol": "_clear",
       "tests": []

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
     QCheckBox,
@@ -154,7 +156,7 @@ class ORPDFormulationPanel(ScrollablePage):
         self.tap_step.setValue(config.variables.transformer_step)
 
     def apply(self):
-        config = self.state.config
+        config = deepcopy(self.state.config)
         config.objective.kind = self.kind.currentData()
         config.objective.weight_loss = self.wloss.value()
         config.objective.weight_voltage_deviation = self.wvd.value()
@@ -170,9 +172,14 @@ class ORPDFormulationPanel(ScrollablePage):
         try:
             config.validate()
         except Exception as exc:
-            from PyQt6.QtWidgets import QMessageBox
-
-            show_error(self, "ORPD formulation was not applied", "Review the objective, controls, and constraints.", exc, source="ORPD formulation")
+            show_error(
+                self,
+                "ORPD formulation was not applied",
+                "Review the objective, controls, and constraints.",
+                exc,
+                source="ORPD formulation",
+            )
             return
+        self.state.config = config
         self.state.update_config()
         self.stage_completed.emit()

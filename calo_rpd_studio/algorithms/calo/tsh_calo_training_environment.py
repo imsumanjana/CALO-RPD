@@ -621,9 +621,7 @@ class IndependentTSHCALOTrainingEnvironment:
             diversity_recovery_enabled=True,
             physics_repair_enabled=physics_repair_available,
         )
-        recovery_required = bool(
-            severe_stagnation and diversity < cfg.recovery_diversity_threshold
-        )
+        recovery_required = bool(severe_stagnation and diversity < cfg.recovery_diversity_threshold)
         observation = TSHCALOTrainingObservation(
             runtime_context.policy_state,
             action_mask,

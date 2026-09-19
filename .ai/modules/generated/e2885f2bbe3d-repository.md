@@ -14,7 +14,7 @@
 - None explicitly identified.
 
 ## Cross-module dependencies
-- None confirmed.
+- `validation-release`
 
 ## Dependents
 - None confirmed.
@@ -43,5 +43,9 @@
 - `requirements.txt`
 - `scripts/ai-agent-guard.py`
 - `scripts/ai-index.ps1`
+- `scripts/qa/gui_wiring_audit.py`
+- `scripts/qa/isolated_test_entry.py`
+- `scripts/qa/omission_plugin.py`
+- `scripts/qa/validate_platform_filesystem.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

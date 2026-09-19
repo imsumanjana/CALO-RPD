@@ -68,6 +68,7 @@
 - `tests/unit/test_calo_v41_policy_system.py`
 - `tests/unit/test_calo_v41_runtime_guards.py`
 - `tests/unit/test_cuda_residency_contract.py`
+- `tests/unit/test_current_policy_safety_contract.py`
 - `tests/unit/test_heterogeneous_policy_training.py`
 - `tests/unit/test_historical_policy_pretraining.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
@@ -93,7 +94,6 @@
 - `tests/unit/test_tsh_calo_qualification_campaign.py`
 - `tests/unit/test_tsh_calo_runtime_context.py`
 - `tests/unit/test_tsh_calo_runtime_transition.py`
-- `tests/unit/test_tsh_calo_topology_context.py`
 
 ## Files
 - `calo_rpd_studio/ai/AGENTS.md`

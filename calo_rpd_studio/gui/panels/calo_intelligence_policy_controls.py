@@ -318,7 +318,9 @@ class ScientistCALOIntelligencePanel(_BaseCALOIntelligencePanel):
                 blocker = permanent_artifact_deletion_blocker(registered_policy)
                 if blocker:
                     raise PermissionError(blocker)
-                checkpoint = Path(registered_policy.checkpoint_path).expanduser().resolve(strict=True)
+                checkpoint = (
+                    Path(registered_policy.checkpoint_path).expanduser().resolve(strict=True)
+                )
                 if directory not in checkpoint.parents:
                     raise ValueError(
                         "The selected registered policy is not contained by this campaign."

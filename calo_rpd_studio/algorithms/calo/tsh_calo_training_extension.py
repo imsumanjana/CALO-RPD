@@ -30,22 +30,14 @@ def extension_plan_summary(plan, campaign_directory) -> dict:
             "plan": plan.execution_plan_sha256(),
             "parent": payload["parent_manifest_sha256"],
             "segment_training": payload["segment_training_candidate_evaluations"],
-            "segment_guard": payload[
-                "segment_generalization_guard_candidate_evaluations"
-            ],
+            "segment_guard": payload["segment_generalization_guard_candidate_evaluations"],
             "segment_total": payload["segment_total_counted_candidate_evaluations"],
-            "prior_total": payload[
-                "prior_cumulative_total_counted_candidate_evaluations"
-            ],
+            "prior_total": payload["prior_cumulative_total_counted_candidate_evaluations"],
         }
     )
     return payload
 
 
 __all__ = tuple(
-    sorted(
-        name
-        for name in globals()
-        if not name.startswith("_") and name not in {"annotations"}
-    )
+    sorted(name for name in globals() if not name.startswith("_") and name not in {"annotations"})
 )

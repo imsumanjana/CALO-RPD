@@ -291,9 +291,7 @@ class PortfolioManagerPanel(ScrollablePage):
                     ):
                         retained = tuple(
                             str(name)
-                            for name in active_goal["content"].get(
-                                "selected_algorithm_names", []
-                            )
+                            for name in active_goal["content"].get("selected_algorithm_names", [])
                         )
                         if retained and set(retained).issubset(stage.algorithm_names):
                             selected = set(retained)
@@ -557,9 +555,7 @@ class PortfolioManagerPanel(ScrollablePage):
             # Shared configuration retains broad display preferences only. Exact Study choices,
             # including runs/reuse/resume/checkpoints, are intentionally untouched here.
             portfolio.kind = PortfolioKind(str(goal.portfolio["portfolio_type"]))
-            portfolio.evidence_profile = EvidenceProfile(
-                str(goal.portfolio["evidence_profile"])
-            )
+            portfolio.evidence_profile = EvidenceProfile(str(goal.portfolio["evidence_profile"]))
             portfolio.requested_outputs = list(goal.portfolio["requested_outputs"])
             portfolio.storage_profile = StorageProfile(
                 str(goal.portfolio["storage_or_evidence_class"])

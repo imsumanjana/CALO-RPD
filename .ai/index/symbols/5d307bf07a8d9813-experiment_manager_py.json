@@ -1063,12 +1063,13 @@
       "call_edges": [],
       "call_forms": {},
       "called_by": [
-        "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+        "tests.unit.test_execution_snapshot_contract.test_worker_owns_nested_configuration_snapshot"
       ],
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2148,
+      "end_line": 2172,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -1199,7 +1200,9 @@
       "start_line": 189,
       "state_owner": "",
       "symbol": "ExperimentWorker",
-      "tests": []
+      "tests": [
+        "tests/unit/test_execution_snapshot_contract.py"
+      ]
     },
     {
       "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
@@ -1209,6 +1212,11 @@
           "confidence": "unresolved",
           "raw": "__init__",
           "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
         },
         {
           "confidence": "unresolved",
@@ -1238,6 +1246,7 @@
       ],
       "call_forms": {
         "__init__": "attribute",
+        "deepcopy": "name",
         "getattr": "name",
         "str": "name",
         "super": "name",
@@ -1247,6 +1256,7 @@
       "called_by": [],
       "calls": [
         "__init__",
+        "deepcopy",
         "getattr",
         "str",
         "super",
@@ -1255,7 +1265,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 215,
+      "end_line": 216,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -1407,7 +1417,7 @@
       ],
       "calls_resolved": [],
       "doc": "Stop admitting new jobs and let active jobs finish at a reproducible boundary.",
-      "end_line": 219,
+      "end_line": 220,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -1535,7 +1545,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 217,
+      "start_line": 218,
       "state_owner": "",
       "symbol": "pause",
       "tests": []
@@ -1575,7 +1585,7 @@
       ],
       "calls_resolved": [],
       "doc": "Request terminal cancellation while retaining already committed evidence.",
-      "end_line": 229,
+      "end_line": 230,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -1703,7 +1713,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 221,
+      "start_line": 222,
       "state_owner": "",
       "symbol": "cancel",
       "tests": []
@@ -1732,7 +1742,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 232,
+      "end_line": 233,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -1860,7 +1870,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 231,
+      "start_line": 232,
       "state_owner": "",
       "symbol": "_cancelled",
       "tests": []
@@ -1890,7 +1900,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 235,
+      "end_line": 236,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -2018,7 +2028,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 234,
+      "start_line": 235,
       "state_owner": "",
       "symbol": "_pause_requested",
       "tests": []
@@ -2076,7 +2086,7 @@
         "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators"
       ],
       "doc": "Return only the CUDA device frozen by the mandatory pre-run resolution.",
-      "end_line": 245,
+      "end_line": 246,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -2204,7 +2214,7 @@
         "workflow"
       ],
       "signature": "(self, snapshot)",
-      "start_line": 237,
+      "start_line": 238,
       "state_owner": "",
       "symbol": "_resolved_cuda_devices",
       "tests": []
@@ -2306,7 +2316,7 @@
         "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
       ],
       "doc": "Create the experiment-wide adaptive governor from the Dashboard Safe-80 profile.",
-      "end_line": 280,
+      "end_line": 281,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -2434,7 +2444,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 247,
+      "start_line": 248,
       "state_owner": "",
       "symbol": "_ensure_compute_governor",
       "tests": []
@@ -2524,7 +2534,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker.cancel"
       ],
       "doc": "",
-      "end_line": 305,
+      "end_line": 306,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -2652,7 +2662,7 @@
         "workflow"
       ],
       "signature": "(self, active_jobs)",
-      "start_line": 282,
+      "start_line": 283,
       "state_owner": "",
       "symbol": "_governor_allows_admission",
       "tests": []
@@ -2706,7 +2716,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor"
       ],
       "doc": "",
-      "end_line": 314,
+      "end_line": 315,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -2834,7 +2844,7 @@
         "workflow"
       ],
       "signature": "(self, job_index, device)",
-      "start_line": 307,
+      "start_line": 308,
       "state_owner": "",
       "symbol": "_governor_note_launch",
       "tests": []
@@ -2881,7 +2891,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 320,
+      "end_line": 321,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3009,7 +3019,7 @@
         "workflow"
       ],
       "signature": "(self, payload)",
-      "start_line": 316,
+      "start_line": 317,
       "state_owner": "",
       "symbol": "_fraction_for_payload",
       "tests": []
@@ -3095,7 +3105,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload"
       ],
       "doc": "",
-      "end_line": 348,
+      "end_line": 349,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3223,7 +3233,7 @@
         "workflow"
       ],
       "signature": "(self, payload, item, fractions, completed_count, total_items, active_count)",
-      "start_line": 322,
+      "start_line": 323,
       "state_owner": "",
       "symbol": "_emit_progress",
       "tests": []
@@ -3281,7 +3291,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 372,
+      "end_line": 373,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3409,7 +3419,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 350,
+      "start_line": 351,
       "state_owner": "",
       "symbol": "_sync_campaign_progress",
       "tests": []
@@ -3456,7 +3466,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 382,
+      "end_line": 383,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3584,7 +3594,7 @@
         "workflow"
       ],
       "signature": "(self, item)",
-      "start_line": 374,
+      "start_line": 375,
       "state_owner": "",
       "symbol": "_mark_task_started",
       "tests": []
@@ -3668,7 +3678,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 393,
+      "end_line": 394,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3796,7 +3806,7 @@
         "workflow"
       ],
       "signature": "(path)",
-      "start_line": 385,
+      "start_line": 386,
       "state_owner": "",
       "symbol": "_sha256_file",
       "tests": []
@@ -3851,7 +3861,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 403,
+      "end_line": 404,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -3979,7 +3989,7 @@
         "workflow"
       ],
       "signature": "(row)",
-      "start_line": 396,
+      "start_line": 397,
       "state_owner": "",
       "symbol": "_result_evaluations_from_row",
       "tests": []
@@ -4180,7 +4190,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
       ],
       "doc": "",
-      "end_line": 525,
+      "end_line": 526,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -4308,7 +4318,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, store, item, completed)",
-      "start_line": 405,
+      "start_line": 406,
       "state_owner": "",
       "symbol": "_persist_completed",
       "tests": []
@@ -4402,7 +4412,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file"
       ],
       "doc": "Commit only the exact resume boundary for an interrupted active job.",
-      "end_line": 557,
+      "end_line": 558,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -4530,7 +4540,7 @@
         "workflow"
       ],
       "signature": "(self, item, completed)",
-      "start_line": 527,
+      "start_line": 528,
       "state_owner": "",
       "symbol": "_persist_interrupted",
       "tests": []
@@ -4603,7 +4613,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
       ],
       "doc": "",
-      "end_line": 570,
+      "end_line": 571,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -4731,7 +4741,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, item, failure)",
-      "start_line": 559,
+      "start_line": 560,
       "state_owner": "",
       "symbol": "_persist_failure",
       "tests": []
@@ -4905,7 +4915,7 @@
         "calo_rpd_studio.experiments.experiment_runner.run_single"
       ],
       "doc": "Run one job at a time on the highest-priority compatible device.",
-      "end_line": 679,
+      "end_line": 680,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5033,7 +5043,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, store, plan, seeds)",
-      "start_line": 572,
+      "start_line": 573,
       "state_owner": "",
       "symbol": "_run_sequential",
       "tests": []
@@ -5047,7 +5057,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 587,
+      "end_line": 588,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5175,7 +5185,7 @@
         "workflow"
       ],
       "signature": "",
-      "start_line": 582,
+      "start_line": 583,
       "state_owner": "",
       "symbol": "_ProgressRelay",
       "tests": []
@@ -5189,7 +5199,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 584,
+      "end_line": 585,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5317,7 +5327,7 @@
         "workflow"
       ],
       "signature": "(self, callback)",
-      "start_line": 583,
+      "start_line": 584,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -5341,7 +5351,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 587,
+      "end_line": 588,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5469,7 +5479,7 @@
         "workflow"
       ],
       "signature": "(self, payload)",
-      "start_line": 586,
+      "start_line": 587,
       "state_owner": "",
       "symbol": "put",
       "tests": []
@@ -5483,7 +5493,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 594,
+      "end_line": 595,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5611,7 +5621,7 @@
         "workflow"
       ],
       "signature": "",
-      "start_line": 589,
+      "start_line": 590,
       "state_owner": "",
       "symbol": "_CancelRelay",
       "tests": []
@@ -5625,7 +5635,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 591,
+      "end_line": 592,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5753,7 +5763,7 @@
         "workflow"
       ],
       "signature": "(self, callback)",
-      "start_line": 590,
+      "start_line": 591,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -5784,7 +5794,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 594,
+      "end_line": 595,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -5912,7 +5922,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 593,
+      "start_line": 594,
       "state_owner": "",
       "symbol": "is_set",
       "tests": []
@@ -5943,7 +5953,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 621,
+      "end_line": 622,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -6071,7 +6081,7 @@
         "workflow"
       ],
       "signature": "(payload)",
-      "start_line": 611,
+      "start_line": 612,
       "state_owner": "",
       "symbol": "emit_progress",
       "tests": []
@@ -6113,7 +6123,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 692,
+      "end_line": 693,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -6241,7 +6251,7 @@
         "workflow"
       ],
       "signature": "(progress_queue)",
-      "start_line": 682,
+      "start_line": 683,
       "state_owner": "",
       "symbol": "_drain_progress_queue",
       "tests": []
@@ -6558,7 +6568,7 @@
         "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
       ],
       "doc": "Run an automatic CUDA-first lane plan with availability-based memory admission.",
-      "end_line": 934,
+      "end_line": 935,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -6686,7 +6696,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, store, plan, seeds)",
-      "start_line": 694,
+      "start_line": 695,
       "state_owner": "",
       "symbol": "_run_parallel_weighted",
       "tests": []
@@ -6766,7 +6776,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 784,
+      "end_line": 785,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -6894,7 +6904,7 @@
         "workflow"
       ],
       "signature": "(item, lane, device_id, runtime)",
-      "start_line": 751,
+      "start_line": 752,
       "state_owner": "",
       "symbol": "submit_item",
       "tests": []
@@ -6957,7 +6967,7 @@
         "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
       ],
       "doc": "",
-      "end_line": 800,
+      "end_line": 801,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -7085,7 +7095,7 @@
         "workflow"
       ],
       "signature": "(snapshot, lane)",
-      "start_line": 786,
+      "start_line": 787,
       "state_owner": "",
       "symbol": "select_device",
       "tests": []
@@ -7189,7 +7199,7 @@
         "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
       ],
       "doc": "",
-      "end_line": 835,
+      "end_line": 836,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -7317,7 +7327,7 @@
         "workflow"
       ],
       "signature": "()",
-      "start_line": 802,
+      "start_line": 803,
       "state_owner": "",
       "symbol": "admit_jobs",
       "tests": []
@@ -7896,7 +7906,7 @@
         "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
       ],
       "doc": "Run the v3.1 persistent batched-throughput engine.",
-      "end_line": 1348,
+      "end_line": 1349,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -8024,7 +8034,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, store, plan, seeds)",
-      "start_line": 936,
+      "start_line": 937,
       "state_owner": "",
       "symbol": "_run_parallel_throughput",
       "tests": []
@@ -8058,7 +8068,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1159,
+      "end_line": 1160,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -8186,7 +8196,7 @@
         "workflow"
       ],
       "signature": "()",
-      "start_line": 1158,
+      "start_line": 1159,
       "state_owner": "",
       "symbol": "active_total",
       "tests": []
@@ -8326,7 +8336,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.active_total"
       ],
       "doc": "",
-      "end_line": 1210,
+      "end_line": 1211,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -8454,7 +8464,7 @@
         "workflow"
       ],
       "signature": "()",
-      "start_line": 1161,
+      "start_line": 1162,
       "state_owner": "",
       "symbol": "submit_available",
       "tests": []
@@ -8744,7 +8754,7 @@
         "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
       ],
       "doc": "Run independent jobs with accelerator-first heterogeneous admission control.",
-      "end_line": 1597,
+      "end_line": 1598,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -8872,7 +8882,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, store, plan, seeds)",
-      "start_line": 1350,
+      "start_line": 1351,
       "state_owner": "",
       "symbol": "_run_parallel",
       "tests": []
@@ -8952,7 +8962,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1425,
+      "end_line": 1426,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -9080,7 +9090,7 @@
         "workflow"
       ],
       "signature": "(item, device, runtime)",
-      "start_line": 1391,
+      "start_line": 1392,
       "state_owner": "",
       "symbol": "submit_item",
       "tests": []
@@ -9120,7 +9130,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1431,
+      "end_line": 1432,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -9248,7 +9258,7 @@
         "workflow"
       ],
       "signature": "(predicate)",
-      "start_line": 1427,
+      "start_line": 1428,
       "state_owner": "",
       "symbol": "pop_first",
       "tests": []
@@ -9368,7 +9378,7 @@
         "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai"
       ],
       "doc": "Admit jobs while respecting CUDA -> CPU priority.",
-      "end_line": 1494,
+      "end_line": 1495,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -9496,7 +9506,7 @@
         "workflow"
       ],
       "signature": "()",
-      "start_line": 1433,
+      "start_line": 1434,
       "state_owner": "",
       "symbol": "admit_jobs",
       "tests": []
@@ -9697,6 +9707,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "dict",
           "target": "dict"
         },
@@ -9797,6 +9812,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "self._admitted_config.to_dict",
+          "target": "self._admitted_config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "self._task_by_job.get",
           "target": "self._task_by_job.get"
         },
@@ -9804,11 +9824,6 @@
           "confidence": "unresolved",
           "raw": "self.config.algorithm_parameters.get",
           "target": "self.config.algorithm_parameters.get"
-        },
-        {
-          "confidence": "unresolved",
-          "raw": "self.config.to_dict",
-          "target": "self.config.to_dict"
         },
         {
           "confidence": "unresolved",
@@ -9878,6 +9893,7 @@
         "database.update_campaign": "attribute",
         "database.update_campaign_task": "attribute",
         "database.update_experiment_revision": "attribute",
+        "deepcopy": "name",
         "dict": "name",
         "evolution.ensure_original_revision": "attribute",
         "existing.get": "attribute",
@@ -9901,12 +9917,12 @@
         "run_fingerprint": "name",
         "scientific_job_sha256": "name",
         "segment.get": "attribute",
+        "self._admitted_config.to_dict": "attribute",
         "self._result_evaluations_from_row": "attribute",
         "self._sha256_file": "attribute",
         "self._sync_campaign_progress": "attribute",
         "self._task_by_job.get": "attribute",
         "self.config.algorithm_parameters.get": "attribute",
-        "self.config.to_dict": "attribute",
         "self.state.policy_registry.get": "attribute",
         "self.state.policy_registry.inspect_checkpoint": "attribute",
         "self.state.resume_service.register": "attribute",
@@ -9951,6 +9967,7 @@
         "database.update_campaign",
         "database.update_campaign_task",
         "database.update_experiment_revision",
+        "deepcopy",
         "dict",
         "evolution.ensure_original_revision",
         "existing.get",
@@ -9974,12 +9991,12 @@
         "run_fingerprint",
         "scientific_job_sha256",
         "segment.get",
+        "self._admitted_config.to_dict",
         "self._result_evaluations_from_row",
         "self._sha256_file",
         "self._sync_campaign_progress",
         "self._task_by_job.get",
         "self.config.algorithm_parameters.get",
-        "self.config.to_dict",
         "self.state.policy_registry.get",
         "self.state.policy_registry.inspect_checkpoint",
         "self.state.resume_service.register",
@@ -10001,7 +10018,7 @@
         "calo_rpd_studio.portfolio.fingerprint.run_fingerprint"
       ],
       "doc": "Create/reopen a campaign, including scientifically explicit v5 extensions.",
-      "end_line": 1994,
+      "end_line": 2002,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -10129,7 +10146,7 @@
         "workflow"
       ],
       "signature": "(self, full_plan, seeds)",
-      "start_line": 1599,
+      "start_line": 1600,
       "state_owner": "",
       "symbol": "_prepare_campaign",
       "tests": []
@@ -10206,7 +10223,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
       ],
       "doc": "",
-      "end_line": 2012,
+      "end_line": 2020,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -10334,7 +10351,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1996,
+      "start_line": 2004,
       "state_owner": "",
       "symbol": "_pause_unfinished",
       "tests": []
@@ -10432,7 +10449,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
       ],
       "doc": "Close unfinished work terminally while retaining completed evidence and audit files.",
-      "end_line": 2050,
+      "end_line": 2058,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -10560,7 +10577,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2014,
+      "start_line": 2022,
       "state_owner": "",
       "symbol": "_cancel_unfinished",
       "tests": []
@@ -10569,6 +10586,11 @@
       "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
       "authoritative_source": "",
       "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
         {
           "confidence": "unresolved",
           "raw": "bool",
@@ -10636,6 +10658,16 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "control.transition",
+          "target": "control.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control.verify_campaign_binding",
+          "target": "control.verify_campaign_binding"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "generate",
           "target": "generate"
         },
@@ -10666,6 +10698,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "plan_row.get",
+          "target": "plan_row.get"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "self.cancelled.emit",
           "target": "self.cancelled.emit"
         },
@@ -10693,6 +10730,11 @@
           "confidence": "unresolved",
           "raw": "self.paused.emit",
           "target": "self.paused.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_execution_plan",
+          "target": "self.state.database.get_execution_plan"
         },
         {
           "confidence": "unresolved",
@@ -10728,15 +10770,19 @@
       "call_forms": {
         "PortfolioPlanner.plan": "attribute",
         "ResultStore": "name",
+        "RuntimeError": "name",
         "SeedManager": "name",
         "bool": "name",
         "build_execution_plan": "name",
+        "control.transition": "attribute",
+        "control.verify_campaign_binding": "attribute",
         "generate": "attribute",
         "getattr": "name",
         "int": "name",
         "len": "name",
         "list": "name",
         "lower": "attribute",
+        "plan_row.get": "attribute",
         "resolve_config_for_entrypoint": "name",
         "self._cancel_unfinished": "attribute",
         "self._pause_requested": "attribute",
@@ -10750,6 +10796,7 @@
         "self.experiment_created.emit": "attribute",
         "self.failed.emit": "attribute",
         "self.paused.emit": "attribute",
+        "self.state.database.get_execution_plan": "attribute",
         "self.state.database.list_campaign_tasks": "attribute",
         "self.state.database.update_campaign": "attribute",
         "self.state.database.update_experiment_revision": "attribute",
@@ -10762,15 +10809,19 @@
       "calls": [
         "PortfolioPlanner.plan",
         "ResultStore",
+        "RuntimeError",
         "SeedManager",
         "bool",
         "build_execution_plan",
+        "control.transition",
+        "control.verify_campaign_binding",
         "generate",
         "getattr",
         "int",
         "len",
         "list",
         "lower",
+        "plan_row.get",
         "resolve_config_for_entrypoint",
         "self._cancel_unfinished",
         "self._pause_requested",
@@ -10784,6 +10835,7 @@
         "self.experiment_created.emit",
         "self.failed.emit",
         "self.paused.emit",
+        "self.state.database.get_execution_plan",
         "self.state.database.list_campaign_tasks",
         "self.state.database.update_campaign",
         "self.state.database.update_experiment_revision",
@@ -10807,7 +10859,7 @@
         "calo_rpd_studio.results.result_store.ResultStore"
       ],
       "doc": "",
-      "end_line": 2148,
+      "end_line": 2172,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -10935,7 +10987,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2052,
+      "start_line": 2060,
       "state_owner": "",
       "symbol": "run",
       "tests": []
@@ -10967,6 +11019,7 @@
         "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
         "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
         "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+        "tests.gui.test_gui_wiring_acceptance.wired_window",
         "tests.gui.test_phase6_ribbon_workspace._window",
         "tests.gui.test_workspace_execution_ui.test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
         "tests.gui.test_workspace_execution_ui.test_individual_audited_plan_ignores_mutable_algorithm_draft_drift",
@@ -10978,6 +11031,8 @@
         "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
         "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
         "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.unit.test_execution_snapshot_contract.test_manager_snapshot_and_read_api_cannot_mutate_admitted_run",
         "tests.unit.test_scientist_gui_contract.test_experiment_workspace_has_only_two_scientist_compute_modes",
         "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language",
         "tests.unit.test_scientist_gui_contract.test_policy_workspace_omits_internal_training_and_validation_modes"
@@ -10985,7 +11040,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2438,
+      "end_line": 2486,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11113,14 +11168,17 @@
         "workflow"
       ],
       "signature": "",
-      "start_line": 2151,
+      "start_line": 2175,
       "state_owner": "",
       "symbol": "ExperimentManager",
       "tests": [
         "tests/gui/test_ci_visual_smoke.py",
         "tests/gui/test_gui_startup.py",
+        "tests/gui/test_gui_wiring_acceptance.py",
         "tests/gui/test_phase6_ribbon_workspace.py",
         "tests/gui/test_workspace_execution_ui.py",
+        "tests/integration/test_real_experiment_lifecycle.py",
+        "tests/unit/test_execution_snapshot_contract.py",
         "tests/unit/test_scientist_gui_contract.py"
       ]
     },
@@ -11157,7 +11215,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2172,
+      "end_line": 2197,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11285,7 +11343,7 @@
         "workflow"
       ],
       "signature": "(self, state)",
-      "start_line": 2163,
+      "start_line": 2187,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -11299,7 +11357,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2176,
+      "end_line": 2201,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11427,7 +11485,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2175,
+      "start_line": 2200,
       "state_owner": "",
       "symbol": "running",
       "tests": []
@@ -11435,13 +11493,23 @@
     {
       "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
       "authoritative_source": "",
-      "call_edges": [],
-      "call_forms": {},
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name"
+      },
       "called_by": [],
-      "calls": [],
+      "calls": [
+        "deepcopy"
+      ],
       "calls_resolved": [],
       "doc": "Return the immutable configuration currently owned by the worker, if any.",
-      "end_line": 2182,
+      "end_line": 2207,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11569,7 +11637,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2179,
+      "start_line": 2204,
       "state_owner": "",
       "symbol": "active_config",
       "tests": []
@@ -11595,7 +11663,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
       ],
       "doc": "",
-      "end_line": 2185,
+      "end_line": 2210,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11723,7 +11791,7 @@
         "workflow"
       ],
       "signature": "(self, config)",
-      "start_line": 2184,
+      "start_line": 2209,
       "state_owner": "",
       "symbol": "start_comparison",
       "tests": []
@@ -11749,7 +11817,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
       ],
       "doc": "",
-      "end_line": 2188,
+      "end_line": 2213,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -11877,7 +11945,7 @@
         "workflow"
       ],
       "signature": "(self, config)",
-      "start_line": 2187,
+      "start_line": 2212,
       "state_owner": "",
       "symbol": "start_calo_analysis",
       "tests": []
@@ -11946,7 +12014,7 @@
         "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
       ],
       "doc": "",
-      "end_line": 2203,
+      "end_line": 2228,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -12074,7 +12142,7 @@
         "workflow"
       ],
       "signature": "(self, campaign_id, update_workspace)",
-      "start_line": 2190,
+      "start_line": 2215,
       "state_owner": "",
       "symbol": "resume_campaign",
       "tests": []
@@ -12157,7 +12225,7 @@
         "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
       ],
       "doc": "Append new independent paired runs to the same immutable experiment definition.",
-      "end_line": 2220,
+      "end_line": 2245,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -12285,7 +12353,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, new_total_runs)",
-      "start_line": 2205,
+      "start_line": 2230,
       "state_owner": "",
       "symbol": "extend_run_count",
       "tests": []
@@ -12383,7 +12451,7 @@
         "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol"
       ],
       "doc": "Continue checkpoint-capable historical runs to a larger FE horizon.",
-      "end_line": 2260,
+      "end_line": 2285,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -12511,7 +12579,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id, new_evaluation_target, protocol, run_indices, algorithm_names, execution_strategy, source_horizon)",
-      "start_line": 2222,
+      "start_line": 2247,
       "state_owner": "",
       "symbol": "extend_evaluation_horizon",
       "tests": []
@@ -12598,7 +12666,7 @@
       ],
       "calls_resolved": [],
       "doc": "Request a safe pause. New jobs stop; active jobs finish and commit atomically.",
-      "end_line": 2287,
+      "end_line": 2311,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -12726,7 +12794,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2262,
+      "start_line": 2287,
       "state_owner": "",
       "symbol": "pause",
       "tests": []
@@ -12739,6 +12807,11 @@
           "confidence": "confirmed",
           "raw": "ExperimentWorker",
           "target": "calo_rpd_studio.app.experiment_manager.ExperimentWorker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
         },
         {
           "confidence": "unresolved",
@@ -12818,6 +12891,7 @@
       ],
       "call_forms": {
         "ExperimentWorker": "name",
+        "deepcopy": "name",
         "int": "name",
         "self.busy.emit": "attribute",
         "self.state.task_status.begin": "attribute",
@@ -12843,6 +12917,7 @@
       ],
       "calls": [
         "ExperimentWorker",
+        "deepcopy",
         "int",
         "self.busy.emit",
         "self.state.task_status.begin",
@@ -12863,7 +12938,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentWorker"
       ],
       "doc": "",
-      "end_line": 2345,
+      "end_line": 2373,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -12991,7 +13066,7 @@
         "workflow"
       ],
       "signature": "(self, config, mode)",
-      "start_line": 2289,
+      "start_line": 2313,
       "state_owner": "",
       "symbol": "_start",
       "tests": []
@@ -13050,7 +13125,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2390,
+      "end_line": 2418,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13178,7 +13253,7 @@
         "workflow"
       ],
       "signature": "(self, data)",
-      "start_line": 2347,
+      "start_line": 2375,
       "state_owner": "",
       "symbol": "_on_progress",
       "tests": []
@@ -13209,7 +13284,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2394,
+      "end_line": 2422,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13337,7 +13412,7 @@
         "workflow"
       ],
       "signature": "(self, run_id, algorithm, run_index)",
-      "start_line": 2392,
+      "start_line": 2420,
       "state_owner": "",
       "symbol": "_on_run_completed",
       "tests": []
@@ -13368,7 +13443,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2398,
+      "end_line": 2426,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13496,7 +13571,7 @@
         "workflow"
       ],
       "signature": "(self, failure_id, algorithm, run_index)",
-      "start_line": 2396,
+      "start_line": 2424,
       "state_owner": "",
       "symbol": "_on_run_failed",
       "tests": []
@@ -13520,7 +13595,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2402,
+      "end_line": 2430,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13648,7 +13723,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2400,
+      "start_line": 2428,
       "state_owner": "",
       "symbol": "_created",
       "tests": []
@@ -13659,8 +13734,33 @@
       "call_edges": [
         {
           "confidence": "unresolved",
+          "raw": "_LOG.exception",
+          "target": "_LOG.exception"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.get",
+          "target": "campaign.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "self.completed.emit",
           "target": "self.completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_campaign",
+          "target": "self.state.database.get_campaign"
         },
         {
           "confidence": "unresolved",
@@ -13669,24 +13769,48 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "self.state.task_status.fail",
+          "target": "self.state.task_status.fail"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "self.state.task_status.finish",
           "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
         }
       ],
       "call_forms": {
+        "_LOG.exception": "attribute",
+        "bool": "name",
+        "campaign.get": "attribute",
+        "getattr": "name",
         "self.completed.emit": "attribute",
+        "self.state.database.get_campaign": "attribute",
         "self.state.runs_changed.emit": "attribute",
-        "self.state.task_status.finish": "attribute"
+        "self.state.task_status.fail": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "str": "name"
       },
       "called_by": [],
       "calls": [
+        "_LOG.exception",
+        "bool",
+        "campaign.get",
+        "getattr",
         "self.completed.emit",
+        "self.state.database.get_campaign",
         "self.state.runs_changed.emit",
-        "self.state.task_status.finish"
+        "self.state.task_status.fail",
+        "self.state.task_status.finish",
+        "str"
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2407,
+      "end_line": 2455,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13814,7 +13938,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2404,
+      "start_line": 2432,
       "state_owner": "",
       "symbol": "_completed",
       "tests": []
@@ -13852,7 +13976,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2414,
+      "end_line": 2462,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -13980,7 +14104,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2409,
+      "start_line": 2457,
       "state_owner": "",
       "symbol": "_paused",
       "tests": []
@@ -14018,7 +14142,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2421,
+      "end_line": 2469,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -14146,7 +14270,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2416,
+      "start_line": 2464,
       "state_owner": "",
       "symbol": "_cancelled",
       "tests": []
@@ -14177,7 +14301,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2425,
+      "end_line": 2473,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -14305,7 +14429,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 2423,
+      "start_line": 2471,
       "state_owner": "",
       "symbol": "_failed",
       "tests": []
@@ -14336,7 +14460,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2434,
+      "end_line": 2482,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -14464,7 +14588,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2427,
+      "start_line": 2475,
       "state_owner": "",
       "symbol": "_worker_finished",
       "tests": []
@@ -14492,7 +14616,7 @@
         "calo_rpd_studio.app.experiment_manager.ExperimentManager.cancel"
       ],
       "doc": "",
-      "end_line": 2438,
+      "end_line": 2486,
       "entry_point": false,
       "file": "calo_rpd_studio/app/experiment_manager.py",
       "implementation_core": false,
@@ -14620,7 +14744,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2436,
+      "start_line": 2484,
       "state_owner": "",
       "symbol": "cancel",
       "tests": []

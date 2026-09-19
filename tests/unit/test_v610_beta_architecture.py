@@ -129,7 +129,16 @@ def test_beta1_global_training_exclusive_lock_is_wired_application_wide():
     state = (root / "calo_rpd_studio/app/state_manager.py").read_text(encoding="utf-8")
     assert "policy_training_changed.connect(self._on_policy_training_changed)" in main
     assert 'page.setEnabled(not active or key == "dashboard")' in main
-    assert "Global Training Exclusive Lock" in workflow
+    from types import SimpleNamespace
+    from calo_rpd_studio.app.workflow_manager import WorkflowManager
+
+    locked = WorkflowManager(SimpleNamespace(policy_training_active=True))
+    for key in ("algorithms", "power_system", "orpd", "portfolio", "experiment", "results"):
+        state_key, reason = locked.workspace_state_key(key)
+        assert state_key == "locked"
+        assert "Policy training" in reason
+    assert locked.workspace_state_key("dashboard")[0] == "available"
+    assert "policy_training_active" in workflow
     assert "def begin_policy_training" in state and "def end_policy_training" in state
     assert "Compute topology cannot be refreshed while policy training is active" in state
 

@@ -1,6 +1,8 @@
 {
   "depended_on_by": [],
-  "depends_on": [],
+  "depends_on": [
+    "validation-release"
+  ],
   "files": [
     "ACTIVE_DEVELOPMENT_STATUS.json",
     "AUDIT_REPORT.md",
@@ -21,7 +23,11 @@
     "requirements-lock-cuda128-py311-linux.txt",
     "requirements.txt",
     "scripts/ai-agent-guard.py",
-    "scripts/ai-index.ps1"
+    "scripts/ai-index.ps1",
+    "scripts/qa/gui_wiring_audit.py",
+    "scripts/qa/isolated_test_entry.py",
+    "scripts/qa/omission_plugin.py",
+    "scripts/qa/validate_platform_filesystem.py"
   ],
   "module": "repository",
   "preferred_edit_targets": [],

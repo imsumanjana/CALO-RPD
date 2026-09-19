@@ -140,7 +140,10 @@
         "object": "name"
       },
       "called_by": [
+        "tests.unit.test_tsh_calo_generalization_integration.test_completed_progress_requires_all_training_work_not_just_a_complete_guard",
         "tests.unit.test_tsh_calo_generalization_integration.test_extension_contract_discloses_segment_and_cumulative_counted_work",
+        "tests.unit.test_tsh_calo_generalization_integration.test_progress_can_read_split_only_input_without_inventing_completed_work",
+        "tests.unit.test_tsh_calo_generalization_integration.test_progress_recomputes_mirror_from_later_executor_checkpoint_and_is_idempotent",
         "tests.unit.test_tsh_calo_generalization_integration.test_progress_uses_only_durable_guard_evidence_and_preserves_legacy_fields",
         "tests.unit.test_tsh_calo_generalization_integration.test_segment_accounting_includes_every_guard_bundle"
       ],
@@ -260,6 +263,7 @@
         "_evidence": "name"
       },
       "called_by": [
+        "tests.unit.test_tsh_calo_generalization_integration.test_completed_progress_requires_all_training_work_not_just_a_complete_guard",
         "tests.unit.test_tsh_calo_generalization_integration.test_progress_uses_only_durable_guard_evidence_and_preserves_legacy_fields"
       ],
       "calls": [
@@ -657,6 +661,238 @@
       "start_line": 165,
       "state_owner": "",
       "symbol": "test_extension_contract_discloses_segment_and_cumulative_counted_work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "synchronize_training_progress",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_member_slot",
+          "target": "tests.unit.test_tsh_calo_generalization_integration._complete_member_slot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_tsh_calo_generalization_integration._plan"
+        }
+      ],
+      "call_forms": {
+        "_complete_member_slot": "name",
+        "_plan": "name",
+        "get": "attribute",
+        "pytest.raises": "attribute",
+        "synchronize_training_progress": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_complete_member_slot",
+        "_plan",
+        "get",
+        "pytest.raises",
+        "synchronize_training_progress"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress",
+        "tests.unit.test_tsh_calo_generalization_integration._complete_member_slot",
+        "tests.unit.test_tsh_calo_generalization_integration._plan"
+      ],
+      "doc": "",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_generalization_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_validate_ensemble_generalization_homogeneity_rows": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows",
+        "annotations": "__future__.annotations",
+        "augment_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_plan",
+        "candidate_generalization_status": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.candidate_generalization_status",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting",
+        "pytest": "pytest",
+        "synchronize_training_progress": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_generalization_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_generalization_integration",
+      "qualname": "tests.unit.test_tsh_calo_generalization_integration.test_completed_progress_requires_all_training_work_not_just_a_complete_guard",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "test_completed_progress_requires_all_training_work_not_just_a_complete_guard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "synchronize_training_progress",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_tsh_calo_generalization_integration._plan"
+        }
+      ],
+      "call_forms": {
+        "_plan": "name",
+        "synchronize_training_progress": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_plan",
+        "synchronize_training_progress"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress",
+        "tests.unit.test_tsh_calo_generalization_integration._plan"
+      ],
+      "doc": "",
+      "end_line": 200,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_generalization_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_validate_ensemble_generalization_homogeneity_rows": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows",
+        "annotations": "__future__.annotations",
+        "augment_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_plan",
+        "candidate_generalization_status": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.candidate_generalization_status",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting",
+        "pytest": "pytest",
+        "synchronize_training_progress": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_generalization_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_generalization_integration",
+      "qualname": "tests.unit.test_tsh_calo_generalization_integration.test_progress_recomputes_mirror_from_later_executor_checkpoint_and_is_idempotent",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 192,
+      "state_owner": "",
+      "symbol": "test_progress_recomputes_mirror_from_later_executor_checkpoint_and_is_idempotent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "synchronize_training_progress",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_tsh_calo_generalization_integration._plan"
+        }
+      ],
+      "call_forms": {
+        "_plan": "name",
+        "synchronize_training_progress": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_plan",
+        "synchronize_training_progress"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress",
+        "tests.unit.test_tsh_calo_generalization_integration._plan"
+      ],
+      "doc": "",
+      "end_line": 207,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_generalization_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_validate_ensemble_generalization_homogeneity_rows": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows",
+        "annotations": "__future__.annotations",
+        "augment_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_plan",
+        "candidate_generalization_status": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.candidate_generalization_status",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting",
+        "pytest": "pytest",
+        "synchronize_training_progress": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_generalization_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_generalization_integration",
+      "qualname": "tests.unit.test_tsh_calo_generalization_integration.test_progress_can_read_split_only_input_without_inventing_completed_work",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 203,
+      "state_owner": "",
+      "symbol": "test_progress_can_read_split_only_input_without_inventing_completed_work",
       "tests": []
     }
   ]

@@ -75,9 +75,5 @@ def candidate_generalization_status(training_provenance: dict) -> tuple[bool, st
 
 
 __all__ = tuple(
-    sorted(
-        name
-        for name in globals()
-        if not name.startswith("_") and name not in {"annotations"}
-    )
+    sorted(name for name in globals() if not name.startswith("_") and name not in {"annotations"})
 )

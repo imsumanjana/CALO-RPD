@@ -35,6 +35,8 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
 from calo_rpd_studio.orpd.problem import ORPDProblem
 from calo_rpd_studio.scripts import accept_development_freeze as acceptance
 from calo_rpd_studio.scripts import train_tsh_calo
+from calo_rpd_studio.scripts import _train_tsh_calo_core as train_core
+from calo_rpd_studio.algorithms.calo import _tsh_calo_training_campaign_core as campaign_core
 from calo_rpd_studio.scripts import create_development_freeze_candidate as freeze
 
 
@@ -135,15 +137,11 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
     assert manifest["extension_contract"]["repeatable_finite_segments"] is True
     assert manifest["training_compatibility_contract"]["algorithm_version"]
     assert manifest["training_compatibility_contract"]["policy_parameter_layout_sha256"]
-    assert manifest["training_compatibility_contract"][
-        "training_parameter_schema_sha256"
-    ]
+    assert manifest["training_compatibility_contract"]["training_parameter_schema_sha256"]
     assert manifest["training_compatibility_contract"]["plan_field_schema_sha256"]
     assert len(manifest["continuation_checkpoints"]) == len(plan.members)
     for checkpoint in manifest["continuation_checkpoints"]:
-        assert checkpoint_sha256(
-            tmp_path / "campaign" / checkpoint["path"]
-        ) == checkpoint["sha256"]
+        assert checkpoint_sha256(tmp_path / "campaign" / checkpoint["path"]) == checkpoint["sha256"]
     event_names = [event["event"] for event in streamed_events]
     assert event_names[0] == "campaign_started"
     assert event_names[-1] == "campaign_completed"
@@ -160,9 +158,7 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
         ).start()
 
 
-def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
-    tmp_path, toy_case
-):
+def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(tmp_path, toy_case):
     plan = _plan()
     root = tmp_path / "extendable-campaign"
     base = IndependentTSHCALOTrainingCampaign(
@@ -210,10 +206,7 @@ def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
     assert second_manifest["parent_manifest_sha256"] == first.manifest_sha256
     for candidate in first.member_candidates:
         assert candidate.training_provenance["source_commit"] == SOURCE_COMMIT
-        assert (
-            candidate.training_provenance["execution_source_commit"]
-            == extension_source_commit
-        )
+        assert candidate.training_provenance["execution_source_commit"] == extension_source_commit
         receipts = candidate.training_provenance["training_episode_receipts"]
         assert len(receipts) == 2
         assert receipts[-1]["session_id"].endswith(":extension:000001")
@@ -263,9 +256,7 @@ def test_extension_ignores_reserved_plan_writer_metadata(tmp_path, toy_case):
     readiness = extension_plan_summary(plan, root)
 
     assert readiness["completed_extension_count"] == 0
-    assert readiness["training_compatibility_contract"][
-        "training_parameter_schema_sha256"
-    ]
+    assert readiness["training_compatibility_contract"]["training_parameter_schema_sha256"]
 
 
 def test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches(
@@ -317,18 +308,14 @@ def test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architectur
 
     assert extension_plan_summary(plan, root)["completed_extension_count"] == 0
 
-    manifest["training_compatibility_contract"][
-        "training_parameter_schema_sha256"
-    ] = "0" * 64
+    manifest["training_compatibility_contract"]["training_parameter_schema_sha256"] = "0" * 64
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     with pytest.raises(ValueError, match="architecture or parameter schema changed"):
         extension_plan_summary(plan, root)
 
-    manifest["training_compatibility_contract"][
-        "training_parameter_schema_sha256"
-    ] = tsh_calo_training_compatibility_contract(plan)[
-        "training_parameter_schema_sha256"
-    ]
+    manifest["training_compatibility_contract"]["training_parameter_schema_sha256"] = (
+        tsh_calo_training_compatibility_contract(plan)["training_parameter_schema_sha256"]
+    )
     manifest["training_compatibility_contract"]["algorithm_version"] = "changed-architecture"
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
 
@@ -336,9 +323,7 @@ def test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architectur
         extension_plan_summary(plan, root)
 
 
-def test_training_extension_pauses_and_resumes_at_authenticated_checkpoint(
-    tmp_path, toy_case
-):
+def test_training_extension_pauses_and_resumes_at_authenticated_checkpoint(tmp_path, toy_case):
     plan = _plan()
     root = tmp_path / "paused-extension"
     IndependentTSHCALOTrainingCampaign(
@@ -448,14 +433,10 @@ def test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan(tmp_path,
     assert first_pause["state"] == "interrupted"
     assert first_pause["pause"]["resumable"] is True
     assert first_pause["uncommitted_cuda_window"] is None
-    first_control = json.loads(
-        (output / "training_control.json").read_text(encoding="utf-8")
-    )
+    first_control = json.loads((output / "training_control.json").read_text(encoding="utf-8"))
     assert first_control["state"] == "acknowledged"
     assert first_control["request_id"] == first_pause["pause"]["request_id"]
-    assert first_control["checkpoint_sha256"] == first_pause["session_checkpoint"][
-        "sha256"
-    ]
+    assert first_control["checkpoint_sha256"] == first_pause["session_checkpoint"]["sha256"]
 
     with pytest.raises(TSHCALOTrainingPauseRequested):
         IndependentTSHCALOTrainingCampaign(
@@ -467,9 +448,10 @@ def test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan(tmp_path,
     second_pause = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
     assert second_pause["state"] == "interrupted"
     assert second_pause["pause"]["request_id"] != first_pause["pause"]["request_id"]
-    assert second_pause["progress"]["committed_candidate_evaluations"] > first_pause[
-        "progress"
-    ]["committed_candidate_evaluations"]
+    assert (
+        second_pause["progress"]["committed_candidate_evaluations"]
+        > first_pause["progress"]["committed_candidate_evaluations"]
+    )
 
     resumed = IndependentTSHCALOTrainingCampaign(
         plan,
@@ -495,9 +477,7 @@ def test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan(tmp_path,
         for line in (output / "training_events.jsonl").read_text(encoding="utf-8").splitlines()
     ]
     assert [event["event"] for event in events].count("campaign_paused") == 2
-    assert [event["event_sequence"] for event in events] == list(
-        range(1, len(events) + 1)
-    )
+    assert [event["event_sequence"] for event in events] == list(range(1, len(events) + 1))
 
 
 def test_pause_request_is_idempotent_and_bound_to_running_campaign(tmp_path, toy_case):
@@ -636,7 +616,7 @@ def test_campaign_can_resume_safe_infrastructure_write_interruption(
 ):
     plan = _plan()
     output = tmp_path / "infrastructure-interruption"
-    original_write_json = campaign_module._write_json
+    original_write_json = campaign_core._write_json
     interrupted = False
 
     def interrupt_status_write(path, payload):
@@ -650,7 +630,7 @@ def test_campaign_can_resume_safe_infrastructure_write_interruption(
             raise PermissionError("synthetic Windows status replacement lock")
         return original_write_json(path, payload)
 
-    monkeypatch.setattr(campaign_module, "_write_json", interrupt_status_write)
+    monkeypatch.setattr(campaign_core, "_write_json", interrupt_status_write)
     with pytest.raises(PermissionError, match="synthetic Windows"):
         IndependentTSHCALOTrainingCampaign(
             plan,
@@ -663,7 +643,7 @@ def test_campaign_can_resume_safe_infrastructure_write_interruption(
     assert status["failure"]["category"] == "resumable_infrastructure_interruption"
     assert status["failure"]["environment_provenance"]["accounting_complete"] is True
 
-    monkeypatch.setattr(campaign_module, "_write_json", original_write_json)
+    monkeypatch.setattr(campaign_core, "_write_json", original_write_json)
     result = IndependentTSHCALOTrainingCampaign(
         plan,
         output,
@@ -736,7 +716,7 @@ def test_default_cuda_campaign_builds_no_fallback_accelerated_problem(
             raise AssertionError("construction test must not evaluate")
 
     monkeypatch.setattr(campaign_module.CaseLoader, "load", lambda _identity: toy_case)
-    monkeypatch.setattr(campaign_module, "AcceleratedORPDProblem", FakeAcceleratedProblem)
+    monkeypatch.setattr(campaign_core, "AcceleratedORPDProblem", FakeAcceleratedProblem)
     campaign = IndependentTSHCALOTrainingCampaign(plan, tmp_path / "cuda-campaign")
 
     problem = campaign._build_problem("toy-development", device_hint="cuda:0")
@@ -768,25 +748,28 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
         train_tsh_calo.load_plan(plan_path)
 
     monkeypatch.setattr(
-        train_tsh_calo,
+        train_core,
         "repository_state",
         lambda _root: (SOURCE_COMMIT, ""),
     )
     train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
     monkeypatch.setattr(
-        train_tsh_calo,
+        train_core,
         "repository_state",
         lambda _root: ("0" * 40, ""),
     )
     with pytest.raises(RuntimeError, match="source commit"):
         train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
-    assert train_tsh_calo.validate_repository_for_plan(
-        loaded,
-        root=tmp_path,
-        compatible_extension=True,
-    ) == "0" * 40
+    assert (
+        train_tsh_calo.validate_repository_for_plan(
+            loaded,
+            root=tmp_path,
+            compatible_extension=True,
+        )
+        == "0" * 40
+    )
     monkeypatch.setattr(
-        train_tsh_calo,
+        train_core,
         "repository_state",
         lambda _root: (SOURCE_COMMIT, " M tracked.py"),
     )
@@ -811,7 +794,7 @@ def test_readiness_preflights_the_same_training_resource_guard(monkeypatch):
             "memory_admission": {"selected_device": "cpu", "allowance_bytes": 456},
         }
 
-    monkeypatch.setattr(train_tsh_calo, "preflight_tsh_calo_training_resources", preflight)
+    monkeypatch.setattr(train_core, "preflight_tsh_calo_training_resources", preflight)
 
     result = train_tsh_calo.validate_training_resources(plan)
 
@@ -826,15 +809,17 @@ def test_extension_check_uses_authenticated_campaign_without_requiring_legacy_pa
     capsys,
 ):
     plan = _plan()
-    monkeypatch.setattr(train_tsh_calo, "load_plan", lambda _path, **_kwargs: plan)
+    # Exercise the public CLI with a real synthetic plan; replace dependencies where
+    # the implementation resolves them, not copied exports on the accounting wrapper.
+    (tmp_path / "legacy-plan.json").write_text(json.dumps(plan.to_dict()), encoding="utf-8")
     monkeypatch.setattr(
-        train_tsh_calo,
+        train_core,
         "validate_repository_for_plan",
         lambda _plan, **_kwargs: "b" * 40,
     )
-    monkeypatch.setattr(train_tsh_calo, "validate_training_resources", lambda _plan: {})
+    monkeypatch.setattr(train_core, "validate_training_resources", lambda _plan: {})
     monkeypatch.setattr(
-        train_tsh_calo,
+        train_core,
         "extension_plan_summary",
         lambda _plan, _output: {"authenticated": True},
     )
@@ -863,7 +848,7 @@ def test_readiness_resource_failure_is_not_reported_as_validated(monkeypatch):
             "TSH-CALO training working set exceeds 80% of currently available CPU RAM"
         )
 
-    monkeypatch.setattr(train_tsh_calo, "preflight_tsh_calo_training_resources", reject)
+    monkeypatch.setattr(train_core, "preflight_tsh_calo_training_resources", reject)
 
     with pytest.raises(MemoryError, match="currently available CPU RAM"):
         train_tsh_calo.validate_training_resources(plan)
@@ -985,3 +970,40 @@ def test_explicit_training_command_requires_exact_training_eligible_freeze_repor
     path.write_text(json.dumps(report), encoding="utf-8")
     with pytest.raises(ValueError, match="payload SHA-256 mismatch"):
         train_tsh_calo.validate_development_freeze_for_plan(plan, path, acceptance_path)
+
+
+def test_checkpoint_parameters_preserve_legacy_omission_and_guard_identity():
+    config = _plan().training_config(_plan().members[0])
+    legacy = config.checkpoint_parameters()
+    assert "generalization_guard_sha256" not in legacy
+    guarded = replace(config, generalization_guard_sha256="a" * 64)
+    assert guarded.checkpoint_parameters() == {**legacy, "generalization_guard_sha256": "a" * 64}
+    assert guarded.scientific_design_hash() != config.scientific_design_hash()
+
+
+@pytest.mark.parametrize("receipt_count,expected", [(0, 0), (1, 2), (2, 5), (3, 9)])
+def test_generalization_boundaries_sum_episode_updates(receipt_count, expected):
+    from types import SimpleNamespace
+
+    trainer = SimpleNamespace(
+        training_episode_receipts=[{"ppo_update_count": value} for value in (2, 3, 4)],
+        update_steps=9,
+    )
+    assert (
+        IndependentTSHCALOTrainingCampaign._receipt_update_boundary(trainer, receipt_count)
+        == expected
+    )
+
+
+@pytest.mark.parametrize(
+    "count,updates,receipt",
+    [(4, 9, 2), (-1, 9, 2), (True, 9, 2), (1, 1, 2), (1, 9, True), (1, 9, 0)],
+)
+def test_generalization_boundaries_reject_invalid_or_future_work(count, updates, receipt):
+    from types import SimpleNamespace
+
+    trainer = SimpleNamespace(
+        training_episode_receipts=[{"ppo_update_count": receipt}], update_steps=updates
+    )
+    with pytest.raises(ValueError, match="generalization"):
+        IndependentTSHCALOTrainingCampaign._receipt_update_boundary(trainer, count)

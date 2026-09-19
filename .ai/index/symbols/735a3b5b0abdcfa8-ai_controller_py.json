@@ -87,7 +87,8 @@
       "state_owner": "",
       "symbol": "PARAMETER_NAMES",
       "tests": [
-        "tests/unit/test_tsh_calo_effective_recovery.py"
+        "tests/unit/test_tsh_calo_effective_recovery.py",
+        "tests/unit/test_tsh_calo_optimizer.py"
       ]
     },
     {
@@ -2798,6 +2799,7 @@
         "calo_rpd_studio.ai.inference.infer_policy",
         "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
         "tests.unit.test_calo_v41_policy_system.test_policy_assisted_controller_fails_closed_without_checkpoint",
+        "tests.unit.test_current_policy_safety_contract.test_missing_policy_never_constructs_an_untrained_fallback",
         "tests.unit.test_v31_batched_throughput.test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process",
         "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_cache_is_content_addressed_even_when_path_size_and_mtime_match",
         "tests.unit.test_v541_release_integrity.test_missing_policy_never_constructs_an_untrained_fallback",
@@ -2887,6 +2889,7 @@
       "symbol": "AIController",
       "tests": [
         "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_current_policy_safety_contract.py",
         "tests/unit/test_v31_batched_throughput.py",
         "tests/unit/test_v541_policy_cache_broker_hardening.py",
         "tests/unit/test_v541_release_integrity.py",

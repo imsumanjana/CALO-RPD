@@ -1,0 +1,335 @@
+{
+  "path": "calo_rpd_studio/validation/test_inventory.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dispositions.get",
+          "target": "dispositions.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "errors.append",
+          "target": "errors.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "historical.append",
+          "target": "historical.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.get",
+          "target": "inventory.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "known.get",
+          "target": "known.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nodeid.split",
+          "target": "nodeid.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nodeid.startswith",
+          "target": "nodeid.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "omitted.append",
+          "target": "omitted.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outcomes.get",
+          "target": "outcomes.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outcomes.items",
+          "target": "outcomes.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase.get",
+          "target": "phase.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "removeprefix",
+          "target": "removeprefix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values",
+          "target": "values"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "any": "name",
+        "bool": "name",
+        "dict": "name",
+        "dispositions.get": "attribute",
+        "encode": "attribute",
+        "errors.append": "attribute",
+        "get": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "historical.append": "attribute",
+        "inventory.get": "attribute",
+        "known.get": "attribute",
+        "len": "name",
+        "nodeid.split": "attribute",
+        "nodeid.startswith": "attribute",
+        "omitted.append": "attribute",
+        "outcomes.get": "attribute",
+        "outcomes.items": "attribute",
+        "path.is_file": "attribute",
+        "path.read_text": "attribute",
+        "phase.get": "attribute",
+        "record.get": "attribute",
+        "removeprefix": "attribute",
+        "result.get": "attribute",
+        "row.get": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "values": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_test_inventory_contract.test_historical_disposition_requires_exact_source_and_executed_successor",
+        "tests.unit.test_test_inventory_contract.test_missing_execution_and_failure_cannot_be_accepted",
+        "tests.unit.test_test_inventory_contract.test_skips_deselections_and_collection_omissions_are_not_invisible"
+      ],
+      "calls": [
+        "all",
+        "any",
+        "bool",
+        "dict",
+        "dispositions.get",
+        "encode",
+        "errors.append",
+        "get",
+        "hashlib.sha256",
+        "hexdigest",
+        "historical.append",
+        "inventory.get",
+        "known.get",
+        "len",
+        "nodeid.split",
+        "nodeid.startswith",
+        "omitted.append",
+        "outcomes.get",
+        "outcomes.items",
+        "path.is_file",
+        "path.read_text",
+        "phase.get",
+        "record.get",
+        "removeprefix",
+        "result.get",
+        "row.get",
+        "set",
+        "sorted",
+        "str",
+        "values"
+      ],
+      "calls_resolved": [],
+      "doc": "Classify exact historical skips; retain failures and every live omission explicitly.",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "calo_rpd_studio/validation/test_inventory.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.validation.test_inventory",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.validation.test_inventory",
+      "qualname": "calo_rpd_studio.validation.test_inventory.review_inventory",
+      "semantic_tags": [],
+      "signature": "(inventory, dispositions, source_root)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "review_inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.get",
+          "target": "evidence.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        }
+      ],
+      "call_forms": {
+        "evidence.get": "attribute",
+        "list": "name",
+        "record.get": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_test_inventory_contract.test_changed_or_unrecorded_validator_cannot_qualify_a_lane",
+        "tests.unit.test_test_inventory_contract.test_missing_omission_inventory_cannot_qualify_a_lane",
+        "tests.unit.test_test_inventory_contract.test_missing_platforms_and_hidden_cuda_remain_pending"
+      ],
+      "calls": [
+        "evidence.get",
+        "list",
+        "record.get"
+      ],
+      "calls_resolved": [],
+      "doc": "No absent, failed, source-unstable or omission-bearing lane counts as qualified.",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/validation/test_inventory.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.validation.test_inventory",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.validation.test_inventory",
+      "qualname": "calo_rpd_studio.validation.test_inventory.review_required_lanes",
+      "semantic_tags": [],
+      "signature": "(required, evidence)",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "review_required_lanes",
+      "tests": []
+    }
+  ]
+}

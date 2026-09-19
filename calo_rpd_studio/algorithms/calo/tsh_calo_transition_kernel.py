@@ -42,8 +42,6 @@ def _group_parameters(raw_parameters) -> np.ndarray:
     return PARAMETER_LOW[None, :] + raw * (PARAMETER_HIGH - PARAMETER_LOW)[None, :]
 
 
-
-
 def effective_group_parameter_values(group_parameter_actions) -> np.ndarray:
     """Return physical/scaled policy parameter values without changing the action."""
 
@@ -77,6 +75,7 @@ def effective_recovery_fraction(
     if not np.isfinite(ceiling) or ceiling < 0.0 or ceiling > 1.0:
         raise ValueError("TSH-CALO recovery fraction ceiling must be within [0, 1]")
     return float(np.clip(min(selected, ceiling), 0.0, 1.0))
+
 
 def generate_tsh_offspring(
     *,

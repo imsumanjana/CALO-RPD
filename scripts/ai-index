@@ -21,7 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
-VERSION = "2.1.0"
+VERSION = "2.1.1"
+BYTE_METADATA_CONTRACT = "git-clean-equivalent-v1"
 SCHEMA = 2
 AI = Path(".ai")
 INDEX_ROOT = AI / "index"
@@ -176,16 +177,42 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def content_identity(root: Path, path: Path) -> tuple[str, str, str]:
+def _git_blob_digest(data: bytes) -> str:
+    # Git identity comparison only, not a cryptographic security boundary.
+    header = f"blob {len(data)}\0".encode("ascii")
+    return hashlib.sha1(header + data, usedforsecurity=False).hexdigest()
+
+
+def _git_equivalent_bytes(data: bytes, blob: str) -> bytes:
+    """Use canonical LF only when Git proves it is the same clean-filtered content.
+
+    Unset text attributes and binary/raw paths retain their exact bytes. Unknown clean
+    filters fail explicitly instead of attaching a misleading SHA-256 to a Git identity.
+    No working-tree file, policy artifact, or scientific checksum is rewritten.
+    """
+    if _git_blob_digest(data) == blob:
+        return data
+    normalized = data.replace(b"\r\n", b"\n")
+    if _git_blob_digest(normalized) == blob:
+        return normalized
+    raise ValueError("Git clean-filter output is not raw or LF-equivalent source bytes")
+
+
+def content_details(root: Path, path: Path) -> tuple[str, str, str, int]:
     data = path.read_bytes()
-    sha = sha256_bytes(data)
     rp = rel(path, root)
     tracked = run_git(root, "ls-files", "--error-unmatch", "--", rp) if is_git_root(root) else ""
     if tracked:
         blob = run_git(root, "hash-object", "--", rp)
         if blob:
-            return f"git-sha1:{blob}", "git-blob-sha1", sha
-    return f"sha256:{sha}", "sha256", sha
+            canonical = _git_equivalent_bytes(data, blob)
+            return f"git-sha1:{blob}", "git-blob-sha1", sha256_bytes(canonical), len(canonical)
+    sha = sha256_bytes(data)
+    return f"sha256:{sha}", "sha256", sha, len(data)
+
+
+def content_identity(root: Path, path: Path) -> tuple[str, str, str]:
+    return content_details(root, path)[:3]
 
 
 def same_hash(root: Path, path: Path, expected: str) -> bool:
@@ -761,6 +788,7 @@ def write_shards(root: Path, idx: dict[str, dict[str, Any]], symbols: list[dict[
                 p.unlink(); touched.append(rel(p, root))
     man = {
         "schema_version": SCHEMA, "intelligence_version": VERSION,
+        "byte_metadata_contract": BYTE_METADATA_CONTRACT,
         "sharded": True, "coverage_complete": True, "git": meta,
         "previous_indexed_commit": previous, "files": manifest_files,
         "counts": {"files": len(idx), "symbols": len(symbols), "modules": len(modules)},
@@ -914,7 +942,7 @@ def index_repo(root: Path, mode: str) -> int:
     changed: set[str] = set()
     errors: list[str] = []
     for rp, p in sorted(current.items()):
-        content_hash, algorithm, sha = content_identity(root, p)
+        content_hash, algorithm, sha, size_bytes = content_details(root, p)
         lang = language_for(p)
         old = oldidx.get(rp, {})
         hash_changed = old.get("content_hash") != content_hash
@@ -923,7 +951,7 @@ def index_repo(root: Path, mode: str) -> int:
         should_parse = hash_changed or rp not in cached or old.get("parse_error") or mode == "init"
         info = {
             "path": rp, "language": lang, "content_hash": content_hash, "content_sha256": sha,
-            "hash_algorithm": algorithm, "module": module_for(rp), "size_bytes": p.stat().st_size,
+            "hash_algorithm": algorithm, "module": module_for(rp), "size_bytes": size_bytes,
             "symbol_count": 0, "imports": [], "parse_error": "",
             "last_indexed_commit": head if hash_changed or not old else old.get("last_indexed_commit", previous or head),
         }
@@ -951,7 +979,7 @@ def index_repo(root: Path, mode: str) -> int:
     snapshot_changed = bool(changed or deleted or set(oldidx) != paths)
     indexed_commit = head if snapshot_changed or not previous else previous
     snapshot_previous = previous if indexed_commit != previous else historical_previous
-    meta = {"commit": indexed_commit, "branch": branch, "identity": "content-hash-authoritative"}
+    meta = {"commit": indexed_commit, "branch": branch if snapshot_changed else oldman.get("git", {}).get("branch", branch), "identity": "content-hash-authoritative"}
     au = audit_state(idx, oldaudit, changed, indexed_commit)
 
     first = not bool(oldman.get("sharded"))
@@ -995,6 +1023,9 @@ def index_repo(root: Path, mode: str) -> int:
 
 
 def check_current(root: Path) -> int:
+    if load_manifest(root).get("byte_metadata_contract") != BYTE_METADATA_CONTRACT:
+        print("AI byte metadata is stale; run python scripts/ai-index update.")
+        return 1
     man = load_manifest(root)
     if not man.get("sharded") or not man.get("coverage_complete"):
         print("AI index is not initialized/exhaustive. Run: python scripts/ai-index init")
@@ -2025,13 +2056,13 @@ def index_repo(root: Path, mode: str) -> int:
     for s in oldsyms: cached.setdefault(s["file"], []).append(s)
     idx: dict[str, dict[str, Any]] = {}; symbols: list[dict[str, Any]] = []; changed: set[str] = set(); errors: list[str] = []
     for rp, p in sorted(current.items()):
-        content_hash, algorithm, sha = content_identity(root, p); lang = language_for(p); old = oldidx.get(rp, {})
+        content_hash, algorithm, sha, size_bytes = content_details(root, p); lang = language_for(p); old = oldidx.get(rp, {})
         hash_changed = old.get("content_hash") != content_hash
         if hash_changed: changed.add(rp)
         should_parse = hash_changed or rp not in cached or old.get("parse_error") or mode == "init"
         info = {
             "path": rp, "language": lang, "content_hash": content_hash, "content_sha256": sha,
-            "hash_algorithm": algorithm, "module": module_for(rp), "size_bytes": p.stat().st_size,
+            "hash_algorithm": algorithm, "module": module_for(rp), "size_bytes": size_bytes,
             "symbol_count": 0, "imports": [], "import_bindings": {}, "parse_error": "",
             "last_indexed_commit": head if hash_changed or not old else old.get("last_indexed_commit", previous or head),
         }
@@ -2060,7 +2091,7 @@ def index_repo(root: Path, mode: str) -> int:
     snapshot_changed = bool(changed or deleted or set(oldidx) != paths)
     indexed_commit = head if snapshot_changed or not previous else previous
     snapshot_previous = previous if indexed_commit != previous else historical_previous
-    meta = {"commit": indexed_commit, "branch": branch, "identity": "content-hash-authoritative", "profile": "CALO-RPD", "profile_version": CALO_PROFILE_VERSION}
+    meta = {"commit": indexed_commit, "branch": branch if snapshot_changed else oldman.get("git", {}).get("branch", branch), "identity": "content-hash-authoritative", "profile": "CALO-RPD", "profile_version": CALO_PROFILE_VERSION}
     au = audit_state(idx, oldaudit, changed - renamed_new, indexed_commit)
     first = not bool(oldman.get("sharded"))
     modified = sorted((changed - added) - renamed_new)

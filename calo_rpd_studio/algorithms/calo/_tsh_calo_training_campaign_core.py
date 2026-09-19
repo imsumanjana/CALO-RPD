@@ -134,9 +134,7 @@ def _training_parameter_schema_payload(payload: dict) -> dict:
     if not isinstance(payload, dict):
         raise ValueError("TSH-CALO training plan payload must be an object")
     return {
-        key: value
-        for key, value in payload.items()
-        if key not in TSH_CALO_NON_TRAINING_PLAN_FIELDS
+        key: value for key, value in payload.items() if key not in TSH_CALO_NON_TRAINING_PLAN_FIELDS
     }
 
 
@@ -216,9 +214,7 @@ def validate_tsh_calo_extension_plan_field_schema(
     if writer_metadata is not None and not isinstance(writer_metadata, dict):
         raise ValueError("Completed training writer metadata must be an object")
     stored_paths = _field_schema_paths(_training_parameter_schema_payload(stored_payload))
-    current_paths = _field_schema_paths(
-        _training_parameter_schema_payload(plan.to_dict())
-    )
+    current_paths = _field_schema_paths(_training_parameter_schema_payload(plan.to_dict()))
     if stored_paths != current_paths:
         added = sorted(set(current_paths) - set(stored_paths))
         removed = sorted(set(stored_paths) - set(current_paths))
@@ -256,14 +252,11 @@ def validate_tsh_calo_training_compatibility_contract(
         "environment_config_fields",
     )
     changed = [
-        key
-        for key in authority_fields
-        if key in recorded and recorded.get(key) != expected[key]
+        key for key in authority_fields if key in recorded and recorded.get(key) != expected[key]
     ]
     if changed:
         raise ValueError(
-            "Completed training architecture or parameter schema changed: "
-            + ", ".join(changed)
+            "Completed training architecture or parameter schema changed: " + ", ".join(changed)
         )
 
 
@@ -834,6 +827,20 @@ class IndependentTSHCALOTrainingCampaign:
             expected_environment_template=asdict(self.plan.environment),
         )
 
+    @staticmethod
+    def _receipt_update_boundary(trainer, receipt_count: int) -> int:
+        """Resolve cumulative PPO steps from authenticated per-episode update counts."""
+        receipts = trainer.training_episode_receipts
+        if type(receipt_count) is not int or not 0 <= receipt_count <= len(receipts):
+            raise ValueError("TSH-CALO generalization receipt boundary is invalid")
+        counts = [receipt.get("ppo_update_count") for receipt in receipts[:receipt_count]]
+        if any(type(count) is not int or count < 1 for count in counts):
+            raise ValueError("TSH-CALO generalization receipt PPO count is invalid")
+        total = sum(counts)
+        if type(trainer.update_steps) is not int or total > trainer.update_steps:
+            raise ValueError("TSH-CALO generalization receipt precedes its PPO updates")
+        return total
+
     def _ensure_generalization_baseline(
         self,
         status: dict,
@@ -851,18 +858,16 @@ class IndependentTSHCALOTrainingCampaign:
         if isinstance(monitor, dict) and isinstance(final, dict):
             self._validate_generalization_evidence_record(monitor, training, final=False)
             self._validate_generalization_evidence_record(final, training, final=True)
-            baseline_updates = (
-                int(trainer.training_episode_receipts[int(receipt_offset) - 1]["ppo_update_count"])
-                if int(receipt_offset) > 0
-                else 0
-            )
-            if int(monitor.get("observation_index", -1)) != 0 or int(
-                final.get("observation_index", -1)
-            ) != 0:
+            baseline_updates = self._receipt_update_boundary(trainer, int(receipt_offset))
+            if (
+                int(monitor.get("observation_index", -1)) != 0
+                or int(final.get("observation_index", -1)) != 0
+            ):
                 raise ValueError("TSH-CALO generalization baseline observation index changed")
-            if int(monitor.get("ppo_update_steps_observed", -1)) != baseline_updates or int(
-                final.get("ppo_update_steps_observed", -1)
-            ) != baseline_updates:
+            if (
+                int(monitor.get("ppo_update_steps_observed", -1)) != baseline_updates
+                or int(final.get("ppo_update_steps_observed", -1)) != baseline_updates
+            ):
                 raise ValueError("TSH-CALO generalization baseline PPO boundary changed")
             return
         if monitor is not None or final is not None:
@@ -901,12 +906,11 @@ class IndependentTSHCALOTrainingCampaign:
             receipt_index = int(receipt_offset) + observation_index - 1
             if receipt_index >= len(trainer.training_episode_receipts):
                 raise ValueError("TSH-CALO generalization monitor precedes its training receipt")
-            expected_update = int(
-                trainer.training_episode_receipts[receipt_index]["ppo_update_count"]
-            )
-            if int(item.get("observation_index", -1)) != observation_index or int(
-                item.get("ppo_update_steps_observed", -1)
-            ) != expected_update:
+            expected_update = self._receipt_update_boundary(trainer, receipt_index + 1)
+            if (
+                int(item.get("observation_index", -1)) != observation_index
+                or int(item.get("ppo_update_steps_observed", -1)) != expected_update
+            ):
                 raise ValueError("TSH-CALO generalization monitor PPO boundary changed")
         completed = len(trainer.training_episode_receipts) - int(receipt_offset)
         if completed < 0 or len(evidence) > completed:
@@ -1029,9 +1033,7 @@ class IndependentTSHCALOTrainingCampaign:
         episode_evaluations = int(provenance.get("candidate_evaluations", 0))
         episode_limit = int(self.plan.max_evaluations)
         total_evaluations = int(episode_count * episode_limit)
-        committed_evaluations = int(
-            (episode_ordinal - 1) * episode_limit + episode_evaluations
-        )
+        committed_evaluations = int((episode_ordinal - 1) * episode_limit + episode_evaluations)
         percent = (
             min(99, int(committed_evaluations * 100 / total_evaluations))
             if total_evaluations > 0
@@ -1089,9 +1091,7 @@ class IndependentTSHCALOTrainingCampaign:
             "acknowledged_at": acknowledged_at,
             "checkpoint_path": progress["checkpoint_path"],
             "checkpoint_sha256": progress["checkpoint_sha256"],
-            "committed_candidate_evaluations": progress[
-                "committed_candidate_evaluations"
-            ],
+            "committed_candidate_evaluations": progress["committed_candidate_evaluations"],
         }
         _write_json(control_path, acknowledged)
         status["state"] = "interrupted"
@@ -1313,9 +1313,7 @@ class IndependentTSHCALOTrainingCampaign:
                     {
                         "extension_id": str(extension.get("extension_id", "")),
                         "segment_number": int(extension.get("segment_number", 0)),
-                        "segment_candidate_evaluations": progress[
-                            "total_candidate_evaluations"
-                        ],
+                        "segment_candidate_evaluations": progress["total_candidate_evaluations"],
                         "cumulative_candidate_evaluations": (
                             prior + progress["committed_candidate_evaluations"]
                         ),
@@ -1355,18 +1353,26 @@ class IndependentTSHCALOTrainingCampaign:
         guard_payload = dict(provenance.get("generalization_guard", {}) or {})
         if training.generalization_guard_sha256:
             if not guard_payload:
-                raise ValueError("Existing TSH-CALO member candidate lacks required generalization evidence")
+                raise ValueError(
+                    "Existing TSH-CALO member candidate lacks required generalization evidence"
+                )
             validate_generalization_guard_provenance(
                 guard_payload,
-                training_episode_receipts=tuple(provenance.get("training_episode_receipts", ()) or ()),
+                training_episode_receipts=tuple(
+                    provenance.get("training_episode_receipts", ()) or ()
+                ),
                 expected_training_design_sha256=training.scientific_design_hash(),
             )
             if guard_payload.get("guard_design_sha256") != training.generalization_guard_sha256:
                 raise ValueError("Existing TSH-CALO member candidate guard design changed")
             if guard_payload.get("promotion_allowed") is not True:
-                raise ValueError("Existing TSH-CALO member candidate was rejected by the generalization guard")
+                raise ValueError(
+                    "Existing TSH-CALO member candidate was rejected by the generalization guard"
+                )
         elif guard_payload:
-            raise ValueError("Existing TSH-CALO member candidate contains undeclared generalization evidence")
+            raise ValueError(
+                "Existing TSH-CALO member candidate contains undeclared generalization evidence"
+            )
 
     def _existing_member_candidate(
         self,
@@ -1516,7 +1522,9 @@ class IndependentTSHCALOTrainingCampaign:
                         "member_id": self.plan.members[member_index].member_id,
                         "path": str(checkpoint["path"]),
                         "sha256": str(checkpoint["sha256"]),
-                        "receipt_count": len(candidate.training_provenance["training_episode_receipts"]),
+                        "receipt_count": len(
+                            candidate.training_provenance["training_episode_receipts"]
+                        ),
                     }
                 )
                 member_index += 1
@@ -1564,9 +1572,7 @@ class IndependentTSHCALOTrainingCampaign:
                     "same_execution_plan_required": True,
                     "source_revision_is_compatibility_identity": False,
                     "architecture_and_parameter_schema_required": True,
-                    "segment_evaluations": sum(
-                        len(member.episodes) for member in self.plan.members
-                    )
+                    "segment_evaluations": sum(len(member.episodes) for member in self.plan.members)
                     * self.plan.max_evaluations,
                     "retained_state": [
                         "model_parameters",

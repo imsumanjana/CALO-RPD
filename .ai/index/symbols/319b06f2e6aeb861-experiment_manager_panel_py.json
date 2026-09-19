@@ -154,7 +154,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Run parity, fairness, and reuse checks away from the Qt GUI thread.",
-      "end_line": 224,
+      "end_line": 218,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -828,7 +828,7 @@
         "calo_rpd_studio.results.database.ResultDatabase"
       ],
       "doc": "",
-      "end_line": 224,
+      "end_line": 218,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -978,13 +978,14 @@
         "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
         "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
         "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
         "tests.unit.test_scientist_gui_contract.test_experiment_workspace_has_only_two_scientist_compute_modes",
         "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language"
       ],
       "calls": [],
       "calls_resolved": [],
       "doc": "Guided experiment workflow with a scrollable body for compact screens.",
-      "end_line": 2661,
+      "end_line": 2651,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -1110,12 +1111,13 @@
         "workflow"
       ],
       "signature": "",
-      "start_line": 227,
+      "start_line": 221,
       "state_owner": "",
       "symbol": "ExperimentManagerPanel",
       "tests": [
         "tests/gui/test_gui_startup.py",
         "tests/gui/test_workspace_execution_ui.py",
+        "tests/integration/test_real_experiment_lifecycle.py",
         "tests/unit/test_scientist_gui_contract.py"
       ]
     },
@@ -2681,7 +2683,7 @@
         "calo_rpd_studio.gui.widgets.section_card.SectionCard"
       ],
       "doc": "",
-      "end_line": 821,
+      "end_line": 815,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -2807,7 +2809,7 @@
         "workflow"
       ],
       "signature": "(self, state, manager, parent, workspace_coordinator)",
-      "start_line": 237,
+      "start_line": 231,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -2858,7 +2860,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh"
       ],
       "doc": "",
-      "end_line": 841,
+      "end_line": 835,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -2984,7 +2986,7 @@
         "workflow"
       ],
       "signature": "(self, context)",
-      "start_line": 823,
+      "start_line": 817,
       "state_owner": "",
       "symbol": "show_context",
       "tests": []
@@ -3045,7 +3047,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._apply_inline_study_states"
       ],
       "doc": "Retain separate Workspace and Individual inline prerequisite contracts.",
-      "end_line": 860,
+      "end_line": 854,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -3171,7 +3173,7 @@
         "workflow"
       ],
       "signature": "(self, execution_mode, states)",
-      "start_line": 843,
+      "start_line": 837,
       "state_owner": "",
       "symbol": "set_study_prerequisite_states",
       "tests": []
@@ -3263,7 +3265,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._refresh_study_source_card"
       ],
       "doc": "",
-      "end_line": 883,
+      "end_line": 877,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -3389,7 +3391,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 862,
+      "start_line": 856,
       "state_owner": "",
       "symbol": "_apply_mode_presentation",
       "tests": []
@@ -3461,7 +3463,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._apply_mode_presentation"
       ],
       "doc": "",
-      "end_line": 902,
+      "end_line": 896,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -3587,7 +3589,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 885,
+      "start_line": 879,
       "state_owner": "",
       "symbol": "_apply_inline_study_states",
       "tests": []
@@ -3620,7 +3622,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 905,
+      "end_line": 899,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -3746,7 +3748,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 904,
+      "start_line": 898,
       "state_owner": "",
       "symbol": "_active_controlled_plan",
       "tests": []
@@ -3810,7 +3812,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._active_portfolio_goal"
       ],
       "doc": "Return the algorithm authority for the currently displayed execution path.",
-      "end_line": 919,
+      "end_line": 911,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -3936,7 +3938,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 907,
+      "start_line": 901,
       "state_owner": "",
       "symbol": "_display_algorithm_names",
       "tests": []
@@ -3962,7 +3964,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 927,
+      "end_line": 919,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -4088,7 +4090,7 @@
         "workflow"
       ],
       "signature": "(self, controller)",
-      "start_line": 921,
+      "start_line": 913,
       "state_owner": "",
       "symbol": "_controller_matches_mode",
       "tests": []
@@ -4121,7 +4123,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.show_context"
       ],
       "doc": "",
-      "end_line": 933,
+      "end_line": 925,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -4247,7 +4249,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 929,
+      "start_line": 921,
       "state_owner": "",
       "symbol": "_show_workspace_owner",
       "tests": []
@@ -4287,7 +4289,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.show_context"
       ],
       "doc": "",
-      "end_line": 938,
+      "end_line": 930,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -4413,7 +4415,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 935,
+      "start_line": 927,
       "state_owner": "",
       "symbol": "_show_workspace_queue",
       "tests": []
@@ -4700,7 +4702,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._refresh_study_source_card"
       ],
       "doc": "",
-      "end_line": 1128,
+      "end_line": 1117,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -4826,7 +4828,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 940,
+      "start_line": 932,
       "state_owner": "",
       "symbol": "refresh_execution_state",
       "tests": []
@@ -4895,7 +4897,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 1150,
+      "end_line": 1139,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -5021,7 +5023,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1130,
+      "start_line": 1119,
       "state_owner": "",
       "symbol": "stage_current_plan",
       "tests": []
@@ -5090,7 +5092,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 1185,
+      "end_line": 1174,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -5216,7 +5218,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1152,
+      "start_line": 1141,
       "state_owner": "",
       "symbol": "discard_current_plan",
       "tests": []
@@ -5306,7 +5308,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 1220,
+      "end_line": 1209,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -5432,7 +5434,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1187,
+      "start_line": 1176,
       "state_owner": "",
       "symbol": "resume_current_plan",
       "tests": []
@@ -5691,7 +5693,7 @@
         "calo_rpd_studio.gui.widgets.study_setup.StudySetupWorkflow"
       ],
       "doc": "Present authoritative shared-state panels inline without duplicating selection authority.",
-      "end_line": 1321,
+      "end_line": 1308,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -5817,7 +5819,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1222,
+      "start_line": 1211,
       "state_owner": "",
       "symbol": "_organize_study_setup",
       "tests": []
@@ -5858,7 +5860,7 @@
         "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal.from_record"
       ],
       "doc": "",
-      "end_line": 1327,
+      "end_line": 1314,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -5984,7 +5986,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1323,
+      "start_line": 1310,
       "state_owner": "",
       "symbol": "_active_portfolio_goal",
       "tests": []
@@ -6151,7 +6153,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._active_portfolio_goal"
       ],
       "doc": "",
-      "end_line": 1404,
+      "end_line": 1393,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -6277,7 +6279,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1329,
+      "start_line": 1316,
       "state_owner": "",
       "symbol": "_refresh_study_source_card",
       "tests": []
@@ -6355,7 +6357,7 @@
         "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
       ],
       "doc": "",
-      "end_line": 1423,
+      "end_line": 1412,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -6481,7 +6483,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1406,
+      "start_line": 1395,
       "state_owner": "",
       "symbol": "refresh_study_recommendation",
       "tests": []
@@ -6585,7 +6587,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._update_plan_summary"
       ],
       "doc": "",
-      "end_line": 1449,
+      "end_line": 1438,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -6711,7 +6713,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1425,
+      "start_line": 1414,
       "state_owner": "",
       "symbol": "use_study_recommendation",
       "tests": []
@@ -6845,7 +6847,7 @@
         "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup.from_record"
       ],
       "doc": "",
-      "end_line": 1485,
+      "end_line": 1474,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -6971,7 +6973,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1451,
+      "start_line": 1440,
       "state_owner": "",
       "symbol": "restore_applied_study_setup",
       "tests": []
@@ -6997,8 +6999,8 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "self.apply",
-          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply"
+          "raw": "self._configuration_draft",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft"
         },
         {
           "confidence": "confirmed",
@@ -7096,7 +7098,7 @@
         "int": "name",
         "list": "name",
         "self._active_portfolio_goal": "attribute",
-        "self.apply": "attribute",
+        "self._configuration_draft": "attribute",
         "self.audit_state.setText": "attribute",
         "self.refresh_execution_state": "attribute",
         "self.state.execution_control.active_stage": "attribute",
@@ -7120,7 +7122,7 @@
         "int",
         "list",
         "self._active_portfolio_goal",
-        "self.apply",
+        "self._configuration_draft",
         "self.audit_state.setText",
         "self.refresh_execution_state",
         "self.state.execution_control.active_stage",
@@ -7135,14 +7137,14 @@
       ],
       "calls_resolved": [
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._active_portfolio_goal",
-        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft",
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_execution_state",
         "calo_rpd_studio.gui.user_feedback.show_error",
         "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
         "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
       ],
       "doc": "",
-      "end_line": 1572,
+      "end_line": 1556,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -7268,7 +7270,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1487,
+      "start_line": 1476,
       "state_owner": "",
       "symbol": "apply_workspace_study_setup",
       "tests": []
@@ -7308,7 +7310,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1582,
+      "end_line": 1566,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -7434,7 +7436,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 1574,
+      "start_line": 1558,
       "state_owner": "",
       "symbol": "_emit_setup_completion",
       "tests": []
@@ -7481,7 +7483,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1589,
+      "end_line": 1573,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -7607,7 +7609,7 @@
         "workflow"
       ],
       "signature": "()",
-      "start_line": 1585,
+      "start_line": 1569,
       "state_owner": "",
       "symbol": "_recommended_worker_count",
       "tests": []
@@ -7670,7 +7672,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 1611,
+      "end_line": 1595,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -7796,7 +7798,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1591,
+      "start_line": 1575,
       "state_owner": "",
       "symbol": "_refresh_resource_status",
       "tests": []
@@ -7890,7 +7892,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._refresh_resource_status"
       ],
       "doc": "",
-      "end_line": 1660,
+      "end_line": 1644,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -8016,7 +8018,7 @@
         "workflow"
       ],
       "signature": "(self, *_args)",
-      "start_line": 1613,
+      "start_line": 1597,
       "state_owner": "",
       "symbol": "_update_plan_summary",
       "tests": []
@@ -8084,7 +8086,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._active_controlled_plan"
       ],
       "doc": "",
-      "end_line": 1682,
+      "end_line": 1666,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -8210,7 +8212,7 @@
         "workflow"
       ],
       "signature": "(self, *_args)",
-      "start_line": 1662,
+      "start_line": 1646,
       "state_owner": "",
       "symbol": "_invalidate_fairness",
       "tests": []
@@ -8594,7 +8596,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_execution_state"
       ],
       "doc": "",
-      "end_line": 1763,
+      "end_line": 1747,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -8720,7 +8722,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1684,
+      "start_line": 1668,
       "state_owner": "",
       "symbol": "refresh",
       "tests": []
@@ -8853,7 +8855,7 @@
         "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy"
       ],
       "doc": "",
-      "end_line": 1794,
+      "end_line": 1778,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -8979,7 +8981,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1765,
+      "start_line": 1749,
       "state_owner": "",
       "symbol": "_controls",
       "tests": []
@@ -9002,6 +9004,11 @@
           "confidence": "confirmed",
           "raw": "stage_bound_individual_config",
           "target": "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
         },
         {
           "confidence": "unresolved",
@@ -9130,11 +9137,6 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "self.state.update_config",
-          "target": "self.state.update_config"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "self.telemetry_interval.value",
           "target": "self.telemetry_interval.value"
         },
@@ -9167,6 +9169,7 @@
       "call_forms": {
         "BudgetPolicy": "name",
         "RuntimeError": "name",
+        "deepcopy": "name",
         "int": "name",
         "self.auto_batch_calibration.isChecked": "attribute",
         "self.batch_window.value": "attribute",
@@ -9192,7 +9195,6 @@
         "self.runs.value": "attribute",
         "self.seed.value": "attribute",
         "self.state.execution_control.active_stage": "attribute",
-        "self.state.update_config": "attribute",
         "self.telemetry_interval.value": "attribute",
         "self.tensor_batch_size.value": "attribute",
         "self.wall.value": "attribute",
@@ -9202,13 +9204,13 @@
         "validation_config.validate": "attribute"
       },
       "called_by": [
-        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._start_audit",
-        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply_workspace_study_setup",
-        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_calo"
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply_workspace_study_setup"
       ],
       "calls": [
         "BudgetPolicy",
         "RuntimeError",
+        "deepcopy",
         "int",
         "self.auto_batch_calibration.isChecked",
         "self.batch_window.value",
@@ -9234,7 +9236,6 @@
         "self.runs.value",
         "self.seed.value",
         "self.state.execution_control.active_stage",
-        "self.state.update_config",
         "self.telemetry_interval.value",
         "self.tensor_batch_size.value",
         "self.wall.value",
@@ -9248,7 +9249,169 @@
         "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config"
       ],
       "doc": "",
-      "end_line": 1839,
+      "end_line": 1824,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "AppliedPortfolioGoal": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal",
+        "AppliedStudySetup": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDFormulationPanel": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "PowerSystemPanel": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSignalBlocker": "PyQt6.QtCore.QSignalBlocker",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "RobustScenariosPanel": "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "StudyRecommendation": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation",
+        "StudySetupWorkflow": "calo_rpd_studio.gui.widgets.study_setup.StudySetupWorkflow",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceStudyPlanner": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+        "annotations": "__future__.annotations",
+        "build_execution_plan": "calo_rpd_studio.experiments.execution_plan.build_execution_plan",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "canonical_sha256": "calo_rpd_studio.experiments.execution_plans.canonical_sha256",
+        "deepcopy": "copy.deepcopy",
+        "frozen_config_payload": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+        "frozen_individual_config_payload": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+        "json": "json",
+        "labels_for_mode": "calo_rpd_studio.experiments.execution_plan.labels_for_mode",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "logging": "logging",
+        "os": "os",
+        "planned_item_count": "calo_rpd_studio.experiments.execution_plan.planned_item_count",
+        "psutil": "psutil",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_configuration_parity_audit": "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "run_fingerprint": "calo_rpd_studio.portfolio.fingerprint.run_fingerprint",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "stage_bound_individual_config": "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config",
+        "torch": "torch",
+        "torch_module": "torch",
+        "validate_fairness": "calo_rpd_studio.experiments.fairness_validator.validate_fairness",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.accelerated.parity_audit",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.fairness_validator",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+        "calo_rpd_studio.gui.panels.power_system_panel",
+        "calo_rpd_studio.gui.panels.robust_scenarios_panel",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.study_setup",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "logging",
+        "os",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.experiment_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, base_config)",
+      "start_line": 1780,
+      "state_owner": "",
+      "symbol": "_configuration_draft",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._configuration_draft",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        }
+      ],
+      "call_forms": {
+        "self._configuration_draft": "attribute",
+        "self.state.update_config": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._start_audit",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_calo"
+      ],
+      "calls": [
+        "self._configuration_draft",
+        "self.state.update_config"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._configuration_draft"
+      ],
+      "doc": "",
+      "end_line": 1828,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -9374,7 +9537,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1796,
+      "start_line": 1826,
       "state_owner": "",
       "symbol": "apply",
       "tests": []
@@ -9412,7 +9575,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1848,
+      "end_line": 1837,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -9538,7 +9701,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1841,
+      "start_line": 1830,
       "state_owner": "",
       "symbol": "choose_output",
       "tests": []
@@ -9587,7 +9750,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_execution_state"
       ],
       "doc": "",
-      "end_line": 1855,
+      "end_line": 1844,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -9713,7 +9876,7 @@
         "workflow"
       ],
       "signature": "(self, running)",
-      "start_line": 1850,
+      "start_line": 1839,
       "state_owner": "",
       "symbol": "_set_audit_running",
       "tests": []
@@ -9767,7 +9930,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1872,
+      "end_line": 1861,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -9893,7 +10056,7 @@
         "workflow"
       ],
       "signature": "(report)",
-      "start_line": 1858,
+      "start_line": 1847,
       "state_owner": "",
       "symbol": "_format_parity",
       "tests": []
@@ -10089,7 +10252,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 1954,
+      "end_line": 1943,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -10215,7 +10378,7 @@
         "workflow"
       ],
       "signature": "(self, parity_only)",
-      "start_line": 1874,
+      "start_line": 1863,
       "state_owner": "",
       "symbol": "_start_audit",
       "tests": []
@@ -10241,7 +10404,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._start_audit"
       ],
       "doc": "",
-      "end_line": 1957,
+      "end_line": 1946,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -10367,7 +10530,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1956,
+      "start_line": 1945,
       "state_owner": "",
       "symbol": "run_backend_parity_audit",
       "tests": []
@@ -10393,7 +10556,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._start_audit"
       ],
       "doc": "",
-      "end_line": 1960,
+      "end_line": 1949,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -10519,7 +10682,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 1959,
+      "start_line": 1948,
       "state_owner": "",
       "symbol": "run_fairness_audit",
       "tests": []
@@ -10571,7 +10734,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 1965,
+      "end_line": 1954,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -10697,7 +10860,7 @@
         "workflow"
       ],
       "signature": "(self, message, percent)",
-      "start_line": 1962,
+      "start_line": 1951,
       "state_owner": "",
       "symbol": "_on_audit_progress",
       "tests": []
@@ -10773,7 +10936,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 1985,
+      "end_line": 1974,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -10899,7 +11062,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 1967,
+      "start_line": 1956,
       "state_owner": "",
       "symbol": "_on_audit_failed",
       "tests": []
@@ -11103,7 +11266,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2103,
+      "end_line": 2092,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -11229,7 +11392,7 @@
         "workflow"
       ],
       "signature": "(self, payload)",
-      "start_line": 1987,
+      "start_line": 1976,
       "state_owner": "",
       "symbol": "_on_audit_completed",
       "tests": []
@@ -11257,7 +11420,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._populate_queue_for_config"
       ],
       "doc": "",
-      "end_line": 2106,
+      "end_line": 2095,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -11383,7 +11546,7 @@
         "workflow"
       ],
       "signature": "(self, labels, mode)",
-      "start_line": 2105,
+      "start_line": 2094,
       "state_owner": "",
       "symbol": "_populate_queue",
       "tests": []
@@ -11504,7 +11667,7 @@
         "calo_rpd_studio.experiments.execution_plan.build_execution_plan"
       ],
       "doc": "",
-      "end_line": 2131,
+      "end_line": 2120,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -11630,7 +11793,7 @@
         "workflow"
       ],
       "signature": "(self, config, labels, mode)",
-      "start_line": 2108,
+      "start_line": 2097,
       "state_owner": "",
       "symbol": "_populate_queue_for_config",
       "tests": []
@@ -11657,7 +11820,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2141,
+      "end_line": 2130,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -11783,7 +11946,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2133,
+      "start_line": 2122,
       "state_owner": "",
       "symbol": "_manager_available",
       "tests": []
@@ -11943,7 +12106,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2190,
+      "end_line": 2179,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -12069,7 +12232,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2143,
+      "start_line": 2132,
       "state_owner": "",
       "symbol": "start_comparison",
       "tests": []
@@ -12170,7 +12333,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2229,
+      "end_line": 2218,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -12296,7 +12459,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2192,
+      "start_line": 2181,
       "state_owner": "",
       "symbol": "start_calo",
       "tests": []
@@ -12385,7 +12548,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2242,
+      "end_line": 2231,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -12511,7 +12674,7 @@
         "workflow"
       ],
       "signature": "(text)",
-      "start_line": 2232,
+      "start_line": 2221,
       "state_owner": "",
       "symbol": "_parse_run_numbers",
       "tests": []
@@ -12693,7 +12856,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2275,
+      "end_line": 2264,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -12819,7 +12982,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2244,
+      "start_line": 2233,
       "state_owner": "",
       "symbol": "_refresh_experiment_evolution",
       "tests": []
@@ -12892,7 +13055,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2297,
+      "end_line": 2286,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -13018,7 +13181,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2277,
+      "start_line": 2266,
       "state_owner": "",
       "symbol": "extend_independent_runs",
       "tests": []
@@ -13167,7 +13330,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2358,
+      "end_line": 2347,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -13293,7 +13456,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2299,
+      "start_line": 2288,
       "state_owner": "",
       "symbol": "extend_evaluation_horizon",
       "tests": []
@@ -13349,7 +13512,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_execution_state"
       ],
       "doc": "",
-      "end_line": 2367,
+      "end_line": 2356,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -13475,7 +13638,7 @@
         "workflow"
       ],
       "signature": "(self, running)",
-      "start_line": 2360,
+      "start_line": 2349,
       "state_owner": "",
       "symbol": "_set_running",
       "tests": []
@@ -13545,7 +13708,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2382,
+      "end_line": 2371,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -13671,7 +13834,7 @@
         "workflow"
       ],
       "signature": "(self, run_index, algorithm, status)",
-      "start_line": 2369,
+      "start_line": 2358,
       "state_owner": "",
       "symbol": "_mark_job",
       "tests": []
@@ -13725,7 +13888,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._mark_job"
       ],
       "doc": "",
-      "end_line": 2392,
+      "end_line": 2381,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -13851,7 +14014,7 @@
         "workflow"
       ],
       "signature": "(self, data)",
-      "start_line": 2384,
+      "start_line": 2373,
       "state_owner": "",
       "symbol": "on_progress",
       "tests": []
@@ -13874,6 +14037,11 @@
           "confidence": "unresolved",
           "raw": "getattr",
           "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
         },
         {
           "confidence": "unresolved",
@@ -13909,6 +14077,7 @@
       "call_forms": {
         "getattr": "name",
         "log_technical_error": "name",
+        "plan.get": "attribute",
         "self._set_running": "attribute",
         "self.state.execution_control.active_plan": "attribute",
         "self.state.execution_control.controller": "attribute",
@@ -13921,6 +14090,7 @@
       "calls": [
         "getattr",
         "log_technical_error",
+        "plan.get",
         "self._set_running",
         "self.state.execution_control.active_plan",
         "self.state.execution_control.controller",
@@ -13934,7 +14104,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 2425,
+      "end_line": 2415,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -14060,7 +14230,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2394,
+      "start_line": 2383,
       "state_owner": "",
       "symbol": "on_started",
       "tests": []
@@ -14094,7 +14264,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._update_status"
       ],
       "doc": "",
-      "end_line": 2430,
+      "end_line": 2420,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -14220,7 +14390,7 @@
         "workflow"
       ],
       "signature": "(self, run_id, algorithm, run_index)",
-      "start_line": 2427,
+      "start_line": 2417,
       "state_owner": "",
       "symbol": "on_run_completed",
       "tests": []
@@ -14254,7 +14424,7 @@
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._update_status"
       ],
       "doc": "",
-      "end_line": 2435,
+      "end_line": 2425,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -14380,7 +14550,7 @@
         "workflow"
       ],
       "signature": "(self, failure_id, algorithm, run_index)",
-      "start_line": 2432,
+      "start_line": 2422,
       "state_owner": "",
       "symbol": "on_run_failed",
       "tests": []
@@ -14407,7 +14577,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2442,
+      "end_line": 2432,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -14533,7 +14703,7 @@
         "workflow"
       ],
       "signature": "(self, suffix)",
-      "start_line": 2437,
+      "start_line": 2427,
       "state_owner": "",
       "symbol": "_update_status",
       "tests": []
@@ -14658,7 +14828,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2473,
+      "end_line": 2463,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -14784,7 +14954,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2444,
+      "start_line": 2434,
       "state_owner": "",
       "symbol": "pause_requested",
       "tests": []
@@ -14916,7 +15086,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2531,
+      "end_line": 2521,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -15042,7 +15212,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 2475,
+      "start_line": 2465,
       "state_owner": "",
       "symbol": "cancel_requested",
       "tests": []
@@ -15132,7 +15302,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 2562,
+      "end_line": 2552,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -15258,7 +15428,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2533,
+      "start_line": 2523,
       "state_owner": "",
       "symbol": "on_paused",
       "tests": []
@@ -15356,7 +15526,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 2604,
+      "end_line": 2594,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -15482,7 +15652,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2564,
+      "start_line": 2554,
       "state_owner": "",
       "symbol": "on_completed",
       "tests": []
@@ -15573,7 +15743,7 @@
         "calo_rpd_studio.gui.user_feedback.log_technical_error"
       ],
       "doc": "",
-      "end_line": 2625,
+      "end_line": 2615,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -15699,7 +15869,7 @@
         "workflow"
       ],
       "signature": "(self, experiment_id)",
-      "start_line": 2606,
+      "start_line": 2596,
       "state_owner": "",
       "symbol": "on_cancelled",
       "tests": []
@@ -15790,7 +15960,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 2658,
+      "end_line": 2648,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -15916,7 +16086,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 2627,
+      "start_line": 2617,
       "state_owner": "",
       "symbol": "on_failed",
       "tests": []
@@ -15940,7 +16110,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 2661,
+      "end_line": 2651,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
       "implementation_core": false,
@@ -16066,7 +16236,7 @@
         "workflow"
       ],
       "signature": "(self, message)",
-      "start_line": 2660,
+      "start_line": 2650,
       "state_owner": "",
       "symbol": "on_busy",
       "tests": []

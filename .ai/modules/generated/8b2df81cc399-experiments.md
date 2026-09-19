@@ -47,6 +47,7 @@
 - `tests/integration/test_historical_learning.py`
 - `tests/integration/test_history_deletion.py`
 - `tests/integration/test_phase4_empty_policy_workflow.py`
+- `tests/integration/test_real_experiment_lifecycle.py`
 - `tests/integration/test_workspace_execution_control.py`
 - `tests/regression/test_seed_reproducibility.py`
 - `tests/scientific/test_v34_scientific_integrity.py`
@@ -56,7 +57,9 @@
 - `tests/unit/test_config.py`
 - `tests/unit/test_cuda_residency_contract.py`
 - `tests/unit/test_execution_plan.py`
+- `tests/unit/test_execution_snapshot_contract.py`
 - `tests/unit/test_mathematical_reference.py`
+- `tests/unit/test_physical_cuda_acceptance.py`
 - `tests/unit/test_prerequisites_and_resources.py`
 - `tests/unit/test_scientist_policy_artifact_deletion.py`
 - `tests/unit/test_study_strength.py`
@@ -78,9 +81,6 @@
 - `tests/unit/test_v590_scientific_closure.py`
 - `tests/unit/test_v5_continuation.py`
 - `tests/unit/test_v600_release_integrity.py`
-- `tests/unit/test_v610_release_integrity.py`
-- `tests/unit/test_v620_release_integrity.py`
-- `tests/unit/test_v621_release_integrity.py`
 
 ## Files
 - `calo_rpd_studio/benchmarking/AGENTS.md`

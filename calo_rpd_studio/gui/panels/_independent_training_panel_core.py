@@ -197,9 +197,7 @@ class TrainingModelLibrary(QObject):
                     candidate_path,
                     expected_sha256=expected_sha256,
                 )
-                training_evaluations = count_tsh_calo_candidate_training_evaluations(
-                    artifact
-                )
+                training_evaluations = count_tsh_calo_candidate_training_evaluations(artifact)
             except Exception:
                 # Candidate discovery and its existing integrity result remain independent from
                 # optional evaluation-count presentation for older/non-native saved artifacts.
@@ -299,9 +297,7 @@ class TrainingModelLibrary(QObject):
                         if not child_status_path.is_file():
                             continue
                         try:
-                            child_status = json.loads(
-                                child_status_path.read_text(encoding="utf-8")
-                            )
+                            child_status = json.loads(child_status_path.read_text(encoding="utf-8"))
                         except (OSError, json.JSONDecodeError):
                             continue
                         child_state = str(child_status.get("state", ""))
@@ -678,9 +674,7 @@ class TrainingLaunchModel(QObject):
             missing.append("output")
         return tuple(missing)
 
-    def arguments(
-        self, *, check: bool, resume: bool = False, extend: bool = False
-    ) -> list[str]:
+    def arguments(self, *, check: bool, resume: bool = False, extend: bool = False) -> list[str]:
         result = [
             "-m",
             "calo_rpd_studio.scripts.train_tsh_calo",
@@ -855,9 +849,7 @@ class IndependentTrainingPanel(QWidget):
             if values.get("plan")
             else "generated from the visible training inputs"
         )
-        self.plan_summary.setText(
-            f"Plan: {plan_source}\nOutput: {output}"
-        )
+        self.plan_summary.setText(f"Plan: {plan_source}\nOutput: {output}")
         self.status.setText(
             "Readiness invalidated by input change"
             if not missing
@@ -889,9 +881,7 @@ class IndependentTrainingPanel(QWidget):
             QMessageBox.warning(self, "Readiness inputs required", f"Select: {', '.join(missing)}")
             return
         if self.model.plan_payload is None and self.model.values.get("plan"):
-            self.model.load_plan(
-                preserve_identity=self.resume.isChecked() or self._extension_mode
-            )
+            self.model.load_plan(preserve_identity=self.resume.isChecked() or self._extension_mode)
         if self.model.plan_payload is None:
             QMessageBox.warning(
                 self,
@@ -1021,11 +1011,7 @@ class IndependentTrainingPanel(QWidget):
         process.start()
 
     def request_safe_pause(self) -> None:
-        if (
-            self.process is None
-            or self._operation != "training"
-            or self._pause_requested
-        ):
+        if self.process is None or self._operation != "training" or self._pause_requested:
             return
         try:
             from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
@@ -1183,9 +1169,7 @@ class IndependentTrainingPanel(QWidget):
         checkpoint_sha256 = str(event.get("checkpoint_sha256", ""))
         cumulative = event.get("cumulative_candidate_evaluations")
         cumulative_detail = (
-            ""
-            if cumulative is None
-            else f" · {int(cumulative)} cumulative candidate evaluations"
+            "" if cumulative is None else f" · {int(cumulative)} cumulative candidate evaluations"
         )
         detail = (
             f"Member {int(event.get('member_number', 0))}/{int(event.get('member_count', 0))} · "
@@ -1395,9 +1379,7 @@ class IndependentTrainingPanel(QWidget):
         ).expanduser()
         try:
             status = json.loads((output / TrainingModelLibrary.STATUS_FILE).read_text("utf-8"))
-            control = json.loads(
-                (output / TrainingModelLibrary.CONTROL_FILE).read_text("utf-8")
-            )
+            control = json.loads((output / TrainingModelLibrary.CONTROL_FILE).read_text("utf-8"))
         except (OSError, json.JSONDecodeError):
             return False
         if not isinstance(status, dict) or not isinstance(control, dict):

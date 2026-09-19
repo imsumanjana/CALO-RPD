@@ -95,10 +95,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -107,12 +110,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -140,6 +146,11 @@
           "confidence": "unresolved",
           "raw": "ThreadPoolExecutor",
           "target": "ThreadPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker._queue.qsize",
+          "target": "broker._queue.qsize"
         },
         {
           "confidence": "unresolved",
@@ -173,6 +184,16 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "np.random.default_rng",
           "target": "np.random.default_rng"
         },
@@ -188,8 +209,28 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "ready.set",
+          "target": "ready.set"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "rng.random",
           "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Event",
+          "target": "threading.Event"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
         },
         {
           "confidence": "unresolved",
@@ -207,13 +248,20 @@
         "DeviceResidentCurriculumProblem": "name",
         "SyntheticCrossEpisodeBatchBroker": "name",
         "ThreadPoolExecutor": "name",
+        "broker._queue.qsize": "attribute",
         "broker.metrics": "attribute",
         "executor.submit": "attribute",
         "future.result": "attribute",
+        "len": "name",
+        "monkeypatch.setattr": "attribute",
         "np.random.default_rng": "attribute",
         "populations.append": "attribute",
         "range": "name",
+        "ready.set": "attribute",
         "rng.random": "attribute",
+        "threading.Event": "attribute",
+        "time.monotonic": "attribute",
+        "time.sleep": "attribute",
         "wrapped.append": "attribute",
         "zip": "name"
       },
@@ -223,13 +271,20 @@
         "DeviceResidentCurriculumProblem",
         "SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor",
+        "broker._queue.qsize",
         "broker.metrics",
         "executor.submit",
         "future.result",
+        "len",
+        "monkeypatch.setattr",
         "np.random.default_rng",
         "populations.append",
         "range",
+        "ready.set",
         "rng.random",
+        "threading.Event",
+        "time.monotonic",
+        "time.sleep",
         "wrapped.append",
         "zip"
       ],
@@ -239,7 +294,7 @@
         "calo_rpd_studio.algorithms.calo.training.CurriculumProblem"
       ],
       "doc": "",
-      "end_line": 74,
+      "end_line": 94,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -254,10 +309,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -266,12 +324,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -285,10 +346,108 @@
       "python_module": "tests.unit.test_v640_stage_b",
       "qualname": "tests.unit.test_v640_stage_b.test_cross_episode_broker_merges_heterogeneous_dimensions",
       "semantic_tags": [],
-      "signature": "()",
+      "signature": "(monkeypatch)",
       "start_line": 46,
       "state_owner": "",
       "symbol": "test_cross_episode_broker_merges_heterogeneous_dimensions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TimeoutError",
+          "target": "TimeoutError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker._fail_all_pending",
+          "target": "broker._fail_all_pending"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original_run",
+          "target": "original_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ready.wait",
+          "target": "ready.wait"
+        }
+      ],
+      "call_forms": {
+        "TimeoutError": "name",
+        "broker._fail_all_pending": "attribute",
+        "original_run": "name",
+        "ready.wait": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TimeoutError",
+        "broker._fail_all_pending",
+        "original_run",
+        "ready.wait"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_v640_stage_b.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "CurriculumProblem": "calo_rpd_studio.algorithms.calo.training.CurriculumProblem",
+        "DeviceResidentCurriculumProblem": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceResidentCurriculumProblem",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.device_resident_synthetic",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.power_system.case_loader",
+        "concurrent.futures",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "threading",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v640_stage_b.test_cross_episode_broker_merges_heterogeneous_dimensions",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v640_stage_b",
+      "qualname": "tests.unit.test_v640_stage_b.test_cross_episode_broker_merges_heterogeneous_dimensions.start_after_all_requests_are_queued",
+      "semantic_tags": [],
+      "signature": "(broker)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "start_after_all_requests_are_queued",
       "tests": []
     },
     {
@@ -356,7 +515,7 @@
         "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment"
       ],
       "doc": "",
-      "end_line": 94,
+      "end_line": 114,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -371,10 +530,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -383,12 +545,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -403,7 +568,7 @@
       "qualname": "tests.unit.test_v640_stage_b.test_stage_b_wrapper_does_not_change_curriculum_rng_or_initial_population",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 77,
+      "start_line": 97,
       "state_owner": "",
       "symbol": "test_stage_b_wrapper_does_not_change_curriculum_rng_or_initial_population",
       "tests": []
@@ -429,7 +594,7 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig"
       ],
       "doc": "",
-      "end_line": 102,
+      "end_line": 122,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -444,10 +609,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -456,12 +624,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -476,7 +647,7 @@
       "qualname": "tests.unit.test_v640_stage_b.test_heterogeneous_stage_b_defaults_are_fail_closed_and_enabled",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 97,
+      "start_line": 117,
       "state_owner": "",
       "symbol": "test_heterogeneous_stage_b_defaults_are_fail_closed_and_enabled",
       "tests": []
@@ -560,7 +731,7 @@
         "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
       ],
       "doc": "",
-      "end_line": 136,
+      "end_line": 156,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -575,10 +746,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -587,12 +761,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -607,7 +784,7 @@
       "qualname": "tests.unit.test_v640_stage_b.test_heterogeneous_real_orpd_environment_uses_declared_experiment_formulation",
       "semantic_tags": [],
       "signature": "(tmp_path, toy_case, monkeypatch)",
-      "start_line": 105,
+      "start_line": 125,
       "state_owner": "",
       "symbol": "test_heterogeneous_real_orpd_environment_uses_declared_experiment_formulation",
       "tests": []
@@ -617,35 +794,51 @@
       "authoritative_source": "",
       "call_edges": [
         {
-          "confidence": "unresolved",
-          "raw": "Path",
-          "target": "Path"
+          "confidence": "confirmed",
+          "raw": "TrainingLaunchModel",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
         },
         {
           "confidence": "unresolved",
-          "raw": "read_text",
-          "target": "read_text"
+          "raw": "dict",
+          "target": "dict"
         },
         {
           "confidence": "unresolved",
-          "raw": "resolve",
-          "target": "resolve"
+          "raw": "model.create_plan",
+          "target": "model.create_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
         }
       ],
       "call_forms": {
-        "Path": "name",
-        "read_text": "attribute",
-        "resolve": "attribute"
+        "TrainingLaunchModel": "name",
+        "dict": "name",
+        "model.create_plan": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "staticmethod": "name"
       },
       "called_by": [],
       "calls": [
-        "Path",
-        "read_text",
-        "resolve"
+        "TrainingLaunchModel",
+        "dict",
+        "model.create_plan",
+        "monkeypatch.setattr",
+        "staticmethod"
       ],
-      "calls_resolved": [],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+      ],
       "doc": "",
-      "end_line": 150,
+      "end_line": 183,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -660,10 +853,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -672,12 +868,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -689,12 +888,12 @@
       "preferred_edit_target": false,
       "public_surface": false,
       "python_module": "tests.unit.test_v640_stage_b",
-      "qualname": "tests.unit.test_v640_stage_b.test_gui_exposes_real_policy_training_suite_and_no_hardcoded_empty_cases",
+      "qualname": "tests.unit.test_v640_stage_b.test_gui_plan_requires_explicit_nonprotected_training_cases",
       "semantic_tags": [],
-      "signature": "()",
-      "start_line": 139,
+      "signature": "(monkeypatch)",
+      "start_line": 159,
       "state_owner": "",
-      "symbol": "test_gui_exposes_real_policy_training_suite_and_no_hardcoded_empty_cases",
+      "symbol": "test_gui_plan_requires_explicit_nonprotected_training_cases",
       "tests": []
     },
     {
@@ -783,7 +982,7 @@
         "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment"
       ],
       "doc": "",
-      "end_line": 190,
+      "end_line": 223,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -798,10 +997,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -810,12 +1012,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -830,7 +1035,7 @@
       "qualname": "tests.unit.test_v640_stage_b.test_stage_b_multi_transition_trajectory_matches_reference_on_torch_cpu",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 153,
+      "start_line": 186,
       "state_owner": "",
       "symbol": "test_stage_b_multi_transition_trajectory_matches_reference_on_torch_cpu",
       "tests": []
@@ -868,7 +1073,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 202,
+      "end_line": 235,
       "entry_point": false,
       "file": "tests/unit/test_v640_stage_b.py",
       "implementation_core": false,
@@ -883,10 +1088,13 @@
         "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
         "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
         "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
         "_environment_for_episode": "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
         "annotations": "__future__.annotations",
         "np": "numpy",
-        "pytest": "pytest"
+        "pytest": "pytest",
+        "threading": "threading",
+        "time": "time"
       },
       "important_invariants": [],
       "imports": [
@@ -895,12 +1103,15 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training",
         "calo_rpd_studio.algorithms.calo.training",
         "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
         "calo_rpd_studio.orpd.objectives",
         "calo_rpd_studio.power_system.case_loader",
         "concurrent.futures",
         "numpy",
         "pathlib",
-        "pytest"
+        "pytest",
+        "threading",
+        "time"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -915,7 +1126,7 @@
       "qualname": "tests.unit.test_v640_stage_b.test_stage_b_host_controller_thread_pool_is_capped_by_protected_rollout_budget",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 193,
+      "start_line": 226,
       "state_owner": "",
       "symbol": "test_stage_b_host_controller_thread_pool_is_capped_by_protected_rollout_budget",
       "tests": []

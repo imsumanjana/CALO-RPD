@@ -75,8 +75,7 @@ class ObsoleteAwareCALOIntelligencePanel(ScientistCALOIntelligencePanel):
             focus_key = ""
 
         show = bool(
-            getattr(self, "show_obsolete_models", None)
-            and self.show_obsolete_models.isChecked()
+            getattr(self, "show_obsolete_models", None) and self.show_obsolete_models.isChecked()
         )
         if focus_key and focus_key in obsolete_by_key and hasattr(self, "show_obsolete_models"):
             self.show_obsolete_models.blockSignals(True)
@@ -373,7 +372,9 @@ class ObsoleteAwareCALOIntelligencePanel(ScientistCALOIntelligencePanel):
             directory = validator(directory_text)
             contained_now = self._registered_policies_inside(directory)
             if [item.id for item in contained_now] != [item.id for item in contained]:
-                raise RuntimeError("Registered policy references changed while confirmation was open")
+                raise RuntimeError(
+                    "Registered policy references changed while confirmation was open"
+                )
             deleted = self.model_library.delete_obsolete_campaign(directory)
             artifact_deleted = True
             if registered_policy is not None and not registered_policy.archived:

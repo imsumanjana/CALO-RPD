@@ -13,21 +13,32 @@ import pytest
 BUNDLE_ROOT = Path(__file__).resolve().parents[2]
 
 
-def run(repo: Path, *args: str, check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def run(
+    repo: Path, *args: str, check: bool = True, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
     merged = os.environ.copy()
     if env:
         merged.update(env)
     proc = subprocess.run(
-        [sys.executable, *args], cwd=repo, text=True, encoding="utf-8", errors="replace",
-        capture_output=True, env=merged,
+        [sys.executable, *args],
+        cwd=repo,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+        env=merged,
     )
     if check and proc.returncode:
-        raise AssertionError(f"command failed: {args}\nstdout:\n{proc.stdout}\nstderr:\n{proc.stderr}")
+        raise AssertionError(
+            f"command failed: {args}\nstdout:\n{proc.stdout}\nstderr:\n{proc.stderr}"
+        )
     return proc
 
 
 def git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
-    proc = subprocess.run(["git", *args], cwd=repo, text=True, encoding="utf-8", errors="replace", capture_output=True)
+    proc = subprocess.run(
+        ["git", *args], cwd=repo, text=True, encoding="utf-8", errors="replace", capture_output=True
+    )
     assert proc.returncode == 0, proc.stderr
     return proc
 
@@ -50,7 +61,8 @@ def tree_hashes(repo: Path, prefix: str = ".ai") -> dict[str, str]:
     root = repo / prefix
     return {
         p.relative_to(repo).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
-        for p in sorted(root.rglob("*")) if p.is_file()
+        for p in sorted(root.rglob("*"))
+        if p.is_file()
     }
 
 
@@ -63,12 +75,24 @@ def make_repo(tmp_path: Path) -> Path:
     repo = tmp_path / "repo"
     repo.mkdir()
     for rp in ("scripts/ai-index", "scripts/ai-agent-guard.py"):
-        dst = repo / rp; dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(BUNDLE_ROOT / rp, dst)
-    for rp in (".ai/architectural-semantics.json", ".ai/semantic-benchmark.json", ".ai/AI_WORKFLOW.md"):
-        dst = repo / rp; dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(BUNDLE_ROOT / rp, dst)
+        dst = repo / rp
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(BUNDLE_ROOT / rp, dst)
+    for rp in (
+        ".ai/architectural-semantics.json",
+        ".ai/semantic-benchmark.json",
+        ".ai/AI_WORKFLOW.md",
+    ):
+        dst = repo / rp
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(BUNDLE_ROOT / rp, dst)
     write(repo, ".gitignore", ".ai-cache/\n.ai-tmp/\n")
     write(repo, "pyproject.toml", "[project]\nname='calo-rpd-fixture'\nversion='0'\n")
-    write(repo, "AGENTS.md", "# Existing CALO instructions\nPreserve deterministic scientific behavior.\n")
+    write(
+        repo,
+        "AGENTS.md",
+        "# Existing CALO instructions\nPreserve deterministic scientific behavior.\n",
+    )
     write(repo, "tests/AGENTS.md", "# Existing test instructions\nUse deterministic tests.\n")
     write(repo, "tests/unit/__init__.py", "")
     write(repo, "tests/unit/helpers.py", "HELPER = 1\n")
@@ -77,16 +101,20 @@ def make_repo(tmp_path: Path) -> Path:
     policy = '''from . import _policy_registry_core as _core\n\nclass PolicyRegistry(_core.PolicyRegistry):\n    """Public policy registry accounting boundary."""\n    def counted_evaluation_count(self, policy_id):\n        return self.training_evaluation_count(policy_id)\n'''
     core = '''class PolicyRegistry:\n    """Deep lifecycle implementation."""\n    def training_evaluation_count(self, policy_id):\n        return 1\n'''
     problem = '''class ORPDProblem:\n    """Shared ORPD evaluator."""\n    def evaluate(self, normalized):\n        return float(sum(normalized))\n\n    def evaluate_with_context(self, normalized):\n        return self.evaluate(normalized), {"counted": True}\n'''
-    runner = '''from calo_rpd_studio.orpd.problem import ORPDProblem\n\ndef execute(values):\n    problem = ORPDProblem()\n    return problem.evaluate(values)\n'''
+    runner = """from calo_rpd_studio.orpd.problem import ORPDProblem\n\ndef execute(values):\n    problem = ORPDProblem()\n    return problem.evaluate(values)\n"""
     db = '''class ResultDatabase:\n    """Durable persistence boundary."""\n    def save(self, value):\n        return value\n'''
     resource = '''class ResourceScheduler:\n    """CUDA to CPU scheduling surface."""\n    def admit(self, request):\n        return "cuda" if request else "cpu"\n'''
-    training = '''from . import _tsh_calo_training_campaign_core as _core\n\nclass IndependentTSHCALOTrainingCampaign(_core.IndependentTSHCALOTrainingCampaign):\n    pass\n'''
-    training_core = '''class IndependentTSHCALOTrainingCampaign:\n    def run(self):\n        return 1\n'''
-    collector = '''def collect(failures):\n    failures.append("x")\n'''
-    unrelated = '''class SomeUnrelatedClass:\n    def append(self, value):\n        return value\n'''
-    generic = '''def status():\n    return "ok"\n'''
-    test_policy = '''from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry\n\ndef test_registry():\n    registry = PolicyRegistry()\n    assert registry.counted_evaluation_count("p") == 1\n'''
-    test_generic = '''from calo_rpd_studio import generic_status\n\ndef test_unrelated():\n    # The word status alone must not claim symbol coverage.\n    assert generic_status is not None\n'''
+    training = """from . import _tsh_calo_training_campaign_core as _core\n\nclass IndependentTSHCALOTrainingCampaign(_core.IndependentTSHCALOTrainingCampaign):\n    pass\n"""
+    training_core = (
+        """class IndependentTSHCALOTrainingCampaign:\n    def run(self):\n        return 1\n"""
+    )
+    collector = """def collect(failures):\n    failures.append("x")\n"""
+    unrelated = (
+        """class SomeUnrelatedClass:\n    def append(self, value):\n        return value\n"""
+    )
+    generic = """def status():\n    return "ok"\n"""
+    test_policy = """from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry\n\ndef test_registry():\n    registry = PolicyRegistry()\n    assert registry.counted_evaluation_count("p") == 1\n"""
+    test_generic = """from calo_rpd_studio import generic_status\n\ndef test_unrelated():\n    # The word status alone must not claim symbol coverage.\n    assert generic_status is not None\n"""
     for rp, text in {
         "calo_rpd_studio/app/state_manager.py": state,
         "calo_rpd_studio/algorithms/calo/policy_registry.py": policy,
@@ -109,23 +137,47 @@ def make_repo(tmp_path: Path) -> Path:
         "schema_version": 1,
         "units": {
             "calo_rpd_studio/algorithms/calo/policy_registry.py": {
-                "content_hash": sha(policy), "audit_categories": ["logic", "correctness"],
-                "last_reviewed_commit": "historical", "scope_note": "fixture reviewed source",
+                "content_hash": sha(policy),
+                "audit_categories": ["logic", "correctness"],
+                "last_reviewed_commit": "historical",
+                "scope_note": "fixture reviewed source",
             },
             "calo_rpd_studio/orpd/problem.py": {
-                "content_hash": sha(problem), "audit_categories": ["logic", "correctness"],
-                "last_reviewed_commit": "historical", "scope_note": "fixture reviewed source",
+                "content_hash": sha(problem),
+                "audit_categories": ["logic", "correctness"],
+                "last_reviewed_commit": "historical",
+                "scope_note": "fixture reviewed source",
             },
         },
     }
     write(repo, ".ai/audit-seed.json", json.dumps(seed, indent=2, sort_keys=True) + "\n")
-    write(repo, ".ai/findings.json", json.dumps({"schema_version": 1, "findings": [{
-        "id": "FIXTURE-1", "severity": "high", "status": "resolved",
-        "affected": ["calo_rpd_studio/algorithms/calo/policy_registry.py"],
-        "description": "Historical resolved accounting issue.", "resolution_commit": "historical",
-    }]}, indent=2) + "\n")
+    write(
+        repo,
+        ".ai/findings.json",
+        json.dumps(
+            {
+                "schema_version": 1,
+                "findings": [
+                    {
+                        "id": "FIXTURE-1",
+                        "severity": "high",
+                        "status": "resolved",
+                        "affected": ["calo_rpd_studio/algorithms/calo/policy_registry.py"],
+                        "description": "Historical resolved accounting issue.",
+                        "resolution_commit": "historical",
+                    }
+                ],
+            },
+            indent=2,
+        )
+        + "\n",
+    )
 
     git(repo, "init")
+    if sys.platform == "win32":
+        # Validation evidence may live under a deeply nested user checkout.
+        # Scope long-path support to this disposable repository, never global Git.
+        git(repo, "config", "core.longpaths", "true")
     git(repo, "config", "user.email", "fixture@example.invalid")
     git(repo, "config", "user.name", "Fixture")
     git(repo, "add", "--", ".")
@@ -142,10 +194,20 @@ def test_initial_index_check_idempotency_modules_and_initialization(tmp_path: Pa
     change = readj(repo, ".ai/index/change-index.json")
     assert manifest["sharded"] is True
     assert manifest["files"]["calo_rpd_studio/orpd/problem.py"]["module"] == "power-system"
-    assert manifest["files"]["calo_rpd_studio/algorithms/calo/policy_registry.py"]["module"] == "calo-policy"
+    assert (
+        manifest["files"]["calo_rpd_studio/algorithms/calo/policy_registry.py"]["module"]
+        == "calo-policy"
+    )
     assert change["initialization"] is True
 
-    legacy = ("file-index.json", "symbol-index.json", "dependency-graph.json", "test-map.json", "audit-coverage.json", "change-index.json")
+    legacy = (
+        "file-index.json",
+        "symbol-index.json",
+        "dependency-graph.json",
+        "test-map.json",
+        "audit-coverage.json",
+        "change-index.json",
+    )
     assert not [name for name in legacy if (repo / ".ai" / name).exists()]
     assert change["changed_files"] == [] and change["changed_symbols"] == []
     first = tree_hashes(repo)
@@ -154,10 +216,19 @@ def test_initial_index_check_idempotency_modules_and_initialization(tmp_path: Pa
 
 
 def test_one_file_locality_and_audit_invalidation(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     before = tree_hashes(repo, ".ai/index")
-    policy_audit = readj(repo, shard_path(repo, "audit", "calo_rpd_studio/algorithms/calo/policy_registry.py").relative_to(repo).as_posix())["audit"]
-    problem_audit = readj(repo, shard_path(repo, "audit", "calo_rpd_studio/orpd/problem.py").relative_to(repo).as_posix())["audit"]
+    policy_audit = readj(
+        repo,
+        shard_path(repo, "audit", "calo_rpd_studio/algorithms/calo/policy_registry.py")
+        .relative_to(repo)
+        .as_posix(),
+    )["audit"]
+    problem_audit = readj(
+        repo,
+        shard_path(repo, "audit", "calo_rpd_studio/orpd/problem.py").relative_to(repo).as_posix(),
+    )["audit"]
     assert policy_audit["reviewed"] and not policy_audit["re_audit_required"]
     assert problem_audit["reviewed"] and not problem_audit["re_audit_required"]
     p = repo / "calo_rpd_studio/algorithms/calo/policy_registry.py"
@@ -166,12 +237,18 @@ def test_one_file_locality_and_audit_invalidation(tmp_path: Path):
     after = tree_hashes(repo, ".ai/index")
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
     assert len(changed) <= 8, changed
-    assert shard_path(repo, "files", "calo_rpd_studio/orpd/problem.py").relative_to(repo).as_posix() not in changed
-    policy_audit = json.loads(shard_path(repo, "audit", "calo_rpd_studio/algorithms/calo/policy_registry.py").read_text())["audit"]
-    problem_audit = json.loads(shard_path(repo, "audit", "calo_rpd_studio/orpd/problem.py").read_text())["audit"]
+    assert (
+        shard_path(repo, "files", "calo_rpd_studio/orpd/problem.py").relative_to(repo).as_posix()
+        not in changed
+    )
+    policy_audit = json.loads(
+        shard_path(repo, "audit", "calo_rpd_studio/algorithms/calo/policy_registry.py").read_text()
+    )["audit"]
+    problem_audit = json.loads(
+        shard_path(repo, "audit", "calo_rpd_studio/orpd/problem.py").read_text()
+    )["audit"]
     assert not policy_audit["reviewed"] and policy_audit["re_audit_required"]
     assert problem_audit["reviewed"] and not problem_audit["re_audit_required"]
-
 
 
 def test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit(tmp_path: Path):
@@ -197,12 +274,15 @@ def test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit(tmp_pa
     assert audit["reviewed"] is False
     assert audit["re_audit_required"] is True
 
+
 def test_rename_delete_and_stale_module_cleanup(tmp_path: Path):
     repo = make_repo(tmp_path)
     write(repo, "calo_bootstrap/only_bootstrap.py", "def launch():\n    return 1\n")
-    git(repo, "add", "--", "calo_bootstrap/only_bootstrap.py"); git(repo, "commit", "-m", "bootstrap")
+    git(repo, "add", "--", "calo_bootstrap/only_bootstrap.py")
+    git(repo, "commit", "-m", "bootstrap")
     run(repo, "scripts/ai-index", "init")
-    old = "calo_rpd_studio/app/collector.py"; new = "calo_rpd_studio/app/collector_renamed.py"
+    old = "calo_rpd_studio/app/collector.py"
+    new = "calo_rpd_studio/app/collector_renamed.py"
     old_shard = shard_path(repo, "files", old)
     (repo / old).rename(repo / new)
     run(repo, "scripts/ai-index", "update")
@@ -210,17 +290,21 @@ def test_rename_delete_and_stale_module_cleanup(tmp_path: Path):
     assert change["renames"] == {old: new}
     assert old not in readj(repo, ".ai/index/manifest.json")["files"]
     assert not old_shard.exists()
-    (repo / new).unlink(); (repo / "calo_bootstrap/only_bootstrap.py").unlink()
+    (repo / new).unlink()
+    (repo / "calo_bootstrap/only_bootstrap.py").unlink()
     run(repo, "scripts/ai-index", "update")
     change = readj(repo, ".ai/index/change-index.json")
     assert new in change["deleted_files"]
     # bootstrap has no remaining fixture files, so its generated module shard must disappear.
-    modules = [json.loads(p.read_text())["module"] for p in (repo / ".ai/index/modules").glob("*.json")]
+    modules = [
+        json.loads(p.read_text())["module"] for p in (repo / ".ai/index/modules").glob("*.json")
+    ]
     assert "bootstrap" not in modules
 
 
 def test_malformed_source_nonfatal(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     write(repo, "calo_rpd_studio/app/broken.py", "def broken(:\n")
     proc = run(repo, "scripts/ai-index", "update")
     assert "non-fatal errors" in proc.stdout
@@ -230,8 +314,11 @@ def test_malformed_source_nonfatal(tmp_path: Path):
 
 
 def test_unknown_receiver_call_stays_unresolved(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
-    symbol_doc = json.loads(shard_path(repo, "symbols", "calo_rpd_studio/app/collector.py").read_text())
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
+    symbol_doc = json.loads(
+        shard_path(repo, "symbols", "calo_rpd_studio/app/collector.py").read_text()
+    )
     collect = next(s for s in symbol_doc["symbols"] if s["symbol"] == "collect")
     edge = next(e for e in collect["call_edges"] if e["raw"] == "failures.append")
     assert edge["confidence"] == "unresolved"
@@ -239,37 +326,54 @@ def test_unknown_receiver_call_stays_unresolved(tmp_path: Path):
 
 
 def test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     doc = json.loads(shard_path(repo, "tests", "calo_rpd_studio/generic_status.py").read_text())
     assert not any(q.endswith(".status") for q in doc["symbol_to_tests"])
-    policy_doc = json.loads(shard_path(repo, "tests", "calo_rpd_studio/algorithms/calo/policy_registry.py").read_text())
+    policy_doc = json.loads(
+        shard_path(repo, "tests", "calo_rpd_studio/algorithms/calo/policy_registry.py").read_text()
+    )
     assert any(q.endswith(".PolicyRegistry") for q in policy_doc["symbol_to_tests"])
 
 
-
 def test_module_test_mapping_excludes_support_and_instruction_files(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     mapped = json.loads(run(repo, "scripts/ai-index", "query", "get_tests", "calo-policy").stdout)
     assert "tests/AGENTS.md" not in mapped
     assert "tests/unit/__init__.py" not in mapped
     assert "tests/unit/helpers.py" not in mapped
     assert "tests/unit/test_policy_registry.py" in mapped
 
+
 def test_deterministic_context_queries_and_public_surface_ranking(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
-    ctx = run(repo, "scripts/ai-index", "context", "where should policy registry accounting be modified", "--no-semantic").stdout
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
+    ctx = run(
+        repo,
+        "scripts/ai-index",
+        "context",
+        "where should policy registry accounting be modified",
+        "--no-semantic",
+    ).stdout
     assert "policy_registry.py" in ctx and "preferred_edit_target" in ctx
-    assert ctx.find("policy_registry.py") < ctx.find("_policy_registry_core.py") or "_policy_registry_core.py" not in ctx
+    assert (
+        ctx.find("policy_registry.py") < ctx.find("_policy_registry_core.py")
+        or "_policy_registry_core.py" not in ctx
+    )
     q = run(repo, "scripts/ai-index", "query", "get_recent_changes").stdout
     assert '"initialization": true' in q.lower()
-    callers = run(repo, "scripts/ai-index", "query", "get_callers", "calo_rpd_studio.orpd.problem.ORPDProblem").stdout
+    callers = run(
+        repo, "scripts/ai-index", "query", "get_callers", "calo_rpd_studio.orpd.problem.ORPDProblem"
+    ).stdout
     assert "experiment_runner" in callers
     # The local variable receiver `problem.evaluate()` is not type-proven, so its method edge remains unresolved.
-    runner_doc = json.loads(shard_path(repo, "symbols", "calo_rpd_studio/experiments/experiment_runner.py").read_text())
+    runner_doc = json.loads(
+        shard_path(repo, "symbols", "calo_rpd_studio/experiments/experiment_runner.py").read_text()
+    )
     execute = next(s for s in runner_doc["symbols"] if s["symbol"] == "execute")
     method_edge = next(e for e in execute["call_edges"] if e["raw"] == "problem.evaluate")
     assert method_edge["confidence"] == "unresolved"
-
 
 
 def test_entry_point_routing_understands_natural_launch_language(tmp_path: Path):
@@ -286,13 +390,16 @@ def test_entry_point_routing_understands_natural_launch_language(tmp_path: Path)
     assert "calo_bootstrap/launcher.py" in ctx
     assert "entry_point" in ctx
 
+
 def test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     first = json.loads(run(repo, "scripts/ai-index", "embeddings", "update").stdout)
     second = json.loads(run(repo, "scripts/ai-index", "embeddings", "update").stdout)
     assert first["updated"] > 0 and second["reused"] == second["chunks"]
     concepts = repo / ".ai/semantic-concepts.json"
-    data = json.loads(concepts.read_text()); data.setdefault("concepts", {})["fixture_new_concept"] = ["registry accounting"]
+    data = json.loads(concepts.read_text())
+    data.setdefault("concepts", {})["fixture_new_concept"] = ["registry accounting"]
     concepts.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     third = json.loads(run(repo, "scripts/ai-index", "embeddings", "update").stdout)
     assert third["updated"] == third["chunks"]
@@ -304,14 +411,24 @@ def test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback(tmp_path:
 
 
 def test_utf8_redirected_cli_output(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
-    proc = run(repo, "scripts/ai-index", "context", "Where is scientist-facing state — policy?", "--no-semantic", env={"PYTHONIOENCODING": "utf-8"})
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
+    proc = run(
+        repo,
+        "scripts/ai-index",
+        "context",
+        "Where is scientist-facing state — policy?",
+        "--no-semantic",
+        env={"PYTHONIOENCODING": "utf-8"},
+    )
     assert proc.returncode == 0 and "Repository intelligence context" in proc.stdout
 
 
 def test_precommit_source_ai_commit_then_init_is_byte_stable(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
-    p = repo / "calo_rpd_studio/app/state_manager.py"; p.write_text(p.read_text() + "\n# committed edit\n", encoding="utf-8")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
+    p = repo / "calo_rpd_studio/app/state_manager.py"
+    p.write_text(p.read_text() + "\n# committed edit\n", encoding="utf-8")
     run(repo, "scripts/ai-index", "precommit", "--no-semantic")
     git(repo, "add", "--", "calo_rpd_studio/app/state_manager.py", ".ai")
     git(repo, "commit", "-m", "source and intelligence")
@@ -326,15 +443,22 @@ def test_agent_guard_detects_and_repairs_all_agent_files(tmp_path: Path):
     nested = repo / "tests/AGENTS.md"
     original_specific = "# Existing test instructions\nUse deterministic tests."
     text = nested.read_text(encoding="utf-8")
-    nested.write_text(text.split("<!-- REPOSITORY_INTELLIGENCE_PROTECTED:END v2 -->", 1)[-1].lstrip(), encoding="utf-8")
-    assert run(repo, "scripts/ai-agent-guard.py", "--check", "--root", str(repo), check=False).returncode != 0
+    nested.write_text(
+        text.split("<!-- REPOSITORY_INTELLIGENCE_PROTECTED:END v2 -->", 1)[-1].lstrip(),
+        encoding="utf-8",
+    )
+    assert (
+        run(
+            repo, "scripts/ai-agent-guard.py", "--check", "--root", str(repo), check=False
+        ).returncode
+        != 0
+    )
     run(repo, "scripts/ai-agent-guard.py", "--repair", "--root", str(repo))
     repaired = nested.read_text(encoding="utf-8")
     assert repaired.startswith("<!-- REPOSITORY_INTELLIGENCE_PROTECTED:BEGIN v2 -->")
     assert original_specific in repaired
     policy = readj(repo, ".ai/agent-policy.json")
     assert "tests/AGENTS.md" in policy["agent_files"]
-
 
 
 def test_guard_install_hook_preserves_existing_hook(tmp_path: Path):
@@ -362,8 +486,90 @@ def test_workflow_is_read_only_and_guarded():
 
 
 def test_repository_specific_semantic_benchmark(tmp_path: Path):
-    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
     run(repo, "scripts/ai-index", "embeddings", "update")
     result = json.loads(run(repo, "scripts/ai-index", "embeddings", "benchmark", "--check").stdout)
     assert result["passed"] is True
     assert result["cases"] >= 5
+
+
+@pytest.mark.parametrize("first_crlf", [False, True])
+def test_regeneration_preserves_all_shards_across_git_equivalent_line_endings(tmp_path, first_crlf):
+    repo = make_repo(tmp_path)
+    source = "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    path = repo / source
+    canonical = path.read_text(encoding="utf-8").encode("utf-8")
+    git(repo, "config", "core.autocrlf", "true")
+    git(repo, "add", "--", ".")
+    git(repo, "commit", "-m", "guarded fixture")
+    path.write_bytes(canonical.replace(b"\n", b"\r\n") if first_crlf else canonical)
+    run(repo, "scripts/ai-index", "init")
+    git(repo, "add", "--", ".ai")
+    git(repo, "commit", "-m", "retained intelligence")
+    run(repo, "scripts/ai-index", "init")
+    before = tree_hashes(repo)
+    materialized = canonical if first_crlf else canonical.replace(b"\n", b"\r\n")
+    path.write_bytes(materialized)
+    git(repo, "diff", "--exit-code", "--", source)
+    run(repo, "scripts/ai-index", "init")
+    assert tree_hashes(repo) == before
+    assert path.read_bytes() == materialized
+    metadata = readj(repo, shard_path(repo, "files", source).relative_to(repo).as_posix())["file"]
+    assert metadata["content_sha256"] == hashlib.sha256(canonical).hexdigest()
+    assert metadata["size_bytes"] == len(canonical)
+    assert (
+        readj(repo, ".ai/index/manifest.json")["byte_metadata_contract"]
+        == "git-clean-equivalent-v1"
+    )
+    audit = readj(repo, shard_path(repo, "audit", source).relative_to(repo).as_posix())["audit"]
+    assert audit["reviewed"] is True
+    assert audit["re_audit_required"] is False
+
+
+def test_unset_text_attribute_retains_exact_byte_identity_and_audit_invalidation(tmp_path):
+    repo = make_repo(tmp_path)
+    source = "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    path = repo / source
+    canonical = path.read_text(encoding="utf-8").encode("utf-8")
+    retained = canonical.replace(b"\n", b"\r\n")
+    write(repo, ".gitattributes", f"{source} -text\n")
+    path.write_bytes(retained)
+    seed = readj(repo, ".ai/audit-seed.json")
+    seed["units"][source]["content_hash"] = hashlib.sha256(retained).hexdigest()
+    write(repo, ".ai/audit-seed.json", json.dumps(seed, indent=2) + "\n")
+    git(repo, "add", "--", ".")
+    git(repo, "commit", "-m", "exact-byte source fixture")
+    run(repo, "scripts/ai-index", "init")
+    metadata = readj(repo, shard_path(repo, "files", source).relative_to(repo).as_posix())["file"]
+    assert metadata["content_sha256"] == hashlib.sha256(retained).hexdigest()
+    assert metadata["size_bytes"] == len(retained)
+    path.write_bytes(canonical)
+    assert run(repo, "scripts/ai-index", "check", check=False).returncode != 0
+    run(repo, "scripts/ai-index", "update")
+    changed = readj(repo, shard_path(repo, "files", source).relative_to(repo).as_posix())["file"]
+    assert changed["content_hash"] != metadata["content_hash"]
+    audit = readj(repo, shard_path(repo, "audit", source).relative_to(repo).as_posix())["audit"]
+    assert audit["reviewed"] is False
+    assert audit["re_audit_required"] is True
+
+
+def test_detached_ci_checkout_does_not_rewrite_snapshot_branch_provenance(tmp_path):
+    repo = make_repo(tmp_path)
+    run(repo, "scripts/ai-index", "init")
+    git(repo, "add", "--", ".")
+    git(repo, "commit", "-m", "indexed fixture")
+    run(repo, "scripts/ai-index", "init")
+    before = tree_hashes(repo)
+    git(repo, "checkout", "--detach", "HEAD")
+    run(repo, "scripts/ai-index", "init")
+    assert tree_hashes(repo) == before
+
+
+def test_byte_normalization_refuses_unrelated_clean_filter_output():
+    import runpy
+
+    indexer = runpy.run_path(str(BUNDLE_ROOT / "scripts/ai-index"))
+    other_blob = indexer["_git_blob_digest"](b"different content\n")
+    with pytest.raises(ValueError, match="clean-filter output"):
+        indexer["_git_equivalent_bytes"](b"source\r\n", other_blob)

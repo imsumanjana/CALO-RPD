@@ -104,6 +104,7 @@
         "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
         "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
         "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+        "tests.gui.test_gui_wiring_acceptance.wired_window",
         "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
         "tests.gui.test_guided_workflow.test_policy_free_submitted_stage_keeps_individual_case_setup_available",
         "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
@@ -131,7 +132,9 @@
         "tests.gui.test_workspace_tabbed_layouts.test_portfolio_requested_outputs_fill_the_visible_tree_width",
         "tests.integration.test_phase4_empty_policy_workflow.test_empty_policy_state_forces_rule_only_calo_and_disables_tsh_policy_use",
         "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
         "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+        "tests.unit.test_current_policy_safety_contract.test_empty_registry_startup_does_not_invent_a_policy",
         "tests.unit.test_scientist_gui_contract.test_dashboard_readiness_uses_scientist_facing_resource_language",
         "tests.unit.test_scientist_gui_contract.test_experiment_workspace_has_only_two_scientist_compute_modes",
         "tests.unit.test_scientist_gui_contract.test_failed_study_application_does_not_mutate_live_configuration",
@@ -208,6 +211,7 @@
       "tests": [
         "tests/gui/test_ci_visual_smoke.py",
         "tests/gui/test_gui_startup.py",
+        "tests/gui/test_gui_wiring_acceptance.py",
         "tests/gui/test_guided_workflow.py",
         "tests/gui/test_history_manager.py",
         "tests/gui/test_phase6_ribbon_workspace.py",
@@ -215,7 +219,9 @@
         "tests/gui/test_workspace_execution_ui.py",
         "tests/gui/test_workspace_tabbed_layouts.py",
         "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/integration/test_real_experiment_lifecycle.py",
         "tests/integration/test_workspace_execution_control.py",
+        "tests/unit/test_current_policy_safety_contract.py",
         "tests/unit/test_scientist_gui_contract.py",
         "tests/unit/test_v680_policy_independence.py"
       ]

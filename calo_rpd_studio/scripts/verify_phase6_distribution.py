@@ -16,16 +16,19 @@ GUI_MEMBERS = {
     "calo_rpd_studio/gui/widgets/document_workspace.py",
     "calo_rpd_studio/gui/widgets/activity_center.py",
     "calo_rpd_studio/gui/panels/independent_training_panel.py",
+    "calo_rpd_studio/gui/panels/_independent_training_panel_core.py",
+    "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+    "calo_rpd_studio/gui/panels/_calo_intelligence_panel_core.py",
+    "calo_rpd_studio/algorithms/calo/_tsh_calo_training_extension_core.py",
     "calo_rpd_studio/scripts/validate_phase6_gui_contracts.py",
     "calo_rpd_studio/scripts/verify_phase6_distribution.py",
     "calo_rpd_studio/scripts/train_tsh_calo.py",
     "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
 }
+# Ship current operating instructions, not removed agent handoff prompts.
 SDIST_MEMBERS = {
     "Launch-CALO-RPD.ps1",
     "docs/NATIVE_WINDOWS_GUIDE.md",
-    "docs/implementation/PHASE_6_NEW_CHAT_PROMPT.md",
-    "docs/implementation/PHASE_6_EXACT_CONTINUATION_PROMPT.md",
 }
 
 

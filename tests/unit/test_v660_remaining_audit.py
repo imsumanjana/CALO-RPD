@@ -184,14 +184,32 @@ def test_m37_cross_scenario_batching_flattens_candidate_scenario_work():
 
 
 def test_m48_m52_m54_gui_robustness_paths_are_explicit():
-    intelligence = _source("calo_rpd_studio/gui/panels/calo_intelligence_panel.py")
-    resume = _source("calo_rpd_studio/gui/panels/resume_center_panel.py")
+    from types import SimpleNamespace
+    from calo_rpd_studio.app.workspaces import WORKSPACE_KEYS
+    from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
+
+    blocker = CALOIntelligencePanel._qualification_candidate_blocker
+    assert blocker(None, None)
+    values = dict(
+        active=False,
+        archived=False,
+        qualification_status="candidate",
+        usable=True,
+        compatible_with=lambda algorithm: True,
+        metadata={"ensemble_size": 2},
+    )
+    assert blocker(None, SimpleNamespace(**values)) == ""
+    for changed in (
+        {"active": True},
+        {"archived": True},
+        {"usable": False},
+        {"compatible_with": lambda algorithm: False},
+        {"metadata": {"ensemble_size": 1}},
+    ):
+        assert blocker(None, SimpleNamespace(**{**values, **changed}))
+    # Resume is now owned by its workflow instead of an independently navigable center.
+    assert "resume_center" not in WORKSPACE_KEYS
     results = _source("calo_rpd_studio/gui/panels/results_explorer_panel.py")
-    main = _source("calo_rpd_studio/app/main_window.py")
-    assert "deployable_eligible: bool | None = None" in intelligence
-    assert "'deployable_eligible' in locals()" not in intelligence
-    assert "validation_resumed" in resume and "portfolio_export_resumed" in resume
-    assert "validation_resumed.connect" in main and "portfolio_export_resumed.connect" in main
     assert "def select_run" in results and "return False" in results
     assert "raise KeyError" not in results[results.index("def select_run") :]
 

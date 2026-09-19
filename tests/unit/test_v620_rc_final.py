@@ -54,7 +54,10 @@ def test_governor_hysteresis_and_red_safe_stop():
         ),
     )
     green = ResourceSnapshot(cpu_percent=20, system_memory_percent=20, sampled_at_monotonic=1)
-    amber = ResourceSnapshot(cpu_percent=82, system_memory_percent=20, sampled_at_monotonic=2)
+    # Admission at Safe-80 is not an 80%-CPU-utilization cap. Amber needs pressure.
+    amber = ResourceSnapshot(
+        cpu_percent=82, system_memory_percent=20, cpu_temperature_c=86, sampled_at_monotonic=2
+    )
     red = ResourceSnapshot(cpu_percent=97, system_memory_percent=20, sampled_at_monotonic=3)
     assert governor.evaluate_snapshot(green).state is ProtectionState.GREEN
     assert governor.evaluate_snapshot(amber).state is ProtectionState.AMBER

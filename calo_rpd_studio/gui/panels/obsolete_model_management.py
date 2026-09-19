@@ -109,9 +109,10 @@ class ObsoleteAwareTrainingModelLibrary(_BaseTrainingModelLibrary):
                                 else "Training stopped without a verified safe resume point."
                             ),
                         }
-                    elif state == "completed" and str(
-                        saved_record.get("candidate_error", "")
-                    ).strip():
+                    elif (
+                        state == "completed"
+                        and str(saved_record.get("candidate_error", "")).strip()
+                    ):
                         candidate_error = str(saved_record.get("candidate_error", "")).strip()
                         record = {
                             **saved_record,
@@ -124,9 +125,7 @@ class ObsoleteAwareTrainingModelLibrary(_BaseTrainingModelLibrary):
                     plan, plan_error = self._saved_json_object(plan_path)
                     status, status_error = self._saved_json_object(status_path)
                     campaign_id = (
-                        str(plan.get("campaign_id", "")).strip()
-                        if isinstance(plan, dict)
-                        else ""
+                        str(plan.get("campaign_id", "")).strip() if isinstance(plan, dict) else ""
                     ) or candidate.name
                     state = (
                         str(status.get("state", "")).strip().lower()
@@ -163,7 +162,9 @@ class ObsoleteAwareTrainingModelLibrary(_BaseTrainingModelLibrary):
                     elif state in terminal_states:
                         obsolete_kind = "failed"
                         obsolete_status = (
-                            "Failed training" if state in {"failed", "error"} else "Stopped training"
+                            "Failed training"
+                            if state in {"failed", "error"}
+                            else "Stopped training"
                         )
                         failure = status.get("failure") if isinstance(status, dict) else None
                         failure_message = ""
@@ -295,7 +296,9 @@ class ObsoleteAwareTrainingModelLibrary(_BaseTrainingModelLibrary):
             for item in (*super().saved_campaigns(), *self.obsolete_campaigns())
         }
         if str(target).casefold() not in known:
-            raise ValueError("The selected saved training directory is no longer in the model library")
+            raise ValueError(
+                "The selected saved training directory is no longer in the model library"
+            )
         self._policy_library_focus_directory = str(target)
         return target
 

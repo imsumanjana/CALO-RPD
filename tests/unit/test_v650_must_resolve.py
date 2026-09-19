@@ -149,21 +149,49 @@ def test_h22_concurrent_metadata_updates_are_not_lost(tmp_path):
     assert all(metadata[f"k{i}"] == i for i in range(16))
 
 
-def test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build():
-    source = (
-        Path(__file__).resolve().parents[2]
-        / "calo_rpd_studio"
-        / "gui"
-        / "panels"
-        / "experiment_manager_panel.py"
-    ).read_text(encoding="utf-8")
-    section = source[
-        source.index("    def start_comparison") : source.index(
-            "    def start_calo", source.index("    def start_comparison")
-        )
-    ]
-    assert section.index("self.apply()") < section.index("if not self.fairness_passed")
-    assert section.index("self.apply()") < section.index("labels_for_mode")
+def test_h28_comparison_uses_only_an_explicitly_staged_immutable_plan(monkeypatch):
+    from types import SimpleNamespace
+    from calo_rpd_studio.gui.panels import experiment_manager_panel as module
+    from calo_rpd_studio.experiments.execution_plans import ExecutionPlanKind
+
+    calls = []
+    plan = {"value": None}
+    frozen = SimpleNamespace(runs=3)
+    control = SimpleNamespace(
+        plan_configuration=lambda identity: calls.append(("config", identity)) or frozen,
+        begin_run=lambda identity: calls.append(("begin", identity)),
+    )
+    state = SimpleNamespace(
+        execution_control=control,
+        config=SimpleNamespace(runs=99),
+        notify_execution_state_changed=lambda: calls.append(("notified",)),
+    )
+    panel = SimpleNamespace(
+        state=state,
+        execution_mode=ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value,
+        _manager_available=lambda: True,
+        _active_controlled_plan=lambda: plan["value"],
+        _populate_queue_for_config=lambda config, labels, mode: calls.append(("queue", config)),
+        _set_running=lambda value: calls.append(("running", value)),
+        manager=SimpleNamespace(
+            start_comparison=lambda config: calls.append(("start", config)) or True
+        ),
+        apply=lambda: pytest.fail(
+            "Launching must not overwrite the audited frozen plan with GUI drafts"
+        ),
+    )
+    monkeypatch.setattr(module.QMessageBox, "information", lambda *args: None)
+    monkeypatch.setattr(module, "labels_for_mode", lambda config, mode: ["CALO", "TLBO"])
+    module.ExperimentManagerPanel.start_comparison(panel)
+    assert calls == []
+    plan["value"] = {"id": "plan-1", "lifecycle_state": "draft"}
+    module.ExperimentManagerPanel.start_comparison(panel)
+    assert calls == []
+    plan["value"]["lifecycle_state"] = "staged"
+    module.ExperimentManagerPanel.start_comparison(panel)
+    assert calls[:3] == [("config", "plan-1"), ("queue", frozen), ("begin", "plan-1")]
+    assert ("start", frozen) in calls
+    assert panel.expected_runs == 6
 
 
 def test_h30_results_explorer_guards_json_and_null_run_id_fallback():

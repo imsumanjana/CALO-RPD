@@ -43,7 +43,22 @@ def test_device_resident_curriculum_matches_numpy_reference_all_stages():
             )
 
 
-def test_cross_episode_broker_merges_heterogeneous_dimensions():
+def test_cross_episode_broker_merges_heterogeneous_dimensions(monkeypatch):
+    import threading
+    import time
+
+    ready = threading.Event()
+    original_run = SyntheticCrossEpisodeBatchBroker._run
+
+    def start_after_all_requests_are_queued(broker):
+        if not ready.wait(timeout=10):
+            broker._fail_all_pending(TimeoutError("Test submissions did not reach the barrier"))
+            return
+        original_run(broker)
+
+    monkeypatch.setattr(
+        SyntheticCrossEpisodeBatchBroker, "_run", start_after_all_requests_are_queued
+    )
     with SyntheticCrossEpisodeBatchBroker(
         device="cpu", batch_window_ms=10.0, max_candidates=4096
     ) as broker:
@@ -54,10 +69,7 @@ def test_cross_episode_broker_merges_heterogeneous_dimensions():
             reference = CurriculumProblem(rng, stage)
             wrapped.append(
                 DeviceResidentCurriculumProblem(
-                    reference,
-                    device="cpu",
-                    broker=broker,
-                    require_startup_parity=True,
+                    reference, device="cpu", broker=broker, require_startup_parity=True
                 )
             )
             populations.append(rng.random((20, reference.dimension)))
@@ -66,7 +78,15 @@ def test_cross_episode_broker_merges_heterogeneous_dimensions():
                 executor.submit(problem.evaluate_population, population)
                 for problem, population in zip(wrapped, populations)
             ]
-            [future.result() for future in futures]
+            try:
+                deadline = time.monotonic() + 5.0
+                while broker._queue.qsize() != 4 and time.monotonic() < deadline:
+                    time.sleep(0.001)
+                assert broker._queue.qsize() == 4, "Every real submit must reach the queue"
+            finally:
+                ready.set()
+            results = [future.result(timeout=10) for future in futures]
+        assert [len(result) for result in results] == [20, 20, 20, 20]
         metrics = broker.metrics()
         assert metrics["request_count"] == 4
         assert metrics["candidate_count"] == 80
@@ -136,18 +156,31 @@ def test_heterogeneous_real_orpd_environment_uses_declared_experiment_formulatio
     assert environment.problem.config.power_flow.tolerance == pytest.approx(2.5e-7)
 
 
-def test_gui_exposes_real_policy_training_suite_and_no_hardcoded_empty_cases():
-    source = (
-        Path(__file__).resolve().parents[2]
-        / "calo_rpd_studio"
-        / "gui"
-        / "panels"
-        / "calo_intelligence_panel.py"
-    ).read_text(encoding="utf-8")
-    assert "device_resident_synthetic" in source
-    assert "Policy-training cases" in source
-    assert "development_experiment_config_path=development_config_path" in source
-    assert "development_cases=()," not in source
+def test_gui_plan_requires_explicit_nonprotected_training_cases(monkeypatch):
+    from calo_rpd_studio.gui.panels.independent_training_panel import TrainingLaunchModel
+
+    monkeypatch.setattr(
+        TrainingLaunchModel, "_current_source_commit", staticmethod(lambda: "a" * 40)
+    )
+    model = TrainingLaunchModel()
+    settings = dict(
+        campaign_id="gui-case-contract",
+        member_count=2,
+        master_seed=7,
+        population_size=4,
+        max_evaluations=8,
+        requested_device="cpu",
+        allow_cpu_fallback=False,
+        training={},
+    )
+    model.create_plan(development_cases=["case30", "case57"], **settings)
+    assert model.plan_error == ""
+    assert model.plan_payload["development_cases"] == ["case30", "case57"]
+    assert model.plan_payload["requested_device"] == "cpu"
+    for invalid in ([], ["case118"], ["case300"]):
+        model.create_plan(development_cases=invalid, **settings)
+        assert model.plan_payload is None
+        assert model.plan_error
 
 
 def test_stage_b_multi_transition_trajectory_matches_reference_on_torch_cpu():

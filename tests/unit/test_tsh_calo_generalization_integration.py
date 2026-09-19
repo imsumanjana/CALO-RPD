@@ -174,3 +174,34 @@ def test_extension_contract_discloses_segment_and_cumulative_counted_work():
     assert payload["prior_cumulative_total_counted_candidate_evaluations"] == 80
     assert payload["next_cumulative_total_counted_candidate_evaluations"] == 160
     assert payload["legacy_candidate_evaluation_fields_are_training_only"] is True
+
+
+def test_completed_progress_requires_all_training_work_not_just_a_complete_guard():
+    status = {
+        "state": "completed",
+        "progress": {"committed_candidate_evaluations": 8},
+        "generalization_guard": {
+            "members": {"0": _complete_member_slot(), "1": _complete_member_slot()}
+        },
+    }
+    with pytest.raises(ValueError, match="training evaluation accounting is incomplete"):
+        synchronize_training_progress(_plan(), status)
+    assert status["progress"].get("progress_percent") != 100
+
+
+def test_progress_recomputes_mirror_from_later_executor_checkpoint_and_is_idempotent():
+    status = {"state": "running", "progress": {"committed_candidate_evaluations": 4}}
+    synchronize_training_progress(_plan(guarded=False), status)
+    status["progress"]["committed_candidate_evaluations"] = 12
+    advanced = synchronize_training_progress(_plan(guarded=False), status)
+    assert advanced["committed_training_candidate_evaluations"] == 12
+    assert advanced["committed_total_candidate_evaluations"] == 12
+    assert advanced["progress_percent"] == 75
+    assert synchronize_training_progress(_plan(guarded=False), status) == advanced
+
+
+def test_progress_can_read_split_only_input_without_inventing_completed_work():
+    status = {"state": "running", "progress": {"committed_training_candidate_evaluations": 4}}
+    result = synchronize_training_progress(_plan(guarded=False), status)
+    assert result["committed_candidate_evaluations"] == 4
+    assert result["progress_percent"] == 25

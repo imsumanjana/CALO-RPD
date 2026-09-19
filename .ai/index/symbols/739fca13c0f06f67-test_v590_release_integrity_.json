@@ -22,7 +22,7 @@
         "resolve": "attribute"
       },
       "called_by": [
-        "tests.unit.test_v590_release_integrity.test_historical_v590_freeze_and_evidence_are_retained_as_history"
+        "tests.unit.test_v590_release_integrity.test_historical_v590_freeze_and_archive_routing_are_retained"
       ],
       "calls": [
         "Path",
@@ -69,23 +69,18 @@
       "call_edges": [
         {
           "confidence": "unresolved",
-          "raw": "freeze.is_file",
-          "target": "freeze.is_file"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "freeze.read_text",
           "target": "freeze.read_text"
         },
         {
           "confidence": "unresolved",
-          "raw": "is_file",
-          "target": "is_file"
+          "raw": "json.loads",
+          "target": "json.loads"
         },
         {
           "confidence": "unresolved",
-          "raw": "json.loads",
-          "target": "json.loads"
+          "raw": "read_text",
+          "target": "read_text"
         },
         {
           "confidence": "confirmed",
@@ -95,24 +90,22 @@
       ],
       "call_forms": {
         "_root": "name",
-        "freeze.is_file": "attribute",
         "freeze.read_text": "attribute",
-        "is_file": "attribute",
-        "json.loads": "attribute"
+        "json.loads": "attribute",
+        "read_text": "attribute"
       },
       "called_by": [],
       "calls": [
         "_root",
-        "freeze.is_file",
         "freeze.read_text",
-        "is_file",
-        "json.loads"
+        "json.loads",
+        "read_text"
       ],
       "calls_resolved": [
         "tests.unit.test_v590_release_integrity._root"
       ],
-      "doc": "v6 keeps v5.9 release evidence, but it is no longer the current software freeze.",
-      "end_line": 23,
+      "doc": "The old freeze remains readable; retired reports are archived, not active v12 evidence.",
+      "end_line": 20,
       "entry_point": false,
       "file": "tests/unit/test_v590_release_integrity.py",
       "implementation_core": false,
@@ -137,12 +130,12 @@
       "preferred_edit_target": false,
       "public_surface": false,
       "python_module": "tests.unit.test_v590_release_integrity",
-      "qualname": "tests.unit.test_v590_release_integrity.test_historical_v590_freeze_and_evidence_are_retained_as_history",
+      "qualname": "tests.unit.test_v590_release_integrity.test_historical_v590_freeze_and_archive_routing_are_retained",
       "semantic_tags": [],
       "signature": "()",
       "start_line": 11,
       "state_owner": "",
-      "symbol": "test_historical_v590_freeze_and_evidence_are_retained_as_history",
+      "symbol": "test_historical_v590_freeze_and_archive_routing_are_retained",
       "tests": []
     }
   ]

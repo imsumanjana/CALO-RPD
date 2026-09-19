@@ -204,9 +204,7 @@ class RibbonBar(QFrame):
                     button = QToolButton()
                     button.setProperty("ribbonCommandId", spec.command_id)
                     button.setProperty("ribbonCategory", category)
-                    button.setObjectName(
-                        "RibbonPrimaryButton" if spec.primary else "RibbonButton"
-                    )
+                    button.setObjectName("RibbonPrimaryButton" if spec.primary else "RibbonButton")
                     button.setDefaultAction(registry.action(spec.command_id))
                     button.setAccessibleName(spec.label)
                     button.setAccessibleDescription(spec.tooltip)

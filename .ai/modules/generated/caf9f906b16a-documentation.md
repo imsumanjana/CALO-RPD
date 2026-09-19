@@ -37,8 +37,11 @@
 - `docs/implementation/ACTIVE_CONTINUATION_LOG.md`
 - `docs/implementation/AGENTS.md`
 - `docs/implementation/CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`
+- `docs/implementation/ENGINEERING_CLOSURE_20260919.md`
 - `docs/implementation/HISTORICAL_STATISTICAL_EVIDENCE_CORRECTIONS_V12.json`
 - `docs/implementation/IMPLEMENTATION_GATES.md`
+- `docs/implementation/LIFECYCLE_WIRING_ACCEPTANCE.md`
+- `docs/implementation/OMISSION_DISPOSITIONS.json`
 - `docs/implementation/REQUIREMENT_TRACEABILITY.md`
 - `docs/implementation/SCIENTIFIC_VALIDATION_PROTOCOL.md`
 - `docs/mathematical_formulation.md`

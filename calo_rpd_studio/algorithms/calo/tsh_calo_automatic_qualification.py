@@ -359,9 +359,14 @@ def _source_worktree_manifest(repository_root: str | Path) -> tuple[dict, list[t
 
 def _run_snapshot_git(arguments: list[str], *, root: Path, environment: dict | None = None) -> str:
     process_environment = _isolated_git_environment(environment)
+    # A content-addressed destination is longer than its temporary staging name.
+    # Scope Windows long-path support to this command; never change user/global Git settings.
+    command = ["git"]
+    if os.name == "nt":
+        command.extend(("-c", "core.longpaths=true"))
     try:
         result = subprocess.run(
-            ["git", *arguments],
+            [*command, *arguments],
             cwd=root,
             check=True,
             capture_output=True,
@@ -374,6 +379,28 @@ def _run_snapshot_git(arguments: list[str], *, root: Path, environment: dict | N
     return result.stdout.strip()
 
 
+def _snapshot_staging_directory(snapshot_base: Path, source_root: Path) -> Path:
+    """Use short same-volume scratch space without adding files to the live inventory."""
+    if os.name != "nt":
+        return Path(tempfile.mkdtemp(prefix="source-snapshot-", dir=snapshot_base)).resolve()
+    for parent in (snapshot_base, *snapshot_base.parents):
+        # Git for Windows can reopen long paths but some loose-object temporary writes still
+        # fail at MAX_PATH. Budget for the complete object filename, not just the Git directory.
+        probe = parent / "calo-source-xxxxxxxx" / ".git" / "objects" / "00" / ("0" * 40)
+        if len(str(probe).encode("utf-16-le")) // 2 >= 240:
+            continue
+        if parent == source_root or parent.is_relative_to(source_root):
+            continue
+        try:
+            return Path(tempfile.mkdtemp(prefix="calo-source-", dir=parent)).resolve()
+        except PermissionError:
+            continue
+    raise ValueError(
+        "Automatic qualification needs writable short same-volume snapshot scratch space; "
+        "choose a shorter snapshot storage location. No source files were changed."
+    )
+
+
 def prepare_automatic_source_snapshot(
     repository_root: str | Path,
     snapshot_base_directory: str | Path,
@@ -382,9 +409,22 @@ def prepare_automatic_source_snapshot(
 
     source_root = Path(repository_root).expanduser().resolve()
     snapshot_base = Path(snapshot_base_directory).expanduser().resolve()
+    if os.name == "nt":
+        # Git can read long object filenames with core.longpaths, but its repository
+        # initialization still rejects an overlong Git directory. Reject before copying
+        # or writing any snapshot instead of leaving a partially usable destination.
+        final_git_directory = snapshot_base / ("0" * 40) / ".git"
+        # Discovery also reads refs and loose objects before a repository's local options
+        # apply. A short .git path alone does not prove that the published snapshot reopens.
+        final_object_path = final_git_directory / "objects" / "00" / ("0" * 40)
+        if len(str(final_object_path).encode("utf-16-le")) // 2 >= 260:
+            raise ValueError(
+                "Automatic qualification snapshot directory is too long for Windows Git; "
+                "choose a shorter snapshot storage location. No source files were changed."
+            )
     snapshot_base.mkdir(parents=True, exist_ok=True)
     before, files = _source_worktree_manifest(source_root)
-    staging = Path(tempfile.mkdtemp(prefix="source-snapshot-", dir=snapshot_base)).resolve()
+    staging = _snapshot_staging_directory(snapshot_base, source_root)
     try:
         expected_hashes = {item["path"]: item["sha256"] for item in before["files"]}
         for relative, source in files:
@@ -409,6 +449,10 @@ def prepare_automatic_source_snapshot(
         _run_snapshot_git(["init", "-q", "--object-format=sha1"], root=staging)
         _run_snapshot_git(["config", "core.autocrlf", "false"], root=staging)
         _run_snapshot_git(["config", "core.filemode", "false"], root=staging)
+        if os.name == "nt":
+            # Only this newly created snapshot repository is configured. Its contents and
+            # deterministic commit identity are unchanged, and ordinary Git can reopen it.
+            _run_snapshot_git(["config", "core.longpaths", "true"], root=staging)
         _run_snapshot_git(["add", "--all"], root=staging)
         fixed_environment = {
             "GIT_AUTHOR_NAME": "CALO-RPD Qualification",

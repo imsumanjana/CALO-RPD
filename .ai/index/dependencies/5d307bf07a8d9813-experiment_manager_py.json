@@ -113,7 +113,32 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "_LOG.exception"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "campaign.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
       "to": "self.completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "self.state.database.get_campaign"
     },
     {
       "confidence": "unresolved",
@@ -123,7 +148,17 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "self.state.task_status.fail"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
       "to": "self.state.task_status.finish"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "str"
     },
     {
       "confidence": "unresolved",
@@ -213,6 +248,11 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
       "to": "int"
     },
     {
@@ -294,6 +334,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._worker_finished",
       "to": "worker.deleteLater"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.active_config",
+      "to": "deepcopy"
     },
     {
       "confidence": "confirmed",
@@ -499,6 +544,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
       "to": "__init__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "deepcopy"
     },
     {
       "confidence": "unresolved",
@@ -1263,6 +1313,11 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
       "to": "dict"
     },
     {
@@ -1363,17 +1418,17 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self._admitted_config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
       "to": "self._task_by_job.get"
     },
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
       "to": "self.config.algorithm_parameters.get"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
-      "to": "self.config.to_dict"
     },
     {
       "confidence": "unresolved",
@@ -2813,6 +2868,11 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
       "to": "bool"
     },
     {
@@ -2878,6 +2938,16 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "control.transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "control.verify_campaign_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
       "to": "generate"
     },
     {
@@ -2908,6 +2978,11 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "plan_row.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
       "to": "self.cancelled.emit"
     },
     {
@@ -2934,6 +3009,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
       "to": "self.paused.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.state.database.get_execution_plan"
     },
     {
       "confidence": "unresolved",

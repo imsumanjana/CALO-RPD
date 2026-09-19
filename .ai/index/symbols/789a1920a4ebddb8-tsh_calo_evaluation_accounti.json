@@ -245,7 +245,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Exact evaluator-work totals for one fresh or extension training segment.",
-      "end_line": 63,
+      "end_line": 62,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -322,7 +322,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 53,
+      "end_line": 52,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -392,7 +392,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.TSHCALOTrainingEvaluationAccounting.validate"
       ],
       "doc": "",
-      "end_line": 63,
+      "end_line": 62,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -436,7 +436,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 55,
+      "start_line": 54,
       "state_owner": "",
       "symbol": "to_dict",
       "tests": []
@@ -514,7 +514,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.TSHCALOTrainingEvaluationAccounting"
       ],
       "doc": "Return the exact planned split for one fresh or extension segment.",
-      "end_line": 95,
+      "end_line": 92,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -558,7 +558,7 @@
         "qualification"
       ],
       "signature": "(plan)",
-      "start_line": 66,
+      "start_line": 65,
       "state_owner": "",
       "symbol": "plan_training_evaluation_accounting",
       "tests": [
@@ -608,7 +608,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 106,
+      "end_line": 103,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -652,7 +652,7 @@
         "qualification"
       ],
       "signature": "(value, label)",
-      "start_line": 98,
+      "start_line": 95,
       "state_owner": "",
       "symbol": "_count_from_evidence",
       "tests": []
@@ -743,7 +743,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting._count_from_evidence"
       ],
       "doc": "Count only guard evidence already retained in durable campaign status.",
-      "end_line": 145,
+      "end_line": 138,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -787,7 +787,7 @@
         "qualification"
       ],
       "signature": "(status)",
-      "start_line": 109,
+      "start_line": 106,
       "state_owner": "",
       "symbol": "committed_generalization_guard_candidate_evaluations",
       "tests": []
@@ -875,6 +875,9 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign._honor_pause_after_checkpoint",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign._record_event",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign._write_status",
+        "tests.unit.test_tsh_calo_generalization_integration.test_completed_progress_requires_all_training_work_not_just_a_complete_guard",
+        "tests.unit.test_tsh_calo_generalization_integration.test_progress_can_read_split_only_input_without_inventing_completed_work",
+        "tests.unit.test_tsh_calo_generalization_integration.test_progress_recomputes_mirror_from_later_executor_checkpoint_and_is_idempotent",
         "tests.unit.test_tsh_calo_generalization_integration.test_progress_uses_only_durable_guard_evidence_and_preserves_legacy_fields"
       ],
       "calls": [
@@ -896,7 +899,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
       ],
       "doc": "Mutate one status record so every progress surface uses the canonical split.",
-      "end_line": 258,
+      "end_line": 248,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -940,7 +943,7 @@
         "qualification"
       ],
       "signature": "(plan, status)",
-      "start_line": 148,
+      "start_line": 141,
       "state_owner": "",
       "symbol": "synchronize_training_progress",
       "tests": [
@@ -998,7 +1001,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
       ],
       "doc": "",
-      "end_line": 280,
+      "end_line": 268,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -1042,7 +1045,7 @@
         "qualification"
       ],
       "signature": "(plan, payload)",
-      "start_line": 261,
+      "start_line": 251,
       "state_owner": "",
       "symbol": "augment_root_manifest",
       "tests": []
@@ -1100,7 +1103,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
       ],
       "doc": "",
-      "end_line": 319,
+      "end_line": 303,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -1144,7 +1147,7 @@
         "qualification"
       ],
       "signature": "(plan, payload)",
-      "start_line": 283,
+      "start_line": 271,
       "state_owner": "",
       "symbol": "augment_extension_plan",
       "tests": [
@@ -1223,7 +1226,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
       ],
       "doc": "",
-      "end_line": 374,
+      "end_line": 352,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -1267,7 +1270,7 @@
         "qualification"
       ],
       "signature": "(plan, payload)",
-      "start_line": 322,
+      "start_line": 306,
       "state_owner": "",
       "symbol": "augment_extension_manifest",
       "tests": []
@@ -1295,7 +1298,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_plan"
       ],
       "doc": "",
-      "end_line": 378,
+      "end_line": 356,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_evaluation_accounting.py",
       "implementation_core": false,
@@ -1339,7 +1342,7 @@
         "qualification"
       ],
       "signature": "(plan, payload)",
-      "start_line": 377,
+      "start_line": 355,
       "state_owner": "",
       "symbol": "augment_extension_summary",
       "tests": []

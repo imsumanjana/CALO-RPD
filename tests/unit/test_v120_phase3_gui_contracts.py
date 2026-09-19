@@ -192,10 +192,10 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     assert payload["phase_5_final_release"] is False
     assert payload["phase_6_started"] is True
     assert payload["phase_6_goal"] == (
-        "explicit_policy_library_qualification_admission_comparison_activation_workflow_plus_prior_scroll_deletion_and_cross_version_extension_corrections_implementation_complete_validation_pending"
+        "complete_individual_experiment_independence_from_workspace_portfolio_and_study_while_workspace_automates_the_same_shared_experiment_manager_validation_pending"
     )
     assert payload["phase_6_coding"] == (
-        "implemented_in_library_formal_plan_check_run_resume_integrity_bound_evidence_admission_comparable_policy_review_explicit_activation_no_selection_autoscroll_exact_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
+        "implemented_separate_mode_prerequisites_v2_frozen_plans_direct_individual_result_contract_workspace_portfolio_automation_shared_singleton_controller_and_numerical_executor_validation_pending"
     )
     assert payload["phase_6_training_interface"] == (
         "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
@@ -207,7 +207,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "validated_first_class_windows_non_docker_launch"
     )
     assert payload["phase_6_validation"] == (
-        "prior_pass_phase6-20260814-132200_superseded_by_progress_pause_extension_library_layout_path_removal_scroll_and_cross_version_compatibility_followups_validation_pending"
+        "passed_phase6-20260817-014809_schema_v27_17_of_17_source_stable_but_superseded_by_individual_experiment_independence_correction_schema_v28_owner_validation_pending"
     )
     assert payload["phase_6_checkbox_indicator_visibility"] == (
         "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
@@ -606,10 +606,10 @@ def test_stack_heavy_workspaces_use_shared_accessible_tabs():
             '"Robust objective"',
         ),
         "calo_rpd_studio/gui/panels/portfolio_manager_panel.py": (
-            '"Definition"',
-            '"Requested outputs"',
-            '"Reuse and validation"',
-            '"Derived plan"',
+            '"Goal"',
+            '"Comparison scope"',
+            '"Deliverables and evidence"',
+            '"Goal summary"',
         ),
         "calo_rpd_studio/gui/panels/application_settings_panel.py": (
             '"Appearance"',

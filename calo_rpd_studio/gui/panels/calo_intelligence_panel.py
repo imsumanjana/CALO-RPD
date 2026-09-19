@@ -45,9 +45,7 @@ def _row_counted_evaluations(row, registry) -> int | None:
 def _campaign_accounting(row: dict) -> dict | None:
     values = {
         "training_candidate_evaluations": row.get("training_evaluations"),
-        "generalization_guard_candidate_evaluations": row.get(
-            "generalization_guard_evaluations"
-        ),
+        "generalization_guard_candidate_evaluations": row.get("generalization_guard_evaluations"),
         "total_counted_candidate_evaluations": row.get("total_counted_evaluations"),
     }
     if not all(_valid_count(value) for value in values.values()):

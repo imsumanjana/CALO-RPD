@@ -88,7 +88,11 @@ def verify_training_influence_campaign(
     directory = Path(directory_text).expanduser().resolve(strict=True)
     plan_path = Path(plan_text).expanduser().resolve(strict=True)
     candidate_path = Path(candidate_text).expanduser().resolve(strict=True)
-    if not directory.is_dir() or directory not in plan_path.parents and plan_path.parent != directory:
+    if (
+        not directory.is_dir()
+        or directory not in plan_path.parents
+        and plan_path.parent != directory
+    ):
         raise ValueError("training plan is outside the completed campaign")
     if not candidate_path.is_file():
         raise ValueError("training candidate is unavailable")

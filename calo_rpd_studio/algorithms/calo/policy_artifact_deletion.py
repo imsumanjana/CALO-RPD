@@ -51,9 +51,7 @@ def record_permanent_artifact_deletion(
         "sha256": expected,
         "was_active": bool(policy.active),
         "qualification_status": policy.qualification_status,
-        "qualification_record_count": len(
-            registry.database.list_policy_qualifications(policy.id)
-        ),
+        "qualification_record_count": len(registry.database.list_policy_qualifications(policy.id)),
         "experiment_binding_count": registry.database.policy_reference_count(
             policy.id, policy.sha256
         ),

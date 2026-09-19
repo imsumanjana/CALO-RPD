@@ -56,15 +56,11 @@ def _selected_accounting(accounting: dict) -> tuple[dict, bool] | None:
     if not isinstance(selected, dict):
         return None
     values = {
-        "training_candidate_evaluations": selected.get(
-            "training_candidate_evaluations"
-        ),
+        "training_candidate_evaluations": selected.get("training_candidate_evaluations"),
         "generalization_guard_candidate_evaluations": selected.get(
             "generalization_guard_candidate_evaluations"
         ),
-        "total_counted_candidate_evaluations": selected.get(
-            "total_counted_candidate_evaluations"
-        ),
+        "total_counted_candidate_evaluations": selected.get("total_counted_candidate_evaluations"),
     }
     if not all(_valid_count(value) for value in values.values()):
         return None
@@ -91,15 +87,11 @@ def _augment_output_payload(payload: dict, plan) -> dict:
     result["evaluation_accounting"] = accounting
     result.update(
         {
-            "total_training_candidate_evaluations": values[
-                "training_candidate_evaluations"
-            ],
+            "total_training_candidate_evaluations": values["training_candidate_evaluations"],
             "total_generalization_guard_candidate_evaluations": values[
                 "generalization_guard_candidate_evaluations"
             ],
-            "total_counted_candidate_evaluations": values[
-                "total_counted_candidate_evaluations"
-            ],
+            "total_counted_candidate_evaluations": values["total_counted_candidate_evaluations"],
             "legacy_candidate_evaluation_fields_are_training_only": True,
         }
     )
@@ -177,8 +169,7 @@ __all__ = tuple(
     sorted(
         name
         for name in globals()
-        if not name.startswith("_")
-        and name not in {"Path", "annotations", "builtins", "json"}
+        if not name.startswith("_") and name not in {"Path", "annotations", "builtins", "json"}
     )
 )
 

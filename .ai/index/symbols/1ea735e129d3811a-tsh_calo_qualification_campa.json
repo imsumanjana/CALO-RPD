@@ -13536,7 +13536,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Execute or exactly resume one frozen qualification evidence directory.",
-      "end_line": 2375,
+      "end_line": 2394,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -16429,6 +16429,11 @@
       "authoritative_source": "",
       "call_edges": [
         {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
           "confidence": "confirmed",
           "raw": "QualificationInfrastructureError",
           "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.QualificationInfrastructureError"
@@ -16465,6 +16470,21 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "failure.add_note",
+          "target": "failure.add_note"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "incident.get",
+          "target": "incident.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "incident.setdefault",
+          "target": "incident.setdefault"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "incident_directory.mkdir",
           "target": "incident_directory.mkdir"
         },
@@ -16497,8 +16517,12 @@
       "call_forms": {
         "QualificationInfrastructureError": "name",
         "_write_json": "name",
+        "append": "attribute",
         "datetime.now": "attribute",
         "dict": "name",
+        "failure.add_note": "attribute",
+        "incident.get": "attribute",
+        "incident.setdefault": "attribute",
         "incident_directory.mkdir": "attribute",
         "isoformat": "attribute",
         "self._completed_cells": "attribute",
@@ -16514,13 +16538,18 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._emit_event_required",
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._pending_pause_request_required",
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
-        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._write_status_required"
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._write_status_required",
+        "tests.unit.test_tsh_calo_qualification_campaign.test_infrastructure_abort_retains_secondary_write_failures_without_masking_original"
       ],
       "calls": [
         "QualificationInfrastructureError",
         "_write_json",
+        "append",
         "datetime.now",
         "dict",
+        "failure.add_note",
+        "incident.get",
+        "incident.setdefault",
         "incident_directory.mkdir",
         "isoformat",
         "self._completed_cells",
@@ -16539,7 +16568,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._write_json"
       ],
       "doc": "",
-      "end_line": 1605,
+      "end_line": 1624,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -16678,7 +16707,9 @@
       "start_line": 1555,
       "state_owner": "",
       "symbol": "_abort_infrastructure",
-      "tests": []
+      "tests": [
+        "tests/unit/test_tsh_calo_qualification_campaign.py"
+      ]
     },
     {
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
@@ -16719,7 +16750,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._emit_event"
       ],
       "doc": "",
-      "end_line": 1616,
+      "end_line": 1635,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -16855,7 +16886,7 @@
         "qualification"
       ],
       "signature": "(self, event, operation, cell, **details)",
-      "start_line": 1607,
+      "start_line": 1626,
       "state_owner": "",
       "symbol": "_emit_event_required",
       "tests": []
@@ -16929,7 +16960,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._write_json"
       ],
       "doc": "",
-      "end_line": 1630,
+      "end_line": 1649,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -17065,7 +17096,7 @@
         "qualification"
       ],
       "signature": "(self, state, **details)",
-      "start_line": 1618,
+      "start_line": 1637,
       "state_owner": "",
       "symbol": "_write_status",
       "tests": []
@@ -17109,7 +17140,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._write_status"
       ],
       "doc": "",
-      "end_line": 1646,
+      "end_line": 1665,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -17245,7 +17276,7 @@
         "qualification"
       ],
       "signature": "(self, operation, cell, state, **details)",
-      "start_line": 1632,
+      "start_line": 1651,
       "state_owner": "",
       "symbol": "_write_status_required",
       "tests": []
@@ -17301,7 +17332,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._read_json"
       ],
       "doc": "",
-      "end_line": 1661,
+      "end_line": 1680,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -17437,7 +17468,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 1648,
+      "start_line": 1667,
       "state_owner": "",
       "symbol": "_pending_pause_request",
       "tests": []
@@ -17473,7 +17504,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._pending_pause_request"
       ],
       "doc": "",
-      "end_line": 1671,
+      "end_line": 1690,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -17609,7 +17640,7 @@
         "qualification"
       ],
       "signature": "(self, cell)",
-      "start_line": 1663,
+      "start_line": 1682,
       "state_owner": "",
       "symbol": "_pending_pause_request_required",
       "tests": []
@@ -17734,7 +17765,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._write_json"
       ],
       "doc": "",
-      "end_line": 1725,
+      "end_line": 1744,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -17870,7 +17901,7 @@
         "qualification"
       ],
       "signature": "(self, request, boundary, durable_path, cell, evaluations)",
-      "start_line": 1673,
+      "start_line": 1692,
       "state_owner": "",
       "symbol": "_acknowledge_pause",
       "tests": []
@@ -17905,7 +17936,7 @@
         "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
       ],
       "doc": "",
-      "end_line": 1735,
+      "end_line": 1754,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -18041,7 +18072,7 @@
         "qualification"
       ],
       "signature": "(path)",
-      "start_line": 1728,
+      "start_line": 1747,
       "state_owner": "",
       "symbol": "_remove_completed_cell_checkpoint",
       "tests": []
@@ -18092,7 +18123,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._verify_component_evidence"
       ],
       "doc": "",
-      "end_line": 1749,
+      "end_line": 1768,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -18228,7 +18259,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 1737,
+      "start_line": 1756,
       "state_owner": "",
       "symbol": "_preflight",
       "tests": []
@@ -18297,7 +18328,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._write_json"
       ],
       "doc": "",
-      "end_line": 1759,
+      "end_line": 1778,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -18433,7 +18464,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 1751,
+      "start_line": 1770,
       "state_owner": "",
       "symbol": "start",
       "tests": []
@@ -18540,7 +18571,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.inspect_tsh_calo_qualification_resume_state"
       ],
       "doc": "",
-      "end_line": 1777,
+      "end_line": 1796,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -18676,7 +18707,7 @@
         "qualification"
       ],
       "signature": "(self)",
-      "start_line": 1761,
+      "start_line": 1780,
       "state_owner": "",
       "symbol": "resume",
       "tests": []
@@ -18713,7 +18744,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._ExclusiveQualificationCampaignLease"
       ],
       "doc": "",
-      "end_line": 1781,
+      "end_line": 1800,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -18849,7 +18880,7 @@
         "qualification"
       ],
       "signature": "(self, resume)",
-      "start_line": 1779,
+      "start_line": 1798,
       "state_owner": "",
       "symbol": "_run",
       "tests": []
@@ -19460,7 +19491,7 @@
         "calo_rpd_studio.statistics.posthoc.holm_correction"
       ],
       "doc": "",
-      "end_line": 2375,
+      "end_line": 2394,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -19596,7 +19627,7 @@
         "qualification"
       ],
       "signature": "(self, resume)",
-      "start_line": 1783,
+      "start_line": 1802,
       "state_owner": "",
       "symbol": "_run_owned",
       "tests": []
@@ -19703,7 +19734,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._finite_or_none"
       ],
       "doc": "",
-      "end_line": 2020,
+      "end_line": 2039,
       "entry_point": false,
       "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification_campaign.py",
       "implementation_core": false,
@@ -19839,7 +19870,7 @@
         "qualification"
       ],
       "signature": "(progress, _cell, _resumed_checkpoint, _checkpoint_interval, _cell_started, _pause_state, _progress_state)",
-      "start_line": 1944,
+      "start_line": 1963,
       "state_owner": "",
       "symbol": "progress_callback",
       "tests": []

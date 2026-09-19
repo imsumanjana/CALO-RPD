@@ -116,7 +116,10 @@ def test_training_influence_requires_comparable_campaigns_and_never_changes_trai
         item for item in report["parameters"] if item["parameter"] == "training.learning_rate"
     )
     assert learning_rate["selected_value"] == pytest.approx(3e-4)
-    assert learning_rate["evidence_classification"] == "observational_association"
+    assert learning_rate["evidence_classification"] == "exploratory_observational_signal"
+    assert learning_rate["rankable"] is False
+    assert learning_rate["association_measure"] == "pearson_correlation"
+    assert learning_rate["association"] == pytest.approx(1.0)
     assert learning_rate["affected_rating"] == "overall_full_feasibility"
     assert {item["rating"] for item in learning_rate["rating_effects"]} == {
         "overall_full_feasibility",
@@ -139,7 +142,9 @@ def test_single_model_influence_is_truthfully_insufficient():
     )
 
     assert report["evidence_classification"] == "insufficient_comparative_evidence"
-    assert all(item["standardized_effect"] is None for item in report["parameters"])
+    assert all(item["association"] is None for item in report["parameters"])
+    assert all(item["rankable"] is False for item in report["parameters"])
+    assert all(item["association_measure"] == "not_estimated" for item in report["parameters"])
 
 
 def test_influence_excludes_a_rating_payload_that_no_longer_matches_its_checksum():

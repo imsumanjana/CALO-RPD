@@ -463,9 +463,7 @@ class TrainingPathEditor(QWidget):
         self.path_rows: list[QWidget] = []
         self.library_picker = QComboBox()
         self.library_picker.setMinimumWidth(0)
-        self.library_picker.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
-        )
+        self.library_picker.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.library_picker.setAccessibleName("Resumable policy training models")
         self.library_picker.currentIndexChanged.connect(self._library_selection_changed)
         library_host = QWidget()
@@ -915,12 +913,9 @@ class TrainingPathEditor(QWidget):
             self._selected_saved_extendable = bool(record.get("extendable", False))
             self._selected_extension_pending = bool(record.get("extension_pending", False))
             self.training_controller.set_extension_mode(
-                self._selected_saved_state == "completed"
-                and self._selected_saved_extendable
+                self._selected_saved_state == "completed" and self._selected_saved_extendable
             )
-            self.training_controller.last_progress_event = dict(
-                record.get("progress", {}) or {}
-            )
+            self.training_controller.last_progress_event = dict(record.get("progress", {}) or {})
             self.resume.setChecked(bool(record.get("resumable", False)))
             self.model.set_value("plan", str(record["plan"]))
             self.fields["output"].setText(str(record["directory"]))
@@ -1052,9 +1047,7 @@ class TrainingPathEditor(QWidget):
         training_active = not idle and controller._operation == "training"
         self.pause_training_button.setVisible(training_active)
         self.training_action_button.setVisible(not training_active)
-        self.pause_training_button.setEnabled(
-            training_active and not controller._pause_requested
-        )
+        self.pause_training_button.setEnabled(training_active and not controller._pause_requested)
         saved_locked = bool(self._selected_saved_state)
         if self._selected_saved_resumable:
             self.recovery_stack.setCurrentWidget(self.resume)
@@ -1069,9 +1062,7 @@ class TrainingPathEditor(QWidget):
         for row in self.path_rows:
             row.setEnabled(idle and not saved_locked)
         self.resume.setEnabled(
-            idle
-            and self._selected_saved_resumable
-            and bool(self.model.values.get("output"))
+            idle and self._selected_saved_resumable and bool(self.model.values.get("output"))
         )
         for control in self._plan_controls:
             control.setEnabled(

@@ -869,25 +869,48 @@
         },
         {
           "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
           "raw": "ExperimentConfig",
           "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
         }
       ],
       "call_forms": {
+        "DeviceSnapshot": "name",
         "ExperimentConfig": "name",
-        "bind_config_to_device": "name"
+        "ResourceSnapshot": "name",
+        "bind_config_to_device": "name",
+        "monkeypatch.setattr": "attribute"
       },
       "called_by": [],
       "calls": [
+        "DeviceSnapshot",
         "ExperimentConfig",
-        "bind_config_to_device"
+        "ResourceSnapshot",
+        "bind_config_to_device",
+        "monkeypatch.setattr"
       ],
       "calls_resolved": [
         "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
         "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
       ],
       "doc": "",
-      "end_line": 107,
+      "end_line": 126,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -926,7 +949,7 @@
       "python_module": "tests.unit.test_v670_hardware_mapping",
       "qualname": "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
       "semantic_tags": [],
-      "signature": "()",
+      "signature": "(monkeypatch)",
       "start_line": 97,
       "state_owner": "",
       "symbol": "test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
@@ -948,6 +971,11 @@
         },
         {
           "confidence": "unresolved",
+          "raw": "probes.append",
+          "target": "probes.append"
+        },
+        {
+          "confidence": "unresolved",
           "raw": "scan",
           "target": "scan"
         },
@@ -966,6 +994,7 @@
         "ComputeTopologyService": "name",
         "Monitor": "name",
         "monkeypatch.setattr": "attribute",
+        "probes.append": "attribute",
         "scan": "attribute",
         "staticmethod": "name"
       },
@@ -974,6 +1003,7 @@
         "ComputeTopologyService",
         "Monitor",
         "monkeypatch.setattr",
+        "probes.append",
         "scan",
         "staticmethod"
       ],
@@ -982,7 +1012,7 @@
         "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor"
       ],
       "doc": "",
-      "end_line": 142,
+      "end_line": 177,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -1022,7 +1052,7 @@
       "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 110,
+      "start_line": 129,
       "state_owner": "",
       "symbol": "test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
       "tests": []
@@ -1038,7 +1068,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 131,
+      "end_line": 150,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -1078,7 +1108,7 @@
       "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 111,
+      "start_line": 130,
       "state_owner": "",
       "symbol": "Monitor",
       "tests": []
@@ -1112,7 +1142,7 @@
         "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
       ],
       "doc": "",
-      "end_line": 131,
+      "end_line": 150,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -1152,7 +1182,7 @@
       "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample",
       "semantic_tags": [],
       "signature": "(self)",
-      "start_line": 112,
+      "start_line": 131,
       "state_owner": "",
       "symbol": "sample",
       "tests": []
@@ -1178,7 +1208,7 @@
         "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
       ],
       "doc": "",
-      "end_line": 149,
+      "end_line": 184,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -1218,7 +1248,7 @@
       "qualname": "tests.unit.test_v670_hardware_mapping.test_cpu_runtime_attestation_is_explicit_and_truthful",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 145,
+      "start_line": 180,
       "state_owner": "",
       "symbol": "test_cpu_runtime_attestation_is_explicit_and_truthful",
       "tests": []
@@ -1251,7 +1281,7 @@
         "calo_rpd_studio.compute.topology.ComputeTopologyService._match_adapter"
       ],
       "doc": "",
-      "end_line": 166,
+      "end_line": 201,
       "entry_point": false,
       "file": "tests/unit/test_v670_hardware_mapping.py",
       "implementation_core": false,
@@ -1291,7 +1321,7 @@
       "qualname": "tests.unit.test_v670_hardware_mapping.test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 152,
+      "start_line": 187,
       "state_owner": "",
       "symbol": "test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
       "tests": []

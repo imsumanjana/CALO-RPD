@@ -116,9 +116,7 @@ class WorkspaceCampaignCoordinator(QObject):
         )
         prior_campaign = str(cell.get("campaign_id", "") or "")
         if prior_campaign:
-            self.state.execution_control.verify_campaign_binding(
-                self.plan_id, prior_campaign
-            )
+            self.state.execution_control.verify_campaign_binding(self.plan_id, prior_campaign)
         started = (
             self.manager.resume_campaign(prior_campaign, update_workspace=False)
             if prior_campaign

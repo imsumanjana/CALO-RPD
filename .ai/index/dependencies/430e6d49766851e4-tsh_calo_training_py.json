@@ -805,11 +805,6 @@
       "to": "self.training_episode_receipts.append"
     },
     {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
-      "to": "asdict"
-    },
-    {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
       "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer._assert_open"
@@ -828,6 +823,11 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
       "to": "items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
+      "to": "self.config.checkpoint_parameters"
     },
     {
       "confidence": "unresolved",
@@ -853,11 +853,6 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
       "to": "tensor.detach"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.resume_state_dict",
-      "to": "training_config.pop"
     },
     {
       "confidence": "unresolved",
@@ -1348,6 +1343,16 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingAction.validate",
       "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.checkpoint_parameters",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.checkpoint_parameters",
+      "to": "parameters.pop"
     },
     {
       "confidence": "unresolved",

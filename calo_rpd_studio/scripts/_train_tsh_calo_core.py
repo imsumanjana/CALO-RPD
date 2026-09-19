@@ -291,9 +291,7 @@ def main(argv: list[str] | None = None) -> int:
                 "campaign_id": plan.campaign_id,
                 "member_count": len(plan.members),
                 "episode_count": sum(len(member.episodes) for member in plan.members),
-                "total_candidate_evaluations": sum(
-                    len(member.episodes) for member in plan.members
-                )
+                "total_candidate_evaluations": sum(len(member.episodes) for member in plan.members)
                 * plan.max_evaluations,
                 "progress_percent": 0,
                 "resume": bool(arguments.resume),

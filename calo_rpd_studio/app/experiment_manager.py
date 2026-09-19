@@ -199,7 +199,8 @@ class ExperimentWorker(QThread):
     def __init__(self, state, config, mode: str = COMPARISON_MODE) -> None:
         super().__init__()
         self.state = state
-        self.config = config
+        self.config = deepcopy(config)
+        self._admitted_config = deepcopy(config)
         self.mode = mode
         self._cancel_event = threading.Event()
         self._pause_event = threading.Event()
@@ -1856,11 +1857,22 @@ class ExperimentWorker(QThread):
             self.config.experiment_revision_id = str(original["id"])
             database.update_experiment_revision(str(original["id"]), status="running")
 
+        # Preserve immutable scientific intent for resume. Device binding annotates the
+        # execution copy with runtime-only optimizer/device parameters; those are attested in
+        # run metadata and must not replace the audited campaign's scientific configuration.
+        campaign_payload = self._admitted_config.to_dict()
+        for field in (
+            "run_checkpoint_root",
+            "experiment_revision_id",
+            "extension_checkpoint_paths",
+            "extension_existing_run_ids",
+        ):
+            campaign_payload[field] = deepcopy(getattr(self.config, field))
         self.campaign_id = database.create_campaign(
             self.experiment_id,
             str(getattr(self.config, "portfolio_id", "")),
             self.mode,
-            self.config.to_dict(),
+            campaign_payload,
             len(candidate_plan),
         )
         self.resume_task_id = self.campaign_id
@@ -1881,9 +1893,7 @@ class ExperimentWorker(QThread):
             ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
         )
         individual_contract = (
-            validate_individual_result_contract(self.config.result_contract)
-            if individual
-            else {}
+            validate_individual_result_contract(self.config.result_contract) if individual else {}
         )
         required_outputs = (
             list(individual_contract["requested_outputs"])
@@ -1901,9 +1911,7 @@ class ExperimentWorker(QThread):
                 "ai_inference_seed": seed.ai_inference_seed,
             }
             execution_plan_id = str(getattr(self.config, "execution_plan_id", "") or "")
-            workspace_plan_cell_id = str(
-                getattr(self.config, "workspace_plan_cell_id", "") or ""
-            )
+            workspace_plan_cell_id = str(getattr(self.config, "workspace_plan_cell_id", "") or "")
             job_identity_sha256 = (
                 scientific_job_sha256(
                     plan_id=execution_plan_id,
@@ -1911,7 +1919,7 @@ class ExperimentWorker(QThread):
                     algorithm=item.label,
                     run_index=item.run_index,
                     seed_payload=seed_payload,
-                    config=self.config.to_dict(),
+                    config=campaign_payload,
                 )
                 if execution_plan_id
                 else ""
@@ -2059,9 +2067,7 @@ class ExperimentWorker(QThread):
                 ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
             )
             if individual:
-                result_contract = validate_individual_result_contract(
-                    self.config.result_contract
-                )
+                result_contract = validate_individual_result_contract(self.config.result_contract)
                 storage_profile = str(result_contract["storage_profile"])
                 required_fields = list(result_contract["required_fields"])
             else:
@@ -2078,6 +2084,24 @@ class ExperimentWorker(QThread):
             full_plan = build_execution_plan(self.config, self.mode)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             plan = self._prepare_campaign(full_plan, seeds)
+            execution_plan_id = str(getattr(self.config, "execution_plan_id", "") or "")
+            if execution_plan_id:
+                # This is an execution admission check, not a GUI side effect. No numerical
+                # job may start until the durable campaign matches the exact frozen plan.
+                control = self.state.execution_control
+                control.verify_campaign_binding(execution_plan_id, self.campaign_id)
+                plan_row = self.state.database.get_execution_plan(execution_plan_id)
+                lifecycle = str(plan_row["lifecycle_state"])
+                if lifecycle not in {"running", "pausing"}:
+                    raise RuntimeError("Execution campaign has no running or safely pausing owner")
+                if str(plan_row.get("campaign_id", "")) != self.campaign_id:
+                    control.transition(
+                        execution_plan_id,
+                        expected=(lifecycle,),
+                        new_state=lifecycle,
+                        message="Immutable campaign bound before numerical admission",
+                        campaign_id=self.campaign_id,
+                    )
             self.experiment_created.emit(self.experiment_id)
 
             if not plan:
@@ -2167,6 +2191,7 @@ class ExperimentManager(QObject):
         self._busy = False
         self._mode = COMPARISON_MODE
         self._active_config = None
+        self.last_completion_succeeded: bool | None = None
         # The persistent global action is cooperative Safe Stop. Terminal cancellation remains
         # the mode-specific, explicitly confirmed page action.
         self.state.task_status.cancel_requested.connect(self.pause)
@@ -2179,7 +2204,7 @@ class ExperimentManager(QObject):
     def active_config(self):
         """Return the immutable configuration currently owned by the worker, if any."""
 
-        return self._active_config
+        return deepcopy(self._active_config)
 
     def start_comparison(self, config) -> bool:
         return self._start(config, COMPARISON_MODE)
@@ -2272,8 +2297,7 @@ class ExperimentManager(QObject):
                         plan = self.state.database.get_execution_plan(owner_plan_id)
                         if (
                             plan is not None
-                            and str(plan["lifecycle_state"])
-                            == ExecutionLifecycle.RUNNING.value
+                            and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value
                         ):
                             control.request_pause(owner_plan_id)
                             self.state.notify_execution_state_changed()
@@ -2293,9 +2317,13 @@ class ExperimentManager(QObject):
             )
             return False
 
+        # Own an independent snapshot before starting the thread. GUI edits and callers of
+        # active_config must not mutate an admitted experiment or its provenance while running.
+        config = deepcopy(config)
         self._busy = True
         self._mode = mode
         self._active_config = config
+        self.last_completion_succeeded = None
         if mode == COMPARISON_MODE:
             title = "Running primary algorithm comparison"
         else:
@@ -2402,8 +2430,28 @@ class ExperimentManager(QObject):
         self.started.emit(experiment_id)
 
     def _completed(self, experiment_id: str) -> None:
+        # completed is a terminal/queue-advance notification, not a scientific success claim.
+        # Read the durable campaign outcome rather than treating attempted failed jobs as a pass.
+        self.last_completion_succeeded = False
+        try:
+            campaign_id = str(getattr(self.worker, "campaign_id", "") or "")
+            campaign = self.state.database.get_campaign(campaign_id) if campaign_id else None
+            self.last_completion_succeeded = bool(
+                campaign is not None
+                and str(campaign.get("experiment_id", "")) == str(experiment_id)
+                and str(campaign.get("status", "")) == "completed"
+            )
+        except Exception:
+            _LOG.exception("Could not verify the durable experiment completion outcome")
         self.state.runs_changed.emit()
-        self.state.task_status.finish("Experiment completed; results and provenance were stored")
+        if self.last_completion_succeeded:
+            self.state.task_status.finish(
+                "Experiment completed; results and provenance were stored"
+            )
+        else:
+            self.state.task_status.fail(
+                "Experiment finished with failed or unverifiable jobs; inspect retained outcomes"
+            )
         self.completed.emit(experiment_id)
 
     def _paused(self, experiment_id: str) -> None:

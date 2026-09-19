@@ -1,0 +1,580 @@
+{
+  "path": "tests/unit/test_phase6_distribution_current_source.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "io.BytesIO",
+          "target": "io.BytesIO"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sdist.addfile",
+          "target": "sdist.addfile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.mkdir",
+          "target": "stage.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tarfile.TarInfo",
+          "target": "tarfile.TarInfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tarfile.open",
+          "target": "tarfile.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "wheel.writestr",
+          "target": "wheel.writestr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "io.BytesIO": "attribute",
+        "len": "name",
+        "sdist.addfile": "attribute",
+        "sorted": "name",
+        "stage.mkdir": "attribute",
+        "tarfile.TarInfo": "attribute",
+        "tarfile.open": "attribute",
+        "wheel.writestr": "attribute",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_accepts_complete_synthetic_stage",
+        "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_rejects_missing_runtime_or_operating_docs",
+        "tests.unit.test_phase6_distribution_current_source.test_distribution_still_rejects_local_harness_and_policy_payloads",
+        "tests.unit.test_phase6_distribution_current_source.test_distribution_still_requires_direct_native_entry_point"
+      ],
+      "calls": [
+        "io.BytesIO",
+        "len",
+        "sdist.addfile",
+        "sorted",
+        "stage.mkdir",
+        "tarfile.TarInfo",
+        "tarfile.open",
+        "wheel.writestr",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source._stage",
+      "semantic_tags": [],
+      "signature": "(tmp_path, omit, extra, native)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "is_file": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "all",
+        "is_file",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.test_required_distribution_sources_exist_and_current_operating_docs_are_included",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "test_required_distribution_sources_exist_and_current_operating_docs_are_included",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify",
+          "target": "calo_rpd_studio.scripts.verify_phase6_distribution.verify"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_stage",
+          "target": "tests.unit.test_phase6_distribution_current_source._stage"
+        }
+      ],
+      "call_forms": {
+        "_stage": "name",
+        "verify": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_stage",
+        "verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "tests.unit.test_phase6_distribution_current_source._stage"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_accepts_complete_synthetic_stage",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_current_distribution_contract_accepts_complete_synthetic_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify",
+          "target": "calo_rpd_studio.scripts.verify_phase6_distribution.verify"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_stage",
+          "target": "tests.unit.test_phase6_distribution_current_source._stage"
+        }
+      ],
+      "call_forms": {
+        "_stage": "name",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute",
+        "verify": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_stage",
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "tests.unit.test_phase6_distribution_current_source._stage"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.test_current_distribution_contract_rejects_missing_runtime_or_operating_docs",
+      "semantic_tags": [],
+      "signature": "(tmp_path, member)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "test_current_distribution_contract_rejects_missing_runtime_or_operating_docs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify",
+          "target": "calo_rpd_studio.scripts.verify_phase6_distribution.verify"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_stage",
+          "target": "tests.unit.test_phase6_distribution_current_source._stage"
+        }
+      ],
+      "call_forms": {
+        "_stage": "name",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute",
+        "verify": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_stage",
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "tests.unit.test_phase6_distribution_current_source._stage"
+      ],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.test_distribution_still_rejects_local_harness_and_policy_payloads",
+      "semantic_tags": [],
+      "signature": "(tmp_path, member)",
+      "start_line": 71,
+      "state_owner": "",
+      "symbol": "test_distribution_still_rejects_local_harness_and_policy_payloads",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify",
+          "target": "calo_rpd_studio.scripts.verify_phase6_distribution.verify"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_stage",
+          "target": "tests.unit.test_phase6_distribution_current_source._stage"
+        }
+      ],
+      "call_forms": {
+        "_stage": "name",
+        "pytest.raises": "attribute",
+        "verify": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_stage",
+        "pytest.raises",
+        "verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "tests.unit.test_phase6_distribution_current_source._stage"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_distribution_current_source.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GUI_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.GUI_MEMBERS",
+        "Path": "pathlib.Path",
+        "SDIST_MEMBERS": "calo_rpd_studio.scripts.verify_phase6_distribution.SDIST_MEMBERS",
+        "annotations": "__future__.annotations",
+        "io": "io",
+        "pytest": "pytest",
+        "tarfile": "tarfile",
+        "verify": "calo_rpd_studio.scripts.verify_phase6_distribution.verify",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "io",
+        "pathlib",
+        "pytest",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_distribution_current_source",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_distribution_current_source",
+      "qualname": "tests.unit.test_phase6_distribution_current_source.test_distribution_still_requires_direct_native_entry_point",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "test_distribution_still_requires_direct_native_entry_point",
+      "tests": []
+    }
+  ]
+}

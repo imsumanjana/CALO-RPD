@@ -20,12 +20,6 @@ class CompleteObsoleteAwareCALOIntelligencePanel(ObsoleteAwareCALOIntelligencePa
         super().__init__(*args, **kwargs)
 
     def _registered_obsolete_issue(self, policy) -> tuple[str, str, str] | None:
-        if not policy.compatible_with(TSH_CALO_ALGORITHM_ID):
-            return (
-                "Not compatible",
-                "Not compatible",
-                "This registered model does not match the current frozen TSH-CALO policy contract.",
-            )
         source = Path(policy.checkpoint_path).expanduser()
         if source.is_symlink():
             return (
@@ -56,27 +50,36 @@ class CompleteObsoleteAwareCALOIntelligencePanel(ObsoleteAwareCALOIntelligencePa
             str(policy.sha256).lower(),
         )
         cached = self._registered_obsolete_cache.get(key)
-        if cached is not None:
-            return cached if len(cached) == 3 else None
-        try:
-            observed = checkpoint_sha256(resolved).lower()
-        except OSError as exc:
-            issue = (
-                "Saved model unreadable",
-                "Not usable",
-                f"The registered model file could not be read ({type(exc).__name__}: {exc}).",
+        if cached:
+            return cached
+        if cached is None:
+            try:
+                observed = checkpoint_sha256(resolved).lower()
+            except OSError as exc:
+                issue = (
+                    "Saved model unreadable",
+                    "Not usable",
+                    f"The registered model file could not be read ({type(exc).__name__}: {exc}).",
+                )
+                self._registered_obsolete_cache[key] = issue
+                return issue
+            if observed != str(policy.sha256).lower():
+                issue = (
+                    "Model integrity failed",
+                    "Not usable",
+                    "The model file no longer matches the SHA-256 recorded when it was registered.",
+                )
+                self._registered_obsolete_cache[key] = issue
+                return issue
+            self._registered_obsolete_cache[key] = ()
+        # File integrity takes diagnostic priority; it never grants compatibility.
+        # Recheck metadata even when the unchanged file checksum was cached.
+        if not policy.compatible_with(TSH_CALO_ALGORITHM_ID):
+            return (
+                "Not compatible",
+                "Not compatible",
+                "This registered model does not match the current frozen TSH-CALO policy contract.",
             )
-            self._registered_obsolete_cache[key] = issue
-            return issue
-        if observed != str(policy.sha256).lower():
-            issue = (
-                "Model integrity failed",
-                "Not usable",
-                "The model file no longer matches the SHA-256 recorded when it was registered.",
-            )
-            self._registered_obsolete_cache[key] = issue
-            return issue
-        self._registered_obsolete_cache[key] = ()
         return None
 
     @staticmethod

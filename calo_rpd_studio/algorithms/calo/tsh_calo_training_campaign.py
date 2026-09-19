@@ -15,7 +15,7 @@ from .tsh_calo_evaluation_accounting import (
     augment_extension_manifest,
     augment_extension_plan,
     augment_root_manifest,
-    plan_training_evaluation_accounting,
+    plan_training_evaluation_accounting as plan_training_evaluation_accounting,
     synchronize_training_progress,
 )
 
@@ -161,7 +161,6 @@ __all__ = tuple(
     sorted(
         name
         for name in globals()
-        if not name.startswith("_")
-        and name not in {"Path", "annotations", "asdict"}
+        if not name.startswith("_") and name not in {"Path", "annotations", "asdict"}
     )
 )

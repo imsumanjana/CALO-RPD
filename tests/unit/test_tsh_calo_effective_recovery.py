@@ -1,7 +1,11 @@
 import numpy as np
 import pytest
 
-from calo_rpd_studio.algorithms.calo.ai_controller import PARAMETER_HIGH, PARAMETER_LOW, PARAMETER_NAMES
+from calo_rpd_studio.algorithms.calo.ai_controller import (
+    PARAMETER_HIGH,
+    PARAMETER_LOW,
+    PARAMETER_NAMES,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel import effective_recovery_fraction
 
 
@@ -24,4 +28,6 @@ def test_policy_recovery_fraction_respects_lower_scientist_ceiling():
     actions = np.ones((3, len(PARAMETER_NAMES)), dtype=float)
     groups = np.asarray([0, 1, 2], dtype=int)
 
-    assert effective_recovery_fraction(actions, groups, maximum_fraction=0.18) == pytest.approx(0.18)
+    assert effective_recovery_fraction(actions, groups, maximum_fraction=0.18) == pytest.approx(
+        0.18
+    )

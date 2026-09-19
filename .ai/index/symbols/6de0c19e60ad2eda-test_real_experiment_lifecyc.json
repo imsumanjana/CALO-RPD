@@ -1,0 +1,2849 @@
+{
+  "path": "tests/integration/test_real_experiment_lifecycle.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceCampaignCoordinator",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "errors.append",
+          "target": "errors.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.failed.connect",
+          "target": "manager.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh",
+          "target": "panel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_stage",
+          "target": "state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "WorkspaceCampaignCoordinator": "name",
+        "errors.append": "attribute",
+        "manager.failed.connect": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.refresh": "attribute",
+        "panel.show_context": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.active_stage": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "staticmethod": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+        "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+        "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+        "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+        "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+        "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+        "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker"
+      ],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "WorkspaceCampaignCoordinator",
+        "errors.append",
+        "manager.failed.connect",
+        "monkeypatch.setattr",
+        "panel.refresh",
+        "panel.show_context",
+        "qtbot.addWidget",
+        "state.execution_control.active_stage",
+        "state.execution_control.submit_algorithm_stage",
+        "staticmethod",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+      ],
+      "doc": "",
+      "end_line": 71,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.make_panel",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch, workers, database, workspace)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "make_panel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionPlanKind",
+          "target": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.audit.toPlainText",
+          "target": "panel.audit.toPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.audit_worker.isRunning",
+          "target": "panel.audit_worker.isRunning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.run_fairness_audit",
+          "target": "panel.run_fairness_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_current_plan",
+          "target": "panel.stage_current_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.status.text",
+          "target": "panel.status.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_plan",
+          "target": "state.execution_control.active_plan"
+        }
+      ],
+      "call_forms": {
+        "ExecutionPlanKind": "name",
+        "panel.audit.toPlainText": "attribute",
+        "panel.audit_worker.isRunning": "attribute",
+        "panel.run_fairness_audit": "attribute",
+        "panel.stage_current_plan": "attribute",
+        "panel.status.text": "attribute",
+        "qtbot.waitUntil": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.active_plan": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+        "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+        "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+        "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+        "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+        "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+        "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker"
+      ],
+      "calls": [
+        "ExecutionPlanKind",
+        "panel.audit.toPlainText",
+        "panel.audit_worker.isRunning",
+        "panel.run_fairness_audit",
+        "panel.stage_current_plan",
+        "panel.status.text",
+        "qtbot.waitUntil",
+        "state.database.get_execution_plan",
+        "state.database.list_runs",
+        "state.execution_control.active_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind"
+      ],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+      "semantic_tags": [],
+      "signature": "(qtbot, state, panel)",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "audit_and_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "manager.cancel",
+          "target": "manager.cancel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.worker.isRunning",
+          "target": "manager.worker.isRunning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.worker.wait",
+          "target": "manager.worker.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        }
+      ],
+      "call_forms": {
+        "manager.cancel": "attribute",
+        "manager.worker.isRunning": "attribute",
+        "manager.worker.wait": "attribute",
+        "qtbot.waitUntil": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+        "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+        "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+        "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+        "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+        "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+        "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work"
+      ],
+      "calls": [
+        "manager.cancel",
+        "manager.worker.isRunning",
+        "manager.worker.wait",
+        "qtbot.waitUntil"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.wait_finished",
+      "semantic_tags": [],
+      "signature": "(qtbot, manager)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "wait_finished",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.completed.connect",
+          "target": "manager.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.progress.connect",
+          "target": "manager.progress.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.started.connect",
+          "target": "manager.started.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.status.text",
+          "target": "panel.status.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reopened.list_runs",
+          "target": "reopened.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rglob",
+          "target": "rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_experiment",
+          "target": "state.database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_run_segments",
+          "target": "state.database.list_run_segments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        }
+      ],
+      "call_forms": {
+        "ResultDatabase": "name",
+        "audit_and_stage": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "list": "name",
+        "make_panel": "name",
+        "manager.completed.connect": "attribute",
+        "manager.progress.connect": "attribute",
+        "manager.started.connect": "attribute",
+        "panel.start_comparison": "attribute",
+        "panel.status.text": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "reopened.list_runs": "attribute",
+        "rglob": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.get_experiment": "attribute",
+        "state.database.list_run_segments": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.controller": "attribute",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ResultDatabase",
+        "audit_and_stage",
+        "json.loads",
+        "len",
+        "list",
+        "make_panel",
+        "manager.completed.connect",
+        "manager.progress.connect",
+        "manager.started.connect",
+        "panel.start_comparison",
+        "panel.status.text",
+        "pytest.mark.parametrize",
+        "reopened.list_runs",
+        "rglob",
+        "state.database.get_execution_plan",
+        "state.database.get_experiment",
+        "state.database.list_run_segments",
+        "state.database.list_runs",
+        "state.execution_control.controller",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_individual_audit_launch_results_and_reopen",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch, workers)",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "test_real_individual_audit_launch_results_and_reopen",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.pause",
+          "target": "manager.pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.database.get_execution_plan",
+          "target": "recovered.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.database.get_run",
+          "target": "recovered.database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.database.list_runs",
+          "target": "recovered.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.execution_control.controller",
+          "target": "recovered.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "release.set",
+          "target": "release.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resumed_panel.resume_current_plan",
+          "target": "resumed_panel.resume_current_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_campaign",
+          "target": "state.database.get_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Event",
+          "target": "threading.Event"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "dict": "name",
+        "len": "name",
+        "make_panel": "name",
+        "manager.pause": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.start_comparison": "attribute",
+        "qtbot.waitUntil": "attribute",
+        "recovered.database.get_execution_plan": "attribute",
+        "recovered.database.get_run": "attribute",
+        "recovered.database.list_runs": "attribute",
+        "recovered.execution_control.controller": "attribute",
+        "release.set": "attribute",
+        "resumed_panel.resume_current_plan": "attribute",
+        "state.database.get_campaign": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.controller": "attribute",
+        "threading.Event": "attribute",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "dict",
+        "len",
+        "make_panel",
+        "manager.pause",
+        "monkeypatch.setattr",
+        "panel.start_comparison",
+        "qtbot.waitUntil",
+        "recovered.database.get_execution_plan",
+        "recovered.database.get_run",
+        "recovered.database.list_runs",
+        "recovered.execution_control.controller",
+        "release.set",
+        "resumed_panel.resume_current_plan",
+        "state.database.get_campaign",
+        "state.database.get_execution_plan",
+        "state.database.list_runs",
+        "state.execution_control.controller",
+        "threading.Event",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 188,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "test_real_safe_pause_reopen_and_exact_resume",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TimeoutError",
+          "target": "TimeoutError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evaluated.set",
+          "target": "evaluated.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "release.wait",
+          "target": "release.wait"
+        }
+      ],
+      "call_forms": {
+        "TimeoutError": "name",
+        "calls.append": "attribute",
+        "evaluated.set": "attribute",
+        "len": "name",
+        "original": "name",
+        "release.wait": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TimeoutError",
+        "calls.append",
+        "evaluated.set",
+        "len",
+        "original",
+        "release.wait"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 156,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_safe_pause_reopen_and_exact_resume.actual_run_with_test_boundary",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "actual_run_with_test_boundary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.cancel",
+          "target": "manager.cancel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "release.set",
+          "target": "release.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.resume",
+          "target": "state.execution_control.resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Event",
+          "target": "threading.Event"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "len": "name",
+        "make_panel": "name",
+        "manager.cancel": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel.start_comparison": "attribute",
+        "pytest.raises": "attribute",
+        "qtbot.waitUntil": "attribute",
+        "release.set": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.controller": "attribute",
+        "state.execution_control.resume": "attribute",
+        "threading.Event": "attribute",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "len",
+        "make_panel",
+        "manager.cancel",
+        "monkeypatch.setattr",
+        "panel.start_comparison",
+        "pytest.raises",
+        "qtbot.waitUntil",
+        "release.set",
+        "state.database.get_execution_plan",
+        "state.database.list_runs",
+        "state.execution_control.controller",
+        "state.execution_control.resume",
+        "threading.Event",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 220,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 191,
+      "state_owner": "",
+      "symbol": "test_real_terminal_cancellation_preserves_committed_work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TimeoutError",
+          "target": "TimeoutError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evaluated.set",
+          "target": "evaluated.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "release.wait",
+          "target": "release.wait"
+        }
+      ],
+      "call_forms": {
+        "TimeoutError": "name",
+        "evaluated.set": "attribute",
+        "original": "name",
+        "release.wait": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TimeoutError",
+        "evaluated.set",
+        "original",
+        "release.wait"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_terminal_cancellation_preserves_committed_work.actual_run_with_cancellation_boundary",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 200,
+      "state_owner": "",
+      "symbol": "actual_run_with_cancellation_boundary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_campaign_tasks",
+          "target": "state.database.list_campaign_tasks"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "len": "name",
+        "make_panel": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel.start_comparison": "attribute",
+        "sorted": "name",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_campaign_tasks": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.controller": "attribute",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "len",
+        "make_panel",
+        "monkeypatch.setattr",
+        "panel.start_comparison",
+        "sorted",
+        "state.database.get_execution_plan",
+        "state.database.list_campaign_tasks",
+        "state.database.list_runs",
+        "state.execution_control.controller",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 251,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 223,
+      "state_owner": "",
+      "symbol": "test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OSError",
+          "target": "OSError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "attempts.append",
+          "target": "attempts.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        }
+      ],
+      "call_forms": {
+        "OSError": "name",
+        "attempts.append": "attribute",
+        "len": "name",
+        "original": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OSError",
+        "attempts.append",
+        "len",
+        "original"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_result_write_failure_is_retained_and_never_shown_as_success.fail_first_write",
+      "semantic_tags": [],
+      "signature": "(store, result)",
+      "start_line": 233,
+      "state_owner": "",
+      "symbol": "fail_first_write",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "make_panel": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel.start_comparison": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_runs": "attribute",
+        "str": "name",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "make_panel",
+        "monkeypatch.setattr",
+        "panel.start_comparison",
+        "state.database.get_execution_plan",
+        "state.database.list_runs",
+        "str",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 272,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 254,
+      "state_owner": "",
+      "symbol": "test_parallel_storage_failure_stops_as_resumable_not_success",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OSError",
+          "target": "OSError"
+        }
+      ],
+      "call_forms": {
+        "OSError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OSError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 261,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_parallel_storage_failure_stops_as_resumable_not_success.refuse_array_write",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 260,
+      "state_owner": "",
+      "symbol": "refuse_array_write",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.start_comparison",
+          "target": "manager.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.begin_run",
+          "target": "state.execution_control.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.plan_configuration",
+          "target": "state.execution_control.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "lower": "attribute",
+        "make_panel": "name",
+        "manager.start_comparison": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.begin_run": "attribute",
+        "state.execution_control.plan_configuration": "attribute",
+        "str": "name",
+        "wait_finished": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "lower",
+        "make_panel",
+        "manager.start_comparison",
+        "monkeypatch.setattr",
+        "state.database.list_runs",
+        "state.execution_control.begin_run",
+        "state.execution_control.plan_configuration",
+        "str",
+        "wait_finished"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 296,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 275,
+      "state_owner": "",
+      "symbol": "test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "attempted.append",
+          "target": "attempted.append"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "attempted.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "attempted.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 286,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_mismatched_campaign_is_rejected_before_any_numerical_job.forbidden_numerical_admission",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 284,
+      "state_owner": "",
+      "symbol": "forbidden_numerical_admission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.worker.wait",
+          "target": "manager.worker.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply",
+          "target": "panel.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh",
+          "target": "panel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.workspace_coordinator.cancel_remaining",
+          "target": "panel.workspace_coordinator.cancel_remaining"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.workspace_coordinator.finished.connect",
+          "target": "panel.workspace_coordinator.finished.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.waitUntil",
+          "target": "qtbot.waitUntil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_experiments",
+          "target": "state.database.list_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_workspace_plan_cells",
+          "target": "state.database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.verify_campaign_binding",
+          "target": "state.execution_control.verify_campaign_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "apply_workspace_study": "name",
+        "audit_and_stage": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "make_panel": "name",
+        "manager.worker.wait": "attribute",
+        "panel.apply": "attribute",
+        "panel.refresh": "attribute",
+        "panel.show_context": "attribute",
+        "panel.start_comparison": "attribute",
+        "panel.workspace_coordinator.cancel_remaining": "attribute",
+        "panel.workspace_coordinator.finished.connect": "attribute",
+        "qtbot.waitUntil": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_experiments": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.database.list_workspace_plan_cells": "attribute",
+        "state.execution_control.controller": "attribute",
+        "state.execution_control.verify_campaign_binding": "attribute",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "all",
+        "apply_workspace_study",
+        "audit_and_stage",
+        "int",
+        "json.loads",
+        "len",
+        "make_panel",
+        "manager.worker.wait",
+        "panel.apply",
+        "panel.refresh",
+        "panel.show_context",
+        "panel.start_comparison",
+        "panel.workspace_coordinator.cancel_remaining",
+        "panel.workspace_coordinator.finished.connect",
+        "qtbot.waitUntil",
+        "state.database.get_execution_plan",
+        "state.database.list_experiments",
+        "state.database.list_runs",
+        "state.database.list_workspace_plan_cells",
+        "state.execution_control.controller",
+        "state.execution_control.verify_campaign_binding",
+        "sum"
+      ],
+      "calls_resolved": [
+        "tests.conftest.apply_workspace_study",
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel"
+      ],
+      "doc": "",
+      "end_line": 339,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch, apply_workspace_study)",
+      "start_line": 299,
+      "state_owner": "",
+      "symbol": "test_real_workspace_runs_frozen_case_cells_through_shared_worker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.auto_batch_calibration.setChecked",
+          "target": "panel.auto_batch_calibration.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.device_resident_execution.setChecked",
+          "target": "panel.device_resident_execution.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.execution_backend.findData",
+          "target": "panel.execution_backend.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.execution_backend.setCurrentIndex",
+          "target": "panel.execution_backend.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.persistent_workers.setChecked",
+          "target": "panel.persistent_workers.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.runs.setValue",
+          "target": "panel.runs.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.skip",
+          "target": "pytest.skip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.verify_campaign_binding",
+          "target": "state.execution_control.verify_campaign_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "audit_and_stage": "name",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "make_panel": "name",
+        "os.environ.get": "attribute",
+        "panel.auto_batch_calibration.setChecked": "attribute",
+        "panel.device_resident_execution.setChecked": "attribute",
+        "panel.execution_backend.findData": "attribute",
+        "panel.execution_backend.setCurrentIndex": "attribute",
+        "panel.persistent_workers.setChecked": "attribute",
+        "panel.runs.setValue": "attribute",
+        "panel.start_comparison": "attribute",
+        "pytest.skip": "attribute",
+        "startswith": "attribute",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.list_runs": "attribute",
+        "state.execution_control.controller": "attribute",
+        "state.execution_control.verify_campaign_binding": "attribute",
+        "str": "name",
+        "torch.cuda.is_available": "attribute",
+        "wait_finished": "name",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audit_and_stage",
+        "json.dumps",
+        "json.loads",
+        "len",
+        "make_panel",
+        "os.environ.get",
+        "panel.auto_batch_calibration.setChecked",
+        "panel.device_resident_execution.setChecked",
+        "panel.execution_backend.findData",
+        "panel.execution_backend.setCurrentIndex",
+        "panel.persistent_workers.setChecked",
+        "panel.runs.setValue",
+        "panel.start_comparison",
+        "pytest.skip",
+        "startswith",
+        "state.database.get_execution_plan",
+        "state.database.list_runs",
+        "state.execution_control.controller",
+        "state.execution_control.verify_campaign_binding",
+        "str",
+        "torch.cuda.is_available",
+        "wait_finished",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 381,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_cuda_experiment_requires_physical_device",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 342,
+      "state_owner": "",
+      "symbol": "test_real_cuda_experiment_requires_physical_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.namelist",
+          "target": "archive.namelist"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_runs",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PublicationExporter",
+          "target": "calo_rpd_studio.results.publication_export.PublicationExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "csv.DictReader",
+          "target": "csv.DictReader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exporter.export",
+          "target": "exporter.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "open",
+          "target": "open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.reuse_results.setChecked",
+          "target": "panel.reuse_results.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.start_comparison",
+          "target": "panel.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_execution_plan",
+          "target": "state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_run",
+          "target": "state.database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_campaign_tasks",
+          "target": "state.database.list_campaign_tasks"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.list_runs",
+          "target": "state.database.list_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_and_stage",
+          "target": "tests.integration.test_real_experiment_lifecycle.audit_and_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_panel",
+          "target": "tests.integration.test_real_experiment_lifecycle.make_panel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wait_finished",
+          "target": "tests.integration.test_real_experiment_lifecycle.wait_finished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "PublicationExporter": "name",
+        "all": "name",
+        "archive.namelist": "attribute",
+        "audit_and_stage": "name",
+        "csv.DictReader": "attribute",
+        "exporter.export": "attribute",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "make_panel": "name",
+        "monkeypatch.setattr": "attribute",
+        "open": "attribute",
+        "panel.reuse_results.setChecked": "attribute",
+        "panel.start_comparison": "attribute",
+        "pytest.raises": "attribute",
+        "sorted": "name",
+        "state.database.get_execution_plan": "attribute",
+        "state.database.get_run": "attribute",
+        "state.database.list_campaign_tasks": "attribute",
+        "state.database.list_runs": "attribute",
+        "validate_runs": "name",
+        "wait_finished": "name",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PublicationExporter",
+        "all",
+        "archive.namelist",
+        "audit_and_stage",
+        "csv.DictReader",
+        "exporter.export",
+        "int",
+        "len",
+        "list",
+        "make_panel",
+        "monkeypatch.setattr",
+        "open",
+        "panel.reuse_results.setChecked",
+        "panel.start_comparison",
+        "pytest.raises",
+        "sorted",
+        "state.database.get_execution_plan",
+        "state.database.get_run",
+        "state.database.list_campaign_tasks",
+        "state.database.list_runs",
+        "validate_runs",
+        "wait_finished",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "tests.integration.test_real_experiment_lifecycle.audit_and_stage",
+        "tests.integration.test_real_experiment_lifecycle.make_panel",
+        "tests.integration.test_real_experiment_lifecycle.wait_finished"
+      ],
+      "doc": "",
+      "end_line": 447,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 384,
+      "state_owner": "",
+      "symbol": "test_real_independent_validation_export_and_exact_verified_reuse",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "attempted.append",
+          "target": "attempted.append"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "attempted.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "attempted.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 432,
+      "entry_point": false,
+      "file": "tests/integration/test_real_experiment_lifecycle.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "json": "json",
+        "module": "calo_rpd_studio.app.experiment_manager",
+        "os": "os",
+        "pytest": "pytest",
+        "threading": "threading",
+        "torch": "torch",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "csv",
+        "json",
+        "os",
+        "pytest",
+        "threading",
+        "torch",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_real_experiment_lifecycle",
+      "qualname": "tests.integration.test_real_experiment_lifecycle.test_real_independent_validation_export_and_exact_verified_reuse.disallow_recomputation",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 430,
+      "state_owner": "",
+      "symbol": "disallow_recomputation",
+      "tests": []
+    }
+  ]
+}

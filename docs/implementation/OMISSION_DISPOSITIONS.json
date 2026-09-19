@@ -1,0 +1,1333 @@
+{
+  "historical_cases": [
+    {
+      "assertions": [
+        "payload['project']['version'] == VERSION == '5.4.1'",
+        "FREEZE_MANIFEST == 'calo_v541_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v541_release_integrity.py::test_release_identity_matches_pyproject_and_current_freeze_name",
+      "reason": "historical v5.4.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9c38517cb61ca1de8eb356152cc403651175c92583ef059baeffb809dd6dd119"
+    },
+    {
+      "assertions": [
+        "deployable == []",
+        "SPECS['CALO'].default_parameters['use_ai'] is True",
+        "SPECS['CALO'].default_parameters['strict_policy_binding'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_policy_intent_remains_strict_until_explicit_binding",
+        "tests/unit/test_current_policy_safety_contract.py::test_empty_registry_startup_does_not_invent_a_policy",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Old ABI/version and source-tree contents are historical. Current distribution exclusion, strict policy intent and empty-registry startup remain required; retained historical user policies are not deleted.",
+      "nodeid": "tests/unit/test_v541_release_integrity.py::test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "reason": "historical v5.4.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9c38517cb61ca1de8eb356152cc403651175c92583ef059baeffb809dd6dd119"
+    },
+    {
+      "assertions": [],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_missing_policy_never_constructs_an_untrained_fallback"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Missing-policy fail-closed behavior remains required and is exercised independently of the old version guard.",
+      "nodeid": "tests/unit/test_v541_release_integrity.py::test_missing_policy_never_constructs_an_untrained_fallback",
+      "reason": "historical v5.4.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9c38517cb61ca1de8eb356152cc403651175c92583ef059baeffb809dd6dd119"
+    },
+    {
+      "assertions": [
+        "result.passed is True",
+        "not any(('data/trained_models/' in item for item in payload['files']))",
+        "payload['frozen_scope']['policy_gated_no_default_neural_policy'] is True",
+        "payload['frozen_scope']['untrained_policy_fallback_forbidden'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v541_release_integrity.py::test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+      "reason": "historical v5.4.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9c38517cb61ca1de8eb356152cc403651175c92583ef059baeffb809dd6dd119"
+    },
+    {
+      "assertions": [
+        "payload['project']['version'] == VERSION == '5.6.0'",
+        "FREEZE_MANIFEST == 'calo_v560_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v560_release_integrity.py::test_release_identity_matches_pyproject_and_current_freeze_name",
+      "reason": "historical v5.6.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c00e9d02f9b991e7a5e7b776be460095b3901d97f53b98193b440b62394bff5d"
+    },
+    {
+      "assertions": [
+        "deployable == []",
+        "SPECS['CALO'].default_parameters['use_ai'] is True",
+        "SPECS['CALO'].default_parameters['strict_policy_binding'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_policy_intent_remains_strict_until_explicit_binding",
+        "tests/unit/test_current_policy_safety_contract.py::test_empty_registry_startup_does_not_invent_a_policy",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Old ABI/version and source-tree contents are historical. Current distribution exclusion, strict policy intent and empty-registry startup remain required; retained historical user policies are not deleted.",
+      "nodeid": "tests/unit/test_v560_release_integrity.py::test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "reason": "historical v5.6.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c00e9d02f9b991e7a5e7b776be460095b3901d97f53b98193b440b62394bff5d"
+    },
+    {
+      "assertions": [],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_missing_policy_never_constructs_an_untrained_fallback"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Missing-policy fail-closed behavior remains required and is exercised independently of the old version guard.",
+      "nodeid": "tests/unit/test_v560_release_integrity.py::test_missing_policy_never_constructs_an_untrained_fallback",
+      "reason": "historical v5.6.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c00e9d02f9b991e7a5e7b776be460095b3901d97f53b98193b440b62394bff5d"
+    },
+    {
+      "assertions": [
+        "result.passed is True",
+        "not any(('data/trained_models/' in item for item in payload['files']))",
+        "payload['frozen_scope']['policy_gated_no_default_neural_policy'] is True",
+        "payload['frozen_scope']['untrained_policy_fallback_forbidden'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v560_release_integrity.py::test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+      "reason": "historical v5.6.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c00e9d02f9b991e7a5e7b776be460095b3901d97f53b98193b440b62394bff5d"
+    },
+    {
+      "assertions": [
+        "payload['project']['version'] == VERSION == '5.7.0'",
+        "FREEZE_MANIFEST == 'calo_v570_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v570_release_integrity.py::test_release_identity_matches_pyproject_and_current_freeze_name",
+      "reason": "historical v5.7.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "8c53597cc95520f567016e16a065c8192d8373800ac47cbb5fead5d13fd63326"
+    },
+    {
+      "assertions": [
+        "deployable == []",
+        "SPECS['CALO'].default_parameters['use_ai'] is True",
+        "SPECS['CALO'].default_parameters['strict_policy_binding'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_policy_intent_remains_strict_until_explicit_binding",
+        "tests/unit/test_current_policy_safety_contract.py::test_empty_registry_startup_does_not_invent_a_policy",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Old ABI/version and source-tree contents are historical. Current distribution exclusion, strict policy intent and empty-registry startup remain required; retained historical user policies are not deleted.",
+      "nodeid": "tests/unit/test_v570_release_integrity.py::test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "reason": "historical v5.7.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "8c53597cc95520f567016e16a065c8192d8373800ac47cbb5fead5d13fd63326"
+    },
+    {
+      "assertions": [],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_missing_policy_never_constructs_an_untrained_fallback"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Missing-policy fail-closed behavior remains required and is exercised independently of the old version guard.",
+      "nodeid": "tests/unit/test_v570_release_integrity.py::test_missing_policy_never_constructs_an_untrained_fallback",
+      "reason": "historical v5.7.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "8c53597cc95520f567016e16a065c8192d8373800ac47cbb5fead5d13fd63326"
+    },
+    {
+      "assertions": [
+        "result.passed is True",
+        "not any(('data/trained_models/' in item for item in payload['files']))",
+        "payload['frozen_scope']['policy_gated_no_default_neural_policy'] is True",
+        "payload['frozen_scope']['untrained_policy_fallback_forbidden'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v570_release_integrity.py::test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+      "reason": "historical v5.7.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "8c53597cc95520f567016e16a065c8192d8373800ac47cbb5fead5d13fd63326"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.0.0a4'",
+        "RELEASE_NAME == metadata['release_name'] == 'Policy-First Workflow and Safe-80 Compute Foundation'",
+        "FREEZE_ID == 'calo_v600a4_software_release'",
+        "FREEZE_MANIFEST == 'calo_v600a4_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v600_release_integrity.py::test_v600a4_release_identity_is_consistent",
+      "reason": "historical v6.0 alpha release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "720a0479177dd19ecf02033ba00716490fa87d07d6d9b083749be2cf459a2788"
+    },
+    {
+      "assertions": [
+        "result.passed is True",
+        "payload['software_version'] == '6.0.0a4'",
+        "required <= set(payload['files'])",
+        "scope['key_based_workspace_navigation'] is True",
+        "scope['legacy_v59_workspace_index_migration'] is True",
+        "scope['policy_first_governing_intelligence_gate'] is True",
+        "scope['dashboard_compute_topology_map'] is True",
+        "scope['safe80_resource_budget_engine'] is True",
+        "scope['safe80_global_cpu_budget'] is True",
+        "scope['safe80_hard_parallel_branch_ceiling'] is True",
+        "scope['automatic_accelerator_to_cpu_branch_spillover'] is False",
+        "scope['xpu_sidecar_full_branch_certified'] is False",
+        "scope['dynamic_thermal_power_governor'] is False",
+        "scope['queued_total_vs_concurrent_branch_scheduler'] is False",
+        "scope['global_training_exclusive_ui_lock'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v600_release_integrity.py::test_v600a4_freeze_verifies_and_covers_alpha_architecture",
+      "reason": "historical v6.0 alpha release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "720a0479177dd19ecf02033ba00716490fa87d07d6d9b083749be2cf459a2788"
+    },
+    {
+      "assertions": [
+        "deployable == []",
+        "SPECS['CALO'].default_parameters['use_ai'] is True",
+        "SPECS['CALO'].default_parameters['strict_policy_binding'] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_current_policy_safety_contract.py::test_policy_intent_remains_strict_until_explicit_binding",
+        "tests/unit/test_current_policy_safety_contract.py::test_empty_registry_startup_does_not_invent_a_policy",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_with_current_safety_successor",
+      "explanation": "Old ABI/version and source-tree contents are historical. Current distribution exclusion, strict policy intent and empty-registry startup remain required; retained historical user policies are not deleted.",
+      "nodeid": "tests/unit/test_v600_release_integrity.py::test_v600a4_keeps_native_v59_policy_abi_and_no_default_neural_policy",
+      "reason": "historical v6.0 alpha release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "720a0479177dd19ecf02033ba00716490fa87d07d6d9b083749be2cf459a2788"
+    },
+    {
+      "assertions": [
+        "'CALO-RPD Studio 6.0.0a4' in readme",
+        "'v6.0-alpha1' in readme",
+        "'v6.0-alpha4' in readme",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v600_release_integrity.py::test_v600a4_release_evidence_files_are_current",
+      "reason": "historical v6.0 alpha release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "720a0479177dd19ecf02033ba00716490fa87d07d6d9b083749be2cf459a2788"
+    },
+    {
+      "assertions": [
+        "manifest.is_file()",
+        "'MANIFEST.sha256' not in rows",
+        "'calo_rpd_studio/data/frozen/calo_v600a4_freeze.json' in rows",
+        "'tests/unit/test_v600_alpha_architecture.py' in rows",
+        "'tests/unit/test_v600_release_integrity.py' in rows",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v600_release_integrity.py::test_root_manifest_matches_every_packaged_file_and_current_freeze",
+      "reason": "historical v6.0 alpha release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "720a0479177dd19ecf02033ba00716490fa87d07d6d9b083749be2cf459a2788"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.1.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Protected Training Queue and Capability-Aware Scheduling'",
+        "FREEZE_ID == 'calo_v610_software_release'",
+        "FREEZE_MANIFEST == 'calo_v610_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v610_release_integrity.py::test_v610_release_identity_is_consistent",
+      "reason": "historical v6.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "d5c08e8a85e9a318fc9b6e77ee8cf27d3370a1844fb1dd32bb2291fb4589b396"
+    },
+    {
+      "assertions": [
+        "result.passed is True",
+        "payload['software_version'] == '6.1.0'",
+        "required <= set(payload['files'])",
+        "scope['global_training_exclusive_ui_lock'] is True",
+        "scope['queued_total_vs_concurrent_branch_scheduler'] is True",
+        "scope['exact_resume_queue_time_slicing'] is True",
+        "scope['global_cpu_worker_budget_enforced'] is True",
+        "scope['automatic_accelerator_to_cpu_branch_spillover'] is False",
+        "scope['xpu_capability_aware_scheduling'] is True",
+        "scope['xpu_sidecar_full_branch_certified'] is False",
+        "scope['dynamic_thermal_power_governor'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v610_release_integrity.py::test_v610_freeze_verifies_and_covers_beta_architecture",
+      "reason": "historical v6.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "d5c08e8a85e9a318fc9b6e77ee8cf27d3370a1844fb1dd32bb2291fb4589b396"
+    },
+    {
+      "assertions": [
+        "'CALO-RPD Studio v6.1.0' in readme",
+        "'Global Training Exclusive Lock' in readme",
+        "'Maximum simultaneous branches' in readme",
+        "'XPU capability-aware scheduling' in readme",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v610_release_integrity.py::test_v610_release_evidence_files_exist",
+      "reason": "historical v6.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "d5c08e8a85e9a318fc9b6e77ee8cf27d3370a1844fb1dd32bb2291fb4589b396"
+    },
+    {
+      "assertions": [
+        "manifest.is_file()",
+        "'MANIFEST.sha256' not in rows",
+        "'calo_rpd_studio/data/frozen/calo_v610_freeze.json' in rows",
+        "'tests/unit/test_v610_beta_architecture.py' in rows",
+        "'tests/unit/test_v610_release_integrity.py' in rows",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v610_release_integrity.py::test_v610_root_manifest_matches_every_listed_file_and_current_freeze",
+      "reason": "historical v6.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "d5c08e8a85e9a318fc9b6e77ee8cf27d3370a1844fb1dd32bb2291fb4589b396"
+    },
+    {
+      "assertions": [
+        "freeze['status'] == 'VERIFIED'",
+        "int(freeze['checked_files']) > 0",
+        "freeze['missing_files'] == 0",
+        "freeze['changed_files'] == 0",
+        "validation['compileall'] == 'PASS'",
+        "str(validation['root_manifest']).startswith('VERIFIED')"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v610_release_integrity.py::test_v610_metadata_records_verified_release_artifacts",
+      "reason": "historical v6.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "d5c08e8a85e9a318fc9b6e77ee8cf27d3370a1844fb1dd32bb2291fb4589b396"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.2.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Adaptive Compute Protection, Recovery and Scientific Qualification'",
+        "FREEZE_ID == 'calo_v620_software_release'",
+        "FREEZE_MANIFEST == 'calo_v620_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v620_release_integrity.py::test_v620_release_identity_is_consistent",
+      "reason": "historical v6.2.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "1f33a2a93072d211be6abaa25e6706f69ddf7020a3c09d683017f4aee9845aad"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['dynamic_thermal_power_governor'] is True",
+        "scope['staged_compute_startup'] is True",
+        "scope['hash_chained_compute_provenance'] is True",
+        "scope['workspace_schema_v3_migration'] is True",
+        "scope['unclean_application_session_recovery'] is True",
+        "scope['hardware_soak_qualification_protocol'] is True",
+        "scope['scheduling_scientific_equivalence_protocol'] is True",
+        "scope['physical_multi_hour_hardware_soak_certified_in_build_runtime'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v620_release_integrity.py::test_v620_freeze_verifies_and_covers_rc_final_architecture",
+      "reason": "historical v6.2.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "1f33a2a93072d211be6abaa25e6706f69ddf7020a3c09d683017f4aee9845aad"
+    },
+    {
+      "assertions": [
+        "'PENDING' in hardware['status']",
+        "'NOT_EXECUTED' in hardware['physical_multi_hour_cuda_soak']",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v620_release_integrity.py::test_v620_release_evidence_files_exist_and_are_truthful",
+      "reason": "historical v6.2.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "1f33a2a93072d211be6abaa25e6706f69ddf7020a3c09d683017f4aee9845aad"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v620_release_integrity.py::test_v620_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.2.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "1f33a2a93072d211be6abaa25e6706f69ddf7020a3c09d683017f4aee9845aad"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v620_release_integrity.py::test_v620_metadata_records_environment_boundaries",
+      "reason": "historical v6.2.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "1f33a2a93072d211be6abaa25e6706f69ddf7020a3c09d683017f4aee9845aad"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.2.1'",
+        "RELEASE_NAME == metadata['release_name'] == 'Adaptive Compute Protection, Recovery and Scientific Qualification'",
+        "FREEZE_ID == 'calo_v621_software_release'",
+        "FREEZE_MANIFEST == 'calo_v621_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v621_release_integrity.py::test_v621_release_identity_is_consistent",
+      "reason": "historical v6.2.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "982d4e382ba1f7596e5d7d2b1dcfd149a6b4dd5c6d5eb0fa6f5248bda154282e"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['dynamic_thermal_power_governor'] is True",
+        "scope['staged_compute_startup'] is True",
+        "scope['hash_chained_compute_provenance'] is True",
+        "scope['workspace_schema_v3_migration'] is True",
+        "scope['unclean_application_session_recovery'] is True",
+        "scope['hardware_soak_qualification_protocol'] is True",
+        "scope['scheduling_scientific_equivalence_protocol'] is True",
+        "scope['physical_multi_hour_hardware_soak_certified_in_build_runtime'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v621_release_integrity.py::test_v621_freeze_verifies_and_covers_rc_final_architecture",
+      "reason": "historical v6.2.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "982d4e382ba1f7596e5d7d2b1dcfd149a6b4dd5c6d5eb0fa6f5248bda154282e"
+    },
+    {
+      "assertions": [
+        "'PENDING' in hardware['status']",
+        "'NOT_EXECUTED' in hardware['physical_multi_hour_cuda_soak']",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v621_release_integrity.py::test_v621_release_evidence_files_exist_and_are_truthful",
+      "reason": "historical v6.2.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "982d4e382ba1f7596e5d7d2b1dcfd149a6b4dd5c6d5eb0fa6f5248bda154282e"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v621_release_integrity.py::test_v621_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.2.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "982d4e382ba1f7596e5d7d2b1dcfd149a6b4dd5c6d5eb0fa6f5248bda154282e"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v621_release_integrity.py::test_v621_metadata_records_environment_boundaries",
+      "reason": "historical v6.2.1 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "982d4e382ba1f7596e5d7d2b1dcfd149a6b4dd5c6d5eb0fa6f5248bda154282e"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.3.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Training Status and Device Reporting Correctness'",
+        "FREEZE_ID == 'calo_v630_software_release'",
+        "FREEZE_MANIFEST == 'calo_v630_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v630_release_integrity.py::test_v630_release_identity_is_consistent",
+      "reason": "historical v6.3.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "fa8bdd06cb6cd5bb05515d0c9d3e15ad338dcf400bd84e81f7014f28525d6050"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['truthful_training_progress_reporting'] is True",
+        "scope['selected_vs_recommended_rollout_reporting_separated'] is True",
+        "scope['protected_runtime_device_mapping_reporting'] is True",
+        "scope['stage_a_gpu_resident_environment_claim'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v630_release_integrity.py::test_v630_freeze_verifies_and_covers_stage_a_reporting_contract",
+      "reason": "historical v6.3.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "fa8bdd06cb6cd5bb05515d0c9d3e15ad338dcf400bd84e81f7014f28525d6050"
+    },
+    {
+      "assertions": [
+        "metadata['stage_a']['synthetic_calo_environment_gpu_resident'] is False",
+        "metadata['stage_a']['normal_gui_development_cases_configured'] is False",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v630_release_integrity.py::test_v630_release_evidence_files_exist_and_stage_b_boundary_is_explicit",
+      "reason": "historical v6.3.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "fa8bdd06cb6cd5bb05515d0c9d3e15ad338dcf400bd84e81f7014f28525d6050"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v630_release_integrity.py::test_v630_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.3.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "fa8bdd06cb6cd5bb05515d0c9d3e15ad338dcf400bd84e81f7014f28525d6050"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v630_release_integrity.py::test_v630_metadata_records_environment_boundaries",
+      "reason": "historical v6.3.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "fa8bdd06cb6cd5bb05515d0c9d3e15ad338dcf400bd84e81f7014f28525d6050"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.4.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Stage-B Device-Resident Policy Training'",
+        "FREEZE_ID == 'calo_v640_software_release'",
+        "FREEZE_MANIFEST == 'calo_v640_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v640_release_integrity.py::test_v640_release_identity_is_consistent",
+      "reason": "historical v6.4.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c5dc4a913ca2fef596419b5d7e896d11899886bd27353b38d742f44f64932741"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['stage_b_device_resident_synthetic_evaluation'] is True",
+        "scope['stage_b_cross_episode_synthetic_microbatching'] is True",
+        "scope['stage_b_synthetic_startup_parity_fail_closed'] is True",
+        "scope['stage_b_real_orpd_development_suite_configurable'] is True",
+        "scope['stage_b_full_stochastic_calo_controller_gpu_resident'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v640_release_integrity.py::test_v640_freeze_verifies_and_covers_stage_b_science",
+      "reason": "historical v6.4.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c5dc4a913ca2fef596419b5d7e896d11899886bd27353b38d742f44f64932741"
+    },
+    {
+      "assertions": [
+        "metadata['stage_b']['device_resident_synthetic_evaluation'] is True",
+        "metadata['stage_b']['real_orpd_development_suite_configured'] is True",
+        "metadata['stage_b']['full_stochastic_calo_controller_gpu_resident'] is False",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v640_release_integrity.py::test_v640_release_evidence_and_stage_b_boundaries_exist",
+      "reason": "historical v6.4.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c5dc4a913ca2fef596419b5d7e896d11899886bd27353b38d742f44f64932741"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "hashlib.sha256(path.read_bytes()).hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v640_release_integrity.py::test_v640_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.4.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c5dc4a913ca2fef596419b5d7e896d11899886bd27353b38d742f44f64932741"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['guaranteed_high_gpu_utilization'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v640_release_integrity.py::test_v640_metadata_records_target_hardware_boundary",
+      "reason": "historical v6.4.0 release gate",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "c5dc4a913ca2fef596419b5d7e896d11899886bd27353b38d742f44f64932741"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.5.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Must-Resolve Audit Closure'",
+        "FREEZE_ID == 'calo_v650_software_release'",
+        "FREEZE_MANIFEST == 'calo_v650_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v650_release_integrity.py::test_v650_release_identity_is_consistent",
+      "reason": "historical v6.5 release gate runs only against a v6.5 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "daae59dd6844ad3f2c0622d583014264b9092a927eaa5f0d7fc27b51bc784a94"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['crash_safe_atomic_policy_checkpoints'] is True",
+        "scope['stage_b_full_stochastic_calo_controller_gpu_resident'] is False",
+        "scope[key] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v650_release_integrity.py::test_v650_freeze_verifies_and_covers_must_resolve_science",
+      "reason": "historical v6.5 release gate runs only against a v6.5 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "daae59dd6844ad3f2c0622d583014264b9092a927eaa5f0d7fc27b51bc784a94"
+    },
+    {
+      "assertions": [
+        "(root / name).is_file()",
+        "f'{issue_id},' in closure"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v650_release_integrity.py::test_v650_release_evidence_exists_and_records_all_must_resolve_ids",
+      "reason": "historical v6.5 release gate runs only against a v6.5 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "daae59dd6844ad3f2c0622d583014264b9092a927eaa5f0d7fc27b51bc784a94"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "digest.hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v650_release_integrity.py::test_v650_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.5 release gate runs only against a v6.5 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "daae59dd6844ad3f2c0622d583014264b9092a927eaa5f0d7fc27b51bc784a94"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['focused_must_resolve'] == '16 passed'",
+        "metadata['validation']['combined_regression_selection'] == '57 passed'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['guaranteed_high_gpu_utilization'] is False"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v650_release_integrity.py::test_v650_metadata_records_truthful_environment_boundaries",
+      "reason": "historical v6.5 release gate runs only against a v6.5 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "daae59dd6844ad3f2c0622d583014264b9092a927eaa5f0d7fc27b51bc784a94"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.6.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Remaining Audit Closure'",
+        "FREEZE_ID == 'calo_v660_software_release'",
+        "FREEZE_MANIFEST == 'calo_v660_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v660_release_integrity.py::test_v660_release_identity_is_consistent",
+      "reason": "historical v6.6 release gate runs only against a v6.6 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "159c5f52ba57ffd7352e75ec15b07c19a40143ef7e7b2cf49c20db8fd0be0537"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "required <= set(payload['files'])",
+        "scope['stage_b_full_stochastic_calo_controller_gpu_resident'] is False",
+        "scope[key] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v660_release_integrity.py::test_v660_freeze_verifies_and_covers_remaining_audit_scope",
+      "reason": "historical v6.6 release gate runs only against a v6.6 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "159c5f52ba57ffd7352e75ec15b07c19a40143ef7e7b2cf49c20db8fd0be0537"
+    },
+    {
+      "assertions": [
+        "set(rows) == expected",
+        "rows['H19']['status'] == 'VERIFIED_NOT_DEFECT'",
+        "(root / name).is_file()",
+        "rows[issue_id]['status'] == 'RESOLVED'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v660_release_integrity.py::test_v660_release_evidence_records_every_remaining_priority_id",
+      "reason": "historical v6.6 release gate runs only against a v6.6 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "159c5f52ba57ffd7352e75ec15b07c19a40143ef7e7b2cf49c20db8fd0be0537"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "digest.hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v660_release_integrity.py::test_v660_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.6 release gate runs only against a v6.6 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "159c5f52ba57ffd7352e75ec15b07c19a40143ef7e7b2cf49c20db8fd0be0537"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['focused_remaining_audit'] == '22 passed'",
+        "metadata['validation']['foundational_regression_selection'] == '82 passed'",
+        "metadata['validation']['accelerator_regression_selection'] == '91 passed'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pyqt6'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['pypower'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['guaranteed_high_gpu_utilization'] is False",
+        "metadata['remaining_audit_closure']['priority_ids_total'] == 33",
+        "metadata['remaining_audit_closure']['engineering_resolutions'] == 32",
+        "metadata['remaining_audit_closure']['verified_not_defect'] == ['H19']"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v660_release_integrity.py::test_v660_metadata_records_truthful_environment_boundaries_and_validation",
+      "reason": "historical v6.6 release gate runs only against a v6.6 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "159c5f52ba57ffd7352e75ec15b07c19a40143ef7e7b2cf49c20db8fd0be0537"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.7.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Hardware Runtime Binding & Telemetry Integrity'",
+        "FREEZE_ID == 'calo_v670_software_release'",
+        "FREEZE_MANIFEST == 'calo_v670_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_release_identity_is_consistent",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "'calo_rpd_studio/compute/device_binding.py' in payload['files']",
+        "scope['v650_torch_newton_backtracking_cpu_parity'] is True",
+        "scope['v660_unified_feasibility_tolerance_and_ordering'] is True",
+        "scope[key] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_freeze_verifies_hardware_runtime_scope",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "'nvidia-ml-py>=13,<14' in requirements",
+        "'nvidia-ml-py>=13,<14' in project['dependencies']",
+        "'nvidia-ml-py>=13,<14' in prereqs",
+        "'bind_config_to_device' in text"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_dependency_and_binding_contract_is_declared",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "set(rows) == {f'V67-R{i:02d}' for i in range(1, 8)}",
+        "all((row['status'] == 'RESOLVED' for row in rows.values()))",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_release_evidence_records_all_runtime_findings",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "path.is_file()",
+        "digest.hexdigest() == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['freeze']['checked_files'] == 148",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['focused_v670_hardware_runtime'] == '6 passed'",
+        "metadata['validation']['physical_cuda_xpu'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "metadata['validation']['guaranteed_high_gpu_utilization'] is False",
+        "metadata['v670_hardware_runtime_closure']['resolved'] == 7"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v670_release_integrity.py::test_v670_metadata_is_truthful_about_validation_boundaries",
+      "reason": "historical v6.7 release gate runs only against a v6.7 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "9b329eb4e992f69ba34be1c966124868c9338c2d6a383ee02347ba2eb84d4d88"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.8.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'Independent CALO Intelligence & XPU Recovery'",
+        "FREEZE_ID == 'calo_v680_software_release'",
+        "FREEZE_MANIFEST == 'calo_v680_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v680_release_integrity.py::test_v680_release_identity_is_consistent",
+      "reason": "historical v6.8 release gate runs only against a v6.8 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "3df9a51f89d386d5fc968435fa0208a5a9eb567a8b127f5ece44d66426907a8e"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "result.checked_files == 149",
+        "payload['frozen_scope'][key] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v680_release_integrity.py::test_v680_freeze_verifies_new_scope",
+      "reason": "historical v6.8 release gate runs only against a v6.8 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "3df9a51f89d386d5fc968435fa0208a5a9eb567a8b127f5ece44d66426907a8e"
+    },
+    {
+      "assertions": [
+        "set(rows) == {f'V68-R{i:02d}' for i in range(1, 8)}",
+        "all((row['status'] == 'RESOLVED' for row in rows.values()))",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v680_release_integrity.py::test_v680_release_evidence_records_seven_closures",
+      "reason": "historical v6.8 release gate runs only against a v6.8 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "3df9a51f89d386d5fc968435fa0208a5a9eb567a8b127f5ece44d66426907a8e"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "set(rows) == actual",
+        "digest == expected"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v680_release_integrity.py::test_v680_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.8 release gate runs only against a v6.8 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "3df9a51f89d386d5fc968435fa0208a5a9eb567a8b127f5ece44d66426907a8e"
+    },
+    {
+      "assertions": [
+        "project['version'] == VERSION == metadata['version'] == '6.9.0'",
+        "RELEASE_NAME == metadata['release_name'] == 'VRAM-Resident CUDA Data Plane'",
+        "FREEZE_ID == 'calo_v690_software_release'",
+        "FREEZE_MANIFEST == 'calo_v690_freeze.json'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v690_release_integrity.py::test_v690_release_identity_is_consistent",
+      "reason": "historical v6.9 release gate runs only against a v6.9 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "cca1eb7f48de84d4a7af58133abf4de2b896f01a1a7883ce6097d8fa63825de1"
+    },
+    {
+      "assertions": [
+        "result.passed",
+        "result.checked_files == 150",
+        "'calo_rpd_studio/accelerated/vram_residency.py' in payload['files']",
+        "payload['frozen_scope'][key] is True"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v690_release_integrity.py::test_v690_freeze_verifies_vram_residency_scope",
+      "reason": "historical v6.9 release gate runs only against a v6.9 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "cca1eb7f48de84d4a7af58133abf4de2b896f01a1a7883ce6097d8fa63825de1"
+    },
+    {
+      "assertions": [
+        "set(rows) == {f'V69-R{i:02d}' for i in range(1, 9)}",
+        "all((row['status'] == 'RESOLVED' for row in rows.values()))",
+        "(root / name).is_file()"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v690_release_integrity.py::test_v690_release_evidence_records_all_eight_closures",
+      "reason": "historical v6.9 release gate runs only against a v6.9 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "cca1eb7f48de84d4a7af58133abf4de2b896f01a1a7883ce6097d8fa63825de1"
+    },
+    {
+      "assertions": [
+        "metadata['freeze']['status'] == 'VERIFIED'",
+        "metadata['freeze']['checked_files'] == 150",
+        "metadata['validation']['compileall'] == 'PASS'",
+        "metadata['validation']['focused_v690_vram_residency'] == '7 passed'",
+        "metadata['validation']['physical_cuda'] == 'NOT AVAILABLE IN BUILD RUNTIME'",
+        "hardware['v690_cuda_process_vram_ceiling'] == 'CONFIGURABLE_DEFAULT_0.80_RANGE_0.10_TO_0.95'",
+        "hardware['v690_cpu_fallback_on_cuda_oom'] is False",
+        "scientific['mathematical_formulation_changed'] is False",
+        "scientific['physical_cpu_cuda_xpu_equivalence'] == 'NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_ACCELERATORS'"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v690_release_integrity.py::test_v690_metadata_and_qualification_boundaries_are_truthful",
+      "reason": "historical v6.9 release gate runs only against a v6.9 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "cca1eb7f48de84d4a7af58133abf4de2b896f01a1a7883ce6097d8fa63825de1"
+    },
+    {
+      "assertions": [
+        "'MANIFEST.sha256' not in rows",
+        "artifact_path.is_file()",
+        "digest == expected",
+        "relative not in rows",
+        "not path.is_absolute()",
+        "'..' not in path.parts",
+        "'\\\\' not in relative"
+      ],
+      "current_replacement_review": "Explicitly mapped; successor PASS must come from the current-source test inventory, never from this catalog",
+      "current_successors": [
+        "tests/unit/test_active_development_contract.py::test_reviewed_development_source_matches_its_status_contract",
+        "tests/unit/test_distribution_contract.py::test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist"
+      ],
+      "disposition": "historical_release_only",
+      "explanation": "The named old release, frozen artifact and dated evidence are not the active v12 candidate. Their existence does not qualify current source.",
+      "nodeid": "tests/unit/test_v690_release_integrity.py::test_v690_root_manifest_matches_every_packaged_file",
+      "reason": "historical v6.9 release gate runs only against a v6.9 release checkout",
+      "source_hash_format": "utf8-lf-sha256",
+      "source_sha256": "cca1eb7f48de84d4a7af58133abf4de2b896f01a1a7883ce6097d8fa63825de1"
+    }
+  ],
+  "required_engineering_lanes": [
+    "windows_cpu",
+    "windows_native_gui",
+    "physical_cuda",
+    "linux_cpu_gui",
+    "compatibility_matrix",
+    "container_runtime"
+  ],
+  "rule": "Every unexecuted or skipped current requirement stays open. Historical skip classification requires exact node, reason and unchanged test-source hash.",
+  "schema": "calo-omission-dispositions-v1",
+  "separate_authorization_scopes": [
+    "protected_case118_case300",
+    "real_policy_qualification",
+    "physical_device_soak",
+    "release_publication"
+  ]
+}

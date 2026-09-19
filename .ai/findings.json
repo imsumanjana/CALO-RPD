@@ -48,6 +48,154 @@
       "severity": "high",
       "status": "resolved",
       "validation_performed": "Source-level UI/logic integration revalidation; runtime evidence was not inferred."
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/scripts/verify_active_version.py",
+        "ACTIVE_DEVELOPMENT_STATUS.json"
+      ],
+      "coding_status": "correction_implemented_validation_pending",
+      "description": "Active source verifier compares obsolete progress strings",
+      "id": "CLOSURE-20260919-01",
+      "resolution_commit": "",
+      "severity": "medium",
+      "status": "open",
+      "validation_evidence": "Desktop tests have been executed. Consult exact-source validation/FINAL_ACCEPTANCE.json and its retained bundles; no current acceptance is inferred from historical reports.",
+      "validation_tests": [
+        "tests/unit/test_active_development_contract.py"
+      ]
+    },
+    {
+      "affected": [
+        "scripts/ai-index"
+      ],
+      "coding_status": "correction_implemented_validation_pending",
+      "description": "AI index byte metadata differs across Git-equivalent checkout line endings",
+      "id": "CLOSURE-20260919-02",
+      "resolution_commit": "",
+      "severity": "medium",
+      "status": "open",
+      "validation_evidence": "Desktop tests have been executed. Consult exact-source validation/FINAL_ACCEPTANCE.json and its retained bundles; no current acceptance is inferred from historical reports.",
+      "validation_tests": [
+        "tests/tooling/test_ai_repo_intelligence_v2.py"
+      ]
+    },
+    {
+      "affected": [
+        "tests/unit/test_v680_policy_independence.py"
+      ],
+      "coding_status": "correction_implemented_validation_pending",
+      "description": "Legacy policy-independence test assumes a retired combined GUI",
+      "id": "CLOSURE-20260919-03",
+      "resolution_commit": "",
+      "severity": "medium",
+      "status": "open",
+      "validation_evidence": "Desktop tests have been executed. Consult exact-source validation/FINAL_ACCEPTANCE.json and its retained bundles; no current acceptance is inferred from historical reports.",
+      "validation_tests": [
+        "tests/unit/test_v680_policy_independence.py"
+      ]
+    },
+    {
+      "affected": [
+        ".github/workflows/ci.yml"
+      ],
+      "coding_status": "correction_implemented_validation_pending",
+      "description": "Linux Qt CI jobs omit runtime shared libraries",
+      "id": "CLOSURE-20260919-04",
+      "resolution_commit": "",
+      "severity": "medium",
+      "status": "open",
+      "validation_evidence": "Desktop tests have been executed. Consult exact-source validation/FINAL_ACCEPTANCE.json and its retained bundles; no current acceptance is inferred from historical reports.",
+      "validation_tests": [
+        "tests/unit/test_ci_qt_runtime_contract.py"
+      ]
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/scripts/verify_phase6_distribution.py"
+      ],
+      "coding_status": "correction_implemented_validation_pending",
+      "description": "Native distribution contract requires deleted agent handoff documents",
+      "id": "CLOSURE-20260919-05",
+      "resolution_commit": "",
+      "severity": "medium",
+      "status": "open",
+      "validation_evidence": "Desktop tests have been executed. Consult exact-source validation/FINAL_ACCEPTANCE.json and its retained bundles; no current acceptance is inferred from historical reports.",
+      "validation_tests": [
+        "tests/unit/test_phase6_distribution_current_source.py"
+      ]
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/app/experiment_manager.py",
+        "calo_rpd_studio/app/execution_control.py"
+      ],
+      "correction": "Worker-side durable campaign admission and separate admitted intent implemented; actual pause/restart and tamper-rejection tests passed in iterative source-bound runs.",
+      "description": "Runtime-annotated campaign intent and injected algorithm defaults broke exact frozen-plan binding; the GUI swallowed admission failures.",
+      "id": "LIFECYCLE-20260919-01",
+      "remaining": "Final unchanged-source engineering evidence and applicable external release gates; no release acceptance inferred",
+      "severity": "high",
+      "status": "open"
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/app/main_window.py",
+        "calo_rpd_studio/app/experiment_manager.py"
+      ],
+      "correction": "Idle-bound close, idempotent connections, shared admission blockers and durable outcome presentation implemented; native and offscreen regression evidence retained.",
+      "description": "Early terminal signals missed deferred close; ribbon availability could disagree with navigation; failed jobs could be shown as completed.",
+      "id": "GUI-WIRING-20260919-02",
+      "remaining": "Final unchanged-source engineering evidence and applicable external release gates; no release acceptance inferred",
+      "severity": "high",
+      "status": "open"
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/compute/source_identity.py"
+      ],
+      "correction": "Fail-closed short-circuit for proved dirty source, bounded actionable timeout and clean revision recheck implemented. Final Linux rerun required.",
+      "description": "Untranslated Git status timeouts on slow mounted filesystems block staging; dirty checks unnecessarily traverse all untracked paths.",
+      "id": "PLATFORM-20260919-03",
+      "remaining": "Final unchanged-source engineering evidence and applicable external release gates; no release acceptance inferred",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "affected": [
+        "scripts/qa/omission_plugin.py",
+        "calo_rpd_studio/validation/test_inventory.py"
+      ],
+      "correction": "Exact omission catalog, durable per-test inventory, transient-write retry, explicit hardware/platform lanes and test-only Qt/process coverage implemented. Complete final regression remains required.",
+      "description": "Skipped/deselected/aborted tests and Qt-created workers were not comprehensively represented in acceptance evidence.",
+      "id": "EVIDENCE-20260919-04",
+      "remaining": "Final unchanged-source engineering evidence and applicable external release gates; no release acceptance inferred",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": "GUI-ATOMIC-20260919-05",
+      "severity": "high",
+      "status": "open",
+      "affected": [
+        "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
+        "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+        "calo_rpd_studio/gui/panels/robust_scenarios_panel.py"
+      ],
+      "description": "Rejected UI edits changed shared settings; Workspace published duplicate notifications before persistence.",
+      "correction": "Validate independent drafts, persist Workspace draft, publish shared state once; all five new GUI regression cases passed.",
+      "remaining": "Current final source-bound evidence and independent release review; uncommitted/unpublished."
+    },
+    {
+      "id": "EVIDENCE-STABILITY-20260919-06",
+      "severity": "medium",
+      "status": "open",
+      "affected": [
+        "validation/closure_runner.py",
+        "calo_rpd_studio/validation/test_inventory.py"
+      ],
+      "description": "Generated logs were mistaken for validator edits, while generic lane review did not require stable harness identity.",
+      "correction": "Hash executable validator inputs separately from generated outputs; reject absent or unstable harness/omission evidence.",
+      "remaining": "Current final source-bound consolidation; no release authorization."
     }
   ],
   "schema_version": 1

@@ -207,12 +207,13 @@
         "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
         "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
         "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
-        "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state"
+        "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
+        "tests.unit.test_v610_beta_architecture.test_beta1_global_training_exclusive_lock_is_wired_application_wide"
       ],
       "calls": [],
       "calls_resolved": [],
       "doc": "Controls workspace availability using stable keys instead of stack positions.",
-      "end_line": 598,
+      "end_line": 596,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -262,7 +263,8 @@
       "symbol": "WorkflowManager",
       "tests": [
         "tests/gui/test_guided_workflow.py",
-        "tests/unit/test_calo_v41_workflow_restore.py"
+        "tests/unit/test_calo_v41_workflow_restore.py",
+        "tests/unit/test_v610_beta_architecture.py"
       ]
     },
     {
@@ -1108,7 +1110,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names"
       ],
       "doc": "",
-      "end_line": 166,
+      "end_line": 164,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1252,7 +1254,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "Re-evaluate the governing policy and invalidate downstream bindings on an identity change.",
-      "end_line": 191,
+      "end_line": 189,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1297,7 +1299,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 168,
+      "start_line": 166,
       "state_owner": "",
       "symbol": "notify_governing_policy_changed",
       "tests": []
@@ -1330,7 +1332,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "",
-      "end_line": 194,
+      "end_line": 192,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1375,7 +1377,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 193,
+      "start_line": 191,
       "state_owner": "",
       "symbol": "governing_policy_status",
       "tests": []
@@ -1411,7 +1413,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "",
-      "end_line": 197,
+      "end_line": 195,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1456,7 +1458,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 196,
+      "start_line": 194,
       "state_owner": "",
       "symbol": "governing_policy_ready",
       "tests": []
@@ -1480,7 +1482,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 205,
+      "end_line": 203,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1525,7 +1527,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 199,
+      "start_line": 197,
       "state_owner": "",
       "symbol": "mark_experiment_started",
       "tests": []
@@ -1549,7 +1551,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 212,
+      "end_line": 210,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1594,7 +1596,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 207,
+      "start_line": 205,
       "state_owner": "",
       "symbol": "mark_experiment_completed",
       "tests": []
@@ -1632,7 +1634,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 222,
+      "end_line": 220,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1677,7 +1679,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 214,
+      "start_line": 212,
       "state_owner": "",
       "symbol": "mark_experiment_stopped",
       "tests": []
@@ -1701,7 +1703,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 228,
+      "end_line": 226,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1746,7 +1748,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 224,
+      "start_line": 222,
       "state_owner": "",
       "symbol": "mark_statistics_completed",
       "tests": []
@@ -1770,7 +1772,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 233,
+      "end_line": 231,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1815,7 +1817,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 230,
+      "start_line": 228,
       "state_owner": "",
       "symbol": "mark_results_reviewed",
       "tests": []
@@ -1853,7 +1855,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 237,
+      "end_line": 235,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -1898,7 +1900,7 @@
         "workflow"
       ],
       "signature": "(self, count)",
-      "start_line": 235,
+      "start_line": 233,
       "state_owner": "",
       "symbol": "set_verified_results",
       "tests": []
@@ -1974,7 +1976,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "",
-      "end_line": 255,
+      "end_line": 253,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2019,7 +2021,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 239,
+      "start_line": 237,
       "state_owner": "",
       "symbol": "snapshot",
       "tests": []
@@ -2168,7 +2170,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "",
-      "end_line": 318,
+      "end_line": 316,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2213,7 +2215,7 @@
         "workflow"
       ],
       "signature": "(self, payload, infer_experiment, experiment_completed, verified_results, inferred_completed)",
-      "start_line": 257,
+      "start_line": 255,
       "state_owner": "",
       "symbol": "restore",
       "tests": []
@@ -2280,7 +2282,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready"
       ],
       "doc": "",
-      "end_line": 335,
+      "end_line": 333,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2325,7 +2327,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 320,
+      "start_line": 318,
       "state_owner": "",
       "symbol": "_setup_complete",
       "tests": []
@@ -2418,7 +2420,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
       ],
       "doc": "Return visual state/reason for a stable workspace key.",
-      "end_line": 484,
+      "end_line": 482,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2463,7 +2465,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 337,
+      "start_line": 335,
       "state_owner": "",
       "symbol": "workspace_state_key",
       "tests": []
@@ -2513,7 +2515,7 @@
         "calo_rpd_studio.app.workspaces.workspace_key_for_index"
       ],
       "doc": "",
-      "end_line": 488,
+      "end_line": 486,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2558,7 +2560,7 @@
         "workflow"
       ],
       "signature": "(self, workspace)",
-      "start_line": 486,
+      "start_line": 484,
       "state_owner": "",
       "symbol": "workspace_state",
       "tests": []
@@ -2613,7 +2615,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
       ],
       "doc": "Return direct Individual setup prerequisites without Workspace Portfolio coupling.",
-      "end_line": 525,
+      "end_line": 523,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2658,7 +2660,7 @@
         "workflow"
       ],
       "signature": "(self, key)",
-      "start_line": 490,
+      "start_line": 488,
       "state_owner": "",
       "symbol": "individual_setup_state_key",
       "tests": []
@@ -2684,7 +2686,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state"
       ],
       "doc": "",
-      "end_line": 528,
+      "end_line": 526,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2729,7 +2731,7 @@
         "workflow"
       ],
       "signature": "(self, workspace)",
-      "start_line": 527,
+      "start_line": 525,
       "state_owner": "",
       "symbol": "is_workspace_enabled",
       "tests": []
@@ -2763,7 +2765,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
       ],
       "doc": "",
-      "end_line": 581,
+      "end_line": 579,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2808,7 +2810,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 530,
+      "start_line": 528,
       "state_owner": "",
       "symbol": "next_descriptor",
       "tests": []
@@ -2848,7 +2850,7 @@
         "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
       ],
       "doc": "",
-      "end_line": 598,
+      "end_line": 596,
       "entry_point": false,
       "file": "calo_rpd_studio/app/workflow_manager.py",
       "implementation_core": false,
@@ -2893,7 +2895,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 583,
+      "start_line": 581,
       "state_owner": "",
       "symbol": "progress",
       "tests": []

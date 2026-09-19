@@ -1,0 +1,87 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/__init__.py"
+    }
+  ],
+  "path": "tests/unit/test_active_development_contract.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_active_development_contract._report_with_status",
+      "to": "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract._report_with_status",
+      "to": "copy.deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract._report_with_status",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract._report_with_status",
+      "to": "original"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_active_development_contract._report_with_status",
+      "to": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported.change"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract._report_with_status.load",
+      "to": "original"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported",
+      "to": "tests.unit.test_active_development_contract._report_with_status"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract.test_missing_and_multiple_status_requirements_are_all_reported.change",
+      "to": "status.pop"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_active_development_contract.test_reviewed_development_source_matches_its_status_contract",
+      "to": "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract.test_status_drift_is_rejected_with_field_diagnostics",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract.test_status_drift_is_rejected_with_field_diagnostics",
+      "to": "status.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_active_development_contract.test_status_drift_is_rejected_with_field_diagnostics",
+      "to": "tests.unit.test_active_development_contract._report_with_status"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract.test_status_reconciliation_never_grants_execution_or_release_authority",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_active_development_contract.test_status_reconciliation_never_grants_execution_or_release_authority",
+      "to": "status.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_active_development_contract.test_status_reconciliation_never_grants_execution_or_release_authority",
+      "to": "tests.unit.test_active_development_contract._report_with_status"
+    }
+  ]
+}

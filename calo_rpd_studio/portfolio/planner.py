@@ -138,7 +138,9 @@ class PortfolioPlanner:
         if not algorithms or len(set(algorithms)) != len(algorithms):
             raise ValueError("The portfolio algorithm subset must be non-empty and unique")
         if not set(algorithms).issubset(set(config.algorithms)):
-            raise ValueError("The portfolio algorithm subset contains an algorithm outside the stage")
+            raise ValueError(
+                "The portfolio algorithm subset contains an algorithm outside the stage"
+            )
         runs = portfolio.required_runs()
         disabled: dict[str, str] = {}
         warnings: list[str] = []

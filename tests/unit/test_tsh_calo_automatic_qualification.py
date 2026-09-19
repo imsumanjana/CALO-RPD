@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import subprocess
 
@@ -384,7 +385,10 @@ def test_only_exact_authenticated_incomplete_workspace_can_be_discarded(tmp_path
     assert completed.root.is_dir()
 
 
-def test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit(tmp_path):
+@pytest.mark.parametrize("snapshot_subdir", ["snapshots", "nested-snapshots", "long-object-path"])
+def test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit(
+    tmp_path, snapshot_subdir
+):
     repository = tmp_path / "live-source"
     repository.mkdir()
     subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
@@ -406,11 +410,35 @@ def test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit(tmp_p
         text=True,
     ).stdout
 
-    first = prepare_automatic_source_snapshot(repository, tmp_path / "snapshots")
-    second = prepare_automatic_source_snapshot(repository, tmp_path / "snapshots")
+    snapshot_base = tmp_path / snapshot_subdir
+    if snapshot_subdir == "long-object-path":
+        # Exercise the longest admitted region without depending on pytest's temp root.
+        while len(str(snapshot_base)) < 142:
+            snapshot_base /= "deep-segment"
+    first = prepare_automatic_source_snapshot(repository, snapshot_base)
+    second = prepare_automatic_source_snapshot(repository, snapshot_base)
 
     assert first == second
     assert first.file_count == 2
+    if os.name == "nt":
+        assert (
+            subprocess.run(
+                ["git", "config", "--local", "core.longpaths"],
+                cwd=first.root,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            == "true"
+        )
+        original_config = subprocess.run(
+            ["git", "config", "--local", "--get", "core.longpaths"],
+            cwd=repository,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert original_config.returncode == 1  # The live repository was not configured.
     assert (first.root / "tracked.py").read_text(encoding="utf-8") == "value = 2\n"
     assert (first.root / "new_module.py").read_text(encoding="utf-8") == "new_value = 3\n"
     snapshot_manifest = json.loads(
@@ -451,3 +479,19 @@ def test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit(tmp_p
     assert status_after == status_before
     assert " M tracked.py" in status_after
     assert "?? new_module.py" in status_after
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows Git path admission contract")
+def test_windows_snapshot_rejects_overlong_storage_before_writing_source_or_evidence(tmp_path):
+    source = tmp_path / "source"
+    source.mkdir()
+    retained = source / "retained.py"
+    retained.write_bytes(b"value = 7\n")
+    destination = tmp_path / ("deep-" * 24)
+    while len(str(destination / ("0" * 40) / ".git").encode("utf-16-le")) // 2 < 265:
+        destination = destination / "deep-segment"
+    with pytest.raises(ValueError, match="choose a shorter snapshot storage location"):
+        prepare_automatic_source_snapshot(source, destination)
+    assert retained.read_bytes() == b"value = 7\n"
+    assert not destination.exists()
+    assert list(source.iterdir()) == [retained]

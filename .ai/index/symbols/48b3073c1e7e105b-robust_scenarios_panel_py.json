@@ -14,7 +14,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 186,
+      "end_line": 195,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -27,7 +27,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -36,6 +35,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -51,7 +51,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -73,7 +74,7 @@
         "workflow"
       ],
       "signature": "",
-      "start_line": 28,
+      "start_line": 29,
       "state_owner": "",
       "symbol": "RobustScenariosPanel",
       "tests": [
@@ -378,7 +379,7 @@
         "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
       ],
       "doc": "",
-      "end_line": 134,
+      "end_line": 135,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -391,7 +392,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -400,6 +400,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -415,7 +416,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -437,7 +439,7 @@
         "workflow"
       ],
       "signature": "(self, state, parent)",
-      "start_line": 39,
+      "start_line": 40,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -484,7 +486,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 141,
+      "end_line": 142,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -497,7 +499,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -506,6 +507,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -521,7 +523,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -543,7 +546,7 @@
         "workflow"
       ],
       "signature": "(self, low, high, value)",
-      "start_line": 136,
+      "start_line": 137,
       "state_owner": "",
       "symbol": "_spin",
       "tests": []
@@ -583,7 +586,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 144,
+      "end_line": 145,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -596,7 +599,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -605,6 +607,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -620,7 +623,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -642,7 +646,7 @@
         "workflow"
       ],
       "signature": "(self, text)",
-      "start_line": 143,
+      "start_line": 144,
       "state_owner": "",
       "symbol": "_indices",
       "tests": []
@@ -781,7 +785,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 161,
+      "end_line": 162,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -794,7 +798,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -803,6 +806,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -818,7 +822,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -840,7 +845,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 146,
+      "start_line": 147,
       "state_owner": "",
       "symbol": "refresh",
       "tests": []
@@ -866,7 +871,7 @@
         "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel.refresh"
       ],
       "doc": "",
-      "end_line": 164,
+      "end_line": 165,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -879,7 +884,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -888,6 +892,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -903,7 +908,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -925,7 +931,7 @@
         "workflow"
       ],
       "signature": "(self, config)",
-      "start_line": 163,
+      "start_line": 164,
       "state_owner": "",
       "symbol": "load_from_config",
       "tests": []
@@ -943,6 +949,16 @@
           "confidence": "confirmed",
           "raw": "show_error",
           "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
         },
         {
           "confidence": "unresolved",
@@ -1016,16 +1032,13 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "self.state.config.validate",
-          "target": "self.state.config.validate"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "self.state.update_config",
           "target": "self.state.update_config"
         }
       ],
       "call_forms": {
+        "config.validate": "attribute",
+        "deepcopy": "name",
         "self._indices": "attribute",
         "self.aggregation.currentData": "attribute",
         "self.alpha.value": "attribute",
@@ -1041,12 +1054,13 @@
         "self.renew_mw.value": "attribute",
         "self.risk.value": "attribute",
         "self.stage_completed.emit": "attribute",
-        "self.state.config.validate": "attribute",
         "self.state.update_config": "attribute",
         "show_error": "name"
       },
       "called_by": [],
       "calls": [
+        "config.validate",
+        "deepcopy",
         "self._indices",
         "self.aggregation.currentData",
         "self.alpha.value",
@@ -1062,7 +1076,6 @@
         "self.renew_mw.value",
         "self.risk.value",
         "self.stage_completed.emit",
-        "self.state.config.validate",
         "self.state.update_config",
         "show_error"
       ],
@@ -1071,7 +1084,7 @@
         "calo_rpd_studio.gui.user_feedback.show_error"
       ],
       "doc": "",
-      "end_line": 186,
+      "end_line": 195,
       "entry_point": false,
       "file": "calo_rpd_studio/gui/panels/robust_scenarios_panel.py",
       "implementation_core": false,
@@ -1084,7 +1097,6 @@
         "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
         "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
         "QLabel": "PyQt6.QtWidgets.QLabel",
-        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
         "QPushButton": "PyQt6.QtWidgets.QPushButton",
         "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
         "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
@@ -1093,6 +1105,7 @@
         "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
         "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
         "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
         "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
         "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
       },
@@ -1108,7 +1121,8 @@
         "calo_rpd_studio.gui.widgets.page_header",
         "calo_rpd_studio.gui.widgets.scrollable_page",
         "calo_rpd_studio.gui.widgets.workspace_tabs",
-        "calo_rpd_studio.robustness.robust_objectives"
+        "calo_rpd_studio.robustness.robust_objectives",
+        "copy"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1130,7 +1144,7 @@
         "workflow"
       ],
       "signature": "(self)",
-      "start_line": 166,
+      "start_line": 167,
       "state_owner": "",
       "symbol": "apply",
       "tests": []

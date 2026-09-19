@@ -85,9 +85,7 @@ def test_phase6_command_registry_has_one_stable_authority():
     }.intersection(identifiers)
     labels = [item.label for item in COMMAND_SPECS]
     assert len(labels) == len(set(labels))
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Workspace"
-    ) == (
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Workspace") == (
         "workspace.portfolio",
         "workspace.study",
         "workspace.validation",
@@ -95,9 +93,7 @@ def test_phase6_command_registry_has_one_stable_authority():
         "workspace.publication",
         "workspace.settings",
     )
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Experiment"
-    ) == (
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Experiment") == (
         "experiment.individual",
         "experiment.power",
         "experiment.formulation",
@@ -119,23 +115,22 @@ def test_phase6_command_registry_has_one_stable_authority():
         ("Validate + outputs", "validation", "experiment", "individual_experiment.validation"),
         ("Review + launch", "run", "experiment", "individual_experiment.review"),
     )
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Compute"
-    ) == (
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Compute") == (
         "compute.settings",
         "compute.device",
         "compute.live",
         "compute.statistics",
     )
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Results"
-    ) == ("results.explorer",)
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Policies"
-    ) == ("policies.training",)
-    assert tuple(
-        item.command_id for item in COMMAND_SPECS if item.category == "Help"
-    ) == ("help.guide", "help.about")
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Results") == (
+        "results.explorer",
+    )
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Policies") == (
+        "policies.training",
+    )
+    assert tuple(item.command_id for item in COMMAND_SPECS if item.category == "Help") == (
+        "help.guide",
+        "help.about",
+    )
     assert all(item.workspace != "resume_center" for item in COMMAND_SPECS)
     training = next(item for item in COMMAND_SPECS if item.command_id == "policies.training")
     assert training.handler == "training"
@@ -540,14 +535,11 @@ def test_phase6_validation_and_local_logs_remain_git_ignored():
     assert "/validation/" in ignore
 
 
-def test_phase6_validator_fails_closed_on_interruption_and_gui_tests_are_bounded():
-    validator = (ROOT / "validation/Validate-Phase6.ps1").read_text(encoding="utf-8")
+def test_phase6_gui_tests_are_bounded_and_isolate_runtime_state():
+    # Local runner interruption/timeout tests run in the ignored closure harness.
+    # A fresh Git checkout intentionally has no machine-local validation scripts.
     gui_tests = (ROOT / "tests/gui/test_phase6_ribbon_workspace.py").read_text(encoding="utf-8")
 
-    assert "$ExpectedCommandIds" in validator
-    assert "$CommandSequenceComplete" in validator
-    assert "-and\n        $CommandSequenceComplete -and" in validator
-    assert '"-m", "pytest", "-vv"' in validator
     assert "threading.Timer(120.0, abort_stuck_test)" in gui_tests
     assert "os._exit(124)" in gui_tests
     assert 'tmp_path / "session-recovery"' in gui_tests
@@ -607,8 +599,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "self.recovery_stack.setCurrentWidget(self.automatic_recovery)" in context
     assert "self.recovery_stack.setCurrentWidget(self.resume)" in context
     assert "output_path.exists() and not self.resume.isChecked()" in context
-    controller = (ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py").read_text(
-        encoding="utf-8"
+    controller = "\n".join(
+        (ROOT / relative).read_text(encoding="utf-8")
+        for relative in (
+            "calo_rpd_studio/gui/panels/independent_training_panel.py",
+            "calo_rpd_studio/gui/panels/_independent_training_panel_core.py",
+        )
     )
     assert "self.resume.toggled.connect(self._resume_intent_changed)" in controller
     assert 'self._validated_fingerprint = ""' in controller
@@ -617,11 +613,19 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert '"Select interrupted training directory"' in context
     assert "while candidate.exists():" in context
     assert "TrainingModelLibrary" in controller
-    campaign = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py").read_text(
-        encoding="utf-8"
+    campaign = "\n".join(
+        (ROOT / relative).read_text(encoding="utf-8")
+        for relative in (
+            "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+            "calo_rpd_studio/algorithms/calo/_tsh_calo_training_campaign_core.py",
+        )
     )
-    extension = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py").read_text(
-        encoding="utf-8"
+    extension = "\n".join(
+        (ROOT / relative).read_text(encoding="utf-8")
+        for relative in (
+            "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+            "calo_rpd_studio/algorithms/calo/_tsh_calo_training_extension_core.py",
+        )
     )
     assert "checkpoint_sha256 = session.save_resume(checkpoint_path)" in campaign
     assert 'status["session_checkpoint"] = {' in campaign
@@ -653,8 +657,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "requires a clean non-ignored source tree" in controller
     assert "uncommitted changes" in controller
     assert "currently available cpu ram" in controller
-    training_command = (ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py").read_text(
-        encoding="utf-8"
+    training_command = "\n".join(
+        (ROOT / relative).read_text(encoding="utf-8")
+        for relative in (
+            "calo_rpd_studio/scripts/train_tsh_calo.py",
+            "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+        )
     )
     assert 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' in training_command
     assert "compatible_extension=arguments.extend" in training_command
@@ -680,8 +688,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "self.model.load_plan(preserve_identity=preserve_identity)" in context
     assert "self._load_plan(preserve_identity=True)" in context
     assert "self.model_library.saved_campaigns()" in context
-    intelligence = (ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
-        encoding="utf-8"
+    intelligence = "\n".join(
+        (ROOT / relative).read_text(encoding="utf-8")
+        for relative in (
+            "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+            "calo_rpd_studio/gui/panels/_calo_intelligence_panel_core.py",
+        )
     )
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
@@ -708,9 +720,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "lifecycle_buttons = QHBoxLayout()" not in intelligence
     assert 'QCheckBox("Show archived")' not in intelligence
     assert "show_archived_policies" not in intelligence
-    assert intelligence.count("self.state.policy_registry.list(include_archived=False)") == 2
+    lifecycle_core = (
+        ROOT / "calo_rpd_studio/gui/panels/_calo_intelligence_panel_core.py"
+    ).read_text(encoding="utf-8")
+    assert lifecycle_core.count("self.state.policy_registry.list(include_archived=False)") == 2
     assert 'QGroupBox("Feasibility assessment")' in intelligence
-    assert 'QGroupBox("Training-parameter influence analysis")' in intelligence
+    assert 'QGroupBox("Training parameter influence")' in intelligence
     assert "inspect_feasibility_assessment" in intelligence
     assert "admit_feasibility_assessment" in intelligence
     assert "select_assessed_policy" in intelligence

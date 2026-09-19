@@ -381,7 +381,8 @@
       },
       "called_by": [
         "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run",
-        "calo_rpd_studio.scripts.validate_accelerator.main"
+        "calo_rpd_studio.scripts.validate_accelerator.main",
+        "tests.unit.test_physical_cuda_acceptance.test_physical_cuda_fp64_scientific_parity"
       ],
       "calls": [
         "AcceleratedORPDProblem",
@@ -468,7 +469,9 @@
       "start_line": 64,
       "state_owner": "",
       "symbol": "run_configuration_parity_audit",
-      "tests": []
+      "tests": [
+        "tests/unit/test_physical_cuda_acceptance.py"
+      ]
     }
   ]
 }

@@ -99,7 +99,10 @@ class MainWindow(QMainWindow):
         self.pages_by_key = {
             "dashboard": DashboardPanel(state),
             "calo_intelligence": CALOIntelligencePanel(
-                state, experiment_manager, self.training_model_library, settings_manager=settings_manager
+                state,
+                experiment_manager,
+                self.training_model_library,
+                settings_manager=settings_manager,
             ),
             "power_system": PowerSystemPanel(state),
             "orpd": ORPDFormulationPanel(state),
@@ -210,6 +213,9 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(350, self._check_unfinished_work)
 
     def _connect_workflow(self) -> None:
+        # Rebinding an existing shell must not multiply lambda or bound-method callbacks.
+        if getattr(self, "_workflow_connected", False):
+            return
         self.state.case_changed.connect(lambda _: self._invalidate_case_workflows())
         self.pages_by_key["power_system"].stage_completed.connect(
             lambda: self._mark_routed_setup_completed("power_system")
@@ -217,12 +223,8 @@ class MainWindow(QMainWindow):
         self.pages_by_key["orpd"].stage_completed.connect(
             lambda: self._mark_routed_setup_completed("orpd")
         )
-        self.pages_by_key["algorithms"].stage_completed.connect(
-            self._algorithm_stage_completed
-        )
-        self.pages_by_key["algorithms"].stage_discarded.connect(
-            self._algorithm_stage_discarded
-        )
+        self.pages_by_key["algorithms"].stage_completed.connect(self._algorithm_stage_completed)
+        self.pages_by_key["algorithms"].stage_discarded.connect(self._algorithm_stage_discarded)
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
         )
@@ -242,16 +244,14 @@ class MainWindow(QMainWindow):
         self.pages_by_key["settings"].density_changed.connect(self._apply_interface_density)
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
         self.experiment_manager.completed.connect(self._manager_completion_workflow_event)
-        self.workspace_campaign.finished.connect(
-            lambda _: self.workflow.mark_experiment_completed()
-        )
+        self.workspace_campaign.finished.connect(self._workspace_completion_workflow_event)
         self.workspace_campaign.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.paused.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
-        self.experiment_manager.completed.connect(lambda _: self._finish_deferred_close())
-        self.experiment_manager.cancelled.connect(lambda _: self._finish_deferred_close())
-        self.experiment_manager.failed.connect(lambda _: self._finish_deferred_close())
+        # Terminal result signals arrive before QThread.finished clears manager.running.
+        # Idle is the single safe retry point for completion, pause, cancellation and failure.
+        self.experiment_manager.idle.connect(self._finish_deferred_close)
         self.pages_by_key["statistics"].analysis_completed.connect(
             self.workflow.mark_statistics_completed
         )
@@ -271,6 +271,7 @@ class MainWindow(QMainWindow):
         self.state.policy_training_changed.connect(self._on_policy_training_changed)
         self.workflow.changed.connect(self._refresh_workflow)
         self.workflow.changed.connect(self._persist_workspace_state)
+        self._workflow_connected = True
 
     def _invalidate_case_workflows(self) -> None:
         self.workflow.invalidate_from("power_system")
@@ -298,7 +299,17 @@ class MainWindow(QMainWindow):
     def _manager_completion_workflow_event(self, _experiment_id: str) -> None:
         if self.workspace_campaign.active:
             return
-        self.workflow.mark_experiment_completed()
+        if self.experiment_manager.last_completion_succeeded is True:
+            self.workflow.mark_experiment_completed()
+        else:
+            self.workflow.mark_experiment_stopped()
+
+    def _workspace_completion_workflow_event(self, plan_id: str) -> None:
+        plan = self.state.database.get_execution_plan(str(plan_id))
+        if plan is not None and str(plan["lifecycle_state"]) == "completed":
+            self.workflow.mark_experiment_completed()
+        else:
+            self.workflow.mark_experiment_stopped()
 
     def _governing_policy_event(self) -> None:
         status = self.state.notify_policy_state_changed()
@@ -413,6 +424,9 @@ class MainWindow(QMainWindow):
     def _refresh_workflow(self) -> None:
         for index, key in enumerate(WORKSPACE_KEYS):
             state, reason = self.workflow.workspace_state_key(key)
+            blocker = self._navigation_blocker(key)
+            if blocker is not None:
+                state, reason = "locked", blocker[1]
             self.sidebar.set_workflow_state(index, state, reason)
         for spec in self.command_registry.specs:
             if spec.handler != "workspace" or not spec.workspace:
@@ -463,8 +477,12 @@ class MainWindow(QMainWindow):
                 ("experiment.formulation", "orpd"),
                 ("experiment.scenarios", "scenarios"),
             ):
-                state, reason = self.workflow.individual_setup_state_key(setup_key)
-                self.command_registry.set_available(command_id, state != "locked", reason)
+                # Inline steps remain inspectable even when their editors are locked.
+                # The shared setup pages below enforce case/formulation prerequisites;
+                # applying a standalone-workspace gate here strands ribbon navigation.
+                if self.command_registry.spec(command_id).workspace != "experiment":
+                    state, reason = self.workflow.individual_setup_state_key(setup_key)
+                    self.command_registry.set_available(command_id, state != "locked", reason)
         for command_id in (
             "project.open",
             "algorithms.configure",
@@ -488,6 +506,13 @@ class MainWindow(QMainWindow):
                     False,
                     f"Workspace plan {owner_plan!r} owns experiment execution.",
                 )
+        # Apply the same hard admission guards after mode-specific availability overrides.
+        # An enabled navigation action must not immediately reject its own prerequisites.
+        for spec in self.command_registry.specs:
+            if spec.handler == "workspace" and spec.workspace:
+                blocker = self._navigation_blocker(spec.workspace)
+                if blocker is not None:
+                    self.command_registry.set_available(spec.command_id, False, blocker[1])
         experiment_page = self.pages_by_key["experiment"]
         experiment_page.set_study_prerequisite_states(
             "workspace",
@@ -531,47 +556,50 @@ class MainWindow(QMainWindow):
     def _workspace_key(self, workspace: str | int) -> str:
         return workspace_key_for_index(workspace) if isinstance(workspace, int) else str(workspace)
 
-    def _set_workspace(self, workspace: str | int, *, command_id: str = "") -> None:
-        self._persist_workspace_state()
-        key = self._workspace_key(workspace)
-        if self.state.execution_control.active_stage() is None and key in {
-            "power_system",
-            "orpd",
-            "portfolio",
-            "scenarios",
-            "experiment",
-            "validation",
-            "publication",
-        }:
-            QMessageBox.information(
-                self,
+    def _navigation_blocker(self, key: str) -> tuple[str, str] | None:
+        """Share admission reasons between ribbon/sidebar availability and navigation."""
+        if (
+            key
+            in {
+                "power_system",
+                "orpd",
+                "portfolio",
+                "scenarios",
+                "experiment",
+                "validation",
+                "publication",
+            }
+            and self.state.execution_control.active_stage() is None
+        ):
+            return (
                 "Submitted algorithms required",
                 "Submit at least one algorithm for experiment use first.",
             )
-            return
         controller = self.state.execution_control.controller()
-        if str(controller["controller"]) != "none" and key in {
-            "power_system",
-            "orpd",
-            "scenarios",
-        }:
-            QMessageBox.information(
-                self,
+        if controller["controller"] != "none" and key in {"power_system", "orpd", "scenarios"}:
+            return (
                 "Immutable execution plan owns these inputs",
                 f"Execution plan {str(controller['owner_plan_id'])!r} owns the frozen case, "
                 "formulation, and scenario inputs. Finish, cancel, or safely hand off according "
                 "to its lifecycle before editing them.",
             )
-            return
         if bool(getattr(self.state, "policy_training_active", False)) and key not in {
             "dashboard",
             "calo_intelligence",
         }:
-            QMessageBox.information(
-                self,
+            return (
                 "Training Exclusive Lock",
-                "Policy training is running. All scientific/configuration panels are locked until training completes or Safe Stops.",
+                "Policy training is running. Scientific/configuration panels are locked until "
+                "training completes or stops safely.",
             )
+        return None
+
+    def _set_workspace(self, workspace: str | int, *, command_id: str = "") -> None:
+        self._persist_workspace_state()
+        key = self._workspace_key(workspace)
+        blocker = self._navigation_blocker(key)
+        if blocker is not None:
+            QMessageBox.information(self, *blocker)
             return
         individual_command = str(command_id) in INDIVIDUAL_EXPERIMENT_COMMAND_IDS
         individual_setup_command = individual_command and key in {

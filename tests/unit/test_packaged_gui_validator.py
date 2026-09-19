@@ -32,9 +32,15 @@ def test_packaged_gui_validator_renders_and_retains_self_describing_evidence(tmp
     assert report["distribution_name"] == "calo-rpd-studio"
     assert report["source_checkout_imported"] is None
     assert report["initial_workspace"] == "dashboard"
-    assert report["workspace_count"] == 16
+    from calo_rpd_studio.app.workspaces import WORKSPACE_KEYS
+
+    assert report["workspace_count"] == len(WORKSPACE_KEYS) == 15
+    assert "resume_center" not in WORKSPACE_KEYS
     assert report["visible_forbidden_hits"] == []
     assert report["application_font"]["supports_validation_sample"] is True
+    assert report["application_theme"] == "light"
+    assert report["stylesheet_length"] > 0
+    assert len(report["stylesheet_sha256"]) == 64
     assert report["screenshot_width"] >= 1120
     assert report["screenshot_height"] >= 720
     assert screenshot.stat().st_size > 10_000

@@ -1,0 +1,655 @@
+{
+  "path": "tests/unit/test_test_inventory_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_test_inventory_contract.test_historical_disposition_requires_exact_source_and_executed_successor",
+        "tests.unit.test_test_inventory_contract.test_missing_execution_and_failure_cannot_be_accepted",
+        "tests.unit.test_test_inventory_contract.test_skips_deselections_and_collection_omissions_are_not_invisible"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract._inventory",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "_inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "review_inventory",
+          "target": "calo_rpd_studio.validation.test_inventory.review_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_inventory",
+          "target": "tests.unit.test_test_inventory_contract._inventory"
+        }
+      ],
+      "call_forms": {
+        "_inventory": "name",
+        "review_inventory": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_inventory",
+        "review_inventory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "tests.unit.test_test_inventory_contract._inventory"
+      ],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_missing_execution_and_failure_cannot_be_accepted",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "test_missing_execution_and_failure_cannot_be_accepted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "review_inventory",
+          "target": "calo_rpd_studio.validation.test_inventory.review_inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_inventory",
+          "target": "tests.unit.test_test_inventory_contract._inventory"
+        }
+      ],
+      "call_forms": {
+        "_inventory": "name",
+        "len": "name",
+        "review_inventory": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_inventory",
+        "len",
+        "review_inventory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "tests.unit.test_test_inventory_contract._inventory"
+      ],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_skips_deselections_and_collection_omissions_are_not_invisible",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_skips_deselections_and_collection_omissions_are_not_invisible",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "review_inventory",
+          "target": "calo_rpd_studio.validation.test_inventory.review_inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy.deepcopy",
+          "target": "copy.deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.parent.mkdir",
+          "target": "path.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_inventory",
+          "target": "tests.unit.test_test_inventory_contract._inventory"
+        }
+      ],
+      "call_forms": {
+        "_inventory": "name",
+        "append": "attribute",
+        "copy.deepcopy": "attribute",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "path.parent.mkdir": "attribute",
+        "path.read_text": "attribute",
+        "path.write_text": "attribute",
+        "review_inventory": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_inventory",
+        "append",
+        "copy.deepcopy",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "path.parent.mkdir",
+        "path.read_text",
+        "path.write_text",
+        "review_inventory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "tests.unit.test_test_inventory_contract._inventory"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_historical_disposition_requires_exact_source_and_executed_successor",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "test_historical_disposition_requires_exact_source_and_executed_successor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "review_required_lanes",
+          "target": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "review_required_lanes": "name",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "review_required_lanes",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_missing_platforms_and_hidden_cuda_remain_pending",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "test_missing_platforms_and_hidden_cuda_remain_pending",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.split",
+          "target": "target.split"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "path.read_text": "attribute",
+        "read_text": "attribute",
+        "resolve": "attribute",
+        "split": "attribute",
+        "sum": "name",
+        "target.split": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.loads",
+        "len",
+        "path.read_text",
+        "read_text",
+        "resolve",
+        "split",
+        "sum",
+        "target.split"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_every_retained_historical_assertion_is_catalogued_without_fake_acceptance",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "test_every_retained_historical_assertion_is_catalogued_without_fake_acceptance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "review_required_lanes",
+          "target": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+        }
+      ],
+      "call_forms": {
+        "review_required_lanes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "review_required_lanes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      ],
+      "doc": "",
+      "end_line": 133,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_changed_or_unrecorded_validator_cannot_qualify_a_lane",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "test_changed_or_unrecorded_validator_cannot_qualify_a_lane",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "review_required_lanes",
+          "target": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+        }
+      ],
+      "call_forms": {
+        "review_required_lanes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "review_required_lanes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/unit/test_test_inventory_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "review_inventory": "calo_rpd_studio.validation.test_inventory.review_inventory",
+        "review_required_lanes": "calo_rpd_studio.validation.test_inventory.review_required_lanes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.validation.test_inventory",
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_test_inventory_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_test_inventory_contract",
+      "qualname": "tests.unit.test_test_inventory_contract.test_missing_omission_inventory_cannot_qualify_a_lane",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "test_missing_omission_inventory_cannot_qualify_a_lane",
+      "tests": []
+    }
+  ]
+}
