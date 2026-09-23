@@ -90,6 +90,10 @@ def test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease(monkeyp
     events: list[tuple] = []
 
     class Lease:
+        @classmethod
+        def for_cuda(cls, device):
+            return cls(device)
+
         def __init__(self, device):
             events.append(("lease", device))
 
@@ -131,6 +135,10 @@ def test_cuda_vram_shortfall_falls_back_only_under_explicit_permission(monkeypat
     working = estimate.estimated_working_set_bytes
 
     class Lease:
+        @classmethod
+        def for_cuda(cls, device):
+            return cls(device)
+
         def __init__(self, _device):
             self.closed = False
 
@@ -167,6 +175,10 @@ def test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu(monkeypatch):
     estimate = _estimate()
 
     class BusyLease:
+        @classmethod
+        def for_cuda(cls, device):
+            return cls(device)
+
         def __init__(self, _device):
             raise DeviceLeaseUnavailable("busy")
 

@@ -1858,8 +1858,8 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "ExclusiveDeviceLease",
-          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+          "raw": "ExclusiveDeviceLease.for_cuda",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
         },
         {
           "confidence": "confirmed",
@@ -1928,7 +1928,7 @@
         }
       ],
       "call_forms": {
-        "ExclusiveDeviceLease": "name",
+        "ExclusiveDeviceLease.for_cuda": "attribute",
         "MemoryError": "name",
         "RuntimeError": "name",
         "TSHCALOTrainingMemoryAdmission": "name",
@@ -1960,7 +1960,7 @@
         "tests.unit.test_tsh_calo_training_resources.test_no_xpu_training_resource_path_exists"
       ],
       "calls": [
-        "ExclusiveDeviceLease",
+        "ExclusiveDeviceLease.for_cuda",
         "MemoryError",
         "RuntimeError",
         "TSHCALOTrainingMemoryAdmission",
@@ -1987,7 +1987,7 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
-        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda",
         "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
       ],
       "doc": "",

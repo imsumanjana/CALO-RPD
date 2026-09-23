@@ -17,6 +17,7 @@ import tempfile
 import threading
 import time
 from typing import BinaryIO, Callable
+from uuid import UUID
 
 
 _LOG = logging.getLogger(__name__)
@@ -41,6 +42,66 @@ class ExclusiveDeviceLease:
 
     _lock = threading.RLock()
     _process_leases: dict[str, _ProcessLease] = {}
+
+    @classmethod
+    def for_cuda(
+        cls,
+        device_id: str,
+        *,
+        physical_device_id: str = "",
+        host_scope: str = "",
+        container_scope: str = "",
+        root: str | Path | None = None,
+        wait: bool = False,
+        timeout_seconds: float | None = None,
+        cancel_callback: Callable[[], bool] | None = None,
+        poll_interval_seconds: float = 0.10,
+    ) -> "ExclusiveDeviceLease":
+        """Lease the runtime-resolved GPU UUID, never a logical ordinal or UI label.
+
+        Competing processes/containers must share CALO_DEVICE_LEASE_DIR (or root).
+        Host/container display scopes cannot split this physical-device namespace.
+        No fallback to ordinal identity is allowed when a UUID is unavailable.
+        """
+        import torch
+
+        selected = torch.device(device_id)
+        if selected.type != "cuda" or getattr(torch.version, "hip", None):
+            raise ValueError("Physical device leasing requires an NVIDIA CUDA runtime")
+        try:
+            index = torch.cuda.current_device() if selected.index is None else selected.index
+            raw_uuid = torch.cuda.get_device_properties(index).uuid
+            raw_bytes = getattr(raw_uuid, "bytes", None)
+            identity = (
+                UUID(bytes=bytes(raw_bytes))
+                if raw_bytes is not None
+                else UUID(str(raw_uuid).strip().lower().removeprefix("gpu-"))
+            )
+            if identity.int == 0:
+                raise ValueError("Empty CUDA UUID")
+        except (AttributeError, AssertionError, RuntimeError, TypeError, ValueError) as exc:
+            raise RuntimeError("CUDA physical UUID is unavailable; device lease refused") from exc
+        claimed = str(physical_device_id).strip().lower()
+        if claimed.startswith(("gpu-uuid:", "gpu-")):
+            try:
+                expected = UUID(claimed.removeprefix("gpu-uuid:").removeprefix("gpu-"))
+            except ValueError as exc:
+                raise ValueError("Declared CUDA physical UUID is invalid") from exc
+            if expected != identity:
+                raise ValueError("Declared CUDA physical UUID differs from the selected runtime")
+        # Non-UUID PNP/runtime labels remain caller provenance, not lock identities.
+        del host_scope
+        return cls(
+            f"cuda:{index}",
+            physical_device_id=f"gpu-uuid:gpu-{identity}",
+            host_scope="physical-cuda-uuid-v1",
+            container_scope=container_scope,
+            root=root,
+            wait=wait,
+            timeout_seconds=timeout_seconds,
+            cancel_callback=cancel_callback,
+            poll_interval_seconds=poll_interval_seconds,
+        )
 
     def __init__(
         self,

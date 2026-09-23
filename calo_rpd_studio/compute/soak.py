@@ -261,7 +261,7 @@ class HardwareSoakRunner:
         stopped = False
         checksum = ""
         telemetry_samples: list[dict] = []
-        lease = ExclusiveDeviceLease(backend) if backend.startswith("cuda") else None
+        lease = ExclusiveDeviceLease.for_cuda(backend) if backend.startswith("cuda") else None
         try:
             while True:
                 now = time.monotonic()

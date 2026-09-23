@@ -2,8 +2,8 @@
   "file": {
     "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
     "authoritative_source": "",
-    "content_hash": "git-sha1:db4fa7575dcec090428bbb066ed457c6d9f294dd",
-    "content_sha256": "96f910684cd23e4b62311040f6fc649a02c0e2568d86bf5e065c31a2082f580d",
+    "content_hash": "git-sha1:bf42fa8eb858ce1d615064c2ce02dffb28e08022",
+    "content_sha256": "eb0caddf07e45eb8fa96cdbf1138276a64da340fd0a701b951c1e78e2836df1f",
     "entry_point": false,
     "hash_algorithm": "git-blob-sha1",
     "implementation_core": false,
@@ -11,6 +11,7 @@
       "BinaryIO": "typing.BinaryIO",
       "Callable": "typing.Callable",
       "Path": "pathlib.Path",
+      "UUID": "uuid.UUID",
       "annotations": "__future__.annotations",
       "dataclass": "dataclasses.dataclass",
       "fcntl": "fcntl",
@@ -21,7 +22,8 @@
       "sys": "sys",
       "tempfile": "tempfile",
       "threading": "threading",
-      "time": "time"
+      "time": "time",
+      "torch": "torch"
     },
     "important_invariants": [
       "Resource admission is bounded by Safe-80 rules.",
@@ -40,7 +42,9 @@
       "tempfile",
       "threading",
       "time",
-      "typing"
+      "torch",
+      "typing",
+      "uuid"
     ],
     "integration_layer": "",
     "internal_only": false,
@@ -49,7 +53,7 @@
       "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
     ],
     "language": "python",
-    "last_indexed_commit": "deb332a1fb43fa3aed6a1264280575ca32f5486a",
+    "last_indexed_commit": "b90f48adf67490d454703620c0c282907bf73ae0",
     "module": "compute",
     "parse_error": "",
     "path": "calo_rpd_studio/compute/device_lease.py",
@@ -61,9 +65,9 @@
       "Safe-80",
       "resource-admission"
     ],
-    "size_bytes": 6940,
+    "size_bytes": 9670,
     "state_owner": "",
-    "symbol_count": 12
+    "symbol_count": 13
   },
   "path": "calo_rpd_studio/compute/device_lease.py",
   "schema_version": 2

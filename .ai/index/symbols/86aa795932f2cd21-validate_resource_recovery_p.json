@@ -1622,8 +1622,8 @@
       "call_edges": [
         {
           "confidence": "confirmed",
-          "raw": "ExclusiveDeviceLease",
-          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+          "raw": "ExclusiveDeviceLease.for_cuda",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
         },
         {
           "confidence": "unresolved",
@@ -1642,20 +1642,20 @@
         }
       ],
       "call_forms": {
-        "ExclusiveDeviceLease": "name",
+        "ExclusiveDeviceLease.for_cuda": "attribute",
         "lease.close": "attribute",
         "result_queue.put": "attribute",
         "type": "name"
       },
       "called_by": [],
       "calls": [
-        "ExclusiveDeviceLease",
+        "ExclusiveDeviceLease.for_cuda",
         "lease.close",
         "result_queue.put",
         "type"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
       ],
       "doc": "",
       "end_line": 304,
@@ -1875,8 +1875,8 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "ExclusiveDeviceLease",
-          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+          "raw": "ExclusiveDeviceLease.for_cuda",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
         },
         {
           "confidence": "confirmed",
@@ -1905,7 +1905,7 @@
         }
       ],
       "call_forms": {
-        "ExclusiveDeviceLease": "name",
+        "ExclusiveDeviceLease.for_cuda": "attribute",
         "_child_lease_result": "name",
         "bool": "name",
         "multiprocessing.get_context": "attribute",
@@ -1917,7 +1917,7 @@
         "calo_rpd_studio.scripts.validate_resource_recovery.main"
       ],
       "calls": [
-        "ExclusiveDeviceLease",
+        "ExclusiveDeviceLease.for_cuda",
         "_child_lease_result",
         "bool",
         "multiprocessing.get_context",
@@ -1926,7 +1926,7 @@
         "tempfile.TemporaryDirectory"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda",
         "calo_rpd_studio.scripts.validate_resource_recovery._child_lease_result"
       ],
       "doc": "",

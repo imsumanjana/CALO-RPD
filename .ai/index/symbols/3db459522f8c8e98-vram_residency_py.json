@@ -564,6 +564,7 @@
         "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentORPDEvaluator.__init__",
         "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl",
         "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe",
+        "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
         "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent"
       ],
       "calls": [],
@@ -624,6 +625,7 @@
       "state_owner": "",
       "symbol": "VramResidencyGovernor",
       "tests": [
+        "tests/unit/test_audit_cuda_lease_identity.py",
         "tests/unit/test_v690_vram_residency.py"
       ]
     },
@@ -822,8 +824,8 @@
       "call_edges": [
         {
           "confidence": "confirmed",
-          "raw": "ExclusiveDeviceLease",
-          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+          "raw": "ExclusiveDeviceLease.for_cuda",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
         },
         {
           "confidence": "confirmed",
@@ -887,7 +889,7 @@
         }
       ],
       "call_forms": {
-        "ExclusiveDeviceLease": "name",
+        "ExclusiveDeviceLease.for_cuda": "attribute",
         "calculate_available_memory_admission": "name",
         "float": "name",
         "int": "name",
@@ -905,7 +907,7 @@
         "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor.__init__"
       ],
       "calls": [
-        "ExclusiveDeviceLease",
+        "ExclusiveDeviceLease.for_cuda",
         "calculate_available_memory_admission",
         "float",
         "int",
@@ -920,7 +922,7 @@
         "torch.device"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda",
         "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
       ],
       "doc": "",

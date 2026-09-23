@@ -11,7 +11,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 22,
+      "end_line": 23,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -19,6 +19,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -29,7 +30,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -48,7 +50,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -71,7 +75,7 @@
         "resource-admission"
       ],
       "signature": "",
-      "start_line": 22,
+      "start_line": 23,
       "state_owner": "",
       "symbol": "_LOG",
       "tests": []
@@ -95,7 +99,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Raised when another process owns the requested physical device.",
-      "end_line": 26,
+      "end_line": 27,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -103,6 +107,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -113,7 +118,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -132,7 +138,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -155,7 +163,7 @@
         "resource-admission"
       ],
       "signature": "",
-      "start_line": 25,
+      "start_line": 26,
       "state_owner": "",
       "symbol": "DeviceLeaseUnavailable",
       "tests": [
@@ -177,7 +185,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Raised when a queued lease request is cancelled before admission.",
-      "end_line": 30,
+      "end_line": 31,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -185,6 +193,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -195,7 +204,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -214,7 +224,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -237,7 +249,7 @@
         "resource-admission"
       ],
       "signature": "",
-      "start_line": 29,
+      "start_line": 30,
       "state_owner": "",
       "symbol": "DeviceLeaseCancelled",
       "tests": [
@@ -256,7 +268,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 36,
+      "end_line": 37,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -264,6 +276,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -274,7 +287,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -293,7 +307,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -316,7 +332,7 @@
         "resource-admission"
       ],
       "signature": "",
-      "start_line": 34,
+      "start_line": 35,
       "state_owner": "",
       "symbol": "_ProcessLease",
       "tests": []
@@ -327,11 +343,6 @@
       "call_edges": [],
       "call_forms": {},
       "called_by": [
-        "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor._configure",
-        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
-        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
-        "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe",
-        "calo_rpd_studio.scripts.validate_resource_recovery._lease_attempt",
         "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference",
         "tests.unit.test_audit_device_lease_waiting.test_close_is_idempotent_for_shared_references",
         "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner",
@@ -345,7 +356,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Hold an OS-released exclusive lease, optionally waiting in a cancellable queue.",
-      "end_line": 192,
+      "end_line": 253,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -353,6 +364,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -363,7 +375,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -382,7 +395,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -405,13 +420,214 @@
         "resource-admission"
       ],
       "signature": "",
-      "start_line": 39,
+      "start_line": 40,
       "state_owner": "",
       "symbol": "ExclusiveDeviceLease",
       "tests": [
+        "tests/unit/test_audit_cuda_lease_identity.py",
         "tests/unit/test_audit_device_lease_waiting.py",
         "tests/unit/test_v120_phase2_contracts.py",
         "tests/unit/test_v690_vram_residency.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "UUID",
+          "target": "UUID"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bytes",
+          "target": "bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "claimed.removeprefix",
+          "target": "claimed.removeprefix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "claimed.startswith",
+          "target": "claimed.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "removeprefix",
+          "target": "removeprefix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.current_device",
+          "target": "torch.cuda.current_device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_properties",
+          "target": "torch.cuda.get_device_properties"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "UUID": "name",
+        "ValueError": "name",
+        "bytes": "name",
+        "claimed.removeprefix": "attribute",
+        "claimed.startswith": "attribute",
+        "cls": "name",
+        "getattr": "name",
+        "lower": "attribute",
+        "removeprefix": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.cuda.current_device": "attribute",
+        "torch.cuda.get_device_properties": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor._configure",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._lease_attempt",
+        "tests.unit.test_audit_cuda_lease_identity.test_cpu_request_is_rejected_before_cuda_discovery",
+        "tests.unit.test_audit_cuda_lease_identity.test_different_physical_gpus_do_not_share_a_lock",
+        "tests.unit.test_audit_cuda_lease_identity.test_logical_ordinals_and_display_scopes_share_one_physical_lock",
+        "tests.unit.test_audit_cuda_lease_identity.test_mismatching_or_malformed_uuid_claim_is_rejected",
+        "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+        "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported"
+      ],
+      "calls": [
+        "RuntimeError",
+        "UUID",
+        "ValueError",
+        "bytes",
+        "claimed.removeprefix",
+        "claimed.startswith",
+        "cls",
+        "getattr",
+        "lower",
+        "removeprefix",
+        "str",
+        "strip",
+        "torch.cuda.current_device",
+        "torch.cuda.get_device_properties",
+        "torch.device"
+      ],
+      "calls_resolved": [],
+      "doc": "Lease the runtime-resolved GPU UUID, never a logical ordinal or UI label.",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_lease.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BinaryIO": "typing.BinaryIO",
+        "Callable": "typing.Callable",
+        "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "fcntl": "fcntl",
+        "hashlib": "hashlib",
+        "logging": "logging",
+        "msvcrt": "msvcrt",
+        "os": "os",
+        "sys": "sys",
+        "tempfile": "tempfile",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "fcntl",
+        "hashlib",
+        "logging",
+        "msvcrt",
+        "os",
+        "pathlib",
+        "sys",
+        "tempfile",
+        "threading",
+        "time",
+        "torch",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_lease",
+      "qualname": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cls, device_id, physical_device_id, host_scope, container_scope, root, wait, timeout_seconds, cancel_callback, poll_interval_seconds)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "for_cuda",
+      "tests": [
+        "tests/unit/test_audit_cuda_lease_identity.py"
       ]
     },
     {
@@ -627,7 +843,7 @@
         "calo_rpd_studio.compute.device_lease._ProcessLease"
       ],
       "doc": "",
-      "end_line": 122,
+      "end_line": 183,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -635,6 +851,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -645,7 +862,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -664,7 +882,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -687,7 +907,7 @@
         "resource-admission"
       ],
       "signature": "(self, device_id, physical_device_id, host_scope, container_scope, root, wait, timeout_seconds, cancel_callback, poll_interval_seconds)",
-      "start_line": 45,
+      "start_line": 106,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -771,7 +991,7 @@
         "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
       ],
       "doc": "",
-      "end_line": 151,
+      "end_line": 212,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -779,6 +999,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -789,7 +1010,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -808,7 +1030,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -831,7 +1055,7 @@
         "resource-admission"
       ],
       "signature": "(stream)",
-      "start_line": 125,
+      "start_line": 186,
       "state_owner": "",
       "symbol": "_lock_stream",
       "tests": []
@@ -878,7 +1102,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 163,
+      "end_line": 224,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -886,6 +1110,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -896,7 +1121,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -915,7 +1141,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -938,7 +1166,7 @@
         "resource-admission"
       ],
       "signature": "(stream)",
-      "start_line": 154,
+      "start_line": 215,
       "state_owner": "",
       "symbol": "_unlock_stream",
       "tests": []
@@ -988,7 +1216,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease._unlock_stream"
       ],
       "doc": "",
-      "end_line": 180,
+      "end_line": 241,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -996,6 +1224,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -1006,7 +1235,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -1025,7 +1255,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1048,7 +1280,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 165,
+      "start_line": 226,
       "state_owner": "",
       "symbol": "close",
       "tests": []
@@ -1062,7 +1294,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 183,
+      "end_line": 244,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1070,6 +1302,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -1080,7 +1313,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -1099,7 +1333,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1122,7 +1358,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 182,
+      "start_line": 243,
       "state_owner": "",
       "symbol": "__enter__",
       "tests": []
@@ -1148,7 +1384,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.close"
       ],
       "doc": "",
-      "end_line": 186,
+      "end_line": 247,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1156,6 +1392,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -1166,7 +1403,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -1185,7 +1423,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1208,7 +1448,7 @@
         "resource-admission"
       ],
       "signature": "(self, _exc_type, _exc, _tb)",
-      "start_line": 185,
+      "start_line": 246,
       "state_owner": "",
       "symbol": "__exit__",
       "tests": []
@@ -1241,7 +1481,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.close"
       ],
       "doc": "",
-      "end_line": 192,
+      "end_line": 253,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1249,6 +1489,7 @@
         "BinaryIO": "typing.BinaryIO",
         "Callable": "typing.Callable",
         "Path": "pathlib.Path",
+        "UUID": "uuid.UUID",
         "annotations": "__future__.annotations",
         "dataclass": "dataclasses.dataclass",
         "fcntl": "fcntl",
@@ -1259,7 +1500,8 @@
         "sys": "sys",
         "tempfile": "tempfile",
         "threading": "threading",
-        "time": "time"
+        "time": "time",
+        "torch": "torch"
       },
       "important_invariants": [
         "Resource admission is bounded by Safe-80 rules.",
@@ -1278,7 +1520,9 @@
         "tempfile",
         "threading",
         "time",
-        "typing"
+        "torch",
+        "typing",
+        "uuid"
       ],
       "integration_layer": "",
       "internal_only": false,
@@ -1301,7 +1545,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 188,
+      "start_line": 249,
       "state_owner": "",
       "symbol": "__del__",
       "tests": []

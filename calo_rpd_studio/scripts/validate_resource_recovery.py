@@ -294,7 +294,7 @@ def _controlled_cpu_restart_and_cuda_recovery_probe(
 
 def _lease_attempt(device: str, root: str, result_queue) -> None:
     try:
-        lease = ExclusiveDeviceLease(device, root=root)
+        lease = ExclusiveDeviceLease.for_cuda(device, root=root)
     except DeviceLeaseUnavailable:
         result_queue.put("busy")
     except BaseException as exc:
@@ -323,7 +323,7 @@ def _child_lease_result(context, device: str, root: str) -> dict:
 def _cross_process_lease_probe(device: str) -> dict:
     context = multiprocessing.get_context("spawn")
     with tempfile.TemporaryDirectory(prefix="calo-rpd-g2-lease-") as root:
-        owner = ExclusiveDeviceLease(device, root=root)
+        owner = ExclusiveDeviceLease.for_cuda(device, root=root)
         try:
             while_owned = _child_lease_result(context, device, root)
         finally:

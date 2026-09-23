@@ -253,6 +253,21 @@
       ],
       "correction": "Use sys.platform guards recognized by mypy. CI runs the unchanged 23-file typed safety boundary for both linux and win32; no type-ignore or gate suppression was added.",
       "validation_performed": "Both complete 23-file type-check targets pass. CI-contract and dispatch regression tests also pass."
+    },
+    {
+      "id": "AUDIT-20260923-06",
+      "severity": "high",
+      "status": "resolved",
+      "description": "Logical and physical GPU labels produced different device leases.",
+      "affected": [
+        "calo_rpd_studio/compute/device_lease.py",
+        "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+        "calo_rpd_studio/accelerated/vram_residency.py",
+        "calo_rpd_studio/compute/soak.py",
+        "calo_rpd_studio/scripts/validate_resource_recovery.py"
+      ],
+      "correction": "All production CUDA acquisitions use a runtime-UUID factory and one physical namespace. Missing UUIDs and mismatching UUID claims fail closed. Competing processes and containers must share the lease directory.",
+      "validation_performed": "53 selected tests passed, including cross-process experiment/training exclusion with mocked CUDA discovery. Both 23-file type-check targets passed; no GPU workload was run."
     }
   ],
   "schema_version": 1

@@ -265,7 +265,7 @@ class TSHCALOTrainingDeviceGuard:
         local_key = str(selected)
         cls._claim_local_cuda(local_key)
         try:
-            lease = ExclusiveDeviceLease(local_key)
+            lease = ExclusiveDeviceLease.for_cuda(local_key)
         except BaseException:
             cls._release_local_cuda(local_key)
             raise

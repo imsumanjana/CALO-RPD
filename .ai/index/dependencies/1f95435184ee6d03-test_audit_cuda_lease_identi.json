@@ -1,0 +1,216 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/vram_residency.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_lease.py"
+    }
+  ],
+  "path": "tests/unit/test_audit_cuda_lease_identity.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.fake_runtime",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.fake_runtime",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.fake_runtime",
+      "to": "monkeypatch.setenv"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.fake_runtime",
+      "to": "pytest.fixture"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.fake_runtime",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_all_production_cuda_lease_callers_use_the_canonical_factory",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_all_production_cuda_lease_callers_use_the_canonical_factory",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_all_production_cuda_lease_callers_use_the_canonical_factory",
+      "to": "resolve"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_cpu_request_is_rejected_before_cuda_discovery",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_cpu_request_is_rejected_before_cuda_discovery",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_cpu_request_is_rejected_before_cuda_discovery",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_cpu_request_is_rejected_before_cuda_discovery.forbidden",
+      "to": "pytest.fail"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_different_physical_gpus_do_not_share_a_lock",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_different_physical_gpus_do_not_share_a_lock",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_different_physical_gpus_do_not_share_a_lock",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
+      "to": "governor.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process",
+      "to": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process.child"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process.child",
+      "to": "os.environ.copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process.child",
+      "to": "result.stdout.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_experiment_governor_excludes_training_in_another_process.child",
+      "to": "subprocess.run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_logical_ordinals_and_display_scopes_share_one_physical_lock",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_mismatching_or_malformed_uuid_claim_is_rejected",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_mismatching_or_malformed_uuid_claim_is_rejected",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_mismatching_or_malformed_uuid_claim_is_rejected",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "UUID"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_missing_or_invalid_runtime_uuid_never_falls_back_to_ordinal",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported",
+      "to": "UUID"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.for_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_cuda_lease_identity.test_runtime_uuid_byte_object_and_current_device_are_supported",
+      "to": "monkeypatch.setattr"
+    }
+  ]
+}

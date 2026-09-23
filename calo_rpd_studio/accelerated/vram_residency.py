@@ -177,7 +177,7 @@ class VramResidencyGovernor:
             return
         index = torch.cuda.current_device() if device.index is None else int(device.index)
         canonical = f"cuda:{index}"
-        self._device_lease = ExclusiveDeviceLease(
+        self._device_lease = ExclusiveDeviceLease.for_cuda(
             canonical,
             physical_device_id=self.physical_device_id or canonical,
             host_scope=self.lease_host_scope,

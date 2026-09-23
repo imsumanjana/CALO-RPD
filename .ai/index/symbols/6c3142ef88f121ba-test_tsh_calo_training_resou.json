@@ -436,7 +436,7 @@
         "tests.unit.test_tsh_calo_training_resources._estimate"
       ],
       "doc": "",
-      "end_line": 126,
+      "end_line": 130,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -490,7 +490,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 97,
+      "end_line": 101,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -541,6 +541,70 @@
       "call_edges": [
         {
           "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        }
+      ],
+      "call_forms": {
+        "cls": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "cls"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 95,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease.for_cuda",
+      "semantic_tags": [],
+      "signature": "(cls, device)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "for_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
           "raw": "events.append",
           "target": "events.append"
         }
@@ -554,7 +618,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 94,
+      "end_line": 98,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -594,7 +658,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease.__init__",
       "semantic_tags": [],
       "signature": "(self, device)",
-      "start_line": 93,
+      "start_line": 97,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -618,7 +682,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 97,
+      "end_line": 101,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -658,7 +722,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease.close",
       "semantic_tags": [],
       "signature": "(self)",
-      "start_line": 96,
+      "start_line": 100,
       "state_owner": "",
       "symbol": "close",
       "tests": []
@@ -713,7 +777,7 @@
         "tests.unit.test_tsh_calo_training_resources._estimate"
       ],
       "doc": "",
-      "end_line": 163,
+      "end_line": 171,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -753,7 +817,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 129,
+      "start_line": 133,
       "state_owner": "",
       "symbol": "test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
       "tests": []
@@ -767,7 +831,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 138,
+      "end_line": 146,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -807,9 +871,73 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 133,
+      "start_line": 137,
       "state_owner": "",
       "symbol": "Lease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        }
+      ],
+      "call_forms": {
+        "cls": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "cls"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease.for_cuda",
+      "semantic_tags": [],
+      "signature": "(cls, device)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "for_cuda",
       "tests": []
     },
     {
@@ -821,7 +949,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 135,
+      "end_line": 143,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -861,7 +989,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease.__init__",
       "semantic_tags": [],
       "signature": "(self, _device)",
-      "start_line": 134,
+      "start_line": 142,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -875,7 +1003,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 138,
+      "end_line": 146,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -915,7 +1043,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease.close",
       "semantic_tags": [],
       "signature": "(self)",
-      "start_line": 137,
+      "start_line": 145,
       "state_owner": "",
       "symbol": "close",
       "tests": []
@@ -963,7 +1091,7 @@
         "tests.unit.test_tsh_calo_training_resources._estimate"
       ],
       "doc": "",
-      "end_line": 177,
+      "end_line": 189,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -1003,7 +1131,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 166,
+      "start_line": 174,
       "state_owner": "",
       "symbol": "test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
       "tests": []
@@ -1017,7 +1145,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 171,
+      "end_line": 183,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -1057,9 +1185,73 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease",
       "semantic_tags": [],
       "signature": "",
-      "start_line": 169,
+      "start_line": 177,
       "state_owner": "",
       "symbol": "BusyLease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        }
+      ],
+      "call_forms": {
+        "cls": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "cls"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease.for_cuda",
+      "semantic_tags": [],
+      "signature": "(cls, device)",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "for_cuda",
       "tests": []
     },
     {
@@ -1083,7 +1275,7 @@
         "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
       ],
       "doc": "",
-      "end_line": 171,
+      "end_line": 183,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -1123,7 +1315,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease.__init__",
       "semantic_tags": [],
       "signature": "(self, _device)",
-      "start_line": 170,
+      "start_line": 182,
       "state_owner": "",
       "symbol": "__init__",
       "tests": []
@@ -1185,7 +1377,7 @@
         "tests.unit.test_tsh_calo_training_resources._estimate"
       ],
       "doc": "",
-      "end_line": 188,
+      "end_line": 200,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -1225,7 +1417,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_no_xpu_training_resource_path_exists",
       "semantic_tags": [],
       "signature": "()",
-      "start_line": 180,
+      "start_line": 192,
       "state_owner": "",
       "symbol": "test_no_xpu_training_resource_path_exists",
       "tests": []
@@ -1302,7 +1494,7 @@
         "tests.unit.test_tsh_calo_training_resources._estimate"
       ],
       "doc": "",
-      "end_line": 223,
+      "end_line": 235,
       "entry_point": false,
       "file": "tests/unit/test_tsh_calo_training_resources.py",
       "implementation_core": false,
@@ -1342,7 +1534,7 @@
       "qualname": "tests.unit.test_tsh_calo_training_resources.test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
       "semantic_tags": [],
       "signature": "(monkeypatch)",
-      "start_line": 191,
+      "start_line": 203,
       "state_owner": "",
       "symbol": "test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
       "tests": []

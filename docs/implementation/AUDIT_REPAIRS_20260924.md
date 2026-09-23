@@ -31,3 +31,9 @@ Validation: 19 cumulative audit tests passed; four new primary-error regressions
 Use sys.platform guards recognized by mypy. CI runs the unchanged 23-file typed safety boundary for both linux and win32; no type-ignore or gate suppression was added.
 
 Validation: 21 cumulative audit tests passed; both 23-file mypy targets passed.
+
+## 06 â€” unify CUDA leases by runtime physical UUID
+
+All production CUDA acquisitions use a runtime-UUID factory and one physical namespace. Missing UUIDs and mismatching UUID claims fail closed. Competing processes and containers must share the lease directory.
+
+Validation: 53 selected tests passed, including 34 new audit regressions; both 23-file mypy targets passed.
