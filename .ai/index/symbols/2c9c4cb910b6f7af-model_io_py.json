@@ -1400,6 +1400,7 @@
         "str": "name"
       },
       "called_by": [
+        "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
         "calo_rpd_studio.ai.model_io.durable_torch_save",
         "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
         "calo_rpd_studio.ai.model_io.durable_write_bytes"
@@ -1569,7 +1570,6 @@
       "called_by": [
         "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model",
         "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_json",
-        "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
         "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core._write_json",
         "calo_rpd_studio.algorithms.calo.competitive_training._atomic_json",
@@ -1876,8 +1876,8 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "_TRUST_KEY.is_file",
-          "target": "_TRUST_KEY.is_file"
+          "raw": "_TRUST_KEY.exists",
+          "target": "_TRUST_KEY.exists"
         },
         {
           "confidence": "unresolved",
@@ -1885,9 +1885,19 @@
           "target": "_TRUST_KEY.read_bytes"
         },
         {
+          "confidence": "unresolved",
+          "raw": "_TRUST_KEY.with_name",
+          "target": "_TRUST_KEY.with_name"
+        },
+        {
           "confidence": "confirmed",
-          "raw": "durable_write_bytes",
-          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+          "raw": "_fsync_directory",
+          "target": "calo_rpd_studio.ai.model_io._fsync_directory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.unlink",
+          "target": "candidate.unlink"
         },
         {
           "confidence": "unresolved",
@@ -1896,43 +1906,107 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "os.chmod",
-          "target": "os.chmod"
+          "raw": "os.fdopen",
+          "target": "os.fdopen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.link",
+          "target": "os.link"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.open",
+          "target": "os.open"
         },
         {
           "confidence": "unresolved",
           "raw": "secrets.token_bytes",
           "target": "secrets.token_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "secrets.token_hex",
+          "target": "secrets.token_hex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.fileno",
+          "target": "stream.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
         }
       ],
       "call_forms": {
         "RuntimeError": "name",
         "_TRUST_DIR.mkdir": "attribute",
-        "_TRUST_KEY.is_file": "attribute",
+        "_TRUST_KEY.exists": "attribute",
         "_TRUST_KEY.read_bytes": "attribute",
-        "durable_write_bytes": "name",
+        "_TRUST_KEY.with_name": "attribute",
+        "_fsync_directory": "name",
+        "candidate.unlink": "attribute",
         "len": "name",
-        "os.chmod": "attribute",
-        "secrets.token_bytes": "attribute"
+        "os.fdopen": "attribute",
+        "os.fsync": "attribute",
+        "os.getpid": "attribute",
+        "os.link": "attribute",
+        "os.open": "attribute",
+        "secrets.token_bytes": "attribute",
+        "secrets.token_hex": "attribute",
+        "stream.fileno": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
       },
       "called_by": [
-        "calo_rpd_studio.ai.model_io._resume_signature"
+        "calo_rpd_studio.ai.model_io._resume_signature",
+        "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+        "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated",
+        "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+        "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed"
       ],
       "calls": [
         "RuntimeError",
         "_TRUST_DIR.mkdir",
-        "_TRUST_KEY.is_file",
+        "_TRUST_KEY.exists",
         "_TRUST_KEY.read_bytes",
-        "durable_write_bytes",
+        "_TRUST_KEY.with_name",
+        "_fsync_directory",
+        "candidate.unlink",
         "len",
-        "os.chmod",
-        "secrets.token_bytes"
+        "os.fdopen",
+        "os.fsync",
+        "os.getpid",
+        "os.link",
+        "os.open",
+        "secrets.token_bytes",
+        "secrets.token_hex",
+        "stream.fileno",
+        "stream.flush",
+        "stream.write"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        "calo_rpd_studio.ai.model_io._fsync_directory"
       ],
-      "doc": "",
-      "end_line": 179,
+      "doc": "Publish a complete key exactly once; concurrent creators never rotate it.",
+      "end_line": 192,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -1999,7 +2073,9 @@
       "start_line": 166,
       "state_owner": "",
       "symbol": "_load_or_create_local_trust_key",
-      "tests": []
+      "tests": [
+        "tests/unit/test_audit_trust_key_creation.py"
+      ]
     },
     {
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
@@ -2048,7 +2124,7 @@
         "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
       ],
       "doc": "",
-      "end_line": 185,
+      "end_line": 198,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -2112,7 +2188,7 @@
         "qualification"
       ],
       "signature": "(digest)",
-      "start_line": 182,
+      "start_line": 195,
       "state_owner": "",
       "symbol": "_resume_signature",
       "tests": []
@@ -2190,7 +2266,7 @@
         "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
       ],
       "doc": "Authenticate an application-created exact-resume artifact with a machine-local HMAC sidecar.",
-      "end_line": 202,
+      "end_line": 215,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -2254,7 +2330,7 @@
         "qualification"
       ],
       "signature": "(path)",
-      "start_line": 188,
+      "start_line": 201,
       "state_owner": "",
       "symbol": "write_trusted_resume_hash",
       "tests": [
@@ -2472,7 +2548,7 @@
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
       ],
       "doc": "Atomically publish a self-authenticating exact-resume envelope.",
-      "end_line": 251,
+      "end_line": 264,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -2536,7 +2612,7 @@
         "qualification"
       ],
       "signature": "(payload, path)",
-      "start_line": 205,
+      "start_line": 218,
       "state_owner": "",
       "symbol": "durable_trusted_torch_save",
       "tests": [
@@ -2735,7 +2811,7 @@
         "calo_rpd_studio.ai.model_io.open_atomic_reader"
       ],
       "doc": "",
-      "end_line": 288,
+      "end_line": 301,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -2799,7 +2875,7 @@
         "qualification"
       ],
       "signature": "(source, map_location)",
-      "start_line": 254,
+      "start_line": 267,
       "state_owner": "",
       "symbol": "_load_trusted_resume_envelope",
       "tests": []
@@ -2961,7 +3037,7 @@
         "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
       ],
       "doc": "Load an application-created exact-resume checkpoint only after local authenticity verification.",
-      "end_line": 325,
+      "end_line": 338,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -3025,7 +3101,7 @@
         "qualification"
       ],
       "signature": "(path, map_location)",
-      "start_line": 291,
+      "start_line": 304,
       "state_owner": "",
       "symbol": "load_trusted_resume",
       "tests": [
@@ -3246,7 +3322,7 @@
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
       ],
       "doc": "One-time migration of a *locally trusted* pre-v5.7 exact-resume checkpoint.",
-      "end_line": 392,
+      "end_line": 405,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
@@ -3310,7 +3386,7 @@
         "qualification"
       ],
       "signature": "(path, target, explicit_trust, map_location)",
-      "start_line": 328,
+      "start_line": 341,
       "state_owner": "",
       "symbol": "migrate_legacy_local_resume",
       "tests": [

@@ -1,0 +1,232 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/__init__.py"
+    }
+  ],
+  "path": "tests/unit/test_audit_trust_key_creation.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.isolated_trust",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.isolated_trust",
+      "to": "pytest.fixture"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+      "to": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+      "to": "io._TRUST_DIR.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+      "to": "io._TRUST_KEY.read_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+      "to": "io._TRUST_KEY.write_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_corrupt_existing_key_fails_without_replacement",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated",
+      "to": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated",
+      "to": "io._TRUST_DIR.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated",
+      "to": "io._TRUST_KEY.write_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_existing_key_is_not_rotated.forbidden",
+      "to": "pytest.fail"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "p.communicate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "p.kill"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "p.poll"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "p.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "read_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "stdout.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_independent_processes_share_the_same_key",
+      "to": "subprocess.Popen"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "ThreadPoolExecutor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "executor.map"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "io._TRUST_DIR.glob"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "io._TRUST_KEY.read_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key",
+      "to": "threading.Barrier"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key.synchronized_publish",
+      "to": "barrier.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_simultaneous_creators_return_only_the_persisted_key.synchronized_publish",
+      "to": "publish"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "io._TRUST_DIR.glob"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "io._TRUST_KEY.exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_audit_trust_key_creation.test_unsupported_publication_fails_closed.denied",
+      "to": "OSError"
+    }
+  ]
+}

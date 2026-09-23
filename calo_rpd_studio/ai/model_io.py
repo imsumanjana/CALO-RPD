@@ -164,18 +164,31 @@ def durable_torch_save(payload: Any, path: str | Path) -> None:
 
 
 def _load_or_create_local_trust_key() -> bytes:
+    """Publish a complete key exactly once; concurrent creators never rotate it."""
     _TRUST_DIR.mkdir(parents=True, exist_ok=True)
-    if _TRUST_KEY.is_file():
-        key = _TRUST_KEY.read_bytes()
-        if len(key) < 32:
-            raise RuntimeError("CALO local resume trust key is invalid")
-        return key
-    key = secrets.token_bytes(32)
-    durable_write_bytes(_TRUST_KEY, key)
-    try:
-        os.chmod(_TRUST_KEY, 0o600)
-    except OSError:
-        pass
+    if not _TRUST_KEY.exists():
+        candidate = _TRUST_KEY.with_name(
+            f".{_TRUST_KEY.name}.{os.getpid()}.{secrets.token_hex(8)}.tmp"
+        )
+        try:
+            fd = os.open(candidate, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(secrets.token_bytes(32))
+                stream.flush()
+                os.fsync(stream.fileno())
+            try:
+                # A hard-link publication is atomic and fails rather than replacing a winner.
+                # Filesystems without this primitive fail closed; never fall back to replace.
+                os.link(candidate, _TRUST_KEY)
+            except FileExistsError:
+                pass
+            else:
+                _fsync_directory(_TRUST_DIR)
+        finally:
+            candidate.unlink(missing_ok=True)
+    key = _TRUST_KEY.read_bytes()
+    if len(key) < 32:
+        raise RuntimeError("CALO local resume trust key is invalid")
     return key
 
 

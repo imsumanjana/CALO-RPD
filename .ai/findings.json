@@ -208,6 +208,17 @@
       "correction": "Hash, authenticate, and deserialize the same private snapshot, including explicit legacy migration.",
       "validation_performed": "Six synthetic snapshot regressions passed; no production artifacts or unsafe payloads used.",
       "reopen_conditions": "Any loader reopens a path after verifying a different stream."
+    },
+    {
+      "id": "AUDIT-20260923-02",
+      "severity": "high",
+      "status": "resolved",
+      "description": "Concurrent first-use trust-key creation could overwrite another creator.",
+      "affected": [
+        "calo_rpd_studio/ai/model_io.py"
+      ],
+      "correction": "Publish a fully fsynced private candidate using an atomic no-clobber hard link, then return the persisted winner. Existing keys are never rotated. Unsupported filesystems fail closed.",
+      "validation_performed": "Eight synchronized threads and two independent processes agree on the persisted temporary key; existing/corrupt-key and no-clobber failure regressions passed."
     }
   ],
   "schema_version": 1

@@ -36,7 +36,7 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
-      "to": "_TRUST_KEY.is_file"
+      "to": "_TRUST_KEY.exists"
     },
     {
       "confidence": "unresolved",
@@ -44,9 +44,19 @@
       "to": "_TRUST_KEY.read_bytes"
     },
     {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "_TRUST_KEY.with_name"
+    },
+    {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
-      "to": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      "to": "calo_rpd_studio.ai.model_io._fsync_directory"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "candidate.unlink"
     },
     {
       "confidence": "unresolved",
@@ -56,12 +66,52 @@
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
-      "to": "os.chmod"
+      "to": "os.fdopen"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "os.fsync"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "os.getpid"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "os.link"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "os.open"
     },
     {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
       "to": "secrets.token_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "secrets.token_hex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "stream.fileno"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "stream.flush"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "to": "stream.write"
     },
     {
       "confidence": "unresolved",
