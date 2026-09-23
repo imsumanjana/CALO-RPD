@@ -1,0 +1,537 @@
+{
+  "path": "tests/unit/test_audit_checkpoint_snapshot.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.fixture",
+          "target": "pytest.fixture"
+        }
+      ],
+      "call_forms": {
+        "monkeypatch.setattr": "attribute",
+        "pytest.fixture": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "monkeypatch.setattr",
+        "pytest.fixture"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.isolated_trust",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "isolated_trust",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "actual_load",
+          "target": "actual_load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.durable_trusted_torch_save",
+          "target": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.load_checkpoint",
+          "target": "calo_rpd_studio.ai.model_io.load_checkpoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.load_trusted_resume",
+          "target": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.migrate_legacy_local_resume",
+          "target": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.trusted_resume_sha_path",
+          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.write_trusted_resume_hash",
+          "target": "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.equal",
+          "target": "torch.equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "actual_load": "name",
+        "io.checkpoint_sha256": "attribute",
+        "io.durable_trusted_torch_save": "attribute",
+        "io.load_checkpoint": "attribute",
+        "io.load_trusted_resume": "attribute",
+        "io.migrate_legacy_local_resume": "attribute",
+        "io.trusted_resume_sha_path": "attribute",
+        "io.write_trusted_resume_hash": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "torch.equal": "attribute",
+        "torch.save": "attribute",
+        "torch.tensor": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "actual_load",
+        "io.checkpoint_sha256",
+        "io.durable_trusted_torch_save",
+        "io.load_checkpoint",
+        "io.load_trusted_resume",
+        "io.migrate_legacy_local_resume",
+        "io.trusted_resume_sha_path",
+        "io.write_trusted_resume_hash",
+        "monkeypatch.setattr",
+        "pytest.mark.parametrize",
+        "torch.equal",
+        "torch.save",
+        "torch.tensor",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch, kind)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "test_replacement_at_deserialization_cannot_change_verified_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "actual_load",
+          "target": "actual_load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "kwargs.get",
+          "target": "kwargs.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        }
+      ],
+      "call_forms": {
+        "actual_load": "name",
+        "calls.append": "attribute",
+        "isinstance": "name",
+        "kwargs.get": "attribute",
+        "os.replace": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "actual_load",
+        "calls.append",
+        "isinstance",
+        "kwargs.get",
+        "os.replace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes.replace_then_load",
+      "semantic_tags": [],
+      "signature": "(stream, *args, **kwargs)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "replace_then_load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "io.load_checkpoint",
+          "target": "calo_rpd_studio.ai.model_io.load_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "io.load_checkpoint": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute",
+        "torch.save": "attribute",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "io.load_checkpoint",
+        "monkeypatch.setattr",
+        "pytest.raises",
+        "torch.save",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.load_checkpoint"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.test_wrong_digest_rejects_before_deserialization",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_wrong_digest_rejects_before_deserialization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.fail",
+          "target": "pytest.fail"
+        }
+      ],
+      "call_forms": {
+        "pytest.fail": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "pytest.fail"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot.test_wrong_digest_rejects_before_deserialization",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.test_wrong_digest_rejects_before_deserialization.forbidden",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "forbidden",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "io._verified_checkpoint_snapshot",
+          "target": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "io.checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.read",
+          "target": "snapshot.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.unlink",
+          "target": "source.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.write_bytes",
+          "target": "source.write_bytes"
+        }
+      ],
+      "call_forms": {
+        "io._verified_checkpoint_snapshot": "attribute",
+        "io.checkpoint_sha256": "attribute",
+        "snapshot.read": "attribute",
+        "source.unlink": "attribute",
+        "source.write_bytes": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "io._verified_checkpoint_snapshot",
+        "io.checkpoint_sha256",
+        "snapshot.read",
+        "source.unlink",
+        "source.write_bytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      ],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_checkpoint_snapshot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "io": "calo_rpd_studio.ai.model_io",
+        "os": "os",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.ai",
+        "os",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_checkpoint_snapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_checkpoint_snapshot",
+      "qualname": "tests.unit.test_audit_checkpoint_snapshot.test_snapshot_spills_and_releases_source_handle",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "test_snapshot_spills_and_releases_source_handle",
+      "tests": []
+    }
+  ]
+}

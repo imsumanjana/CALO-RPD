@@ -36,6 +36,7 @@
 - `docs/calo_methodology.md`
 - `docs/implementation/ACTIVE_CONTINUATION_LOG.md`
 - `docs/implementation/AGENTS.md`
+- `docs/implementation/AUDIT_REPAIRS_20260924.md`
 - `docs/implementation/CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`
 - `docs/implementation/ENGINEERING_CLOSURE_20260919.md`
 - `docs/implementation/HISTORICAL_STATISTICAL_EVIDENCE_CORRECTIONS_V12.json`

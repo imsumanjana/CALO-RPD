@@ -11,20 +11,24 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 17,
+      "end_line": 19,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -35,6 +39,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -42,6 +47,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -69,7 +75,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 17,
+      "start_line": 19,
       "state_owner": "",
       "symbol": "_TRUST_SCHEMA",
       "tests": []
@@ -83,20 +89,24 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 18,
+      "end_line": 20,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -107,6 +117,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -114,6 +125,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -141,7 +153,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 18,
+      "start_line": 20,
       "state_owner": "",
       "symbol": "_TRUST_DIR",
       "tests": []
@@ -155,20 +167,24 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 19,
+      "end_line": 21,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -179,6 +195,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -186,6 +203,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -213,7 +231,7 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 19,
+      "start_line": 21,
       "state_owner": "",
       "symbol": "_TRUST_KEY",
       "tests": []
@@ -227,20 +245,24 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 20,
+      "end_line": 22,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -251,6 +273,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -258,6 +281,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -285,9 +309,213 @@
         "qualification"
       ],
       "signature": "",
-      "start_line": 20,
+      "start_line": 22,
       "state_owner": "",
       "symbol": "_TRUSTED_ENVELOPE_MAGIC",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "threading": "threading",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "contextlib",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "threading",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._ATOMIC_SNAPSHOT_LOCK",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "_ATOMIC_SNAPSHOT_LOCK",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "open",
+          "target": "open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.seek",
+          "target": "snapshot.seek"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.write",
+          "target": "snapshot.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read",
+          "target": "source.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.SpooledTemporaryFile",
+          "target": "tempfile.SpooledTemporaryFile"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "open": "attribute",
+        "snapshot.seek": "attribute",
+        "snapshot.write": "attribute",
+        "source.read": "attribute",
+        "tempfile.SpooledTemporaryFile": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
+        "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
+      ],
+      "calls": [
+        "Path",
+        "open",
+        "snapshot.seek",
+        "snapshot.write",
+        "source.read",
+        "tempfile.SpooledTemporaryFile"
+      ],
+      "calls_resolved": [],
+      "doc": "Read one complete snapshot without retaining a handle on the replaceable path.",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "threading": "threading",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "contextlib",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "threading",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "open_atomic_reader",
       "tests": []
     },
     {
@@ -370,6 +598,8 @@
         "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel._delete_standalone_policy_file",
         "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._registered_obsolete_issue",
         "tests.gui.test_obsolete_policy_artifact_management.test_registered_diagnostics_recheck_compatibility_after_cached_integrity",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
+        "tests.unit.test_audit_checkpoint_snapshot.test_snapshot_spills_and_releases_source_handle",
         "tests.unit.test_tsh_calo_automatic_qualification._write_json",
         "tests.unit.test_tsh_calo_automatic_qualification.test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit",
         "tests.unit.test_tsh_calo_policy_lifecycle.test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate",
@@ -393,20 +623,24 @@
       ],
       "calls_resolved": [],
       "doc": "Stream a checkpoint SHA-256 without loading large artifacts into RAM.",
-      "end_line": 32,
+      "end_line": 58,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -417,6 +651,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -424,6 +659,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -451,11 +687,12 @@
         "qualification"
       ],
       "signature": "(path, chunk_size)",
-      "start_line": 23,
+      "start_line": 49,
       "state_owner": "",
       "symbol": "checkpoint_sha256",
       "tests": [
         "tests/gui/test_obsolete_policy_artifact_management.py",
+        "tests/unit/test_audit_checkpoint_snapshot.py",
         "tests/unit/test_tsh_calo_automatic_qualification.py",
         "tests/unit/test_tsh_calo_policy_lifecycle.py",
         "tests/unit/test_tsh_calo_training_campaign.py",
@@ -514,9 +751,6 @@
         "strip": "attribute"
       },
       "called_by": [
-        "calo_rpd_studio.ai.model_io.load_checkpoint",
-        "calo_rpd_studio.ai.model_io.load_trusted_resume",
-        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
         "calo_rpd_studio.algorithms.calo.ai_controller.AIController.load"
       ],
       "calls": [
@@ -532,20 +766,24 @@
         "calo_rpd_studio.ai.model_io.checkpoint_sha256"
       ],
       "doc": "",
-      "end_line": 42,
+      "end_line": 68,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -556,6 +794,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -563,6 +802,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -590,10 +830,184 @@
         "qualification"
       ],
       "signature": "(path, expected_sha256)",
-      "start_line": 35,
+      "start_line": 61,
       "state_owner": "",
       "symbol": "verify_checkpoint_hash",
       "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actual.lower",
+          "target": "actual.lower"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "open_atomic_reader",
+          "target": "calo_rpd_studio.ai.model_io.open_atomic_reader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.read",
+          "target": "snapshot.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.seek",
+          "target": "snapshot.seek"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "actual.lower": "attribute",
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "lower": "attribute",
+        "open_atomic_reader": "name",
+        "snapshot.read": "attribute",
+        "snapshot.seek": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "tests.unit.test_audit_checkpoint_snapshot.test_snapshot_spills_and_releases_source_handle"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "actual.lower",
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "lower",
+        "open_atomic_reader",
+        "snapshot.read",
+        "snapshot.seek",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.open_atomic_reader"
+      ],
+      "doc": "Hash and load the same private snapshot; never reopen the checked path.",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "threading": "threading",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "contextlib",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "threading",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, expected_sha256)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "_verified_checkpoint_snapshot",
+      "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py"
+      ]
     },
     {
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
@@ -651,20 +1065,24 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 53,
+      "end_line": 96,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -675,6 +1093,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -682,6 +1101,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -709,7 +1129,7 @@
         "qualification"
       ],
       "signature": "(payload)",
-      "start_line": 45,
+      "start_line": 88,
       "state_owner": "",
       "symbol": "_validate_model_payload",
       "tests": []
@@ -730,8 +1150,8 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "verify_checkpoint_hash",
-          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+          "raw": "_verified_checkpoint_snapshot",
+          "target": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
         },
         {
           "confidence": "unresolved",
@@ -742,8 +1162,8 @@
       "call_forms": {
         "Path": "name",
         "_validate_model_payload": "name",
-        "torch.load": "attribute",
-        "verify_checkpoint_hash": "name"
+        "_verified_checkpoint_snapshot": "name",
+        "torch.load": "attribute"
       },
       "called_by": [
         "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.inspect_checkpoint",
@@ -757,33 +1177,39 @@
         "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl",
         "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.register_checkpoint",
         "calo_rpd_studio.algorithms.calo.training._train_policy_impl",
-        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
+        "tests.unit.test_audit_checkpoint_snapshot.test_wrong_digest_rejects_before_deserialization"
       ],
       "calls": [
         "Path",
         "_validate_model_payload",
-        "torch.load",
-        "verify_checkpoint_hash"
+        "_verified_checkpoint_snapshot",
+        "torch.load"
       ],
       "calls_resolved": [
         "calo_rpd_studio.ai.model_io._validate_model_payload",
-        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+        "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
       ],
       "doc": "Load a portable/deployable model with PyTorch's restricted weights-only loader.",
-      "end_line": 61,
+      "end_line": 104,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -794,6 +1220,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -801,6 +1228,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -828,10 +1256,12 @@
         "qualification"
       ],
       "signature": "(path, expected_sha256, map_location)",
-      "start_line": 56,
+      "start_line": 99,
       "state_owner": "",
       "symbol": "load_checkpoint",
-      "tests": []
+      "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py"
+      ]
     },
     {
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
@@ -857,6 +1287,7 @@
         "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._remove_completed_cell_checkpoint",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
         "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash"
       ],
       "calls": [
@@ -865,20 +1296,24 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 67,
+      "end_line": 110,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -889,6 +1324,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -896,6 +1332,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -923,10 +1360,11 @@
         "qualification"
       ],
       "signature": "(path)",
-      "start_line": 64,
+      "start_line": 107,
       "state_owner": "",
       "symbol": "trusted_resume_sha_path",
       "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py",
         "tests/unit/test_v57_previous_audit_closure.py"
       ]
     },
@@ -974,20 +1412,24 @@
       ],
       "calls_resolved": [],
       "doc": "Best-effort directory durability after atomic replace (supported on POSIX).",
-      "end_line": 82,
+      "end_line": 125,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -998,6 +1440,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1005,6 +1448,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1032,7 +1476,7 @@
         "qualification"
       ],
       "signature": "(directory)",
-      "start_line": 70,
+      "start_line": 113,
       "state_owner": "",
       "symbol": "_fsync_directory",
       "tests": []
@@ -1161,20 +1605,24 @@
         "calo_rpd_studio.ai.model_io._fsync_directory"
       ],
       "doc": "Write bytes by fsync + atomic replace + best-effort parent-directory fsync.",
-      "end_line": 101,
+      "end_line": 144,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -1185,6 +1633,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1192,6 +1641,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1219,7 +1669,7 @@
         "qualification"
       ],
       "signature": "(path, data)",
-      "start_line": 85,
+      "start_line": 128,
       "state_owner": "",
       "symbol": "durable_write_bytes",
       "tests": []
@@ -1339,20 +1789,24 @@
         "calo_rpd_studio.ai.model_io._fsync_directory"
       ],
       "doc": "Durably save a trusted-local torch payload before any trust sidecar is emitted.",
-      "end_line": 120,
+      "end_line": 163,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -1363,6 +1817,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1370,6 +1825,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1397,7 +1853,7 @@
         "qualification"
       ],
       "signature": "(payload, path)",
-      "start_line": 104,
+      "start_line": 147,
       "state_owner": "",
       "symbol": "durable_torch_save",
       "tests": [
@@ -1476,20 +1932,24 @@
         "calo_rpd_studio.ai.model_io.durable_write_bytes"
       ],
       "doc": "",
-      "end_line": 136,
+      "end_line": 179,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -1500,6 +1960,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1507,6 +1968,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1534,7 +1996,7 @@
         "qualification"
       ],
       "signature": "()",
-      "start_line": 123,
+      "start_line": 166,
       "state_owner": "",
       "symbol": "_load_or_create_local_trust_key",
       "tests": []
@@ -1586,20 +2048,24 @@
         "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
       ],
       "doc": "",
-      "end_line": 142,
+      "end_line": 185,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -1610,6 +2076,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1617,6 +2084,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1644,7 +2112,7 @@
         "qualification"
       ],
       "signature": "(digest)",
-      "start_line": 139,
+      "start_line": 182,
       "state_owner": "",
       "symbol": "_resume_signature",
       "tests": []
@@ -1703,6 +2171,7 @@
         "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
         "calo_rpd_studio.algorithms.calo.competitive_training._copy_trusted_resume",
         "calo_rpd_studio.algorithms.calo.training.save_training_resume",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
         "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash"
       ],
       "calls": [
@@ -1721,20 +2190,24 @@
         "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
       ],
       "doc": "Authenticate an application-created exact-resume artifact with a machine-local HMAC sidecar.",
-      "end_line": 159,
+      "end_line": 202,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -1745,6 +2218,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -1752,6 +2226,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -1779,10 +2254,11 @@
         "qualification"
       ],
       "signature": "(path)",
-      "start_line": 145,
+      "start_line": 188,
       "state_owner": "",
       "symbol": "write_trusted_resume_hash",
       "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py",
         "tests/unit/test_v57_previous_audit_closure.py"
       ]
     },
@@ -1957,7 +2433,8 @@
       },
       "called_by": [
         "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
-        "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.save_resume"
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.save_resume",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes"
       ],
       "calls": [
         "Path",
@@ -1995,20 +2472,24 @@
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
       ],
       "doc": "Atomically publish a self-authenticating exact-resume envelope.",
-      "end_line": 208,
+      "end_line": 251,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -2019,6 +2500,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -2026,6 +2508,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -2053,10 +2536,12 @@
         "qualification"
       ],
       "signature": "(payload, path)",
-      "start_line": 162,
+      "start_line": 205,
       "state_owner": "",
       "symbol": "durable_trusted_torch_save",
-      "tests": []
+      "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py"
+      ]
     },
     {
       "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
@@ -2086,6 +2571,11 @@
           "confidence": "confirmed",
           "raw": "_resume_signature",
           "target": "calo_rpd_studio.ai.model_io._resume_signature"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "open_atomic_reader",
+          "target": "calo_rpd_studio.ai.model_io.open_atomic_reader"
         },
         {
           "confidence": "unresolved",
@@ -2144,11 +2634,6 @@
         },
         {
           "confidence": "unresolved",
-          "raw": "source.open",
-          "target": "source.open"
-        },
-        {
-          "confidence": "unresolved",
           "raw": "spool.seek",
           "target": "spool.seek"
         },
@@ -2204,8 +2689,8 @@
         "json.loads": "attribute",
         "len": "name",
         "lower": "attribute",
+        "open_atomic_reader": "name",
         "set": "name",
-        "source.open": "attribute",
         "spool.seek": "attribute",
         "spool.write": "attribute",
         "str": "name",
@@ -2234,8 +2719,8 @@
         "json.loads",
         "len",
         "lower",
+        "open_atomic_reader",
         "set",
-        "source.open",
         "spool.seek",
         "spool.write",
         "str",
@@ -2246,23 +2731,28 @@
         "zipfile.ZipFile"
       ],
       "calls_resolved": [
-        "calo_rpd_studio.ai.model_io._resume_signature"
+        "calo_rpd_studio.ai.model_io._resume_signature",
+        "calo_rpd_studio.ai.model_io.open_atomic_reader"
       ],
       "doc": "",
-      "end_line": 245,
+      "end_line": 288,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -2273,6 +2763,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -2280,6 +2771,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -2307,7 +2799,7 @@
         "qualification"
       ],
       "signature": "(source, map_location)",
-      "start_line": 211,
+      "start_line": 254,
       "state_owner": "",
       "symbol": "_load_trusted_resume_envelope",
       "tests": []
@@ -2338,13 +2830,13 @@
         },
         {
           "confidence": "confirmed",
-          "raw": "trusted_resume_sha_path",
-          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+          "raw": "_verified_checkpoint_snapshot",
+          "target": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
         },
         {
           "confidence": "confirmed",
-          "raw": "verify_checkpoint_hash",
-          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+          "raw": "trusted_resume_sha_path",
+          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
         },
         {
           "confidence": "unresolved",
@@ -2407,6 +2899,7 @@
         "ValueError": "name",
         "_load_trusted_resume_envelope": "name",
         "_resume_signature": "name",
+        "_verified_checkpoint_snapshot": "name",
         "expanduser": "attribute",
         "hmac.compare_digest": "attribute",
         "json.loads": "attribute",
@@ -2418,8 +2911,7 @@
         "strip": "attribute",
         "torch.load": "attribute",
         "trust.get": "attribute",
-        "trusted_resume_sha_path": "name",
-        "verify_checkpoint_hash": "name"
+        "trusted_resume_sha_path": "name"
       },
       "called_by": [
         "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
@@ -2437,6 +2929,7 @@
         "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
         "calo_rpd_studio.algorithms.calo.training.load_training_resume",
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.load_resume",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
         "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
         "tests.unit.test_v580_audit_closure.test_exact_resume_history_payload_is_bounded",
         "tests.unit.test_v580_audit_closure.test_legacy_resume_migration_is_explicit_and_authenticates_new_copy",
@@ -2447,6 +2940,7 @@
         "ValueError",
         "_load_trusted_resume_envelope",
         "_resume_signature",
+        "_verified_checkpoint_snapshot",
         "expanduser",
         "hmac.compare_digest",
         "json.loads",
@@ -2458,30 +2952,33 @@
         "strip",
         "torch.load",
         "trust.get",
-        "trusted_resume_sha_path",
-        "verify_checkpoint_hash"
+        "trusted_resume_sha_path"
       ],
       "calls_resolved": [
         "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
         "calo_rpd_studio.ai.model_io._resume_signature",
-        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
-        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+        "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
       ],
       "doc": "Load an application-created exact-resume checkpoint only after local authenticity verification.",
-      "end_line": 282,
+      "end_line": 325,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -2492,6 +2989,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -2499,6 +2997,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -2526,10 +3025,11 @@
         "qualification"
       ],
       "signature": "(path, map_location)",
-      "start_line": 248,
+      "start_line": 291,
       "state_owner": "",
       "symbol": "load_trusted_resume",
       "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py",
         "tests/unit/test_v57_previous_audit_closure.py",
         "tests/unit/test_v580_audit_closure.py",
         "tests/unit/test_v590_scientific_closure.py"
@@ -2566,6 +3066,11 @@
         },
         {
           "confidence": "confirmed",
+          "raw": "_verified_checkpoint_snapshot",
+          "target": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
+        },
+        {
+          "confidence": "confirmed",
           "raw": "durable_torch_save",
           "target": "calo_rpd_studio.ai.model_io.durable_torch_save"
         },
@@ -2578,11 +3083,6 @@
           "confidence": "confirmed",
           "raw": "trusted_resume_sha_path",
           "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
-        },
-        {
-          "confidence": "confirmed",
-          "raw": "verify_checkpoint_hash",
-          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
         },
         {
           "confidence": "confirmed",
@@ -2680,6 +3180,7 @@
         "Path": "name",
         "PermissionError": "name",
         "ValueError": "name",
+        "_verified_checkpoint_snapshot": "name",
         "any": "name",
         "dict": "name",
         "durable_torch_save": "name",
@@ -2701,11 +3202,11 @@
         "text.split": "attribute",
         "torch.load": "attribute",
         "trusted_resume_sha_path": "name",
-        "verify_checkpoint_hash": "name",
         "write_trusted_resume_hash": "name"
       },
       "called_by": [
         "calo_rpd_studio.scripts.migrate_legacy_resume.main",
+        "tests.unit.test_audit_checkpoint_snapshot.test_replacement_at_deserialization_cannot_change_verified_bytes",
         "tests.unit.test_v580_audit_closure.test_legacy_resume_migration_is_explicit_and_authenticates_new_copy"
       ],
       "calls": [
@@ -2713,6 +3214,7 @@
         "Path",
         "PermissionError",
         "ValueError",
+        "_verified_checkpoint_snapshot",
         "any",
         "dict",
         "durable_torch_save",
@@ -2734,31 +3236,34 @@
         "text.split",
         "torch.load",
         "trusted_resume_sha_path",
-        "verify_checkpoint_hash",
         "write_trusted_resume_hash"
       ],
       "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
         "calo_rpd_studio.ai.model_io.durable_torch_save",
         "calo_rpd_studio.ai.model_io.load_trusted_resume",
         "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
-        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash",
         "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
       ],
       "doc": "One-time migration of a *locally trusted* pre-v5.7 exact-resume checkpoint.",
-      "end_line": 349,
+      "end_line": 392,
       "entry_point": false,
       "file": "calo_rpd_studio/ai/model_io.py",
       "implementation_core": false,
       "import_bindings": {
         "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "Iterator": "typing.Iterator",
         "Path": "pathlib.Path",
         "annotations": "__future__.annotations",
+        "contextmanager": "contextlib.contextmanager",
         "hashlib": "hashlib",
         "hmac": "hmac",
         "json": "json",
         "os": "os",
         "secrets": "secrets",
         "tempfile": "tempfile",
+        "threading": "threading",
         "torch": "torch",
         "zipfile": "zipfile"
       },
@@ -2769,6 +3274,7 @@
       ],
       "imports": [
         "__future__",
+        "contextlib",
         "hashlib",
         "hmac",
         "json",
@@ -2776,6 +3282,7 @@
         "pathlib",
         "secrets",
         "tempfile",
+        "threading",
         "torch",
         "typing",
         "zipfile"
@@ -2803,10 +3310,11 @@
         "qualification"
       ],
       "signature": "(path, target, explicit_trust, map_location)",
-      "start_line": 285,
+      "start_line": 328,
       "state_owner": "",
       "symbol": "migrate_legacy_local_resume",
       "tests": [
+        "tests/unit/test_audit_checkpoint_snapshot.py",
         "tests/unit/test_v580_audit_closure.py"
       ]
     }

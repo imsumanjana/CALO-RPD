@@ -10,7 +10,9 @@ import tempfile
 import zipfile
 from pathlib import Path
 import secrets
-from typing import Any
+from typing import Any, BinaryIO, Iterator
+from contextlib import contextmanager
+import threading
 
 import torch
 
@@ -18,6 +20,30 @@ _TRUST_SCHEMA = "calo-local-resume-trust-v1"
 _TRUST_DIR = Path.home() / ".calo_rpd_studio"
 _TRUST_KEY = _TRUST_DIR / "resume_trust.key"
 _TRUSTED_ENVELOPE_MAGIC = b"CALO_TRUSTED_RESUME_V2\n"
+
+
+_ATOMIC_SNAPSHOT_LOCK = threading.RLock()
+
+
+@contextmanager
+def open_atomic_reader(path: str | Path) -> Iterator[BinaryIO]:
+    """Read one complete snapshot without retaining a handle on the replaceable path.
+
+    Windows os.replace can reject an open destination even with delete sharing. Copy
+    one committed version under the local publication lock, close its original handle,
+    then let the caller parse/hash it. Large snapshots spill to a private temporary file
+    after 8 MiB rather than requiring unbounded RAM. No in-place update is introduced.
+    """
+    with tempfile.SpooledTemporaryFile(max_size=8 * 1024 * 1024, mode="w+b") as snapshot:
+        with _ATOMIC_SNAPSHOT_LOCK:
+            with Path(path).open("rb") as source:
+                while True:
+                    block = source.read(1024 * 1024)
+                    if not block:
+                        break
+                    snapshot.write(block)
+        snapshot.seek(0)
+        yield snapshot
 
 
 def checkpoint_sha256(path, *, chunk_size: int = 8 * 1024 * 1024) -> str:
@@ -42,6 +68,23 @@ def verify_checkpoint_hash(path, expected_sha256: str | None = None) -> str:
     return actual
 
 
+@contextmanager
+def _verified_checkpoint_snapshot(path, expected_sha256: str | None = None):
+    """Hash and load the same private snapshot; never reopen the checked path."""
+    source = Path(path)
+    with open_atomic_reader(source) as snapshot:
+        digest = hashlib.sha256()
+        while chunk := snapshot.read(8 * 1024 * 1024):
+            digest.update(chunk)
+        actual = digest.hexdigest()
+        if expected_sha256 and actual.lower() != str(expected_sha256).strip().lower():
+            raise ValueError(
+                f"Checkpoint SHA-256 mismatch for {source.name}: expected {expected_sha256}, got {actual}"
+            )
+        snapshot.seek(0)
+        yield snapshot, actual
+
+
 def _validate_model_payload(payload: Any) -> dict:
     if not isinstance(payload, dict):
         raise ValueError("CALO model checkpoint must contain a dictionary payload")
@@ -56,8 +99,8 @@ def _validate_model_payload(payload: Any) -> dict:
 def load_checkpoint(path, *, expected_sha256: str | None = None, map_location="cpu") -> dict:
     """Load a portable/deployable model with PyTorch's restricted weights-only loader."""
     source = Path(path)
-    verify_checkpoint_hash(source, expected_sha256)
-    payload = torch.load(source, map_location=map_location, weights_only=True)
+    with _verified_checkpoint_snapshot(source, expected_sha256) as (snapshot, _digest):
+        payload = torch.load(snapshot, map_location=map_location, weights_only=True)
     return _validate_model_payload(payload)
 
 
@@ -209,7 +252,7 @@ def durable_trusted_torch_save(payload: Any, path: str | Path) -> str:
 
 
 def _load_trusted_resume_envelope(source: Path, *, map_location="cpu"):
-    with source.open("rb") as handle:
+    with open_atomic_reader(source) as handle:
         magic = handle.read(len(_TRUSTED_ENVELOPE_MAGIC))
         if magic != _TRUSTED_ENVELOPE_MAGIC:
             return None
@@ -273,13 +316,13 @@ def load_trusted_resume(path, *, map_location="cpu"):
     signature = str(trust.get("hmac_sha256", "")).strip().lower()
     if not expected or not signature:
         raise ValueError("Incomplete exact-resume trust sidecar")
-    actual = verify_checkpoint_hash(source, expected)
-    expected_signature = _resume_signature(actual)
-    if not hmac.compare_digest(signature, expected_signature):
-        raise ValueError(
-            "Exact-resume artifact is not authenticated as locally created; unsafe deserialization refused"
-        )
-    return torch.load(source, map_location=map_location, weights_only=False)  # nosec B614 -- HMAC-authenticated local state
+    with _verified_checkpoint_snapshot(source, expected) as (snapshot, actual):
+        expected_signature = _resume_signature(actual)
+        if not hmac.compare_digest(signature, expected_signature):
+            raise ValueError(
+                "Exact-resume artifact is not authenticated as locally created; unsafe deserialization refused"
+            )
+        return torch.load(snapshot, map_location=map_location, weights_only=False)  # nosec B614 -- HMAC-authenticated local state
 
 
 def migrate_legacy_local_resume(
@@ -321,9 +364,9 @@ def migrate_legacy_local_resume(
         expected = text.split()[0] if text else ""
     if len(expected) != 64 or any(ch not in "0123456789abcdefABCDEF" for ch in expected):
         raise ValueError("Legacy resume integrity sidecar does not contain a valid SHA-256 digest")
-    verify_checkpoint_hash(source, expected)
-    # nosec B614 -- explicit user trust + verified legacy digest; migration is the sole compatibility boundary.
-    payload = torch.load(source, map_location=map_location, weights_only=False)
+    with _verified_checkpoint_snapshot(source, expected) as (snapshot, _digest):
+        # nosec B614 -- explicit user trust plus the same verified snapshot.
+        payload = torch.load(snapshot, map_location=map_location, weights_only=False)
     if (
         not isinstance(payload, dict)
         or "model_state_dict" not in payload

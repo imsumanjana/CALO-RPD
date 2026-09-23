@@ -196,6 +196,18 @@
       "description": "Generated logs were mistaken for validator edits, while generic lane review did not require stable harness identity.",
       "correction": "Hash executable validator inputs separately from generated outputs; reject absent or unstable harness/omission evidence.",
       "remaining": "Current final source-bound consolidation; no release authorization."
+    },
+    {
+      "id": "AUDIT-20260923-01",
+      "severity": "high",
+      "status": "resolved",
+      "description": "Checkpoint verification and deserialization reopened a mutable path.",
+      "affected": [
+        "calo_rpd_studio/ai/model_io.py"
+      ],
+      "correction": "Hash, authenticate, and deserialize the same private snapshot, including explicit legacy migration.",
+      "validation_performed": "Six synthetic snapshot regressions passed; no production artifacts or unsafe payloads used.",
+      "reopen_conditions": "Any loader reopens a path after verifying a different stream."
     }
   ],
   "schema_version": 1

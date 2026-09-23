@@ -89,6 +89,11 @@
       "to": "calo_rpd_studio.ai.model_io._resume_signature"
     },
     {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
+      "to": "calo_rpd_studio.ai.model_io.open_atomic_reader"
+    },
+    {
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
       "to": "checkpoint_stream.read"
@@ -142,11 +147,6 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
       "to": "set"
-    },
-    {
-      "confidence": "unresolved",
-      "from": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
-      "to": "source.open"
     },
     {
       "confidence": "unresolved",
@@ -237,6 +237,66 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io._validate_model_payload",
       "to": "torch.is_tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "actual.lower"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "calo_rpd_studio.ai.model_io.open_atomic_reader"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "digest.hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "digest.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "snapshot.read"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "snapshot.seek"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot",
+      "to": "strip"
     },
     {
       "confidence": "unresolved",
@@ -556,7 +616,7 @@
     {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io.load_checkpoint",
-      "to": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+      "to": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
     },
     {
       "confidence": "unresolved",
@@ -586,12 +646,12 @@
     {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io.load_trusted_resume",
-      "to": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+      "to": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
     },
     {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io.load_trusted_resume",
-      "to": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+      "to": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
     },
     {
       "confidence": "unresolved",
@@ -676,6 +736,11 @@
     {
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+      "to": "calo_rpd_studio.ai.model_io._verified_checkpoint_snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
       "to": "calo_rpd_studio.ai.model_io.durable_torch_save"
     },
     {
@@ -687,11 +752,6 @@
       "confidence": "confirmed",
       "from": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
       "to": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
-    },
-    {
-      "confidence": "confirmed",
-      "from": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
-      "to": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
     },
     {
       "confidence": "confirmed",
@@ -782,6 +842,36 @@
       "confidence": "unresolved",
       "from": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
       "to": "torch.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "open"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "snapshot.seek"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "snapshot.write"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "source.read"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.ai.model_io.open_atomic_reader",
+      "to": "tempfile.SpooledTemporaryFile"
     },
     {
       "confidence": "unresolved",
