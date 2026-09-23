@@ -268,6 +268,17 @@
       ],
       "correction": "All production CUDA acquisitions use a runtime-UUID factory and one physical namespace. Missing UUIDs and mismatching UUID claims fail closed. Competing processes and containers must share the lease directory.",
       "validation_performed": "53 selected tests passed, including cross-process experiment/training exclusion with mocked CUDA discovery. Both 23-file type-check targets passed; no GPU workload was run."
+    },
+    {
+      "id": "AUDIT-20260924-CI-METADATA",
+      "severity": "medium",
+      "status": "resolved",
+      "description": "Once mypy passed, the previously unreachable full CI suite failed because the source job had never installed calo-rpd-studio package metadata.",
+      "affected": [
+        ".github/workflows/ci.yml"
+      ],
+      "correction": "Install the checked-out project editable with --no-deps --no-build-isolation after locked dependencies and before validation. No tests or coverage gates are disabled.",
+      "validation_performed": "GitHub run 35909897428 had 1093 passing tests and one missing-metadata failure; the new CI ordering/dependency-preservation contract passes locally. Final remote suite result is recorded separately."
     }
   ],
   "schema_version": 1

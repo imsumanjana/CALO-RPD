@@ -37,3 +37,9 @@ Validation: 21 cumulative audit tests passed; both 23-file mypy targets passed.
 All production CUDA acquisitions use a runtime-UUID factory and one physical namespace. Missing UUIDs and mismatching UUID claims fail closed. Competing processes and containers must share the lease directory.
 
 Validation: 53 selected tests passed, including 34 new audit regressions; both 23-file mypy targets passed.
+
+## 07 â€” install project metadata in the locked CI source environment
+
+Install the checked-out project editable with --no-deps --no-build-isolation after locked dependencies and before validation. No tests or coverage gates are disabled.
+
+Validation: Three CI contract regressions passed. This follow-up fixes the metadata installation omission exposed after audit 05; remote runtime verification is recorded separately.

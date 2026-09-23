@@ -48,6 +48,8 @@ jobs:
           cache-dependency-path: requirements-lock-ci-py311-linux.txt
       - name: Install the hash-locked validation environment
         run: python -m pip install --require-hashes --requirement requirements-lock-ci-py311-linux.txt
+      - name: Install project metadata without changing locked dependencies
+        run: python -m pip install --no-deps --no-build-isolation --editable .
       - name: Verify Qt shared-library imports
         id: qt_import
         run: python -c "from PyQt6 import QtCore, QtGui, QtWidgets; print('Qt runtime', QtCore.QT_VERSION_STR)"
