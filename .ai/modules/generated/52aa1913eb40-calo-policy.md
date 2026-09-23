@@ -62,6 +62,7 @@
 - `tests/integration/test_historical_learning.py`
 - `tests/integration/test_phase4_empty_policy_workflow.py`
 - `tests/unit/test_audit_checkpoint_snapshot.py`
+- `tests/unit/test_audit_primary_training_failure.py`
 - `tests/unit/test_audit_trust_key_creation.py`
 - `tests/unit/test_calo.py`
 - `tests/unit/test_calo_core_v2.py`
@@ -93,7 +94,6 @@
 - `tests/unit/test_tsh_calo_policy_lifecycle.py`
 - `tests/unit/test_tsh_calo_population_schedule.py`
 - `tests/unit/test_tsh_calo_qualification.py`
-- `tests/unit/test_tsh_calo_qualification_campaign.py`
 
 ## Files
 - `calo_rpd_studio/ai/AGENTS.md`

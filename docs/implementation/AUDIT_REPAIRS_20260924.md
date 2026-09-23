@@ -19,3 +19,9 @@ Validation: 11 cumulative checkpoint/key tests passed; five new key-publication 
 Hold the global mutex only for nonblocking acquisition and reference bookkeeping; wait and cancellation run outside it. Failed constructors own no reference and close is synchronized/idempotent.
 
 Validation: 15 cumulative audit regressions passed; four new lease tests, no GPU workload.
+
+## 04 â€” preserve primary errors when provenance collection fails
+
+Catch secondary provenance errors, attach a diagnostic note, preserve the original exception object, and deny resumability when provenance is unavailable. Existing successful-provenance accounting conditions are retained.
+
+Validation: 19 cumulative audit tests passed; four new primary-error regressions.

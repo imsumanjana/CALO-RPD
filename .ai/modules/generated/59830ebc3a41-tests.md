@@ -78,6 +78,7 @@
 - `tests/unit/test_artifact_manifest.py`
 - `tests/unit/test_audit_checkpoint_snapshot.py`
 - `tests/unit/test_audit_device_lease_waiting.py`
+- `tests/unit/test_audit_primary_training_failure.py`
 - `tests/unit/test_audit_trust_key_creation.py`
 - `tests/unit/test_bulk_validation.py`
 - `tests/unit/test_calo.py`
@@ -131,6 +132,5 @@
 - `tests/unit/test_tsh_calo_effective_recovery.py`
 - `tests/unit/test_tsh_calo_feasibility_and_influence.py`
 - `tests/unit/test_tsh_calo_generalization_guard.py`
-- `tests/unit/test_tsh_calo_generalization_integration.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

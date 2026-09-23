@@ -1453,15 +1453,21 @@ class IndependentTSHCALOTrainingCampaign:
                 )
             return candidate
         except Exception as exc:
+            self._last_failure_resumable = False
             if self._active_session is not None:
-                self._last_failure_provenance = (
-                    self._active_session.environment.scientific_provenance()
-                )
-                self._last_failure_resumable = bool(
-                    isinstance(exc, OSError)
-                    and not self._active_session.failed
-                    and self._active_session.environment.accounting_complete
-                )
+                try:
+                    self._last_failure_provenance = (
+                        self._active_session.environment.scientific_provenance()
+                    )
+                except Exception as provenance_error:
+                    self._last_failure_provenance = None
+                    exc.add_note(f"Environment provenance unavailable: {provenance_error}")
+                else:
+                    self._last_failure_resumable = bool(
+                        isinstance(exc, OSError)
+                        and not self._active_session.failed
+                        and self._active_session.environment.accounting_complete
+                    )
             raise
         finally:
             trainer.close()

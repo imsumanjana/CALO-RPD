@@ -230,6 +230,17 @@
       ],
       "correction": "Hold the global mutex only for nonblocking acquisition and reference bookkeeping; wait and cancellation run outside it. Failed constructors own no reference and close is synchronized/idempotent.",
       "validation_performed": "Unrelated-release, cancellation, timeout, failed-constructor ownership, and shared-reference regressions passed using synthetic devices and temporary OS locks."
+    },
+    {
+      "id": "AUDIT-20260923-04",
+      "severity": "medium",
+      "status": "resolved",
+      "description": "Diagnostic provenance failures replaced the original training exception.",
+      "affected": [
+        "calo_rpd_studio/algorithms/calo/_tsh_calo_training_campaign_core.py"
+      ],
+      "correction": "Catch secondary provenance errors, attach a diagnostic note, preserve the original exception object, and deny resumability when provenance is unavailable. Existing successful-provenance accounting conditions are retained.",
+      "validation_performed": "Four fault-injection combinations cover RuntimeError/OSError with healthy/failing provenance. No real training is executed."
     }
   ],
   "schema_version": 1
