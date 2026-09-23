@@ -25,3 +25,9 @@ Validation: 15 cumulative audit regressions passed; four new lease tests, no GPU
 Catch secondary provenance errors, attach a diagnostic note, preserve the original exception object, and deny resumability when provenance is unavailable. Existing successful-provenance accounting conditions are retained.
 
 Validation: 19 cumulative audit tests passed; four new primary-error regressions.
+
+## 05 â€” check platform-specific locking on Linux and Windows
+
+Use sys.platform guards recognized by mypy. CI runs the unchanged 23-file typed safety boundary for both linux and win32; no type-ignore or gate suppression was added.
+
+Validation: 21 cumulative audit tests passed; both 23-file mypy targets passed.

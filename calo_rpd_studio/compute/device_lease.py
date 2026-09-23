@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import hashlib
 import logging
 import os
+import sys
 from pathlib import Path
 import tempfile
 import threading
@@ -127,7 +128,7 @@ class ExclusiveDeviceLease:
             stream.write(b"0")
             stream.flush()
         stream.seek(0)
-        if os.name == "nt":
+        if sys.platform == "win32":
             import msvcrt
 
             try:
@@ -151,7 +152,7 @@ class ExclusiveDeviceLease:
 
     @staticmethod
     def _unlock_stream(stream: BinaryIO) -> None:
-        if os.name == "nt":
+        if sys.platform == "win32":
             import msvcrt
 
             stream.seek(0)

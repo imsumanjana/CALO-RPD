@@ -241,6 +241,18 @@
       ],
       "correction": "Catch secondary provenance errors, attach a diagnostic note, preserve the original exception object, and deny resumability when provenance is unavailable. Existing successful-provenance accounting conditions are retained.",
       "validation_performed": "Four fault-injection combinations cover RuntimeError/OSError with healthy/failing provenance. No real training is executed."
+    },
+    {
+      "id": "AUDIT-20260923-05",
+      "severity": "medium",
+      "status": "resolved",
+      "description": "Linux-target mypy rejected Windows msvcrt attributes and blocked CI.",
+      "affected": [
+        "calo_rpd_studio/compute/device_lease.py",
+        ".github/workflows/ci.yml"
+      ],
+      "correction": "Use sys.platform guards recognized by mypy. CI runs the unchanged 23-file typed safety boundary for both linux and win32; no type-ignore or gate suppression was added.",
+      "validation_performed": "Both complete 23-file type-check targets pass. CI-contract and dispatch regression tests also pass."
     }
   ],
   "schema_version": 1
