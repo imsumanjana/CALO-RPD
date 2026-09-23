@@ -83,39 +83,42 @@ class ExclusiveDeviceLease:
         )
         lease_root.mkdir(parents=True, exist_ok=True)
         self.key = str((lease_root / f"{canonical}.lock").resolve())
-        self._closed = False
-        with self._lock:
-            existing = self._process_leases.get(self.key)
-            if existing is not None:
-                existing.references += 1
-                return
-            deadline = (
-                None
-                if timeout_seconds is None
-                else time.monotonic() + max(0.0, float(timeout_seconds))
-            )
-            while True:
-                stream = open(self.key, "a+b")  # noqa: SIM115 - held for lease lifetime
+        # A failed constructor must never release another object's reference.
+        self._closed = True
+        deadline = (
+            None if timeout_seconds is None else time.monotonic() + max(0.0, float(timeout_seconds))
+        )
+        while True:
+            with self._lock:
+                existing = self._process_leases.get(self.key)
+                if existing is not None:
+                    existing.references += 1
+                    self._closed = False
+                    return
+                stream = open(self.key, "a+b")  # noqa: SIM115 - lease lifetime
                 try:
                     self._lock_stream(stream)
-                    break
                 except DeviceLeaseUnavailable:
                     stream.close()
-                    if not wait:
-                        raise
-                    if cancel_callback is not None and cancel_callback():
-                        raise DeviceLeaseCancelled(
-                            "CUDA device lease wait was cancelled before admission"
-                        )
-                    if deadline is not None and time.monotonic() >= deadline:
-                        raise DeviceLeaseUnavailable(
-                            "CUDA device remained leased until the configured queue timeout"
-                        )
-                    time.sleep(max(0.01, float(poll_interval_seconds)))
                 except BaseException:
                     stream.close()
                     raise
-            self._process_leases[self.key] = _ProcessLease(stream=stream, references=1)
+                else:
+                    self._process_leases[self.key] = _ProcessLease(stream=stream, references=1)
+                    self._closed = False
+                    return
+            # Never hold the process-wide bookkeeping lock while waiting.
+            if not wait:
+                raise DeviceLeaseUnavailable(
+                    "CUDA device is already leased by another CALO-RPD process"
+                )
+            if cancel_callback is not None and cancel_callback():
+                raise DeviceLeaseCancelled("CUDA device lease wait was cancelled before admission")
+            if deadline is not None and time.monotonic() >= deadline:
+                raise DeviceLeaseUnavailable(
+                    "CUDA device remained leased until the configured queue timeout"
+                )
+            time.sleep(max(0.01, float(poll_interval_seconds)))
 
     @staticmethod
     def _lock_stream(stream: BinaryIO) -> None:
@@ -159,10 +162,10 @@ class ExclusiveDeviceLease:
             getattr(fcntl, "flock")(stream.fileno(), getattr(fcntl, "LOCK_UN"))
 
     def close(self) -> None:
-        if self._closed:
-            return
-        self._closed = True
         with self._lock:
+            if self._closed:
+                return
+            self._closed = True
             current = self._process_leases.get(self.key)
             if current is None:
                 return

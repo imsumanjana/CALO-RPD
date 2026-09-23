@@ -13,3 +13,9 @@ Validation: `python -m pytest -q tests/unit/test_audit_checkpoint_snapshot.py` �
 Publish a fully fsynced private candidate using an atomic no-clobber hard link, then return the persisted winner. Existing keys are never rotated. Unsupported filesystems fail closed.
 
 Validation: 11 cumulative checkpoint/key tests passed; five new key-publication tests.
+
+## 03 â€” release the global device mutex before waiting
+
+Hold the global mutex only for nonblocking acquisition and reference bookkeeping; wait and cancellation run outside it. Failed constructors own no reference and close is synchronized/idempotent.
+
+Validation: 15 cumulative audit regressions passed; four new lease tests, no GPU workload.

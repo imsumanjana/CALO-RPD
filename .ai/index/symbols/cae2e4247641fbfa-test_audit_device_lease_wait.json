@@ -1,0 +1,757 @@
+{
+  "path": "tests/unit/test_audit_device_lease_waiting.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Lease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel.set",
+          "target": "cancel.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "closer.is_alive",
+          "target": "closer.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "closer.join",
+          "target": "closer.join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "closer.start",
+          "target": "closer.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "owner.close",
+          "target": "owner.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "released.wait",
+          "target": "released.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Event",
+          "target": "threading.Event"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Thread",
+          "target": "threading.Thread"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "waiter.is_alive",
+          "target": "waiter.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "waiter.join",
+          "target": "waiter.join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "waiter.start",
+          "target": "waiter.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "waiting.wait",
+          "target": "waiting.wait"
+        }
+      ],
+      "call_forms": {
+        "Lease": "name",
+        "cancel.set": "attribute",
+        "closer.is_alive": "attribute",
+        "closer.join": "attribute",
+        "closer.start": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "owner.close": "attribute",
+        "released.wait": "attribute",
+        "staticmethod": "name",
+        "threading.Event": "attribute",
+        "threading.Thread": "attribute",
+        "waiter.is_alive": "attribute",
+        "waiter.join": "attribute",
+        "waiter.start": "attribute",
+        "waiting.wait": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Lease",
+        "cancel.set",
+        "closer.is_alive",
+        "closer.join",
+        "closer.start",
+        "monkeypatch.setattr",
+        "owner.close",
+        "released.wait",
+        "staticmethod",
+        "threading.Event",
+        "threading.Thread",
+        "waiter.is_alive",
+        "waiter.join",
+        "waiter.start",
+        "waiting.wait"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "test_waiting_for_one_device_does_not_block_releasing_another",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceLeaseUnavailable",
+          "target": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.startswith",
+          "target": "name.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "real_lock",
+          "target": "real_lock"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "waiting.set",
+          "target": "waiting.set"
+        }
+      ],
+      "call_forms": {
+        "DeviceLeaseUnavailable": "name",
+        "Path": "name",
+        "name.startswith": "attribute",
+        "real_lock": "name",
+        "waiting.set": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceLeaseUnavailable",
+        "Path",
+        "name.startswith",
+        "real_lock",
+        "waiting.set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+      ],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another.lock",
+      "semantic_tags": [],
+      "signature": "(stream)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "lock",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Lease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outcomes.append",
+          "target": "outcomes.append"
+        }
+      ],
+      "call_forms": {
+        "Lease": "name",
+        "outcomes.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Lease",
+        "outcomes.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another.wait_for_device",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "wait_for_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "owner.close",
+          "target": "owner.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "released.set",
+          "target": "released.set"
+        }
+      ],
+      "call_forms": {
+        "owner.close": "attribute",
+        "released.set": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "owner.close",
+        "released.set"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another.release",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "release",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Lease.__new__",
+          "target": "Lease.__new__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Lease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failed.__init__",
+          "target": "failed.__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failed.close",
+          "target": "failed.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.context",
+          "target": "monkeypatch.context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "patch.setattr",
+          "target": "patch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        }
+      ],
+      "call_forms": {
+        "Lease": "name",
+        "Lease.__new__": "attribute",
+        "failed.__init__": "attribute",
+        "failed.close": "attribute",
+        "monkeypatch.context": "attribute",
+        "patch.setattr": "attribute",
+        "pytest.raises": "attribute",
+        "staticmethod": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Lease",
+        "Lease.__new__",
+        "failed.__init__",
+        "failed.close",
+        "monkeypatch.context",
+        "patch.setattr",
+        "pytest.raises",
+        "staticmethod"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "test_failed_constructor_cannot_release_a_later_owner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceLeaseUnavailable",
+          "target": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+        }
+      ],
+      "call_forms": {
+        "DeviceLeaseUnavailable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceLeaseUnavailable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner.busy",
+      "semantic_tags": [],
+      "signature": "(_stream)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "busy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Lease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.close",
+          "target": "first.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.close",
+          "target": "second.close"
+        }
+      ],
+      "call_forms": {
+        "Lease": "name",
+        "first.close": "attribute",
+        "second.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Lease",
+        "first.close",
+        "second.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_close_is_idempotent_for_shared_references",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "test_close_is_idempotent_for_shared_references",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Lease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        }
+      ],
+      "call_forms": {
+        "Lease": "name",
+        "any": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute",
+        "staticmethod": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Lease",
+        "any",
+        "monkeypatch.setattr",
+        "pytest.raises",
+        "staticmethod"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "test_bounded_wait_has_no_owned_reference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceLeaseUnavailable",
+          "target": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+        }
+      ],
+      "call_forms": {
+        "DeviceLeaseUnavailable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceLeaseUnavailable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_audit_device_lease_waiting.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseCancelled": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Lease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "Path": "pathlib.Path",
+        "pytest": "pytest",
+        "threading": "threading"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_audit_device_lease_waiting",
+      "qualname": "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference.busy",
+      "semantic_tags": [],
+      "signature": "(_stream)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "busy",
+      "tests": []
+    }
+  ]
+}

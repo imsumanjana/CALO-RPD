@@ -83,6 +83,9 @@
         "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda",
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.__init__",
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease._lock_stream",
+        "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference.busy",
+        "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner.busy",
+        "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another.lock",
         "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease.__init__",
         "tests.unit.test_v120_phase2_contracts.test_lease_cancellation_and_contention_have_distinct_failure_classes",
         "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission.flaky_lock"
@@ -152,6 +155,7 @@
       "state_owner": "",
       "symbol": "DeviceLeaseUnavailable",
       "tests": [
+        "tests/unit/test_audit_device_lease_waiting.py",
         "tests/unit/test_tsh_calo_training_resources.py",
         "tests/unit/test_v120_phase2_contracts.py",
         "tests/unit/test_v690_vram_residency.py"
@@ -231,6 +235,7 @@
       "state_owner": "",
       "symbol": "DeviceLeaseCancelled",
       "tests": [
+        "tests/unit/test_audit_device_lease_waiting.py",
         "tests/unit/test_v120_phase2_contracts.py"
       ]
     },
@@ -319,6 +324,11 @@
         "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
         "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe",
         "calo_rpd_studio.scripts.validate_resource_recovery._lease_attempt",
+        "tests.unit.test_audit_device_lease_waiting.test_bounded_wait_has_no_owned_reference",
+        "tests.unit.test_audit_device_lease_waiting.test_close_is_idempotent_for_shared_references",
+        "tests.unit.test_audit_device_lease_waiting.test_failed_constructor_cannot_release_a_later_owner",
+        "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another",
+        "tests.unit.test_audit_device_lease_waiting.test_waiting_for_one_device_does_not_block_releasing_another.wait_for_device",
         "tests.unit.test_v120_phase2_contracts.test_one_physical_uuid_has_one_lease_despite_logical_reordering",
         "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
         "tests.unit.test_v690_vram_residency._lease_attempt",
@@ -327,7 +337,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "Hold an OS-released exclusive lease, optionally waiting in a cancellable queue.",
-      "end_line": 188,
+      "end_line": 191,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -389,6 +399,7 @@
       "state_owner": "",
       "symbol": "ExclusiveDeviceLease",
       "tests": [
+        "tests/unit/test_audit_device_lease_waiting.py",
         "tests/unit/test_v120_phase2_contracts.py",
         "tests/unit/test_v690_vram_residency.py"
       ]
@@ -606,7 +617,7 @@
         "calo_rpd_studio.compute.device_lease._ProcessLease"
       ],
       "doc": "",
-      "end_line": 118,
+      "end_line": 121,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -748,7 +759,7 @@
         "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
       ],
       "doc": "",
-      "end_line": 147,
+      "end_line": 150,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -806,7 +817,7 @@
         "resource-admission"
       ],
       "signature": "(stream)",
-      "start_line": 121,
+      "start_line": 124,
       "state_owner": "",
       "symbol": "_lock_stream",
       "tests": []
@@ -853,7 +864,7 @@
       ],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 159,
+      "end_line": 162,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -911,7 +922,7 @@
         "resource-admission"
       ],
       "signature": "(stream)",
-      "start_line": 150,
+      "start_line": 153,
       "state_owner": "",
       "symbol": "_unlock_stream",
       "tests": []
@@ -961,7 +972,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease._unlock_stream"
       ],
       "doc": "",
-      "end_line": 176,
+      "end_line": 179,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1019,7 +1030,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 161,
+      "start_line": 164,
       "state_owner": "",
       "symbol": "close",
       "tests": []
@@ -1033,7 +1044,7 @@
       "calls": [],
       "calls_resolved": [],
       "doc": "",
-      "end_line": 179,
+      "end_line": 182,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1091,7 +1102,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 178,
+      "start_line": 181,
       "state_owner": "",
       "symbol": "__enter__",
       "tests": []
@@ -1117,7 +1128,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.close"
       ],
       "doc": "",
-      "end_line": 182,
+      "end_line": 185,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1175,7 +1186,7 @@
         "resource-admission"
       ],
       "signature": "(self, _exc_type, _exc, _tb)",
-      "start_line": 181,
+      "start_line": 184,
       "state_owner": "",
       "symbol": "__exit__",
       "tests": []
@@ -1208,7 +1219,7 @@
         "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease.close"
       ],
       "doc": "",
-      "end_line": 188,
+      "end_line": 191,
       "entry_point": false,
       "file": "calo_rpd_studio/compute/device_lease.py",
       "implementation_core": false,
@@ -1266,7 +1277,7 @@
         "resource-admission"
       ],
       "signature": "(self)",
-      "start_line": 184,
+      "start_line": 187,
       "state_owner": "",
       "symbol": "__del__",
       "tests": []

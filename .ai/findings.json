@@ -219,6 +219,17 @@
       ],
       "correction": "Publish a fully fsynced private candidate using an atomic no-clobber hard link, then return the persisted winner. Existing keys are never rotated. Unsupported filesystems fail closed.",
       "validation_performed": "Eight synchronized threads and two independent processes agree on the persisted temporary key; existing/corrupt-key and no-clobber failure regressions passed."
+    },
+    {
+      "id": "AUDIT-20260923-03",
+      "severity": "high",
+      "status": "resolved",
+      "description": "Device wait loops held a global lock needed by unrelated releases.",
+      "affected": [
+        "calo_rpd_studio/compute/device_lease.py"
+      ],
+      "correction": "Hold the global mutex only for nonblocking acquisition and reference bookkeeping; wait and cancellation run outside it. Failed constructors own no reference and close is synchronized/idempotent.",
+      "validation_performed": "Unrelated-release, cancellation, timeout, failed-constructor ownership, and shared-reference regressions passed using synthetic devices and temporary OS locks."
     }
   ],
   "schema_version": 1
